@@ -1,0 +1,7 @@
+name: homelab
+description: Homelab containers managed with Pulumi
+runtime: go
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: go
