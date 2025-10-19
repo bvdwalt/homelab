@@ -1,4 +1,4 @@
-# Homelab Infrastructure
+# Homelab Infrastructure (_cough_ Docker compose _cough_)
 
 This repository contains Pulumi infrastructure code for managing homelab resources.
 
