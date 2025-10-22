@@ -1,0 +1,14 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  tailscale_connect:
+    name: Tailscale Connect
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
