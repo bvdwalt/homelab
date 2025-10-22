@@ -17,6 +17,12 @@ func main() {
 			return err
 		}
 
+		// Load image configuration
+		images, err := docker.LoadImageConfig()
+		if err != nil {
+			return err
+		}
+
 		dockerProvider, err := dockerSDK.NewProvider(ctx, "RemoteDocker", &dockerSDK.ProviderArgs{
 			Host: pulumi.String(cfg.SSHConnectionString()),
 		})
@@ -27,10 +33,12 @@ func main() {
 
 		containerService := docker.NewContainerService(ctx, dockerProvider)
 
-		homelabServices := docker.NewHomelabServices(cfg.DomainName)
+		homelabServices := docker.NewHomelabServices(cfg.DomainName, images, cfg.SSDPath, cfg.HDDPath, cfg.ExternalPath)
 
 		services := []docker.ContainerConfig{
 			homelabServices.Whoami(),
+			// homelabServices.Beszel(),
+			// homelabServices.BeszelAgent(),
 		}
 
 		for _, serviceConfig := range services {

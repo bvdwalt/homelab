@@ -31,6 +31,7 @@ type ContainerConfig struct {
 	Environment   map[string]string
 	Volumes       []VolumeMount
 	Networks      []string
+	NetworkMode   string // "host", "bridge", "none", or custom network name
 	RestartPolicy string
 	ExtraLabels   map[string]string
 }
@@ -82,8 +83,10 @@ func (cs *ContainerService) CreateContainer(config ContainerConfig) (*docker.Con
 		containerArgs.Labels = labels
 	}
 
-	// Add networks
-	if len(config.Networks) > 0 {
+	// Add network configuration
+	if config.NetworkMode != "" {
+		containerArgs.NetworkMode = pulumi.String(config.NetworkMode)
+	} else if len(config.Networks) > 0 {
 		networks := make(docker.ContainerNetworksAdvancedArray, len(config.Networks))
 		for i, network := range config.Networks {
 			networks[i] = &docker.ContainerNetworksAdvancedArgs{
