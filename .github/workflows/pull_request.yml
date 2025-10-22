@@ -11,6 +11,9 @@ jobs:
         with:
           go-version: 'stable'
       - run: go mod download
+      - uses: webfactory/ssh-agent@v0.9.1
+        with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - uses: pulumi/actions@v6
         with:
           command: preview
