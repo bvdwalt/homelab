@@ -1,0 +1,24 @@
+name: Pulumi Up main
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 'stable'
+      - run: go mod download
+      - uses: webfactory/ssh-agent@v0.9.1
+        with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - uses: pulumi/actions@v6
+        with:
+          command: up
+          stack-name: dev
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
