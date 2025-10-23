@@ -9,7 +9,10 @@ jobs:
     steps:
       - name: Tailscale
         uses: tailscale/github-action@v4
+        env:
+          DOCKER_HOSTNAME: ${{ secrets.DOCKER_HOSTNAME }}
         with:
+          ping: ${{ DOCKER_HOSTNAME }}
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
