@@ -13,6 +13,7 @@ type Config struct {
 	SSDPath        string
 	HDDPath        string
 	ExternalPath   string
+	BeszelKey      string
 }
 
 // GetConfig retrieves configuration from environment variables
@@ -47,6 +48,11 @@ func GetConfig() (*Config, error) {
 		return nil, fmt.Errorf("DOCKER_EXTERNAL_ROOT_PATH environment variable is not set")
 	}
 
+	beszelKey := os.Getenv("BESZEL_KEY")
+	if beszelKey == "" {
+		return nil, fmt.Errorf("BESZEL_KEY environment variable is not set")
+	}
+
 	return &Config{
 		DockerUsername: username,
 		DockerHostname: hostname,
@@ -54,6 +60,7 @@ func GetConfig() (*Config, error) {
 		SSDPath:        ssdPath,
 		HDDPath:        hddPath,
 		ExternalPath:   externalPath,
+		BeszelKey:      beszelKey,
 	}, nil
 }
 

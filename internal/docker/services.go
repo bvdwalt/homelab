@@ -9,16 +9,18 @@ type HomelabServices struct {
 	SSDPath      string
 	HDDPath      string
 	ExternalPath string
+	BeszelKey    string
 }
 
 // NewHomelabServices creates a new homelab services configuration
-func NewHomelabServices(domainName string, images *ImageConfig, ssdPath string, hddPath string, externalPath string) *HomelabServices {
+func NewHomelabServices(domainName string, images *ImageConfig, ssdPath string, hddPath string, externalPath string, beszelKey string) *HomelabServices {
 	return &HomelabServices{
 		DomainName:   domainName,
 		Images:       images,
 		SSDPath:      ssdPath,
 		HDDPath:      hddPath,
 		ExternalPath: externalPath,
+		BeszelKey:    beszelKey,
 	}
 }
 
@@ -100,7 +102,8 @@ func (h *HomelabServices) BeszelAgent() ContainerConfig {
 			},
 		},
 		Environment: map[string]string{
-			"LISTEN": "/beszel_socket/beszel.sock",
+			"LISTEN":     "/beszel_socket/beszel.sock",
+			"BESZEL_KEY": h.BeszelKey,
 		},
 	}
 }
