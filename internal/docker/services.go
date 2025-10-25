@@ -93,6 +93,11 @@ func (h *HomelabServices) BeszelAgent() ContainerConfig {
 				ContainerPath: "/extra-filesystems/external",
 				ReadOnly:      true,
 			},
+			{
+				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/beszel-agent"),
+				ContainerPath: "/var/lib/beszel-agent",
+				ReadOnly:      false,
+			},
 		},
 		Environment: map[string]string{
 			"LISTEN": "/beszel_socket/beszel.sock",
