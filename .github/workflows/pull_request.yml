@@ -37,3 +37,4 @@ jobs:
           DOCKER_SSD_ROOT_PATH: ${{ secrets.DOCKER_SSD_ROOT_PATH }}
           DOCKER_HDD_ROOT_PATH: ${{ secrets.DOCKER_HDD_ROOT_PATH }}
           DOCKER_EXTERNAL_ROOT_PATH: ${{ secrets.DOCKER_EXTERNAL_ROOT_PATH }}
+          DOCKER_BESZEL_KEY: ${{ secrets.DOCKER_BESZEL_KEY }}
