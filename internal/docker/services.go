@@ -102,8 +102,8 @@ func (h *HomelabServices) BeszelAgent() ContainerConfig {
 			},
 		},
 		Environment: map[string]string{
-			"LISTEN":     "/beszel_socket/beszel.sock",
-			"BESZEL_KEY": h.BeszelKey,
+			"LISTEN": "/beszel_socket/beszel.sock",
+			"KEY":    h.BeszelKey,
 		},
 	}
 }
