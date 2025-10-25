@@ -33,7 +33,7 @@ func main() {
 
 		containerService := docker.NewContainerService(ctx, dockerProvider)
 
-		homelabServices := docker.NewHomelabServices(cfg.DomainName, images, cfg.SSDPath, cfg.HDDPath, cfg.ExternalPath)
+		homelabServices := docker.NewHomelabServices(cfg.DomainName, images, cfg.SSDPath, cfg.HDDPath, cfg.ExternalPath, cfg.BeszelKey)
 
 		services := []docker.ContainerConfig{
 			homelabServices.Whoami(),
