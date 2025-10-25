@@ -16,6 +16,10 @@ jobs:
       - uses: webfactory/ssh-agent@v0.9.1
         with:
             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add host to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.DOCKER_HOSTNAME }} >> ~/.ssh/known_hosts
       - uses: pulumi/actions@v6
         with:
           command: up
