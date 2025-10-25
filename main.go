@@ -37,8 +37,8 @@ func main() {
 
 		services := []docker.ContainerConfig{
 			homelabServices.Whoami(),
-			// homelabServices.Beszel(),
-			// homelabServices.BeszelAgent(),
+			homelabServices.Beszel(),
+			homelabServices.BeszelAgent(),
 		}
 
 		for _, serviceConfig := range services {

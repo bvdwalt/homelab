@@ -50,7 +50,7 @@ func (h *HomelabServices) Beszel() ContainerConfig {
 				ReadOnly:      false,
 			},
 			{
-				HostPath:      "./beszel_socket",
+				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/beszel-socket"),
 				ContainerPath: "/beszel_socket",
 				ReadOnly:      false,
 			},
@@ -69,7 +69,7 @@ func (h *HomelabServices) BeszelAgent() ContainerConfig {
 		NetworkMode: "host",
 		Volumes: []VolumeMount{
 			{
-				HostPath:      "./beszel_socket",
+				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/beszel-socket"),
 				ContainerPath: "/beszel_socket",
 				ReadOnly:      false,
 			},
