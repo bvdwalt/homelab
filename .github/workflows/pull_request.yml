@@ -18,16 +18,13 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
-      - name: "Add GitHub to the SSH known hosts file"
-        run: |
-          mkdir -p -m 0700 /home/runner/.ssh
-          curl --silent https://api.github.com/meta  | jq --raw-output '"github.com "+.ssh_keys[]' >> /home/runner/.ssh/known_hosts
-          chmod 600 /home/runner/.ssh/known_hosts
       - uses: webfactory/ssh-agent@v0.9.1
         with:
             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - uses: pulumi/actions@v6
         with:
+          ssh: |
+            default=${{ env.SSH_AUTH_SOCK }}
           command: preview
           stack-name: dev
         env:
