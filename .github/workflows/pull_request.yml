@@ -23,8 +23,6 @@ jobs:
             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - uses: pulumi/actions@v6
         with:
-          ssh: |
-            default=${{ env.SSH_AUTH_SOCK }}
           command: preview
           stack-name: dev
         env:
@@ -35,3 +33,4 @@ jobs:
           DOCKER_SSD_ROOT_PATH: ${{ secrets.DOCKER_SSD_ROOT_PATH }}
           DOCKER_HDD_ROOT_PATH: ${{ secrets.DOCKER_HDD_ROOT_PATH }}
           DOCKER_EXTERNAL_ROOT_PATH: ${{ secrets.DOCKER_EXTERNAL_ROOT_PATH }}
+          StrictHostKeyChecking: no
