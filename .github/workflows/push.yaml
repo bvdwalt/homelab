@@ -13,6 +13,13 @@ jobs:
         with:
           go-version: 'stable'
       - run: go mod download
+      - name: Tailscale Connect
+        uses: tailscale/github-action@v4
+        with:
+          ping: ${{ secrets.DOCKER_HOSTNAME }}
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
       - uses: webfactory/ssh-agent@v0.9.1
         with:
             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
