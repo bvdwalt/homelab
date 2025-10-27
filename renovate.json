@@ -17,7 +17,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "^image-versions\\.yaml$"
+        "/image-versions\\.yaml$/"
       ],
       "matchStrings": [
         "^\\s*[^:]+:\\s*\"(?<depName>[^:]+):(?<currentValue>[^@\"]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\"\\s*$"
