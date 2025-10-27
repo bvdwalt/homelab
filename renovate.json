@@ -20,10 +20,11 @@
         "/^image-versions\\.yaml$/"
       ],
       "matchStrings": [
-        "\\s+[^:]+:\\s*\"(?<depName>[^:]+):(?<currentValue>[^@\"]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\"\\s*"
+        "^\\s+([^:]+):\\s*\"(?<depName>[^:]+):(?<currentValue>[^@\"]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\"\\s*$"
       ],
       "datasourceTemplate": "docker",
-      "extractVersionTemplate": "^(?<version>.*)$"
+      "extractVersionTemplate": "^(?<version>.*)$",
+      "versioningTemplate": "docker"
     }
   ],
   "hostRules": [
