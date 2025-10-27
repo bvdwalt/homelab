@@ -11,9 +11,9 @@ type ImageConfig struct {
 	Images map[string]string `yaml:"images"`
 }
 
-// LoadImageConfig loads Docker image versions from docker-compose.yaml
+// LoadImageConfig loads Docker image versions from image-versions.yaml
 func LoadImageConfig() (*ImageConfig, error) {
-	data, err := os.ReadFile("docker-compose.yaml")
+	data, err := os.ReadFile("image-versions.yaml")
 	if err != nil {
 		return nil, err
 	}
