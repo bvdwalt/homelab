@@ -1,4 +1,28 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"]
+  "extends": ["config:recommended"],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "assignees": ["renovate-bot"],
+  "labels": ["renovate"],
+  "configMigration": true,
+  "prHourlyLimit": 0,
+  "docker-compose": {
+    "hostRules": [
+      {
+        "matchHost": "docker.io",
+        "concurrentRequestLimit": 2
+      }
+    ],
+    "packageRules": [
+      {
+        "matchPackageNames": ["lscr.io/linuxserver/jellyfin", "lscr.io/linuxserver/transmission"],
+        "allowedVersions": "<2021"
+      },
+      {
+        "matchPackageNames": ["ghcr.io/immich-app", "docker.io/valkey/valkey"],
+        "enabled": false
+      }
+    ]
+  }
 }
