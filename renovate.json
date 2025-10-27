@@ -7,15 +7,32 @@
   "labels": ["renovate"],
   "configMigration": true,
   "prHourlyLimit": 0,
+  "hostRules": [
+    {
+      "matchHost": "docker.io",
+      "concurrentRequestLimit": 2
+    }
+  ],
   "packageRules": [
     {
-      "matchPackageNames": ["lscr.io/linuxserver/jellyfin", "lscr.io/linuxserver/transmission"],
-      "allowedVersions": "<2021"
+      "matchPackageNames": [
+        "lscr.io/linuxserver/jellyfin",
+        "lscr.io/linuxserver/transmission"
+      ],
+      "allowedVersions": "<2021",
+      "matchManagers": ["regex"]
     },
     {
-      "matchPackageNames": ["ghcr.io/immich-app", "docker.io/valkey/valkey"],
-      "matchPackagePatterns": ["(^|/)valkey/valkey$", "(^|/)immich-app$"],
-      "enabled": false
+      "matchPackageNames": [
+        "ghcr.io/immich-app",
+        "docker.io/valkey/valkey"
+      ],
+      "matchPackagePatterns": [
+        "(^|/)valkey/valkey$",
+        "(^|/)immich-app$"
+      ],
+      "enabled": false,
+      "matchManagers": ["regex"]
     }
   ],
   "regexManagers": [
