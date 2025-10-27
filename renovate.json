@@ -1,15 +1,24 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended"
+  ],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "assignees": ["renovate-bot"],
-  "labels": ["renovate"],
+  "assignees": [
+    "renovate-bot"
+  ],
+  "labels": [
+    "renovate"
+  ],
   "configMigration": true,
   "prHourlyLimit": 0,
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^image-versions\\.yaml$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^image-versions\\.yaml$/"
+      ],
       "matchStrings": [
         "^\\s*[^:]+:\\s*\"(?<depName>[^:]+):(?<currentValue>[^@\"]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\"\\s*$"
       ],
@@ -24,11 +33,17 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["lscr.io/linuxserver/jellyfin", "lscr.io/linuxserver/transmission"],
+      "matchPackageNames": [
+        "lscr.io/linuxserver/jellyfin",
+        "lscr.io/linuxserver/transmission"
+      ],
       "allowedVersions": "<2021"
     },
     {
-      "matchPackageNames": ["ghcr.io/immich-app", "docker.io/valkey/valkey"],
+      "matchPackageNames": [
+        "ghcr.io/immich-app",
+        "docker.io/valkey/valkey"
+      ],
       "enabled": false
     }
   ]
