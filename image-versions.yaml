@@ -1,6 +1,6 @@
 # Docker image versions managed by Renovate
 # This file contains all Docker image references used in the homelab
 images:
-  traefik-whoami: "traefik/whoami:latest"
+  traefik-whoami: "traefik/whoami:v1.11.0"
   beszel: "henrygd/beszel:0.13.2@sha256:a741de26bd305c7a7dfc207d630bb6242990c695ee55fa0450e136eb1cdbb5da"
   beszel-agent: "henrygd/beszel-agent:0.15.0@sha256:8e2109e128a3182b6f98ddfbce7bab12a78c0c21443834ce1d5ac8aa72ce12c2"
