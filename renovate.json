@@ -1,6 +1,34 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  "extends": ["config:recommended"],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "assignees": ["renovate-bot"],
+  "labels": ["renovate"],
+  "configMigration": true,
+  "prHourlyLimit": 0,
+  "packageRules": [
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/jellyfin", "lscr.io/linuxserver/transmission"],
+      "allowedVersions": "<2021"
+    },
+    {
+      "matchPackageNames": ["ghcr.io/immich-app", "docker.io/valkey/valkey"],
+      "matchPackagePatterns": ["(^|/)valkey/valkey$", "(^|/)immich-app$"],
+      "enabled": false
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["(^|/)image-versions\\.ya?ml$"],
+      "matchStrings": [
+        "^\\s*(?<key>[^:\\s]+):\\s*\"(?<image>[^:\\\"]+?)(?::(?<current>[^@\\\"]+))?(?:@(?<digest>sha256:[a-f0-9]+))?\""
+      ],
+      "depNameTemplate": "{{{image}}}",
+      "extractVersionTemplate": "{{{current}}}",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker",
+      "allowInvalidSemver": true
+    }
   ]
 }
