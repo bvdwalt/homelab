@@ -39,10 +39,10 @@
     {
       "fileMatch": ["(^|/)image-versions\\.ya?ml$"],
       "matchStrings": [
-        "^\\s*(?<key>[^:\\s]+):\\s*\"(?<image>[^:\\\"]+?)(?::(?<current>[^@\\\"]+))?(?:@(?<digest>sha256:[a-f0-9]+))?\""
+        "^\\s*[^:\\s]+:\\s*\"(?<depName>[^:\\\"]+?)(?::(?<currentValue>[^@\\\"]+))?(?:@(?<digest>sha256:[a-f0-9]+))?\""
       ],
-      "depNameTemplate": "{{{image}}}",
-      "extractVersionTemplate": "{{{current}}}",
+      "depNameTemplate": "{{{depName}}}",
+      "extractVersionTemplate": "{{{currentValue}}}",
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker",
       "allowInvalidSemver": true
