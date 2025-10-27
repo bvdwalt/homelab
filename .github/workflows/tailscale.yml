@@ -5,7 +5,7 @@ on:
 jobs:
   tailscale_connect:
     name: Tailscale Connect
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Tailscale
         uses: tailscale/github-action@v4
