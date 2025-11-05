@@ -3,4 +3,4 @@
 images:
   traefik-whoami: "traefik/whoami:v1.11.0"
   beszel: "henrygd/beszel:0.15.4@sha256:37858df37c29cc532d9af103b90a4f2645bc7555f6a291ed3f15c9096a00731e"
-  beszel-agent: "henrygd/beszel-agent:0.15.3@sha256:0598b9af65a48422f634d2f636b5f44a17397798e7c74cee6a8c5f4a1e78ef2c"
+  beszel-agent: "henrygd/beszel-agent:0.15.4@sha256:ea26afb054c84c7c9e6ba4d86381cd7bad5fc8f828419d9a5ae63d6cea35fab3"
