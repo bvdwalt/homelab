@@ -2,5 +2,5 @@
 # This file contains all Docker image references used in the homelab
 images:
   traefik-whoami: "traefik/whoami:v1.11.0"
-  beszel: "henrygd/beszel:0.15.3@sha256:d373c86f5954c6bcdee75d08529521f76f2a889aff411462bd16905fb7a73806"
+  beszel: "henrygd/beszel:0.15.4@sha256:37858df37c29cc532d9af103b90a4f2645bc7555f6a291ed3f15c9096a00731e"
   beszel-agent: "henrygd/beszel-agent:0.15.3@sha256:0598b9af65a48422f634d2f636b5f44a17397798e7c74cee6a8c5f4a1e78ef2c"
