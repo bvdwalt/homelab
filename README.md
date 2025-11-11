@@ -32,7 +32,14 @@ This repository contains Pulumi infrastructure code for managing homelab resourc
 
 ## Configuration Management
 
-This project uses **Pulumi ESC (Environments, Secrets, and Configuration)** for centralized configuration management. All environment variables are stored in the `homelab-dev` Pulumi environment instead of local `.env` files or GitHub repository secrets.
+This project uses **Pulumi ESC (Environments, Secrets, and Configuration)** for centralized configuration management. All environment variables are stored in Pulumi environments instead of local `.env` files or GitHub repository secrets.
+
+### Environments
+
+- **`homelab-dev`**: Used for local development (hostname: `truenas.local`)
+- **`homelab-prod`**: Used for CI/CD via GitHub Actions (hostname: `truenas` for Tailscale)
+
+The stack configuration file `Pulumi.dev.yaml` references `homelab-dev` for local use, while GitHub Actions overrides to use `homelab-prod` via the `PULUMI_ENVIRONMENTS` variable.
 
 ### Managing Secrets
 
@@ -40,11 +47,17 @@ This project uses **Pulumi ESC (Environments, Secrets, and Configuration)** for 
 # View current environment
 pulumi env open bvdwalt/homelab-dev
 
+# Edit environment from file
+pulumi env edit bvdwalt/homelab-dev -f pulumi-env-local.yaml
+
 # Edit environment interactively
 pulumi env edit bvdwalt/homelab-dev
 
 # Set a specific value
 pulumi env set bvdwalt/homelab-dev beszel.key "new-key-value" --secret
+
+# View in shell export format
+pulumi env open bvdwalt/homelab-dev --format shell
 ```
 
 ## Common Commands
