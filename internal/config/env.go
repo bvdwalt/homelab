@@ -7,13 +7,18 @@ import (
 
 // Config holds Docker connection configuration
 type Config struct {
-	DockerUsername string
-	DockerHostname string
-	DomainName     string
-	SSDPath        string
-	HDDPath        string
-	ExternalPath   string
-	BeszelKey      string
+	DockerUsername       string
+	DockerHostname       string
+	DomainName           string
+	SSDPath              string
+	HDDPath              string
+	ExternalPath         string
+	BeszelKey            string
+	LinkwardenDbHost     string
+	LinkwardenDbName     string
+	LinkwardenDbPassword string
+	LinkwardenNextURL    string
+	LinkwardenNextSecret string
 }
 
 // GetConfig retrieves configuration from environment variables
@@ -53,14 +58,44 @@ func GetConfig() (*Config, error) {
 		return nil, fmt.Errorf("BESZEL_KEY environment variable is not set")
 	}
 
+	LinkwardenDbHost := os.Getenv("LINKWARDEN_DBHOST")
+	if LinkwardenDbHost == "" {
+		return nil, fmt.Errorf("LINKWARDEN_DBHOST environment variable is not set")
+	}
+
+	LinkwardenDbName := os.Getenv("LINKWARDEN_DBNAME")
+	if LinkwardenDbName == "" {
+		return nil, fmt.Errorf("LINKWARDEN_DBNAME environment variable is not set")
+	}
+
+	LinkwardenDbPassword := os.Getenv("LINKWARDEN_DBPASSWORD")
+	if LinkwardenDbPassword == "" {
+		return nil, fmt.Errorf("LINKWARDEN_DBPASSWORD environment variable is not set")
+	}
+
+	LinkwardenNextURL := os.Getenv("LINKWARDEN_NEXTAUTH_URL")
+	if LinkwardenNextURL == "" {
+		return nil, fmt.Errorf("LINKWARDEN_NEXTAUTH_URL environment variable is not set")
+	}
+
+	LinkwardenNextSecret := os.Getenv("LINKWARDEN_NEXTAUTH_SECRET")
+	if LinkwardenNextSecret == "" {
+		return nil, fmt.Errorf("LINKWARDEN_NEXTAUTH_SECRET environment variable is not set")
+	}
+
 	return &Config{
-		DockerUsername: username,
-		DockerHostname: hostname,
-		DomainName:     domainName,
-		SSDPath:        ssdPath,
-		HDDPath:        hddPath,
-		ExternalPath:   externalPath,
-		BeszelKey:      beszelKey,
+		DockerUsername:       username,
+		DockerHostname:       hostname,
+		DomainName:           domainName,
+		SSDPath:              ssdPath,
+		HDDPath:              hddPath,
+		ExternalPath:         externalPath,
+		BeszelKey:            beszelKey,
+		LinkwardenDbHost:     LinkwardenDbHost,
+		LinkwardenDbName:     LinkwardenDbName,
+		LinkwardenDbPassword: LinkwardenDbPassword,
+		LinkwardenNextURL:    LinkwardenNextURL,
+		LinkwardenNextSecret: LinkwardenNextSecret,
 	}, nil
 }
 
