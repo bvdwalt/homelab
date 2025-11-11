@@ -33,12 +33,13 @@ func main() {
 
 		containerService := docker.NewContainerService(ctx, dockerProvider)
 
-		homelabServices := docker.NewHomelabServices(cfg.DomainName, images, cfg.SSDPath, cfg.HDDPath, cfg.ExternalPath, cfg.BeszelKey)
+		homelabServices := docker.NewHomelabServices(cfg.DomainName, cfg.SSDPath, cfg.HDDPath, cfg.ExternalPath, images)
 
 		services := []docker.ContainerConfig{
 			homelabServices.Whoami(),
+			homelabServices.Linkwarden(cfg.LinkwardenDbPassword, cfg.LinkwardenDbHost, cfg.LinkwardenDbName, cfg.LinkwardenNextURL, cfg.LinkwardenNextSecret),
 			homelabServices.Beszel(),
-			homelabServices.BeszelAgent(),
+			homelabServices.BeszelAgent(cfg.BeszelKey),
 		}
 
 		for _, serviceConfig := range services {

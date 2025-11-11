@@ -1,6 +1,9 @@
 package docker
 
-import "path/filepath"
+import (
+	"fmt"
+	"path/filepath"
+)
 
 // HomelabServices contains pre-configured container definitions for common homelab services
 type HomelabServices struct {
@@ -9,18 +12,16 @@ type HomelabServices struct {
 	SSDPath      string
 	HDDPath      string
 	ExternalPath string
-	BeszelKey    string
 }
 
 // NewHomelabServices creates a new homelab services configuration
-func NewHomelabServices(domainName string, images *ImageConfig, ssdPath string, hddPath string, externalPath string, beszelKey string) *HomelabServices {
+func NewHomelabServices(domainName, ssdPath, hddPath, externalPath string, images *ImageConfig) *HomelabServices {
 	return &HomelabServices{
 		DomainName:   domainName,
 		Images:       images,
 		SSDPath:      ssdPath,
 		HDDPath:      hddPath,
 		ExternalPath: externalPath,
-		BeszelKey:    beszelKey,
 	}
 }
 
@@ -33,6 +34,32 @@ func (h *HomelabServices) Whoami() ContainerConfig {
 		DomainName:   h.DomainName,
 		ServiceName:  "whoami",
 		Networks:     []string{"proxy"},
+	}
+}
+
+func (h *HomelabServices) Linkwarden(dbPassword, dbHost, dbName, nextUrl, nextSecret string) ContainerConfig {
+	return ContainerConfig{
+		Name:         "linkwarden",
+		ServiceName:  "linkwarden",
+		ImageName:    h.Images.Images["linkwarden"],
+		InternalPort: 3000,
+		DomainName:   h.DomainName,
+		Networks:     []string{"proxy"},
+		Volumes: []VolumeMount{
+			{
+				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/linkwarden"),
+				ContainerPath: "/data/data",
+				ReadOnly:      false,
+			},
+		},
+		Environment: map[string]string{
+			"DATABASE_URL":    fmt.Sprintf("postgresql://postgres:%s@%s:5432/%s", dbPassword, dbHost, dbName),
+			"NEXTAUTH_URL":    nextUrl,
+			"NEXTAUTH_SECRET": nextSecret,
+		},
+		ExtraLabels: map[string]string{
+			"traefik.http.routers.beszel.middlewares": "oidc-auth",
+		},
 	}
 }
 
@@ -64,7 +91,7 @@ func (h *HomelabServices) Beszel() ContainerConfig {
 }
 
 // BeszelAgent returns configuration for the Beszel monitoring agent
-func (h *HomelabServices) BeszelAgent() ContainerConfig {
+func (h *HomelabServices) BeszelAgent(beszelKey string) ContainerConfig {
 	return ContainerConfig{
 		Name:        "beszel-agent",
 		ImageName:   h.Images.Images["beszel-agent"],
@@ -103,7 +130,7 @@ func (h *HomelabServices) BeszelAgent() ContainerConfig {
 		},
 		Environment: map[string]string{
 			"LISTEN": "/beszel_socket/beszel.sock",
-			"KEY":    h.BeszelKey,
+			"KEY":    beszelKey,
 		},
 	}
 }

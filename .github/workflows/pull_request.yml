@@ -31,10 +31,5 @@ jobs:
           stack-name: dev
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          DOCKER_HOSTNAME: ${{ secrets.DOCKER_HOSTNAME }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
-          DOCKER_SSD_ROOT_PATH: ${{ secrets.DOCKER_SSD_ROOT_PATH }}
-          DOCKER_HDD_ROOT_PATH: ${{ secrets.DOCKER_HDD_ROOT_PATH }}
-          DOCKER_EXTERNAL_ROOT_PATH: ${{ secrets.DOCKER_EXTERNAL_ROOT_PATH }}
-          BESZEL_KEY: ${{ secrets.BESZEL_KEY }}
+          # All other configuration now comes from Pulumi ESC environment
+          PULUMI_ENVIRONMENTS: "homelab-prod"
