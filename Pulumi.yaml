@@ -5,3 +5,7 @@ config:
   pulumi:tags:
     value:
       pulumi:template: go
+
+# Import environment configuration from Pulumi ESC
+environment:
+  - homelab-dev

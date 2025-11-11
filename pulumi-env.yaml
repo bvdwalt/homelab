@@ -1,0 +1,48 @@
+# Pulumi ESC Environment Definition
+# This file contains the environment configuration for your homelab
+# Edit the placeholder values, then import with: pulumi env edit bvdwalt/homelab-dev < pulumi-env.yaml
+
+values:
+  # Docker configuration
+  docker:
+    username: username # CHANGE THIS
+    hostname: hostname # CHANGE THIS
+
+  # Domain configuration
+  domain: example.com # CHANGE THIS
+
+  # Storage paths
+  paths:
+    ssd: /mnt/ssd
+    hdd: /mnt/hdd
+    external: /mnt/external
+
+  # Beszel configuration (secret)
+  beszel:
+    key:
+      fn::secret: "key-goes-here-in-quotes" # CHANGE THIS
+
+  # Linkwarden configuration
+  linkwarden:
+    dbHost: postgres # CHANGE THIS
+    dbName: linkwarden # CHANGE THIS
+    dbPassword:
+      fn::secret: "password" # CHANGE THIS
+    nextAuthUrl: https://linkwarden.domain.com/api/v1/auth # CHANGE THIS
+    nextAuthSecret:
+      fn::secret: "SUPER_SECRET" # CHANGE THIS
+
+  # Export as environment variables (these will be available to your Pulumi program)
+  environmentVariables:
+    DOCKER_USERNAME: ${docker.username}
+    DOCKER_HOSTNAME: ${docker.hostname}
+    DOMAIN_NAME: ${domain}
+    DOCKER_SSD_ROOT_PATH: ${paths.ssd}
+    DOCKER_HDD_ROOT_PATH: ${paths.hdd}
+    DOCKER_EXTERNAL_ROOT_PATH: ${paths.external}
+    BESZEL_KEY: ${beszel.key}
+    LINKWARDEN_DBHOST: ${linkwarden.dbHost}
+    LINKWARDEN_DBNAME: ${linkwarden.dbName}
+    LINKWARDEN_DBPASSWORD: ${linkwarden.dbPassword}
+    LINKWARDEN_NEXTAUTH_URL: ${linkwarden.nextAuthUrl}
+    LINKWARDEN_NEXTAUTH_SECRET: ${linkwarden.nextAuthSecret}
