@@ -4,4 +4,4 @@ images:
   traefik-whoami: "traefik/whoami:v1.11.0"
   linkwarden: "ghcr.io/linkwarden/linkwarden:v2.13.1@sha256:54271afa4fc34107f98d9ba580e320e3bd5b3e02339f7d68947d01a375ea7bb3"
   beszel: "henrygd/beszel:0.15.4@sha256:37858df37c29cc532d9af103b90a4f2645bc7555f6a291ed3f15c9096a00731e"
-  beszel-agent: "henrygd/beszel-agent:0.15.4@sha256:ea26afb054c84c7c9e6ba4d86381cd7bad5fc8f828419d9a5ae63d6cea35fab3"
+  beszel-agent: "henrygd/beszel-agent:0.16.0@sha256:db66ebd4dce47395ea9ca1919a0244147809311ec83440aed266e263ff8c7cff"
