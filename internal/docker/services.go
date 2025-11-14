@@ -3,6 +3,8 @@ package docker
 import (
 	"fmt"
 	"path/filepath"
+
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 // HomelabServices contains pre-configured container definitions for common homelab services
@@ -18,10 +20,10 @@ type HomelabServices struct {
 type MinifluxSettings struct {
 	DatabaseHost         string
 	DatabaseUserName     string
-	DatabaseUserPassword string
+	DatabaseUserPassword pulumi.StringInput
 	DatabaseName         string
 	AdminUsername        string
-	AdminPassword        string
+	AdminPassword        pulumi.StringInput
 	RunMigrations        string
 	CreateAdmin          string
 	Debug                bool
@@ -50,7 +52,7 @@ func (h *HomelabServices) Whoami() ContainerConfig {
 	}
 }
 
-func (h *HomelabServices) Linkwarden(dbHost, dbPassword, nextUrl, nextSecret string) ContainerConfig {
+func (h *HomelabServices) Linkwarden(dbHost string, dbPassword pulumi.StringInput, nextUrl string, nextSecret pulumi.StringInput) ContainerConfig {
 	return ContainerConfig{
 		Name:         "linkwarden",
 		ServiceName:  "linkwarden",
@@ -65,9 +67,9 @@ func (h *HomelabServices) Linkwarden(dbHost, dbPassword, nextUrl, nextSecret str
 				ReadOnly:      false,
 			},
 		},
-		Environment: map[string]string{
-			"DATABASE_URL":    fmt.Sprintf("postgresql://postgres:%s@%s:5432/%s", dbPassword, dbHost, "linkwarden"),
-			"NEXTAUTH_URL":    nextUrl,
+		Environment: map[string]pulumi.StringInput{
+			"DATABASE_URL":    pulumi.Sprintf("postgresql://postgres:%s@%s:5432/%s", dbPassword, dbHost, "linkwarden"),
+			"NEXTAUTH_URL":    pulumi.String(nextUrl),
 			"NEXTAUTH_SECRET": nextSecret,
 		},
 		ExtraLabels: map[string]string{
@@ -78,31 +80,32 @@ func (h *HomelabServices) Linkwarden(dbHost, dbPassword, nextUrl, nextSecret str
 
 // Miniflux returns configuration for the Miniflux RSS reader
 func (h *HomelabServices) Miniflux(settings MinifluxSettings) ContainerConfig {
+	name := "miniflux"
 	return ContainerConfig{
-		Name:         "miniflux",
-		ServiceName:  "miniflux",
-		ImageName:    h.Images.Images["miniflux"],
+		Name:         name,
+		ServiceName:  name,
+		ImageName:    h.Images.Images[name],
 		InternalPort: 8080,
 		DomainName:   h.DomainName,
 		Networks:     []string{"proxy"},
 		Volumes: []VolumeMount{
 			{
-				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/miniflux"),
-				ContainerPath: "/var/lib/miniflux",
+				HostPath:      filepath.Join(h.SSDPath, fmt.Sprintf("docker-volumes/%s", name)),
+				ContainerPath: fmt.Sprintf("/var/lib/%s", name),
 				ReadOnly:      false,
 			},
 		},
-		Environment: map[string]string{
-			"DATABASE_URL":      fmt.Sprintf("postgresql://%s:%s@%s:5432/%s?sslmode=disable", settings.DatabaseUserName, settings.DatabaseUserPassword, settings.DatabaseHost, settings.DatabaseName),
-			"MINIFLUX_BASE_URL": fmt.Sprintf("miniflux.%v", h.DomainName),
-			"RUN_MIGRATIONS":    settings.RunMigrations,
-			"CREATE_ADMIN":      settings.CreateAdmin,
-			"ADMIN_USERNAME":    settings.AdminUsername,
+		Environment: map[string]pulumi.StringInput{
+			"DATABASE_URL":      pulumi.Sprintf("postgresql://%s:%s@%s:5432/%s?sslmode=disable", settings.DatabaseUserName, settings.DatabaseUserPassword, settings.DatabaseHost, settings.DatabaseName),
+			"MINIFLUX_BASE_URL": pulumi.String(fmt.Sprintf("%s.%v", name, h.DomainName)),
+			"RUN_MIGRATIONS":    pulumi.String(settings.RunMigrations),
+			"CREATE_ADMIN":      pulumi.String(settings.CreateAdmin),
+			"ADMIN_USERNAME":    pulumi.String(settings.AdminUsername),
 			"ADMIN_PASSWORD":    settings.AdminPassword,
-			"DEBUG":             fmt.Sprintf("%t", settings.Debug),
+			"DEBUG":             pulumi.String(fmt.Sprintf("%t", settings.Debug)),
 		},
 		ExtraLabels: map[string]string{
-			"traefik.http.routers.miniflux.middlewares": "oidc-auth",
+			fmt.Sprintf("traefik.http.routers.%s.middlewares", name): "oidc-auth",
 		},
 	}
 }
@@ -135,7 +138,7 @@ func (h *HomelabServices) Beszel() ContainerConfig {
 }
 
 // BeszelAgent returns configuration for the Beszel monitoring agent
-func (h *HomelabServices) BeszelAgent(beszelKey string) ContainerConfig {
+func (h *HomelabServices) BeszelAgent(beszelKey pulumi.StringInput) ContainerConfig {
 	return ContainerConfig{
 		Name:        "beszel-agent",
 		ImageName:   h.Images.Images["beszel-agent"],
@@ -172,8 +175,8 @@ func (h *HomelabServices) BeszelAgent(beszelKey string) ContainerConfig {
 				ReadOnly:      false,
 			},
 		},
-		Environment: map[string]string{
-			"LISTEN": "/beszel_socket/beszel.sock",
+		Environment: map[string]pulumi.StringInput{
+			"LISTEN": pulumi.String("/beszel_socket/beszel.sock"),
 			"KEY":    beszelKey,
 		},
 	}

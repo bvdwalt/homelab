@@ -12,7 +12,7 @@ import (
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
-		cfg, err := config.GetConfig()
+		cfg, err := config.GetConfig(ctx)
 		if err != nil {
 			return err
 		}
@@ -56,11 +56,14 @@ func main() {
 
 func getMinifluxSettings(cfg *config.Config) docker.MinifluxSettings {
 	return docker.MinifluxSettings{
-		DatabaseName:  cfg.MinifluxDbName,
-		AdminUsername: cfg.MinifluxAdminUsername,
-		AdminPassword: cfg.MinifluxAdminPassword,
-		RunMigrations: cfg.MinifluxRunMigrations,
-		CreateAdmin:   cfg.MinifluxCreateAdmin,
-		Debug:         cfg.MinifluxDebug,
+		DatabaseHost:         cfg.PostgresDbHost,
+		DatabaseUserName:     cfg.MinifluxDbUsername,
+		DatabaseUserPassword: cfg.MinifluxdbUserPassword,
+		DatabaseName:         cfg.MinifluxDbName,
+		AdminUsername:        cfg.MinifluxAdminUsername,
+		AdminPassword:        cfg.MinifluxAdminPassword,
+		RunMigrations:        cfg.MinifluxRunMigrations,
+		CreateAdmin:          cfg.MinifluxCreateAdmin,
+		Debug:                cfg.MinifluxDebug,
 	}
 }

@@ -38,13 +38,6 @@ This project uses **Pulumi ESC (Environments, Secrets, and Configuration)** for 
 
 The `miniflux` block in `pulumi-env.yaml` now holds the database name plus the administrator credentials and flags that the Miniflux image relies on. Set `adminPassword` using `fn::secret`, keep `adminUsername` secure, and adjust `runMigrations`, `createAdmin`, or `debug` only if you understand how the container bootstraps the database and admin user.
 
-### Environments
-
-- **`homelab-dev`**: Used for local development (hostname: `truenas.local`)
-- **`homelab-prod`**: Used for CI/CD via GitHub Actions (hostname: `truenas` for Tailscale)
-
-The stack configuration file `Pulumi.dev.yaml` references `homelab-dev` for local use, while GitHub Actions overrides to use `homelab-prod` via the `PULUMI_ENVIRONMENTS` variable.
-
 ### Managing Secrets
 
 ```fish

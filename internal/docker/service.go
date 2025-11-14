@@ -28,7 +28,7 @@ type ContainerConfig struct {
 	DomainName   string
 	ServiceName  string
 	// Optional fields
-	Environment   map[string]string
+	Environment   map[string]pulumi.StringInput
 	Volumes       []VolumeMount
 	Networks      []string
 	NetworkMode   string // "host", "bridge", "none", or custom network name

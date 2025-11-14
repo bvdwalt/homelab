@@ -1,2 +1,5 @@
+config:
+  pulumi:tags:
+    pulumi:template: go
 environment:
   - homelab-dev
