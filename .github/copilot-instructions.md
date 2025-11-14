@@ -89,6 +89,7 @@ Always use `filepath.Join(h.SSDPath, "docker-volumes/<service>")` for consistenc
 - **Never hardcode image tags in code** - use `h.Images.Images["key"]` referencing `image-versions.yaml`
 - Renovate automatically updates images with digest pinning (`@sha256:...`)
 - Format: `"service-name": "image:tag@sha256:digest"`
+- ghcr.io preferred over Docker Hub where possible
 
 ## Testing & Development
 
