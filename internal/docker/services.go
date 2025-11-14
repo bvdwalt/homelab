@@ -48,7 +48,6 @@ func (h *HomelabServices) Whoami() ContainerConfig {
 		InternalPort: 80,
 		DomainName:   h.DomainName,
 		ServiceName:  "whoami",
-		Networks:     []string{"proxy"},
 	}
 }
 
@@ -59,7 +58,6 @@ func (h *HomelabServices) Linkwarden(dbHost string, dbPassword pulumi.StringInpu
 		ImageName:    h.Images.Images["linkwarden"],
 		InternalPort: 3000,
 		DomainName:   h.DomainName,
-		Networks:     []string{"proxy"},
 		Volumes: []VolumeMount{
 			{
 				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/linkwarden"),
@@ -87,7 +85,6 @@ func (h *HomelabServices) Miniflux(settings MinifluxSettings) ContainerConfig {
 		ImageName:    h.Images.Images[name],
 		InternalPort: 8080,
 		DomainName:   h.DomainName,
-		Networks:     []string{"proxy"},
 		Volumes: []VolumeMount{
 			{
 				HostPath:      filepath.Join(h.SSDPath, fmt.Sprintf("docker-volumes/%s", name)),
@@ -118,7 +115,6 @@ func (h *HomelabServices) Beszel() ContainerConfig {
 		InternalPort: 8090,
 		DomainName:   h.DomainName,
 		ServiceName:  "beszel",
-		Networks:     []string{"proxy"},
 		Volumes: []VolumeMount{
 			{
 				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/beszel-data"),
