@@ -37,7 +37,8 @@ func main() {
 
 		services := []docker.ContainerConfig{
 			homelabServices.Whoami(),
-			homelabServices.Linkwarden(cfg.LinkwardenDbPassword, cfg.LinkwardenDbHost, cfg.LinkwardenDbName, cfg.LinkwardenNextURL, cfg.LinkwardenNextSecret),
+			homelabServices.Linkwarden(cfg.PostgresDbHost, cfg.PostgresDbPassword, cfg.LinkwardenNextURL, cfg.LinkwardenNextSecret),
+			homelabServices.Miniflux(cfg.PostgresDbHost, cfg.PostgresDbPassword),
 			homelabServices.Beszel(),
 			homelabServices.BeszelAgent(cfg.BeszelKey),
 		}

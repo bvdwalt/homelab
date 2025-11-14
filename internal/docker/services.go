@@ -37,7 +37,7 @@ func (h *HomelabServices) Whoami() ContainerConfig {
 	}
 }
 
-func (h *HomelabServices) Linkwarden(dbPassword, dbHost, dbName, nextUrl, nextSecret string) ContainerConfig {
+func (h *HomelabServices) Linkwarden(dbHost, dbPassword, nextUrl, nextSecret string) ContainerConfig {
 	return ContainerConfig{
 		Name:         "linkwarden",
 		ServiceName:  "linkwarden",
@@ -53,12 +53,38 @@ func (h *HomelabServices) Linkwarden(dbPassword, dbHost, dbName, nextUrl, nextSe
 			},
 		},
 		Environment: map[string]string{
-			"DATABASE_URL":    fmt.Sprintf("postgresql://postgres:%s@%s:5432/%s", dbPassword, dbHost, dbName),
+			"DATABASE_URL":    fmt.Sprintf("postgresql://postgres:%s@%s:5432/%s", dbPassword, dbHost, "linkwarden"),
 			"NEXTAUTH_URL":    nextUrl,
 			"NEXTAUTH_SECRET": nextSecret,
 		},
 		ExtraLabels: map[string]string{
 			"traefik.http.routers.beszel.middlewares": "oidc-auth",
+		},
+	}
+}
+
+// Miniflux returns configuration for the Miniflux RSS reader
+func (h *HomelabServices) Miniflux(dbHost, dbPassword string) ContainerConfig {
+	return ContainerConfig{
+		Name:         "miniflux",
+		ServiceName:  "miniflux",
+		ImageName:    h.Images.Images["miniflux"],
+		InternalPort: 8080,
+		DomainName:   h.DomainName,
+		Networks:     []string{"proxy"},
+		Volumes: []VolumeMount{
+			{
+				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/miniflux"),
+				ContainerPath: "/var/lib/miniflux",
+				ReadOnly:      false,
+			},
+		},
+		Environment: map[string]string{
+			"DATABASE_URL":      fmt.Sprintf("postgresql://postgres:%s@%s:5432/%s", dbPassword, dbHost, "miniflux"),
+			"MINIFLUX_BASE_URL": fmt.Sprintf("miniflux.%v", h.DomainName),
+		},
+		ExtraLabels: map[string]string{
+			"traefik.http.routers.miniflux.middlewares": "oidc-auth",
 		},
 	}
 }

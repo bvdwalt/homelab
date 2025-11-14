@@ -14,9 +14,8 @@ type Config struct {
 	HDDPath              string
 	ExternalPath         string
 	BeszelKey            string
-	LinkwardenDbHost     string
-	LinkwardenDbName     string
-	LinkwardenDbPassword string
+	PostgresDbHost       string
+	PostgresDbPassword   string
 	LinkwardenNextURL    string
 	LinkwardenNextSecret string
 }
@@ -58,18 +57,13 @@ func GetConfig() (*Config, error) {
 		return nil, fmt.Errorf("BESZEL_KEY environment variable is not set")
 	}
 
-	LinkwardenDbHost := os.Getenv("LINKWARDEN_DBHOST")
-	if LinkwardenDbHost == "" {
+	postgresDbHost := os.Getenv("LINKWARDEN_DBHOST")
+	if postgresDbHost == "" {
 		return nil, fmt.Errorf("LINKWARDEN_DBHOST environment variable is not set")
 	}
 
-	LinkwardenDbName := os.Getenv("LINKWARDEN_DBNAME")
-	if LinkwardenDbName == "" {
-		return nil, fmt.Errorf("LINKWARDEN_DBNAME environment variable is not set")
-	}
-
-	LinkwardenDbPassword := os.Getenv("LINKWARDEN_DBPASSWORD")
-	if LinkwardenDbPassword == "" {
+	postgresDbPassword := os.Getenv("LINKWARDEN_DBPASSWORD")
+	if postgresDbPassword == "" {
 		return nil, fmt.Errorf("LINKWARDEN_DBPASSWORD environment variable is not set")
 	}
 
@@ -91,9 +85,8 @@ func GetConfig() (*Config, error) {
 		HDDPath:              hddPath,
 		ExternalPath:         externalPath,
 		BeszelKey:            beszelKey,
-		LinkwardenDbHost:     LinkwardenDbHost,
-		LinkwardenDbName:     LinkwardenDbName,
-		LinkwardenDbPassword: LinkwardenDbPassword,
+		PostgresDbHost:       postgresDbHost,
+		PostgresDbPassword:   postgresDbPassword,
 		LinkwardenNextURL:    LinkwardenNextURL,
 		LinkwardenNextSecret: LinkwardenNextSecret,
 	}, nil
