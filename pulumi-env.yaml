@@ -34,30 +34,35 @@ values:
 
   miniflux:
     dbName: miniflux
+    dbUserName: miniflux
+    dbUserPassword:
+      fn::secret: "db-user-password" # CHANGE THIS
     adminUsername: admin
     adminPassword:
       fn::secret: "miniflux-admin-secret" # CHANGE THIS
     runMigrations: "1"
     createAdmin: "1"
-    debug: 0
+    debug: false
 
-  # Export as environment variables (these will be available to your Pulumi program)
-  environmentVariables:
-    DOCKER_USERNAME: ${docker.username}
-    DOCKER_HOSTNAME: ${docker.hostname}
-    DOMAIN_NAME: ${domain}
-    DOCKER_SSD_ROOT_PATH: ${paths.ssd}
-    DOCKER_HDD_ROOT_PATH: ${paths.hdd}
-    DOCKER_EXTERNAL_ROOT_PATH: ${paths.external}
-    BESZEL_KEY: ${beszel.key}
-    LINKWARDEN_DBHOST: ${linkwarden.dbHost}
-    LINKWARDEN_DBNAME: ${linkwarden.dbName}
-    LINKWARDEN_DBPASSWORD: ${linkwarden.dbPassword}
-    LINKWARDEN_NEXTAUTH_URL: ${linkwarden.nextAuthUrl}
-    LINKWARDEN_NEXTAUTH_SECRET: ${linkwarden.nextAuthSecret}
-    MINIFLUX_DBNAME: ${miniflux.dbName}
-    MINIFLUX_ADMIN_USERNAME: ${miniflux.adminUsername}
-    MINIFLUX_ADMIN_PASSWORD: ${miniflux.adminPassword}
-    MINIFLUX_RUN_MIGRATIONS: ${miniflux.runMigrations}
-    MINIFLUX_CREATE_ADMIN: ${miniflux.createAdmin}
-    MINIFLUX_DEBUG: ${miniflux.debug}
+  # Pulumi config values (these will be available via pulumi.Config API)
+  pulumiConfig:
+    homelab:dockerUsername: ${docker.username}
+    homelab:dockerHostname: ${docker.hostname}
+    homelab:domain: ${domain}
+    homelab:pathsSsd: ${paths.ssd}
+    homelab:pathsHdd: ${paths.hdd}
+    homelab:pathsExternal: ${paths.external}
+    homelab:beszelKey: ${beszel.key}
+    homelab:linkwardenDbHost: ${linkwarden.dbHost}
+    homelab:linkwardenDbName: ${linkwarden.dbName}
+    homelab:linkwardenDbPassword: ${linkwarden.dbPassword}
+    homelab:linkwardenNextAuthUrl: ${linkwarden.nextAuthUrl}
+    homelab:linkwardenNextAuthSecret: ${linkwarden.nextAuthSecret}
+    homelab:minifluxDbName: ${miniflux.dbName}
+    homelab:minifluxDbUserName: ${miniflux.dbUserName}
+    homelab:minifluxDbUserPassword: ${miniflux.dbUserPassword}
+    homelab:minifluxAdminUsername: ${miniflux.adminUsername}
+    homelab:minifluxAdminPassword: ${miniflux.adminPassword}
+    homelab:minifluxRunMigrations: ${miniflux.runMigrations}
+    homelab:minifluxCreateAdmin: ${miniflux.createAdmin}
+    homelab:minifluxDebug: ${miniflux.debug}
