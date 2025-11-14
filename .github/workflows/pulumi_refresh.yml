@@ -1,0 +1,35 @@
+name: Pulumi Up main
+on:
+  workflow_dispatch:
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "stable"
+      - run: go mod download
+      - name: Tailscale Connect
+        uses: tailscale/github-action@v4
+        with:
+          ping: ${{ secrets.DOCKER_HOSTNAME }}
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+      - uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add host to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.DOCKER_HOSTNAME }} >> ~/.ssh/known_hosts
+      - uses: pulumi/actions@v6
+        with:
+          command: refresh
+          stack-name: dev
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          # Override to use homelab-prod environment
+          PULUMI_ENVIRONMENTS: "homelab-prod"
