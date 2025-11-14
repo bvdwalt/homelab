@@ -14,6 +14,19 @@ type HomelabServices struct {
 	ExternalPath string
 }
 
+// MinifluxSettings holds the optional environment values needed by the Miniflux container.
+type MinifluxSettings struct {
+	DatabaseHost         string
+	DatabaseUserName     string
+	DatabaseUserPassword string
+	DatabaseName         string
+	AdminUsername        string
+	AdminPassword        string
+	RunMigrations        string
+	CreateAdmin          string
+	Debug                bool
+}
+
 // NewHomelabServices creates a new homelab services configuration
 func NewHomelabServices(domainName, ssdPath, hddPath, externalPath string, images *ImageConfig) *HomelabServices {
 	return &HomelabServices{
@@ -64,7 +77,7 @@ func (h *HomelabServices) Linkwarden(dbHost, dbPassword, nextUrl, nextSecret str
 }
 
 // Miniflux returns configuration for the Miniflux RSS reader
-func (h *HomelabServices) Miniflux(dbHost, dbPassword string) ContainerConfig {
+func (h *HomelabServices) Miniflux(settings MinifluxSettings) ContainerConfig {
 	return ContainerConfig{
 		Name:         "miniflux",
 		ServiceName:  "miniflux",
@@ -80,8 +93,13 @@ func (h *HomelabServices) Miniflux(dbHost, dbPassword string) ContainerConfig {
 			},
 		},
 		Environment: map[string]string{
-			"DATABASE_URL":      fmt.Sprintf("postgresql://postgres:%s@%s:5432/%s?sslmode=disable", dbPassword, dbHost, "miniflux"),
+			"DATABASE_URL":      fmt.Sprintf("postgresql://%s:%s@%s:5432/%s?sslmode=disable", settings.DatabaseUserName, settings.DatabaseUserPassword, settings.DatabaseHost, settings.DatabaseName),
 			"MINIFLUX_BASE_URL": fmt.Sprintf("miniflux.%v", h.DomainName),
+			"RUN_MIGRATIONS":    settings.RunMigrations,
+			"CREATE_ADMIN":      settings.CreateAdmin,
+			"ADMIN_USERNAME":    settings.AdminUsername,
+			"ADMIN_PASSWORD":    settings.AdminPassword,
+			"DEBUG":             fmt.Sprintf("%t", settings.Debug),
 		},
 		ExtraLabels: map[string]string{
 			"traefik.http.routers.miniflux.middlewares": "oidc-auth",

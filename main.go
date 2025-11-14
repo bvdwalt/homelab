@@ -38,7 +38,7 @@ func main() {
 		services := []docker.ContainerConfig{
 			homelabServices.Whoami(),
 			homelabServices.Linkwarden(cfg.PostgresDbHost, cfg.PostgresDbPassword, cfg.LinkwardenNextURL, cfg.LinkwardenNextSecret),
-			homelabServices.Miniflux(cfg.PostgresDbHost, cfg.PostgresDbPassword),
+			homelabServices.Miniflux(getMinifluxSettings(cfg)),
 			homelabServices.Beszel(),
 			homelabServices.BeszelAgent(cfg.BeszelKey),
 		}
@@ -52,4 +52,15 @@ func main() {
 
 		return nil
 	})
+}
+
+func getMinifluxSettings(cfg *config.Config) docker.MinifluxSettings {
+	return docker.MinifluxSettings{
+		DatabaseName:  cfg.MinifluxDbName,
+		AdminUsername: cfg.MinifluxAdminUsername,
+		AdminPassword: cfg.MinifluxAdminPassword,
+		RunMigrations: cfg.MinifluxRunMigrations,
+		CreateAdmin:   cfg.MinifluxCreateAdmin,
+		Debug:         cfg.MinifluxDebug,
+	}
 }

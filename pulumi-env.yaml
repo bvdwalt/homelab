@@ -32,6 +32,15 @@ values:
     nextAuthSecret:
       fn::secret: "SUPER_SECRET" # CHANGE THIS
 
+  miniflux:
+    dbName: miniflux
+    adminUsername: admin
+    adminPassword:
+      fn::secret: "miniflux-admin-secret" # CHANGE THIS
+    runMigrations: "1"
+    createAdmin: "1"
+    debug: 0
+
   # Export as environment variables (these will be available to your Pulumi program)
   environmentVariables:
     DOCKER_USERNAME: ${docker.username}
@@ -46,3 +55,9 @@ values:
     LINKWARDEN_DBPASSWORD: ${linkwarden.dbPassword}
     LINKWARDEN_NEXTAUTH_URL: ${linkwarden.nextAuthUrl}
     LINKWARDEN_NEXTAUTH_SECRET: ${linkwarden.nextAuthSecret}
+    MINIFLUX_DBNAME: ${miniflux.dbName}
+    MINIFLUX_ADMIN_USERNAME: ${miniflux.adminUsername}
+    MINIFLUX_ADMIN_PASSWORD: ${miniflux.adminPassword}
+    MINIFLUX_RUN_MIGRATIONS: ${miniflux.runMigrations}
+    MINIFLUX_CREATE_ADMIN: ${miniflux.createAdmin}
+    MINIFLUX_DEBUG: ${miniflux.debug}

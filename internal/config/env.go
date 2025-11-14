@@ -7,17 +7,23 @@ import (
 
 // Config holds Docker connection configuration
 type Config struct {
-	DockerUsername       string
-	DockerHostname       string
-	DomainName           string
-	SSDPath              string
-	HDDPath              string
-	ExternalPath         string
-	BeszelKey            string
-	PostgresDbHost       string
-	PostgresDbPassword   string
-	LinkwardenNextURL    string
-	LinkwardenNextSecret string
+	DockerUsername        string
+	DockerHostname        string
+	DomainName            string
+	SSDPath               string
+	HDDPath               string
+	ExternalPath          string
+	BeszelKey             string
+	PostgresDbHost        string
+	PostgresDbPassword    string
+	LinkwardenNextURL     string
+	LinkwardenNextSecret  string
+	MinifluxDbName        string
+	MinifluxAdminUsername string
+	MinifluxAdminPassword string
+	MinifluxRunMigrations string
+	MinifluxCreateAdmin   string
+	MinifluxDebug         bool
 }
 
 // GetConfig retrieves configuration from environment variables
@@ -77,18 +83,54 @@ func GetConfig() (*Config, error) {
 		return nil, fmt.Errorf("LINKWARDEN_NEXTAUTH_SECRET environment variable is not set")
 	}
 
+	minifluxDbName := os.Getenv("MINIFLUX_DBNAME")
+	if minifluxDbName == "" {
+		return nil, fmt.Errorf("MINIFLUX_DBNAME environment variable is not set")
+	}
+
+	minifluxAdminUsername := os.Getenv("MINIFLUX_ADMIN_USERNAME")
+	if minifluxAdminUsername == "" {
+		return nil, fmt.Errorf("MINIFLUX_ADMIN_USERNAME environment variable is not set")
+	}
+
+	minifluxAdminPassword := os.Getenv("MINIFLUX_ADMIN_PASSWORD")
+	if minifluxAdminPassword == "" {
+		return nil, fmt.Errorf("MINIFLUX_ADMIN_PASSWORD environment variable is not set")
+	}
+
+	minifluxRunMigrations := os.Getenv("MINIFLUX_RUN_MIGRATIONS")
+	if minifluxRunMigrations == "" {
+		return nil, fmt.Errorf("MINIFLUX_RUN_MIGRATIONS environment variable is not set")
+	}
+
+	minifluxCreateAdmin := os.Getenv("MINIFLUX_CREATE_ADMIN")
+	if minifluxCreateAdmin == "" {
+		return nil, fmt.Errorf("MINIFLUX_CREATE_ADMIN environment variable is not set")
+	}
+
+	minifluxDebug := os.Getenv("MINIFLUX_DEBUG")
+	if minifluxDebug == "" {
+		return nil, fmt.Errorf("MINIFLUX_DEBUG environment variable is not set")
+	}
+
 	return &Config{
-		DockerUsername:       username,
-		DockerHostname:       hostname,
-		DomainName:           domainName,
-		SSDPath:              ssdPath,
-		HDDPath:              hddPath,
-		ExternalPath:         externalPath,
-		BeszelKey:            beszelKey,
-		PostgresDbHost:       postgresDbHost,
-		PostgresDbPassword:   postgresDbPassword,
-		LinkwardenNextURL:    LinkwardenNextURL,
-		LinkwardenNextSecret: LinkwardenNextSecret,
+		DockerUsername:        username,
+		DockerHostname:        hostname,
+		DomainName:            domainName,
+		SSDPath:               ssdPath,
+		HDDPath:               hddPath,
+		ExternalPath:          externalPath,
+		BeszelKey:             beszelKey,
+		PostgresDbHost:        postgresDbHost,
+		PostgresDbPassword:    postgresDbPassword,
+		LinkwardenNextURL:     LinkwardenNextURL,
+		LinkwardenNextSecret:  LinkwardenNextSecret,
+		MinifluxDbName:        minifluxDbName,
+		MinifluxAdminUsername: minifluxAdminUsername,
+		MinifluxAdminPassword: minifluxAdminPassword,
+		MinifluxRunMigrations: minifluxRunMigrations,
+		MinifluxCreateAdmin:   minifluxCreateAdmin,
+		MinifluxDebug:         minifluxDebug == "1",
 	}, nil
 }
 
