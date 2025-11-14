@@ -34,6 +34,10 @@ This repository contains Pulumi infrastructure code for managing homelab resourc
 
 This project uses **Pulumi ESC (Environments, Secrets, and Configuration)** for centralized configuration management. All environment variables are stored in Pulumi environments instead of local `.env` files or GitHub repository secrets.
 
+### Miniflux configuration
+
+The `miniflux` block in `pulumi-env.yaml` now holds the database name plus the administrator credentials and flags that the Miniflux image relies on. Set `adminPassword` using `fn::secret`, keep `adminUsername` secure, and adjust `runMigrations`, `createAdmin`, or `debug` only if you understand how the container bootstraps the database and admin user.
+
 ### Environments
 
 - **`homelab-dev`**: Used for local development (hostname: `truenas.local`)

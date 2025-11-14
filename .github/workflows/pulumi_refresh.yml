@@ -1,4 +1,4 @@
-name: Pulumi Up main
+name: Pulumi Refresh
 on:
   workflow_dispatch:
 jobs:
