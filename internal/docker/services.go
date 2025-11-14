@@ -80,7 +80,7 @@ func (h *HomelabServices) Miniflux(dbHost, dbPassword string) ContainerConfig {
 			},
 		},
 		Environment: map[string]string{
-			"DATABASE_URL":      fmt.Sprintf("postgresql://postgres:%s@%s:5432/%s", dbPassword, dbHost, "miniflux"),
+			"DATABASE_URL":      fmt.Sprintf("postgresql://postgres:%s@%s:5432/%s?sslmode=disable", dbPassword, dbHost, "miniflux"),
 			"MINIFLUX_BASE_URL": fmt.Sprintf("miniflux.%v", h.DomainName),
 		},
 		ExtraLabels: map[string]string{
