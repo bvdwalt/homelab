@@ -56,11 +56,14 @@ func main() {
 
 func getMinifluxSettings(cfg *config.Config) docker.MinifluxSettings {
 	return docker.MinifluxSettings{
-		DatabaseName:  cfg.MinifluxDbName,
-		AdminUsername: cfg.MinifluxAdminUsername,
-		AdminPassword: cfg.MinifluxAdminPassword,
-		RunMigrations: cfg.MinifluxRunMigrations,
-		CreateAdmin:   cfg.MinifluxCreateAdmin,
-		Debug:         cfg.MinifluxDebug,
+		DatabaseHost:         cfg.PostgresDbHost,
+		DatabaseUserPassword: cfg.PostgresDbPassword,
+		DatabaseUserName:     cfg.MinifluxDbUsername,
+		DatabaseName:         cfg.MinifluxDbName,
+		AdminUsername:        cfg.MinifluxAdminUsername,
+		AdminPassword:        cfg.MinifluxAdminPassword,
+		RunMigrations:        cfg.MinifluxRunMigrations,
+		CreateAdmin:          cfg.MinifluxCreateAdmin,
+		Debug:                cfg.MinifluxDebug,
 	}
 }

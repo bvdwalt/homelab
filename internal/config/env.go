@@ -19,6 +19,7 @@ type Config struct {
 	LinkwardenNextURL     string
 	LinkwardenNextSecret  string
 	MinifluxDbName        string
+	MinifluxDbUsername    string
 	MinifluxAdminUsername string
 	MinifluxAdminPassword string
 	MinifluxRunMigrations string
@@ -88,6 +89,11 @@ func GetConfig() (*Config, error) {
 		return nil, fmt.Errorf("MINIFLUX_DBNAME environment variable is not set")
 	}
 
+	minifluxDbUsername := os.Getenv("MINIFLUX_DBUSERNAME")
+	if minifluxDbUsername == "" {
+		return nil, fmt.Errorf("MINIFLUX_DBUSERNAME environment variable is not set")
+	}
+
 	minifluxAdminUsername := os.Getenv("MINIFLUX_ADMIN_USERNAME")
 	if minifluxAdminUsername == "" {
 		return nil, fmt.Errorf("MINIFLUX_ADMIN_USERNAME environment variable is not set")
@@ -126,6 +132,7 @@ func GetConfig() (*Config, error) {
 		LinkwardenNextURL:     LinkwardenNextURL,
 		LinkwardenNextSecret:  LinkwardenNextSecret,
 		MinifluxDbName:        minifluxDbName,
+		MinifluxDbUsername:    minifluxDbUsername,
 		MinifluxAdminUsername: minifluxAdminUsername,
 		MinifluxAdminPassword: minifluxAdminPassword,
 		MinifluxRunMigrations: minifluxRunMigrations,

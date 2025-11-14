@@ -31,5 +31,3 @@ jobs:
           stack-name: dev
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          # Override to use homelab-prod environment
-          PULUMI_ENVIRONMENTS: "homelab-prod"
