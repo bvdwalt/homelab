@@ -34,46 +34,26 @@ type Config struct {
 func GetConfig(ctx *pulumi.Context) (*Config, error) {
 	cfg := config.New(ctx, "homelab")
 
-	username := cfg.Require("dockerUsername")
-	hostname := cfg.Require("dockerHostname")
-	domainName := cfg.Require("domain")
-	ssdPath := cfg.Require("pathsSsd")
-	hddPath := cfg.Require("pathsHdd")
-	externalPath := cfg.Require("pathsExternal")
-	beszelKey := cfg.RequireSecret("beszelKey")
-	postgresDbHost := cfg.Require("linkwardenDbHost")
-	postgresDbPassword := cfg.RequireSecret("linkwardenDbPassword")
-	LinkwardenNextURL := cfg.Require("linkwardenNextAuthUrl")
-	LinkwardenNextSecret := cfg.RequireSecret("linkwardenNextAuthSecret")
-	minifluxDbName := cfg.Require("minifluxDbName")
-	minifluxDbUsername := cfg.Require("minifluxDbUserName")
-	minifluxdbUserPassword := cfg.RequireSecret("minifluxDbUserPassword")
-	minifluxAdminUsername := cfg.Require("minifluxAdminUsername")
-	minifluxAdminPassword := cfg.RequireSecret("minifluxAdminPassword")
-	minifluxRunMigrations := cfg.Require("minifluxRunMigrations")
-	minifluxCreateAdmin := cfg.Require("minifluxCreateAdmin")
-	minifluxDebug := cfg.GetBool("minifluxDebug")
-
 	return &Config{
-		DockerUsername:         username,
-		DockerHostname:         hostname,
-		DomainName:             domainName,
-		SSDPath:                ssdPath,
-		HDDPath:                hddPath,
-		ExternalPath:           externalPath,
-		BeszelKey:              beszelKey,
-		PostgresDbHost:         postgresDbHost,
-		PostgresDbPassword:     postgresDbPassword,
-		LinkwardenNextURL:      LinkwardenNextURL,
-		LinkwardenNextSecret:   LinkwardenNextSecret,
-		MinifluxDbName:         minifluxDbName,
-		MinifluxDbUsername:     minifluxDbUsername,
-		MinifluxdbUserPassword: minifluxdbUserPassword,
-		MinifluxAdminUsername:  minifluxAdminUsername,
-		MinifluxAdminPassword:  minifluxAdminPassword,
-		MinifluxRunMigrations:  minifluxRunMigrations,
-		MinifluxCreateAdmin:    minifluxCreateAdmin,
-		MinifluxDebug:          minifluxDebug,
+		DockerUsername:         cfg.Require("dockerUsername"),
+		DockerHostname:         cfg.Require("dockerHostname"),
+		DomainName:             cfg.Require("domain"),
+		SSDPath:                cfg.Require("pathsSsd"),
+		HDDPath:                cfg.Require("pathsHdd"),
+		ExternalPath:           cfg.Require("pathsExternal"),
+		BeszelKey:              cfg.RequireSecret("beszelKey"),
+		PostgresDbHost:         cfg.Require("linkwardenDbHost"),
+		PostgresDbPassword:     cfg.RequireSecret("linkwardenDbPassword"),
+		LinkwardenNextURL:      cfg.Require("linkwardenNextAuthUrl"),
+		LinkwardenNextSecret:   cfg.RequireSecret("linkwardenNextAuthSecret"),
+		MinifluxDbName:         cfg.Require("minifluxDbName"),
+		MinifluxDbUsername:     cfg.Require("minifluxDbUserName"),
+		MinifluxdbUserPassword: cfg.RequireSecret("minifluxDbUserPassword"),
+		MinifluxAdminUsername:  cfg.Require("minifluxAdminUsername"),
+		MinifluxAdminPassword:  cfg.RequireSecret("minifluxAdminPassword"),
+		MinifluxRunMigrations:  cfg.Require("minifluxRunMigrations"),
+		MinifluxCreateAdmin:    cfg.Require("minifluxCreateAdmin"),
+		MinifluxDebug:          cfg.GetBool("minifluxDebug"),
 	}, nil
 }
 

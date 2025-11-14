@@ -80,24 +80,24 @@ func (h *HomelabServices) Linkwarden(dbHost string, dbPassword pulumi.StringInpu
 
 // Miniflux returns configuration for the Miniflux RSS reader
 func (h *HomelabServices) Miniflux(settings MinifluxSettings) ContainerConfig {
-	fmt.Println(pulumi.Sprintf("postgresql://%s:%s@%s:5432/%s?sslmode=disable", settings.DatabaseUserName, settings.DatabaseUserPassword, settings.DatabaseHost, settings.DatabaseName))
+	name := "miniflux"
 	return ContainerConfig{
-		Name:         "miniflux",
-		ServiceName:  "miniflux",
-		ImageName:    h.Images.Images["miniflux"],
+		Name:         name,
+		ServiceName:  name,
+		ImageName:    h.Images.Images[name],
 		InternalPort: 8080,
 		DomainName:   h.DomainName,
 		Networks:     []string{"proxy"},
 		Volumes: []VolumeMount{
 			{
-				HostPath:      filepath.Join(h.SSDPath, "docker-volumes/miniflux"),
-				ContainerPath: "/var/lib/miniflux",
+				HostPath:      filepath.Join(h.SSDPath, fmt.Sprintf("docker-volumes/%s", name)),
+				ContainerPath: fmt.Sprintf("/var/lib/%s", name),
 				ReadOnly:      false,
 			},
 		},
 		Environment: map[string]pulumi.StringInput{
 			"DATABASE_URL":      pulumi.Sprintf("postgresql://%s:%s@%s:5432/%s?sslmode=disable", settings.DatabaseUserName, settings.DatabaseUserPassword, settings.DatabaseHost, settings.DatabaseName),
-			"MINIFLUX_BASE_URL": pulumi.String(fmt.Sprintf("miniflux.%v", h.DomainName)),
+			"MINIFLUX_BASE_URL": pulumi.String(fmt.Sprintf("%s.%v", name, h.DomainName)),
 			"RUN_MIGRATIONS":    pulumi.String(settings.RunMigrations),
 			"CREATE_ADMIN":      pulumi.String(settings.CreateAdmin),
 			"ADMIN_USERNAME":    pulumi.String(settings.AdminUsername),
@@ -105,7 +105,7 @@ func (h *HomelabServices) Miniflux(settings MinifluxSettings) ContainerConfig {
 			"DEBUG":             pulumi.String(fmt.Sprintf("%t", settings.Debug)),
 		},
 		ExtraLabels: map[string]string{
-			"traefik.http.routers.miniflux.middlewares": "oidc-auth",
+			fmt.Sprintf("traefik.http.routers.%s.middlewares", name): "oidc-auth",
 		},
 	}
 }
