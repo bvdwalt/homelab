@@ -4,5 +4,5 @@ images:
   traefik-whoami: "traefik/whoami:v1.11.0"
   linkwarden: "ghcr.io/linkwarden/linkwarden:v2.13.1@sha256:54271afa4fc34107f98d9ba580e320e3bd5b3e02339f7d68947d01a375ea7bb3"
   miniflux: "ghcr.io/miniflux/miniflux:2.2.14@sha256:02e50d5b277857e3600c14ec1a6a064a82320077914d8eb546691a5f4c1d406c"
-  beszel: "henrygd/beszel:0.16.1@sha256:24c5513b364a2cb6f966819389128999817afbaebfe81ba2980289e39326f484"
+  beszel: "henrygd/beszel:0.17.0@sha256:185142e6c91bd44c77fef6cd31784aee0f782eb1d7193c3ee34a9902a936621c"
   beszel-agent: "henrygd/beszel-agent:0.17.0@sha256:730ac49d1a89d315b5a9424ad8cca2f586e981da7caf151c5ec2d599f474efad"
