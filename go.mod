@@ -1,6 +1,6 @@
 module homelab
 
-go 1.24.0
+go 1.25.5
 
 require github.com/pulumi/pulumi/sdk/v3 v3.212.0
 
