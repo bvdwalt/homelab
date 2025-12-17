@@ -2,7 +2,7 @@ module homelab
 
 go 1.23.11
 
-require github.com/pulumi/pulumi/sdk/v3 v3.210.0
+require github.com/pulumi/pulumi/sdk/v3 v3.212.0
 
 require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
