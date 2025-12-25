@@ -2,7 +2,7 @@
 # This file contains all Docker image references used in the homelab
 images:
   traefik-whoami: "traefik/whoami:v1.11.0"
-  linkwarden: "ghcr.io/linkwarden/linkwarden:v2.13.2@sha256:d663d4db5c7fbb605878a3705aeb4a654548b9011754ddfcee66dc5a40ac56df"
+  linkwarden: "ghcr.io/linkwarden/linkwarden:v2.13.3@sha256:aa911041b553c3f9de0c4e0babff65ced8835c2a1dd17239b9467f715822f74d"
   miniflux: "ghcr.io/miniflux/miniflux:2.2.15@sha256:9a1f95a7a05b77040d19bb7be96194af4c222de02fb84165fb808f65700c064f"
   beszel: "henrygd/beszel:0.17.0@sha256:185142e6c91bd44c77fef6cd31784aee0f782eb1d7193c3ee34a9902a936621c"
   beszel-agent: "henrygd/beszel-agent:0.17.0@sha256:730ac49d1a89d315b5a9424ad8cca2f586e981da7caf151c5ec2d599f474efad"
