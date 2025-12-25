@@ -71,7 +71,7 @@ func (h *HomelabServices) Linkwarden(dbHost string, dbPassword pulumi.StringInpu
 			"NEXTAUTH_SECRET": nextSecret,
 		},
 		ExtraLabels: map[string]string{
-			"traefik.http.routers.beszel.middlewares": "oidc-auth",
+			"traefik.http.routers.linkwarden.middlewares": "oidc-auth",
 		},
 	}
 }
