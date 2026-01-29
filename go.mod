@@ -2,7 +2,7 @@ module homelab
 
 go 1.25.5
 
-require github.com/pulumi/pulumi/sdk/v3 v3.217.1
+require github.com/pulumi/pulumi/sdk/v3 v3.218.0
 
 require (
 	github.com/agext/levenshtein v1.2.3 // indirect
