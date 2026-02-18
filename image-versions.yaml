@@ -3,6 +3,6 @@
 images:
   traefik-whoami: "traefik/whoami:v1.11.0"
   linkwarden: "ghcr.io/linkwarden/linkwarden:v2.13.5@sha256:1588811d7b7d249d387782bb94c7eb189082b82b542ac1667d2ac3d7e7f70ce6"
-  miniflux: "ghcr.io/miniflux/miniflux:2.2.16@sha256:1f37163a178189eba09bf0a1c96d7335aa1fa474d4f958f51e0c5ad9f8136979"
+  miniflux: "ghcr.io/miniflux/miniflux:2.2.17@sha256:802ab7d045826d047883476e2310bf59f5d9b3875f7a8106fa0c43638d01fd64"
   beszel: "henrygd/beszel:0.18.3@sha256:d1326b5cd73838b1d1acc5f1764c4b993c9668aa26df149082695894cb2805ae"
   beszel-agent: "henrygd/beszel-agent:0.18.3@sha256:67b51e7976da13b7ce15e0270869827d54aa3df8cf0978e240e4105f62395a46"
