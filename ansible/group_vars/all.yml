@@ -1,6 +1,7 @@
 truenas_url: "https://truenas.local:444"
 truenas_ip: 10.13.1.165
 truenas_api_key: "{{ lookup('env', 'TRUENAS_API_KEY') }}"
+cloudflare_api_token: "{{ lookup('env', 'CLOUDFLARE_API_TOKEN') }}"
 
 # -----------------------------------------------------------------------
 # democratic-csi — NFS dynamic provisioner

@@ -1,0 +1,11 @@
+---
+# Default TLS certificate for all websecure IngressRoutes.
+# Traefik serves this cert for any route that specifies `tls: {}` without a secretName.
+apiVersion: traefik.io/v1alpha1
+kind: TLSStore
+metadata:
+  name: default
+  namespace: traefik
+spec:
+  defaultCertificate:
+    secretName: greedo-net-wildcard-tls

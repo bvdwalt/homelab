@@ -7,9 +7,11 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`ittools.greedo.net`)
       kind: Rule
       services:
         - name: it-tools
           port: 80
+  tls: {}

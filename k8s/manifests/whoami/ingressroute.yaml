@@ -1,7 +1,4 @@
 ---
-# Traefik IngressRoute CRD (traefik.io/v1alpha1) rather than standard k8s Ingress.
-# Using the CRD gives access to Traefik-specific features (middlewares, priority, TCP
-# routes) and mirrors how the existing Swarm Traefik setup handles routing.
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -10,9 +7,11 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
     - match: Host(`whoami.greedo.net`)
       kind: Rule
       services:
         - name: whoami
           port: 80
+  tls: {}

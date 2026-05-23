@@ -363,8 +363,47 @@
         msg: "{{ dcsi_pods.stdout }}"
 
     # -------------------------------------------------------------------------
-    # Traefik — ingress controller, binds port 80 directly via hostPort.
-    # AdGuard DNS points *.k8s.home.lan → {{ talos_cp_ip }}; no MetalLB needed.
+    # cert-manager — issues and renews TLS certificates via Let's Encrypt DNS-01
+    # -------------------------------------------------------------------------
+
+    - name: Add jetstack Helm repo
+      ansible.builtin.command:
+        cmd: helm repo add jetstack https://charts.jetstack.io
+      changed_when: false
+      failed_when: false
+
+    - name: Install cert-manager
+      ansible.builtin.command:
+        cmd: >
+          helm upgrade --install cert-manager jetstack/cert-manager
+          --namespace cert-manager
+          --create-namespace
+          --values {{ manifests_dir }}/cert-manager/values.yaml
+          --wait
+          --kubeconfig {{ kubeconfig }}
+
+    - name: Create Cloudflare API token secret
+      ansible.builtin.command:
+        cmd: >
+          kubectl create secret generic cloudflare-api-token
+          --from-literal=api-token={{ cloudflare_api_token }}
+          --namespace cert-manager
+          --dry-run=client -o yaml
+      register: cloudflare_secret
+      changed_when: false
+
+    - name: Apply Cloudflare API token secret
+      ansible.builtin.command:
+        cmd: kubectl apply -f - --kubeconfig {{ kubeconfig }}
+        stdin: "{{ cloudflare_secret.stdout }}"
+
+    - name: Apply ClusterIssuer
+      ansible.builtin.command:
+        cmd: kubectl apply -f {{ manifests_dir }}/cert-manager/clusterissuer.yaml --kubeconfig {{ kubeconfig }}
+
+    # -------------------------------------------------------------------------
+    # Traefik — ingress controller, binds ports 80 and 443 via hostPort.
+    # AdGuard DNS points *.greedo.net → {{ talos_cp_ip }}; no MetalLB needed.
     # -------------------------------------------------------------------------
 
     - name: Create traefik namespace with privileged PSA labels (required for hostPort)
@@ -412,7 +451,27 @@
 
     - name: Traefik service info
       ansible.builtin.debug:
-        msg: "{{ traefik_svc.stdout }} — DNS: *.k8s.home.lan → {{ talos_cp_ip }}"
+        msg: "{{ traefik_svc.stdout }} — DNS: *.greedo.net → {{ talos_cp_ip }}"
+
+    - name: Apply TLSStore (default wildcard certificate for all websecure routes)
+      ansible.builtin.command:
+        cmd: kubectl apply -f {{ manifests_dir }}/traefik/tlsstore.yaml --kubeconfig {{ kubeconfig }}
+
+    - name: Apply wildcard certificate for greedo.net
+      ansible.builtin.command:
+        cmd: kubectl apply -f {{ manifests_dir }}/cert-manager/wildcard-cert.yaml --kubeconfig {{ kubeconfig }}
+
+    - name: Wait for wildcard certificate to be issued (DNS-01 takes ~30-60s)
+      ansible.builtin.command:
+        cmd: >
+          kubectl get certificate greedo-net-wildcard -n traefik
+          -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}'
+          --kubeconfig {{ kubeconfig }}
+      register: cert_ready
+      until: cert_ready.stdout == "True"
+      retries: 30
+      delay: 10
+      changed_when: false
 
     # -------------------------------------------------------------------------
     # whoami — stateless test service to verify the full ingress path
@@ -431,19 +490,9 @@
           --kubeconfig {{ kubeconfig }}
       changed_when: false
 
-    - name: Get Traefik NodePort for HTTP
+    - name: Verify whoami is reachable via hostPort
       ansible.builtin.command:
-        cmd: >
-          kubectl get svc traefik -n traefik
-          -o jsonpath='{.spec.ports[?(@.name=="web")].nodePort}'
-          --kubeconfig {{ kubeconfig }}
-      register: traefik_nodeport
-      changed_when: false
-
-    - name: Verify routing through NodePort
-      ansible.builtin.command:
-        cmd: >
-          curl -sf -H "Host: whoami.k8s.home.lan" http://{{ talos_cp_ip }}:{{ traefik_nodeport.stdout }}
+        cmd: curl -sf -H "Host: whoami.greedo.net" http://{{ talos_cp_ip }}
       register: whoami_response
       changed_when: false
 

@@ -12,7 +12,10 @@ brew install talosctl talhelper helm kubectl sops
 **Export required environment variables**
 
 ```bash
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 export TRUENAS_API_KEY="your-key-here"
+export CLOUDFLARE_API_TOKEN="your-token-here"   # DNS:Edit for greedo.net zone
 ```
 
 Your age key must exist at `~/Library/Application Support/sops/age/keys.txt` for SOPS
@@ -32,7 +35,7 @@ ansible-playbook -i ansible/inventory.yml ansible/playbooks/thalos-vm.yml
 ### Bootstrap cluster
 
 Renders Talos machine config via talhelper, applies it to the node, bootstraps etcd,
-fetches kubeconfig, then installs: democratic-csi, Traefik, whoami, and it-tools.
+fetches kubeconfig, then installs: cert-manager, democratic-csi, Traefik, whoami, and it-tools.
 
 ```bash
 ansible-playbook -i ansible/inventory.yml ansible/playbooks/thalos-bootstrap.yml
