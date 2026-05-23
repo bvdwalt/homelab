@@ -42,6 +42,14 @@
         - sops
       changed_when: false
 
+    - name: Check required environment variables are set
+      ansible.builtin.fail:
+        msg: "Required environment variable {{ item }} is not set or empty"
+      when: lookup('env', item) == ''
+      loop:
+        - TRUENAS_API_KEY
+        - CLOUDFLARE_API_TOKEN
+
     # -------------------------------------------------------------------------
     # Secrets — generate once, encrypt with SOPS
     # -------------------------------------------------------------------------
@@ -504,9 +512,9 @@
           --kubeconfig {{ kubeconfig }}
       changed_when: false
 
-    - name: Verify whoami is reachable via hostPort
+    - name: Verify whoami is reachable via HTTPS
       ansible.builtin.command:
-        cmd: "curl -sf -H 'Host: whoami.greedo.net' http://{{ talos_cp_ip }}"
+        cmd: "curl -sfk https://whoami.greedo.net"
       register: whoami_response
       changed_when: false
 

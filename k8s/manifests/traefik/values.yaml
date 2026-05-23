@@ -10,6 +10,9 @@
 deployment:
   replicas: 1
 
+updateStrategy:
+  type: Recreate
+
 ports:
   web:
     port: 8000
@@ -17,6 +20,12 @@ ports:
     expose:
       default: true
     exposedPort: 80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
   websecure:
     port: 8443
     hostPort: 443
