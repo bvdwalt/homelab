@@ -1,0 +1,469 @@
+---
+# Bootstraps the Talos cluster and installs Traefik and whoami.
+#
+# ALL tasks run on localhost — Ansible drives CLI tools (talhelper, talosctl,
+# helm, kubectl) that talk to the Talos/k8s APIs over the network.
+# No SSH connection to the Talos node is made or possible.
+#
+# Prerequisites:
+#   - thalos-vm.yml has run successfully (VM is in maintenance mode)
+#   - talosctl, talhelper, helm, kubectl, sops are installed on this machine
+#   - SOPS_AGE_KEY_FILE or SOPS_AGE_KEY env var points to your age private key
+#
+# Idempotency notes:
+#   - Secret generation is skipped if talsecret.sops.yaml already exists
+#   - talosctl bootstrap is guarded by an etcd members check (runs exactly once)
+#   - Helm installs use 'upgrade --install' (safe to re-run)
+#   - kubectl apply is idempotent by default
+
+- name: Bootstrap Talos cluster and install core infrastructure
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    repo_root: "{{ playbook_dir | dirname | dirname }}"
+    talos_dir: "{{ repo_root }}/k8s/talos"
+    manifests_dir: "{{ repo_root }}/k8s/manifests"
+    talosconfig: "{{ talos_dir }}/clusterconfig/talosconfig"
+    kubeconfig: "{{ talos_dir }}/kubeconfig"
+
+  tasks:
+    # -------------------------------------------------------------------------
+    # Preflight
+    # -------------------------------------------------------------------------
+
+    - name: Check required CLI tools are installed
+      ansible.builtin.command: which {{ item }}
+      loop:
+        - talosctl
+        - talhelper
+        - helm
+        - kubectl
+        - sops
+      changed_when: false
+
+    # -------------------------------------------------------------------------
+    # Secrets — generate once, encrypt with SOPS
+    # -------------------------------------------------------------------------
+
+    - name: Generate Talos cluster secrets
+      ansible.builtin.command:
+        cmd: talhelper gensecret
+        chdir: "{{ talos_dir }}"
+        creates: "{{ talos_dir }}/talsecret.sops.yaml"
+      register: gensecret
+
+    - name: Write secrets to file
+      ansible.builtin.copy:
+        content: "{{ gensecret.stdout }}"
+        dest: "{{ talos_dir }}/talsecret.sops.yaml"
+        mode: "0600"
+      when: gensecret is changed
+
+    - name: Encrypt secrets with SOPS
+      ansible.builtin.command:
+        cmd: sops --encrypt --in-place "{{ talos_dir }}/talsecret.sops.yaml"
+      when: gensecret is changed
+
+    # -------------------------------------------------------------------------
+    # Generate machine configs
+    # -------------------------------------------------------------------------
+
+    - name: Render Talos machine configs via talhelper
+      ansible.builtin.command:
+        cmd: >
+          talhelper genconfig
+          --config-file "{{ talos_dir }}/talconfig.yaml"
+          --secret-file "{{ talos_dir }}/talsecret.sops.yaml"
+          --out-dir "{{ talos_dir }}/clusterconfig"
+      changed_when: true
+
+    # -------------------------------------------------------------------------
+    # Apply config to node (maintenance mode)
+    # -------------------------------------------------------------------------
+
+    - name: Check if node is still reachable at maintenance IP
+      ansible.builtin.wait_for:
+        host: "{{ talos_maintenance_ip }}"
+        port: 50000
+        timeout: 5
+      register: maintenance_reachable
+      ignore_errors: true
+      changed_when: false
+
+    # Try connecting with cert auth — succeeds on a configured node, fails on a
+    # fresh VM in maintenance mode (even if talosconfig file exists from genconfig).
+    - name: Check if node is already configured (responds to authenticated talosctl)
+      ansible.builtin.command:
+        cmd: >
+          talosctl version
+          --nodes {{ talos_maintenance_ip }}
+          --talosconfig {{ talosconfig }}
+          --timeout 5s
+      register: talos_auth_check
+      failed_when: false
+      changed_when: false
+      when: not maintenance_reachable.failed
+
+    - name: Apply machine config — maintenance mode (insecure, fresh VM)
+      ansible.builtin.command:
+        cmd: >
+          talosctl apply-config --insecure
+          --nodes {{ talos_maintenance_ip }}
+          --file "{{ talos_dir }}/clusterconfig/{{ talos_cluster_name }}-thalos.yaml"
+      when: not maintenance_reachable.failed and talos_auth_check.rc != 0
+      changed_when: true
+
+    - name: Apply machine config — running node (with talosconfig)
+      ansible.builtin.command:
+        cmd: >
+          talosctl apply-config
+          --endpoints {{ talos_maintenance_ip }}
+          --nodes {{ talos_maintenance_ip }}
+          --talosconfig {{ talosconfig }}
+          --file "{{ talos_dir }}/clusterconfig/{{ talos_cluster_name }}-thalos.yaml"
+      when: not maintenance_reachable.failed and talos_auth_check.rc == 0
+      changed_when: true
+
+    # Wait for the node to reboot after install (port 50000 closes when it reboots).
+    # The ISO has talos.halt_if_installed set, so after Talos installs to disk and
+    # reboots from the ISO it will halt. We remove the CDROM device so the next
+    # boot comes from disk with the static IP from the machine config.
+    - name: Wait for Talos installation to complete (port 50000 closes on reboot)
+      ansible.builtin.wait_for:
+        host: "{{ talos_maintenance_ip }}"
+        port: 50000
+        state: stopped
+        timeout: 600
+        delay: 10
+      when: not maintenance_reachable.failed
+
+    - name: Fetch VM list to get VM ID
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/vm?limit=0"
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        validate_certs: false
+      register: all_vms
+
+    - name: Set VM ID fact
+      ansible.builtin.set_fact:
+        bootstrap_vm_id: "{{ (all_vms.json | selectattr('name', 'equalto', talos_vm_name) | first).id }}"
+
+    - name: Fetch VM devices
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/vm/device?limit=0"
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        validate_certs: false
+      register: all_vm_devices
+
+    - name: Find CDROM device
+      ansible.builtin.set_fact:
+        cdrom_device: >-
+          {{
+            all_vm_devices.json
+            | selectattr('vm', 'equalto', bootstrap_vm_id | int)
+            | selectattr('attributes.dtype', 'equalto', 'CDROM')
+            | list
+            | first
+            | default(none)
+          }}
+
+    # TrueNAS requires the VM to be stopped before modifying devices.
+    - name: Stop VM before removing CDROM device
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/vm/id/{{ bootstrap_vm_id }}/stop"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        body_format: json
+        body:
+          force_after_timeout: true
+        validate_certs: false
+        status_code: [200, 204]
+      when: cdrom_device is not none
+
+    - name: Wait for VM to stop
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/vm/id/{{ bootstrap_vm_id }}"
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        validate_certs: false
+      register: vm_stopped_state
+      until: vm_stopped_state.json.status.state != 'RUNNING'
+      retries: 30
+      delay: 5
+      when: cdrom_device is not none
+
+    - name: Remove CDROM device (prevents re-booting from ISO after installation)
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/vm/device/id/{{ cdrom_device.id }}"
+        method: DELETE
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        validate_certs: false
+        status_code: [200, 204]
+      when: cdrom_device is not none
+
+    - name: Start VM to boot from disk
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/vm/id/{{ bootstrap_vm_id }}/start"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        body_format: json
+        body: {}
+        validate_certs: false
+        status_code: [200, 422]
+
+    - name: Wait for Talos API to come back on static IP after disk boot
+      ansible.builtin.wait_for:
+        host: "{{ talos_cp_ip }}"
+        port: 50000
+        timeout: 300
+        delay: 15
+
+    # -------------------------------------------------------------------------
+    # Bootstrap etcd (exactly once)
+    # -------------------------------------------------------------------------
+
+    - name: Check if etcd is already bootstrapped
+      ansible.builtin.command:
+        cmd: talosctl etcd members --nodes {{ talos_cp_ip }} --talosconfig {{ talosconfig }} --timeout 15s
+      register: etcd_check
+      failed_when: false
+      changed_when: false
+
+    - name: Bootstrap etcd (runs exactly once — guard prevents double-bootstrap)
+      ansible.builtin.command:
+        cmd: talosctl bootstrap --nodes {{ talos_cp_ip }} --talosconfig {{ talosconfig }}
+      when: etcd_check.rc != 0
+      register: bootstrap_result
+      failed_when: bootstrap_result.rc != 0 and 'AlreadyExists' not in bootstrap_result.stderr
+
+    - name: Wait for Kubernetes API to become available
+      ansible.builtin.wait_for:
+        host: "{{ talos_cp_ip }}"
+        port: 6443
+        timeout: 300
+        delay: 10
+
+    # -------------------------------------------------------------------------
+    # Kubeconfig
+    # -------------------------------------------------------------------------
+
+    - name: Fetch kubeconfig
+      ansible.builtin.command:
+        cmd: >
+          talosctl kubeconfig {{ kubeconfig }}
+          --nodes {{ talos_cp_ip }}
+          --talosconfig {{ talosconfig }}
+          --force
+        creates: "{{ kubeconfig }}"
+
+    - name: Wait for node to reach Ready state
+      ansible.builtin.command:
+        cmd: kubectl get nodes --kubeconfig {{ kubeconfig }} --no-headers
+      register: nodes_ready
+      until: "'Ready' in nodes_ready.stdout and 'NotReady' not in nodes_ready.stdout"
+      retries: 30
+      delay: 10
+      changed_when: false
+
+    - name: Show node status
+      ansible.builtin.debug:
+        msg: "{{ nodes_ready.stdout }}"
+
+    # -------------------------------------------------------------------------
+    # TrueNAS prereqs — NFS service + parent dataset for democratic-csi
+    # -------------------------------------------------------------------------
+
+    - name: Fetch TrueNAS service list
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/service"
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        validate_certs: false
+      register: truenas_services
+
+    - name: Start NFS service if not running
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/service/start"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        body_format: json
+        body:
+          service: nfs
+        validate_certs: false
+        status_code: [200, 422]
+      when: >
+        (truenas_services.json | selectattr('service', 'equalto', 'nfs') | first).state != 'RUNNING'
+
+    - name: Enable NFS service to start on boot
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/service/id/{{ (truenas_services.json | selectattr('service', 'equalto', 'nfs') | first).id }}"
+        method: PUT
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        body_format: json
+        body:
+          enable: true
+        validate_certs: false
+      when: >
+        not (truenas_services.json | selectattr('service', 'equalto', 'nfs') | first).enable
+
+    - name: Create parent NFS dataset for democratic-csi
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/pool/dataset"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        body_format: json
+        body:
+          name: "{{ dcsi_nfs_parent_dataset }}"
+          type: FILESYSTEM
+        validate_certs: false
+        status_code: [200, 422]
+
+    # -------------------------------------------------------------------------
+    # democratic-csi — NFS dynamic provisioner
+    # -------------------------------------------------------------------------
+
+    - name: Add democratic-csi Helm repo
+      ansible.builtin.command:
+        cmd: helm repo add democratic-csi https://democratic-csi.github.io/charts
+      changed_when: false
+      failed_when: false
+
+    - name: Install democratic-csi NFS driver
+      ansible.builtin.command:
+        cmd: >
+          helm upgrade --install democratic-csi-nfs democratic-csi/democratic-csi
+          --namespace democratic-csi
+          --create-namespace
+          --values {{ manifests_dir }}/democratic-csi/values-nfs.yaml
+          --set driver.config.httpConnection.host={{ truenas_ip }}
+          --set driver.config.httpConnection.apiKey={{ truenas_api_key }}
+          --set driver.config.zfs.datasetParentName={{ dcsi_nfs_parent_dataset }}
+          --set driver.config.zfs.detachedSnapshotsDatasetParentName={{ dcsi_nfs_parent_dataset }}-snap
+          --set driver.config.nfs.shareHost={{ truenas_ip }}
+          --wait
+          --kubeconfig {{ kubeconfig }}
+
+    - name: Verify democratic-csi pods are running
+      ansible.builtin.command:
+        cmd: kubectl get pods -n democratic-csi --kubeconfig {{ kubeconfig }} --no-headers
+      register: dcsi_pods
+      changed_when: false
+
+    - name: democratic-csi pod status
+      ansible.builtin.debug:
+        msg: "{{ dcsi_pods.stdout }}"
+
+    # -------------------------------------------------------------------------
+    # Traefik — ingress controller, binds port 80 directly via hostPort.
+    # AdGuard DNS points *.k8s.home.lan → {{ talos_cp_ip }}; no MetalLB needed.
+    # -------------------------------------------------------------------------
+
+    - name: Create traefik namespace with privileged PSA labels (required for hostPort)
+      ansible.builtin.command:
+        cmd: >
+          kubectl apply --kubeconfig {{ kubeconfig }} -f -
+        stdin: |
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: traefik
+            labels:
+              pod-security.kubernetes.io/enforce: privileged
+              pod-security.kubernetes.io/audit: privileged
+              pod-security.kubernetes.io/warn: privileged
+
+    - name: Add Traefik Helm repo
+      ansible.builtin.command:
+        cmd: helm repo add traefik https://traefik.github.io/charts
+      changed_when: false
+      failed_when: false
+
+    - name: Update Helm repos
+      ansible.builtin.command:
+        cmd: helm repo update
+      changed_when: false
+
+    - name: Install Traefik
+      ansible.builtin.command:
+        cmd: >
+          helm upgrade --install traefik traefik/traefik
+          --namespace traefik
+          --create-namespace
+          --values {{ manifests_dir }}/traefik/values.yaml
+          --wait
+          --kubeconfig {{ kubeconfig }}
+
+    - name: Show Traefik NodePort
+      ansible.builtin.command:
+        cmd: >
+          kubectl get svc traefik -n traefik
+          --kubeconfig {{ kubeconfig }}
+      register: traefik_svc
+      changed_when: false
+
+    - name: Traefik service info
+      ansible.builtin.debug:
+        msg: "{{ traefik_svc.stdout }} — DNS: *.k8s.home.lan → {{ talos_cp_ip }}"
+
+    # -------------------------------------------------------------------------
+    # whoami — stateless test service to verify the full ingress path
+    # -------------------------------------------------------------------------
+
+    - name: Deploy whoami and IngressRoute
+      ansible.builtin.command:
+        cmd: kubectl apply -f {{ manifests_dir }}/whoami/ --kubeconfig {{ kubeconfig }}
+
+    - name: Wait for whoami to be ready
+      ansible.builtin.command:
+        cmd: >
+          kubectl rollout status deployment/whoami
+          -n demo
+          --timeout=60s
+          --kubeconfig {{ kubeconfig }}
+      changed_when: false
+
+    - name: Get Traefik NodePort for HTTP
+      ansible.builtin.command:
+        cmd: >
+          kubectl get svc traefik -n traefik
+          -o jsonpath='{.spec.ports[?(@.name=="web")].nodePort}'
+          --kubeconfig {{ kubeconfig }}
+      register: traefik_nodeport
+      changed_when: false
+
+    - name: Verify routing through NodePort
+      ansible.builtin.command:
+        cmd: >
+          curl -sf -H "Host: whoami.k8s.home.lan" http://{{ talos_cp_ip }}:{{ traefik_nodeport.stdout }}
+      register: whoami_response
+      changed_when: false
+
+    - name: whoami response
+      ansible.builtin.debug:
+        msg: "{{ whoami_response.stdout }}"
+
+    # -------------------------------------------------------------------------
+    # it-tools — stateless service, verifies the ingress pattern for real apps
+    # -------------------------------------------------------------------------
+
+    - name: Deploy it-tools and IngressRoute
+      ansible.builtin.command:
+        cmd: kubectl apply -f {{ manifests_dir }}/it-tools/ --kubeconfig {{ kubeconfig }}
+
+    - name: Wait for it-tools to be ready
+      ansible.builtin.command:
+        cmd: >
+          kubectl rollout status deployment/it-tools
+          -n it-tools
+          --timeout=120s
+          --kubeconfig {{ kubeconfig }}
+      changed_when: false

@@ -1,0 +1,48 @@
+# Traefik Helm values — phase 1 (HTTP only, no TLS, no plugins)
+# https://github.com/traefik/traefik-helm-chart
+#
+# TLS, Cloudflare ACME, CrowdSec, and OIDC are deliberately out of scope here.
+# They will be added per-service in later phases, mirroring the existing Swarm setup.
+#
+# Traffic path: AdGuard DNS *.k8s.home.lan → 10.13.1.166 (node IP)
+# Traefik binds to port 80 on the node via hostPort — no MetalLB, no NodePort randomness.
+
+deployment:
+  replicas: 1
+
+# hostPort binds the container port directly to the node's network interface.
+# This means http://whoami.k8s.home.lan resolves and connects without a port suffix.
+# Requires Talos to allow hostPort (it does by default).
+ports:
+  web:
+    port: 8000
+    hostPort: 80
+    expose:
+      default: true
+    exposedPort: 80
+  # websecure is disabled for phase 1 — enable when adding TLS
+  websecure:
+    expose:
+      default: false
+
+service:
+  spec:
+    type: ClusterIP   # no NodePort needed when using hostPort
+
+# Manage the dashboard via an IngressRoute CRD rather than the built-in route,
+# so we can add auth middleware later without touching Helm values.
+ingressRoute:
+  dashboard:
+    enabled: false
+
+logs:
+  general:
+    level: ERROR
+  access:
+    enabled: true
+
+providers:
+  kubernetesIngress:
+    enabled: false   # use IngressRoute CRDs (traefik.io/v1alpha1) exclusively
+  kubernetesCRD:
+    enabled: true

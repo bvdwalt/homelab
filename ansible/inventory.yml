@@ -1,0 +1,10 @@
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+
+    # Talos control-plane VM — provisioned by thalos-vm.yml.
+    # Ansible does NOT SSH into this host. All thalos-bootstrap.yml tasks
+    # run on localhost and talk to the Talos API via talosctl.
+    talos-cp:
+      ansible_host: 10.13.1.166

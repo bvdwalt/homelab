@@ -1,0 +1,34 @@
+csiDriver:
+  name: "org.democratic-csi.nfs"
+
+storageClasses:
+  - name: truenas-nfs
+    defaultClass: false
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      fsType: nfs
+
+driver:
+  config:
+    driver: freenas-api-nfs
+    httpConnection:
+      protocol: https
+      host: ""          # injected at install: --set driver.config.httpConnection.host
+      port: 444
+      apiKey: ""        # injected at install: --set driver.config.httpConnection.apiKey
+      allowInsecure: true
+    zfs:
+      datasetParentName: ""              # injected: --set driver.config.zfs.datasetParentName
+      detachedSnapshotsDatasetParentName: ""  # injected: same var with -snap suffix
+      datasetEnableQuotas: true
+      datasetEnableReservation: false
+      datasetPermissionsMode: "0777"
+      datasetPermissionsUser: 0
+      datasetPermissionsGroup: 0
+    nfs:
+      shareHost: ""     # injected: --set driver.config.nfs.shareHost
+      shareAlldirs: false
+      shareMaprootUser: root
+      shareMaprootGroup: root

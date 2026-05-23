@@ -1,0 +1,34 @@
+truenas_url: "https://truenas.local:444"
+truenas_ip: 10.13.1.165
+truenas_api_key: "{{ lookup('env', 'TRUENAS_API_KEY') }}"
+
+# -----------------------------------------------------------------------
+# democratic-csi — NFS dynamic provisioner
+# -----------------------------------------------------------------------
+
+dcsi_nfs_parent_dataset: Cheetah/k8s-nfs
+
+# -----------------------------------------------------------------------
+# Talos VM
+# -----------------------------------------------------------------------
+
+talos_version: v1.9.5            # check https://github.com/siderolabs/talos/releases
+kubernetes_version: v1.32.4      # check https://www.talos.dev/latest/introduction/support-matrix/
+talos_cluster_name: homelab
+talos_cp_ip: 10.13.1.166
+talos_maintenance_ip: 10.13.1.79  # current DHCP IP — used for initial apply-config only
+talos_cluster_endpoint: "https://{{ talos_cp_ip }}:6443"
+
+talos_vm_name: thalos
+talos_vm_cores: 4
+talos_vm_memory: 8192            # MB
+talos_vm_disk_size: 42949672960  # 40 GB in bytes (zvol volsize)
+talos_vm_pool: Cheetah
+talos_vm_bridge: enp2s0
+# 52:54:00 is the standard QEMU/KVM OUI; last 3 octets encode the VM's LAN IP.
+talos_vm_mac: "00:a0:98:60:fb:71"
+talos_vm_display_password: "thalos"
+talos_vm_gateway: 10.13.1.1
+talos_vm_dns: 10.13.1.165
+
+talos_iso_remote_path: /mnt/Hare/storage/ISOs/talos-amd64.iso
