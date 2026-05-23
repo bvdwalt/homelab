@@ -11,7 +11,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`whoami.k8s.home.lan`)
+    - match: Host(`whoami.greedo.net`)
       kind: Rule
       services:
         - name: whoami

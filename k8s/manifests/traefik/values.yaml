@@ -4,7 +4,7 @@
 # TLS, Cloudflare ACME, CrowdSec, and OIDC are deliberately out of scope here.
 # They will be added per-service in later phases, mirroring the existing Swarm setup.
 #
-# Traffic path: AdGuard DNS *.k8s.home.lan → 10.13.1.166 (node IP)
+# Traffic path: AdGuard DNS *.greedo.net → 10.13.1.166 (node IP)
 # Traefik binds to port 80 on the node via hostPort — no MetalLB, no NodePort randomness.
 
 deployment:

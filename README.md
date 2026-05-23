@@ -8,14 +8,14 @@ ingress and democratic-csi for persistent storage backed by TrueNAS NFS.
 ```
 TrueNAS SCALE (10.13.1.165)
 └── Thalos VM (10.13.1.166) — Talos Linux, 4 vCPU, 8 GB
-    ├── Traefik         — ingress, hostPort :80, *.k8s.home.lan
+    ├── Traefik         — ingress, hostPort :80, *.greedo.net
     ├── democratic-csi  — NFS StorageClass backed by Cheetah/k8s-nfs
     └── services/
         ├── it-tools
         └── whoami
 ```
 
-AdGuard DNS on TrueNAS resolves `*.k8s.home.lan → 10.13.1.166`.
+AdGuard DNS on TrueNAS resolves `*.greedo.net → 10.13.1.166`.
 
 ## Repo layout
 
