@@ -8,3 +8,7 @@ all:
     # run on localhost and talk to the Talos API via talosctl.
     talos-cp:
       ansible_host: 10.13.1.166
+
+    truenas:
+      ansible_host: 10.13.1.165
+      ansible_user: bvdwalt

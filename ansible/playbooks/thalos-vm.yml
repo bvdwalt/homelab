@@ -189,6 +189,34 @@
         validate_certs: false
       when: "'NIC' not in vm_device_types"
 
+    - name: Set existing NIC MACs for this VM
+      ansible.builtin.set_fact:
+        vm_nic_macs: >-
+          {{
+            existing_devices.json
+            | selectattr('vm', 'equalto', talos_vm_id | int)
+            | selectattr('attributes.dtype', 'equalto', 'NIC')
+            | map(attribute='attributes.mac')
+            | list
+          }}
+
+    - name: Add mgmt NIC device (br1 — host-only bridge for TrueNAS API access)
+      ansible.builtin.uri:
+        url: "{{ truenas_url }}/api/v2.0/vm/device"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ truenas_api_key }}"
+        body_format: json
+        body:
+          vm: "{{ talos_vm_id | int }}"
+          attributes:
+            dtype: NIC
+            type: VIRTIO
+            nic_attach: "{{ talos_vm_mgmt_bridge }}"
+            mac: "{{ talos_vm_mgmt_mac }}"
+        validate_certs: false
+      when: talos_vm_mgmt_mac not in vm_nic_macs
+
     - name: Add CDROM device (Talos ISO)
       ansible.builtin.uri:
         url: "{{ truenas_url }}/api/v2.0/vm/device"

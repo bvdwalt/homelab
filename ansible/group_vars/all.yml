@@ -1,5 +1,6 @@
-truenas_url: "https://truenas.local:444"
-truenas_ip: 10.13.1.165
+truenas_url: "https://10.13.1.165:444"
+truenas_ip: 10.13.1.165       # TrueNAS LAN IP — used by Ansible (Mac) to reach TrueNAS API
+truenas_csi_ip: 192.168.100.1  # TrueNAS host-only bridge IP — used by k8s pods to reach TrueNAS
 truenas_api_key: "{{ lookup('env', 'TRUENAS_API_KEY') }}"
 cloudflare_api_token: "{{ lookup('env', 'CLOUDFLARE_API_TOKEN') }}"
 
@@ -28,6 +29,8 @@ talos_vm_pool: Cheetah
 talos_vm_bridge: enp2s0
 # 52:54:00 is the standard QEMU/KVM OUI; last 3 octets encode the VM's LAN IP.
 talos_vm_mac: "00:a0:98:60:fb:71"
+talos_vm_mgmt_bridge: br1          # host-only bridge for TrueNAS API access
+talos_vm_mgmt_mac: "00:a0:98:60:fb:72"
 talos_vm_display_password: "thalos"
 talos_vm_gateway: 10.13.1.1
 talos_vm_dns: 10.13.1.165

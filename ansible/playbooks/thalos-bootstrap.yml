@@ -331,6 +331,20 @@
     # democratic-csi — NFS dynamic provisioner
     # -------------------------------------------------------------------------
 
+    - name: Create democratic-csi namespace with privileged PSA labels (node driver requires SYS_ADMIN and hostPath)
+      ansible.builtin.command:
+        cmd: kubectl apply --kubeconfig {{ kubeconfig }} -f -
+      args:
+        stdin: |
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: democratic-csi
+            labels:
+              pod-security.kubernetes.io/enforce: privileged
+              pod-security.kubernetes.io/audit: privileged
+              pod-security.kubernetes.io/warn: privileged
+
     - name: Add democratic-csi Helm repo
       ansible.builtin.command:
         cmd: helm repo add democratic-csi https://democratic-csi.github.io/charts
@@ -344,11 +358,11 @@
           --namespace democratic-csi
           --create-namespace
           --values {{ manifests_dir }}/democratic-csi/values-nfs.yaml
-          --set driver.config.httpConnection.host={{ truenas_ip }}
+          --set driver.config.httpConnection.host={{ truenas_csi_ip }}
           --set driver.config.httpConnection.apiKey={{ truenas_api_key }}
           --set driver.config.zfs.datasetParentName={{ dcsi_nfs_parent_dataset }}
           --set driver.config.zfs.detachedSnapshotsDatasetParentName={{ dcsi_nfs_parent_dataset }}-snap
-          --set driver.config.nfs.shareHost={{ truenas_ip }}
+          --set driver.config.nfs.shareHost={{ truenas_csi_ip }}
           --wait
           --kubeconfig {{ kubeconfig }}
 
@@ -492,7 +506,7 @@
 
     - name: Verify whoami is reachable via hostPort
       ansible.builtin.command:
-        cmd: curl -sf -H "Host: whoami.greedo.net" http://{{ talos_cp_ip }}
+        cmd: "curl -sf -H 'Host: whoami.greedo.net' http://{{ talos_cp_ip }}"
       register: whoami_response
       changed_when: false
 

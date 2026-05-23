@@ -32,6 +32,11 @@ nodes:
           - network: 0.0.0.0/0
             gateway: 10.13.1.1
         dhcp: false
+      - deviceSelector:
+          hardwareAddr: "00:a0:98:60:fb:72"
+        addresses:
+          - 192.168.100.2/24
+        dhcp: false
 
 patches:
   - |-
@@ -39,6 +44,8 @@ patches:
       time:
         servers:
           - 10.13.1.165
+          - time.cloudflare.com
+          - pool.ntp.org
   - |-
     cluster:
       # Pin etcd to the LAN interface so it doesn't bind to the pod network.
