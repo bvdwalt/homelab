@@ -81,13 +81,18 @@ image tags. Merging the PR is the only manual step — Flux applies it automatic
 # 1. Populate SOPS secrets with real values (see "Secrets" section below)
 
 # 2. Store your age private key in the cluster so Flux can decrypt SOPS secrets
+kubectl create namespace flux-system --kubeconfig k8s/talos/kubeconfig
 kubectl create secret generic sops-age \
+  --kubeconfig k8s/talos/kubeconfig \
   --namespace=flux-system \
   --from-file=age.agekey="$HOME/Library/Application Support/sops/age/keys.txt" \
-  --dry-run=client -o yaml | kubectl apply -f -
+  --dry-run=client -o yaml | kubectl apply --kubeconfig k8s/talos/kubeconfig -f -
 
 # 3. Bootstrap Flux — installs controllers and creates the GitRepository + sync loop
+#    Requires a fine-grained GitHub PAT scoped to this repo with:
+#    Contents: Read and write, Administration: Read and write
 flux bootstrap github \
+  --kubeconfig k8s/talos/kubeconfig \
   --owner=bvdwalt \
   --repository=homelab \
   --path=k8s/flux \
