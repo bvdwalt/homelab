@@ -421,7 +421,7 @@
 
     - name: Apply ClusterIssuer
       ansible.builtin.command:
-        cmd: kubectl apply -f {{ manifests_dir }}/cert-manager/clusterissuer.yaml --kubeconfig {{ kubeconfig }}
+        cmd: kubectl apply -f {{ repo_root }}/k8s/infrastructure/configs/clusterissuer.yaml --kubeconfig {{ kubeconfig }}
 
     # -------------------------------------------------------------------------
     # MetalLB — L2 LoadBalancer so Traefik gets a stable VIP (not hostPort).
@@ -470,7 +470,7 @@
 
     - name: Apply MetalLB IPAddressPool and L2Advertisement
       ansible.builtin.command:
-        cmd: kubectl apply -f {{ manifests_dir }}/metallb/ --kubeconfig {{ kubeconfig }}
+        cmd: kubectl apply -f {{ repo_root }}/k8s/infrastructure/configs/metallb-pools.yaml --kubeconfig {{ kubeconfig }}
 
     # -------------------------------------------------------------------------
     # Traefik — ingress controller with MetalLB LoadBalancer VIP.
@@ -519,11 +519,11 @@
 
     - name: Apply TLSStore (default wildcard certificate for all websecure routes)
       ansible.builtin.command:
-        cmd: kubectl apply -f {{ manifests_dir }}/traefik/tlsstore.yaml --kubeconfig {{ kubeconfig }}
+        cmd: kubectl apply -f {{ repo_root }}/k8s/infrastructure/configs/tlsstore.yaml --kubeconfig {{ kubeconfig }}
 
     - name: Apply wildcard certificate for greedo.net
       ansible.builtin.command:
-        cmd: kubectl apply -f {{ manifests_dir }}/cert-manager/wildcard-cert.yaml --kubeconfig {{ kubeconfig }}
+        cmd: kubectl apply -f {{ repo_root }}/k8s/infrastructure/configs/wildcard-cert.yaml --kubeconfig {{ kubeconfig }}
 
     - name: Wait for wildcard certificate to be issued (DNS-01 takes ~30-60s)
       ansible.builtin.command:

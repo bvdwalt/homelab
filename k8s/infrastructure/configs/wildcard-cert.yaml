@@ -1,6 +1,6 @@
 ---
 # Wildcard certificate for *.greedo.net, stored in the traefik namespace.
-# Traefik's TLSStore (see traefik/tlsstore.yaml) picks this up as the default
+# Traefik's TLSStore (see tlsstore.yaml) picks this up as the default
 # certificate for all websecure IngressRoutes — no per-service cert needed.
 apiVersion: cert-manager.io/v1
 kind: Certificate

@@ -1,0 +1,55 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: democratic-csi-nfs
+  namespace: democratic-csi
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: democratic-csi
+      # renovate: registryUrl=https://democratic-csi.github.io/charts
+      version: "0.15.1"
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi
+        namespace: flux-system
+      interval: 12h
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: democratic-csi-values
+      valuesKey: values.yaml
+  values:
+    csiDriver:
+      name: "org.democratic-csi.nfs"
+    storageClasses:
+      - name: truenas-nfs
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        parameters:
+          fsType: nfs
+    driver:
+      config:
+        driver: freenas-api-nfs
+        httpConnection:
+          protocol: https
+          port: 444
+          allowInsecure: true
+        zfs:
+          datasetEnableQuotas: true
+          datasetEnableReservation: false
+          datasetPermissionsMode: "0777"
+          datasetPermissionsUser: 0
+          datasetPermissionsGroup: 0
+        nfs:
+          shareAlldirs: false
+          shareMaprootUser: root
+          shareMaprootGroup: root
