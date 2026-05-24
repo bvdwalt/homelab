@@ -39,6 +39,11 @@ nodes:
         dhcp: false
 
 patches:
+  # JSON Patch (RFC 6902) to remove the label that talhelper adds by default for
+  # control-plane nodes — MetalLB needs this node for L2 announcements.
+  - |-
+    - op: remove
+      path: /machine/nodeLabels/node.kubernetes.io~1exclude-from-external-load-balancers
   - |-
     machine:
       time:

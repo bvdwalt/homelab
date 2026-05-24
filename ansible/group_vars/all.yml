@@ -5,6 +5,24 @@ truenas_api_key: "{{ lookup('env', 'TRUENAS_API_KEY') }}"
 cloudflare_api_token: "{{ lookup('env', 'CLOUDFLARE_API_TOKEN') }}"
 
 # -----------------------------------------------------------------------
+# MetalLB — L2 LoadBalancer VIPs
+# -----------------------------------------------------------------------
+#
+# Pool is outside DHCP (.2–.159) and static assignments (.165–.166).
+# .160 is pinned to Traefik via metallb.universe.tf/loadBalancerIPs annotation.
+#
+# HOST-LEVEL REQUIREMENT: the TrueNAS VM bridge port for Thalos (enp2s0 / macvtap)
+# must allow forged transmits so MetalLB's gratuitous ARP for 10.13.1.160 is not
+# dropped by the hypervisor. In TrueNAS SCALE 25.04 (Fangtooth / incus backend),
+# this is controlled per-NIC in the VM device config. If the VIP is assigned in
+# kubectl but unreachable on the LAN, this is the first place to check.
+# When adding a second node later, the SAME setting must be applied to that node's
+# bridge port — MetalLB can fail over to any node.
+#
+metallb_ip_pool: "10.13.1.160-10.13.1.162"
+metallb_traefik_ip: "10.13.1.160"
+
+# -----------------------------------------------------------------------
 # democratic-csi — NFS dynamic provisioner
 # -----------------------------------------------------------------------
 

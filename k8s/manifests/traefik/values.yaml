@@ -4,19 +4,19 @@
 # TLS is terminated by Traefik using the wildcard cert managed by cert-manager.
 # CrowdSec and OIDC middleware are out of scope here — added per-service later.
 #
-# Traffic path: AdGuard DNS *.greedo.net → 10.13.1.166 (node IP)
-# Traefik binds directly to ports 80 and 443 via hostPort.
+# Traffic path: AdGuard DNS *.greedo.net → 10.13.1.160 (MetalLB VIP)
+# MetalLB L2 announces 10.13.1.160 via ARP; Traefik gets a LoadBalancer service.
+# With a VIP, rolling updates work without hostPort conflicts.
+#
+# NOTE: if MetalLB is ever removed, restore hostPort :80/:443 and point AdGuard
+# DNS back to the node IP (10.13.1.166). Also re-add updateStrategy: Recreate.
 
 deployment:
   replicas: 1
 
-updateStrategy:
-  type: Recreate
-
 ports:
   web:
     port: 8000
-    hostPort: 80
     expose:
       default: true
     exposedPort: 80
@@ -28,14 +28,15 @@ ports:
           permanent: true
   websecure:
     port: 8443
-    hostPort: 443
     expose:
       default: true
     exposedPort: 443
 
 service:
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: "10.13.1.160"
   spec:
-    type: ClusterIP   # no NodePort needed when using hostPort
+    type: LoadBalancer
 
 ingressRoute:
   dashboard:

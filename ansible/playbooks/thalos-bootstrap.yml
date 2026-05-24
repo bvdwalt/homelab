@@ -424,23 +424,67 @@
         cmd: kubectl apply -f {{ manifests_dir }}/cert-manager/clusterissuer.yaml --kubeconfig {{ kubeconfig }}
 
     # -------------------------------------------------------------------------
-    # Traefik — ingress controller, binds ports 80 and 443 via hostPort.
-    # AdGuard DNS points *.greedo.net → {{ talos_cp_ip }}; no MetalLB needed.
+    # MetalLB — L2 LoadBalancer so Traefik gets a stable VIP (not hostPort).
+    # VIP 10.13.1.160 is announced via gratuitous ARP by the MetalLB speaker.
+    # AdGuard DNS points *.greedo.net → {{ metallb_traefik_ip }}.
+    #
+    # IMPORTANT: after a fresh cluster rebuild, update AdGuard DNS to point
+    # *.greedo.net at {{ metallb_traefik_ip }} (not the node IP {{ talos_cp_ip }}).
     # -------------------------------------------------------------------------
 
-    - name: Create traefik namespace with privileged PSA labels (required for hostPort)
+    - name: Create metallb-system namespace with privileged PSA labels (speaker uses hostNetwork)
+      ansible.builtin.command:
+        cmd: kubectl apply --kubeconfig {{ kubeconfig }} -f -
+        stdin: |
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: metallb-system
+            labels:
+              pod-security.kubernetes.io/enforce: privileged
+              pod-security.kubernetes.io/audit: privileged
+              pod-security.kubernetes.io/warn: privileged
+
+    - name: Add MetalLB Helm repo
+      ansible.builtin.command:
+        cmd: helm repo add metallb https://metallb.github.io/metallb
+      changed_when: false
+      failed_when: false
+
+    - name: Install MetalLB
       ansible.builtin.command:
         cmd: >
-          kubectl apply --kubeconfig {{ kubeconfig }} -f -
+          helm upgrade --install metallb metallb/metallb
+          --namespace metallb-system
+          --wait
+          --kubeconfig {{ kubeconfig }}
+
+    - name: Wait for MetalLB webhook to be ready
+      ansible.builtin.command:
+        cmd: >
+          kubectl rollout status deployment/metallb-controller
+          -n metallb-system
+          --timeout=120s
+          --kubeconfig {{ kubeconfig }}
+      changed_when: false
+
+    - name: Apply MetalLB IPAddressPool and L2Advertisement
+      ansible.builtin.command:
+        cmd: kubectl apply -f {{ manifests_dir }}/metallb/ --kubeconfig {{ kubeconfig }}
+
+    # -------------------------------------------------------------------------
+    # Traefik — ingress controller with MetalLB LoadBalancer VIP.
+    # Stable VIP means rolling updates work without hostPort conflicts.
+    # -------------------------------------------------------------------------
+
+    - name: Create traefik namespace
+      ansible.builtin.command:
+        cmd: kubectl apply --kubeconfig {{ kubeconfig }} -f -
         stdin: |
           apiVersion: v1
           kind: Namespace
           metadata:
             name: traefik
-            labels:
-              pod-security.kubernetes.io/enforce: privileged
-              pod-security.kubernetes.io/audit: privileged
-              pod-security.kubernetes.io/warn: privileged
 
     - name: Add Traefik Helm repo
       ansible.builtin.command:
@@ -463,17 +507,15 @@
           --wait
           --kubeconfig {{ kubeconfig }}
 
-    - name: Show Traefik NodePort
+    - name: Show Traefik LoadBalancer IP
       ansible.builtin.command:
-        cmd: >
-          kubectl get svc traefik -n traefik
-          --kubeconfig {{ kubeconfig }}
+        cmd: kubectl get svc traefik -n traefik --kubeconfig {{ kubeconfig }}
       register: traefik_svc
       changed_when: false
 
     - name: Traefik service info
       ansible.builtin.debug:
-        msg: "{{ traefik_svc.stdout }} — DNS: *.greedo.net → {{ talos_cp_ip }}"
+        msg: "{{ traefik_svc.stdout }} — DNS: *.greedo.net → {{ metallb_traefik_ip }}"
 
     - name: Apply TLSStore (default wildcard certificate for all websecure routes)
       ansible.builtin.command:
