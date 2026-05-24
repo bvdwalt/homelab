@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "flux": {
-    "fileMatch": ["(^|/)k8s/infrastructure/releases/.+\\.yaml$"]
+    "fileMatch": ["(^|/)k8s/infrastructure/.+\\.yaml$"]
   },
   "kubernetes": {
     "fileMatch": ["(^|/)k8s/manifests/.+\\.yaml$"]
