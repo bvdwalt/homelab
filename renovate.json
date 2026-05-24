@@ -3,9 +3,13 @@
   "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "flux": {
-    "fileMatch": ["(^|/)k8s/infrastructure/.+\\.yaml$"]
+    "managerFilePatterns": [
+      "/(^|/)k8s/infrastructure/.+\\.yaml$/"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["(^|/)k8s/manifests/.+\\.yaml$"]
+    "managerFilePatterns": [
+      "/(^|/)k8s/manifests/.+\\.yaml$/"
+    ]
   }
 }
