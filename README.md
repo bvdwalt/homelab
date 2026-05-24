@@ -96,7 +96,7 @@ flux bootstrap github \
 
 Flux reconciles every 10 minutes. Force an immediate sync with:
 ```bash
-flux reconcile kustomization flux-system --with-source
+flux reconcile kustomization flux-system --with-source --kubeconfig k8s/talos/kubeconfig
 ```
 
 ### Secrets
