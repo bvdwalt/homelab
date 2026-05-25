@@ -21,7 +21,7 @@ spec:
           image: robotwizard/metering-api:v0.8.0@sha256:61993c1c53efa1c0d92142fbfb099b673051b7000fe562e7244b70d699a44a89
           env:
             - name: POSTGRES_HOST
-              value: "10.13.1.165"
+              value: "192.168.100.1"
             - name: POSTGRES_USER
               value: "app"
             - name: POSTGRES_DB
