@@ -11,3 +11,4 @@ resources:
   - app-it-tools.yaml
   - app-whoami.yaml
   - app-headlamp.yaml
+  - app-metering.yaml
