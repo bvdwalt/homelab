@@ -10,3 +10,4 @@ resources:
   - app-vaultwarden.yaml
   - app-it-tools.yaml
   - app-whoami.yaml
+  - app-headlamp.yaml
