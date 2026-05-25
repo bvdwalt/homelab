@@ -26,9 +26,3 @@ spec:
               value: "Europe/Amsterdam"
           ports:
             - containerPort: 80
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop: ["ALL"]
-            seccompProfile:
-              type: RuntimeDefault
