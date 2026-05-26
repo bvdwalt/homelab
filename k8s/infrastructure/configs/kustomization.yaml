@@ -5,3 +5,4 @@ resources:
   - clusterissuer.yaml
   - wildcard-cert.yaml
   - tlsstore.yaml
+  - flux-receiver.yaml
