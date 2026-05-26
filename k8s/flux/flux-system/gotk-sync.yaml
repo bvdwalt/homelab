@@ -10,8 +10,8 @@ spec:
   ref:
     branch: main
   secretRef:
-    name: flux-system
-  url: ssh://git@github.com/bvdwalt/homelab
+    name: gitea-deploy-key
+  url: ssh://git@gitea.greedo.net:222/bvdwalt/homelab.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
