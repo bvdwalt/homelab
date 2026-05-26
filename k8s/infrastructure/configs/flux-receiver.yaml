@@ -16,18 +16,16 @@ spec:
       name: flux-system
       namespace: flux-system
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: v1
+kind: Service
 metadata:
-  name: flux-webhook-receiver
+  name: webhook-receiver-nodeport
   namespace: flux-system
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`flux-webhook.greedo.net`) && PathPrefix(`/hook/`)
-      kind: Rule
-      services:
-        - name: webhook-receiver
-          port: 9292
-  tls: {}
+  type: NodePort
+  selector:
+    app: notification-controller
+  ports:
+    - port: 80
+      targetPort: http-webhook
+      nodePort: 31900
