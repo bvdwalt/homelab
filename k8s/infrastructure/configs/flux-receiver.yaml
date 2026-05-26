@@ -20,7 +20,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: webhook-proxy
-  namespace: flux-system
+  namespace: flux-proxy
 spec:
   replicas: 1
   selector:
@@ -31,13 +31,10 @@ spec:
       labels:
         app: webhook-proxy
     spec:
+      hostNetwork: true
       containers:
         - name: socat
           image: alpine/socat:latest
           args:
-            - TCP4-LISTEN:8080,fork,reuseaddr
-            - TCP4:webhook-receiver.flux-system.svc.cluster.local:80
-          ports:
-            - containerPort: 8080
-              hostPort: 31901
-              protocol: TCP
+            - TCP4-LISTEN:31901,fork,reuseaddr
+            - TCP4:10.109.151.25:80
