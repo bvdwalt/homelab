@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: gitea-deploy-key
-  url: ssh://git@gitea.greedo.net:222/bvdwalt/homelab.git
+  url: ssh://git@192.168.100.1:222/bvdwalt/homelab.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
