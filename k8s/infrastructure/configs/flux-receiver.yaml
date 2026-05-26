@@ -16,16 +16,28 @@ spec:
       name: flux-system
       namespace: flux-system
 ---
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: webhook-receiver-nodeport
+  name: webhook-proxy
   namespace: flux-system
 spec:
-  type: NodePort
+  replicas: 1
   selector:
-    app: notification-controller
-  ports:
-    - port: 80
-      targetPort: http-webhook
-      nodePort: 31900
+    matchLabels:
+      app: webhook-proxy
+  template:
+    metadata:
+      labels:
+        app: webhook-proxy
+    spec:
+      containers:
+        - name: socat
+          image: alpine/socat:latest
+          args:
+            - TCP4-LISTEN:8080,fork,reuseaddr
+            - TCP4:webhook-receiver.flux-system.svc.cluster.local:80
+          ports:
+            - containerPort: 8080
+              hostPort: 31901
+              protocol: TCP
