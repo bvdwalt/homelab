@@ -13,3 +13,4 @@ resources:
   - app-headlamp.yaml
   - app-metering.yaml
   - app-actual-budget.yaml
+  - app-homepage.yaml
