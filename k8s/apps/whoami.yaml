@@ -5,6 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  releaseName: whoami
   targetNamespace: demo
   install:
     createNamespace: true

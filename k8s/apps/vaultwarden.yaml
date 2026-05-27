@@ -5,6 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  releaseName: vaultwarden
   targetNamespace: vaultwarden
   install:
     createNamespace: true

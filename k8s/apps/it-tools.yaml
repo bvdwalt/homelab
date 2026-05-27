@@ -5,6 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  releaseName: it-tools
   targetNamespace: it-tools
   install:
     createNamespace: true

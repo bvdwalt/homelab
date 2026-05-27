@@ -5,6 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  releaseName: metering-api
   targetNamespace: metering
   install:
     createNamespace: true
