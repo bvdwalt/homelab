@@ -12,3 +12,4 @@ resources:
   - app-whoami.yaml
   - app-headlamp.yaml
   - app-metering.yaml
+  - app-actual-budget.yaml
