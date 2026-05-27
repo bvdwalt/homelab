@@ -6,3 +6,4 @@ resources:
   - wildcard-cert.yaml
   - tlsstore.yaml
   - flux-receiver.yaml
+  - traefik-proxy.yaml

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik-proxy
+  namespace: flux-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik-proxy
+  template:
+    metadata:
+      labels:
+        app: traefik-proxy
+    spec:
+      hostNetwork: true
+      containers:
+        - name: socat
+          image: alpine/socat:latest
+          args:
+            - TCP4-LISTEN:443,bind=10.13.1.166,fork,reuseaddr
+            - TCP4:10.96.22.165:443
+          securityContext:
+            capabilities:
+              add:
+                - NET_BIND_SERVICE
