@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: it-tools
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: it-tools
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: ghcr.io/corentinth/it-tools:2024.10.22-7ca5933@sha256:8b8128748339583ca951af03dfe02a9a4d7363f61a216226fc28030731a5a61f
+    port: 80
+    hostname: ittools.greedo.net
+    env:
+      TZ: "Europe/Amsterdam"
+    securityContext:
+      enabled: false

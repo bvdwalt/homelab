@@ -1,0 +1,24 @@
+image: ""
+port: 80
+hostname: ""
+strategy: RollingUpdate
+
+env: {}
+existingSecret: ""
+
+persistence:
+  enabled: false
+  size: 100Mi
+  mountPath: /data
+  storageClass: truenas-nfs
+
+securityContext:
+  enabled: true
+  runAsNonRoot: false
+  runAsUser: null
+  runAsGroup: null
+
+configFiles: {}
+existingConfigMap: ""
+configKeys: []
+configMountPath: ""

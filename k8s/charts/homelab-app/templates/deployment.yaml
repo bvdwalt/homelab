@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "homelab-app.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "homelab-app.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: {{ .Values.strategy }}
+  template:
+    metadata:
+      labels:
+        {{- include "homelab-app.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: {{ .Values.image }}
+          ports:
+            - containerPort: {{ .Values.port }}
+          {{- if .Values.env }}
+          env:
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.existingSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.existingSecret }}
+          {{- end }}
+          {{- if .Values.securityContext.enabled }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
+            {{- if .Values.securityContext.runAsNonRoot }}
+            runAsNonRoot: true
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
+            {{- end }}
+          {{- end }}
+          {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap }}
+          volumeMounts:
+            {{- if .Values.persistence.enabled }}
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+            {{- end }}
+            {{- if .Values.configFiles }}
+            {{- range $filename, $_ := .Values.configFiles }}
+            - name: config
+              mountPath: {{ $.Values.configMountPath }}/{{ $filename }}
+              subPath: {{ $filename }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.existingConfigMap }}
+            {{- range .Values.configKeys }}
+            - name: config
+              mountPath: {{ $.Values.configMountPath }}/{{ . }}
+              subPath: {{ . }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
+      {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap }}
+      volumes:
+        {{- if .Values.persistence.enabled }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-data
+        {{- end }}
+        {{- if or .Values.configFiles .Values.existingConfigMap }}
+        - name: config
+          configMap:
+            name: {{ if .Values.existingConfigMap }}{{ .Values.existingConfigMap }}{{ else }}{{ .Release.Name }}-config{{ end }}
+        {{- end }}
+      {{- end }}

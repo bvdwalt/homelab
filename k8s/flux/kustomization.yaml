@@ -7,10 +7,5 @@ resources:
   - infrastructure-secrets.yaml
   - infrastructure-releases.yaml
   - infrastructure-configs.yaml
-  - app-vaultwarden.yaml
-  - app-it-tools.yaml
-  - app-whoami.yaml
   - app-headlamp.yaml
-  - app-metering.yaml
-  - app-actual-budget.yaml
-  - app-homepage.yaml
+  - apps.yaml

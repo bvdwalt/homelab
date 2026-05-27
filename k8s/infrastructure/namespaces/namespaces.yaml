@@ -40,6 +40,11 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: pocket-id
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: flux-proxy
   labels:
     pod-security.kubernetes.io/enforce: privileged

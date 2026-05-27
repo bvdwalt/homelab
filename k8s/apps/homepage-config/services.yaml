@@ -1,0 +1,136 @@
+- Main:
+    - seerr:
+        href: https://seerr.greedo.net
+        icon: jellyseerr
+        description: Movie and TV show management
+        widget:
+            type: jellyseerr
+            url: http://seerr:5055
+            key: "{{HOMEPAGE_VAR_JELLYSEERR_KEY}}"
+    - Jellyfin:
+        href: https://jellyfin.greedo.net
+        icon: jellyfin
+        description: Media server
+        widget:
+            type: jellyfin
+            url: http://jellyfin:8096
+            key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+            enableBlocks: true
+            enableNowPlaying: true
+            enableUser: true
+            showEpisodeNumber: true
+            expandOneStreamToTwoRows: false
+    - Sonarr:
+        href: https://sonarr.greedo.net
+        icon: sonarr
+        description: TV show management
+    - Radarr:
+        href: https://radarr.greedo.net
+        icon: radarr
+        description: Movie management
+    - ActualBudget:
+        href: https://budget.greedo.net
+        icon: actual-budget
+        description: Budgeting
+    - Gitea:
+        href: https://gitea.greedo.net
+        icon: gitea
+        description: Self-Hosted Git
+    - Miniflux:
+        href: https://miniflux.greedo.net
+        icon: miniflux
+        description: Miniflux RSS Reader
+    - Linkwarden:
+        href: https://linkwarden.greedo.net
+        icon: linkwarden
+        description: Links
+    - Navidrome:
+        href: https://navidrome.greedo.net
+        icon: navidrome
+        description: Music
+
+- Media Management:
+    - Bazarr:
+        href: https://bazarr.greedo.net
+        icon: bazarr
+        description: Subtitle management
+        widget:
+            type: bazarr
+            url: http://vpn:6767
+            key: "{{HOMEPAGE_VAR_BAZARR_KEY}}"
+    - Profilarr:
+        href: https://profilarr.greedo.net
+        icon: profilarr
+        description: Profile management for content and quality
+    - Prowlarr:
+        href: https://prowlarr.greedo.net
+        icon: prowlarr
+        description: Manage indexes
+    - Transmission:
+        href: https://transmission.greedo.net
+        icon: transmission
+        description: Torrent client
+        widget:
+            type: transmission
+            url: http://vpn:9091
+            username: transmission
+            password: transmission
+            rpcUrl: /transmission/
+    - Lidarr:
+        href: https://lidarr.greedo.net
+        icon: lidarr
+        description: Music management
+    - Music Grabber:
+        href: https://musicgrabber.greedo.net
+        description: Music
+    - Beszel:
+        href: https://beszel.greedo.net
+        icon: beszel
+        description: Server Metrics
+    - Komodo:
+        href: https://komodo.greedo.net
+        icon: komodo
+        description: Docker management
+    - Arcane:
+        href: https://arcane.greedo.net
+        icon: arcane
+        description: Docker management
+
+- Other Services:
+    - Vaultwarden:
+        href: https://vw.greedo.net
+        icon: vaultwarden
+        description: Password management
+    - Dozzle:
+        href: https://dozzle.greedo.net
+        icon: dozzle
+        description: Log viewer
+    - TrueNAS:
+        href: https://truenas.local:444
+        icon: truenas
+        description: TrueNAS management
+        widget:
+          type: truenas
+          url: https://192.168.100.1:444
+          key: "{{HOMEPAGE_VAR_TRUENAS_KEY}}"
+          enablePools: true
+          nasType: scale
+    - Pocket-ID:
+        href: https://pocketid.greedo.net
+        icon: pocket-id
+        description: OIDC Auth Passkeys
+    - Traefik:
+        href: https://traefik.greedo.net
+        icon: traefik
+        description: Reverse proxy
+    - Adguard Home:
+        href: http://truenas.local:8080
+        icon: adguard-home
+        description: Adguard Home DNS Blocking
+    - Metering:
+        href: https://metering.greedo.net
+        description: Metering dashboard
+    - Change Detection:
+        href: https://changedetection.greedo.net
+        icon: changedetection
+        description: SteamDeck watchlist

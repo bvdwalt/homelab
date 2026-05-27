@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: whoami
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: demo
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: traefik/whoami:latest
+    port: 80
+    hostname: whoami.greedo.net
