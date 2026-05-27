@@ -186,7 +186,7 @@ data:
             description: TrueNAS management
             widget:
               type: truenas
-              url: https://10.13.1.165:444
+              url: https://192.168.100.1:444
               key: {{HOMEPAGE_VAR_TRUENAS_KEY}}
               enablePools: true
               nasType: scale
