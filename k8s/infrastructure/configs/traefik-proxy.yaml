@@ -18,7 +18,7 @@ spec:
         - name: socat
           image: alpine/socat:latest
           args:
-            - TCP4-LISTEN:443,bind=10.13.1.166,fork,reuseaddr
+            - TCP4-LISTEN:443,fork,reuseaddr
             - TCP4:10.96.22.165:443
           securityContext:
             capabilities:
