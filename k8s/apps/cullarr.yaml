@@ -13,7 +13,7 @@ spec:
         spec:
           restartPolicy: OnFailure
           hostAliases:
-            - ip: "10.96.22.165"
+            - ip: "192.168.100.1"
               hostnames:
                 - jellyfin.greedo.net
                 - sonarr.greedo.net
