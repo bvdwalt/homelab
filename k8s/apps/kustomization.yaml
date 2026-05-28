@@ -11,6 +11,7 @@ resources:
   - whoami.yaml
   - cullarr.yaml
   - miniflux.yaml
+  - linkwarden.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage
