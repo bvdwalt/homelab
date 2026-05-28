@@ -3,6 +3,7 @@ port: 80
 hostname: ""
 strategy: RollingUpdate
 
+args: []
 env: {}
 existingSecret: ""
 

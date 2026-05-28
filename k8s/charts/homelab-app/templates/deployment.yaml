@@ -25,6 +25,10 @@ spec:
       containers:
         - name: {{ .Release.Name }}
           image: {{ .Values.image }}
+          {{- if .Values.args }}
+          args:
+            {{- toYaml .Values.args | nindent 12 }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.port }}
           {{- if .Values.env }}
