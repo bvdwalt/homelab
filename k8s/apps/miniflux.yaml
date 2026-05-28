@@ -1,0 +1,29 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miniflux
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: miniflux
+  targetNamespace: miniflux
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: ghcr.io/miniflux/miniflux:2.3.0@sha256:65266db84761d09d999946218adfc91fd7abbd4a1086f74b3ad0e51083e30df2
+    port: 8080
+    hostname: miniflux.greedo.net
+    env:
+      BASE_URL: "https://miniflux.greedo.net"
+      RUN_MIGRATIONS: "1"
+      CREATE_ADMIN: "1"
+      ADMIN_USERNAME: "admin"
+      TZ: "Europe/Amsterdam"
+    existingSecret: miniflux

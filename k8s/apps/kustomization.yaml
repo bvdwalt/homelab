@@ -10,6 +10,7 @@ resources:
   - it-tools.yaml
   - whoami.yaml
   - cullarr.yaml
+  - miniflux.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage
