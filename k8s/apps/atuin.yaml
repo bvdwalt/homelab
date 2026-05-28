@@ -28,8 +28,8 @@ spec:
       ATUIN_OPEN_REGISTRATION: "false"
       TZ: "Europe/Amsterdam"
     existingSecret: atuin
+    persistence:
+      enabled: true
+      mountPath: /config
     securityContext:
       enabled: true
-      runAsNonRoot: true
-      runAsUser: 3013
-      runAsGroup: 3013
