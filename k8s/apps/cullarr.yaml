@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cullarr
+  namespace: cullarr
+spec:
+  schedule: "0 3 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: cullarr
+              image: robotwizard/cullarr:0.3.3@sha256:a59d31641bfe6326a6b64bd07f67f9cbd8d8e95824259a67369b7bd2feb5b1da
+              env:
+                - name: CULLARR_JELLYFIN_URL
+                  value: https://jellyfin.greedo.net
+                - name: CULLARR_SONARR_URL
+                  value: https://sonarr.greedo.net
+                - name: CULLARR_SONARR_ENABLED
+                  value: "true"
+                - name: CULLARR_SONARR_UNMONITOR
+                  value: "true"
+                - name: CULLARR_RADARR_URL
+                  value: https://radarr.greedo.net
+                - name: CULLARR_RADARR_ENABLED
+                  value: "true"
+                - name: CULLARR_RADARR_REMOVE
+                  value: "true"
+                - name: CULLARR_DRY_RUN
+                  value: "false"
+                - name: TZ
+                  value: Europe/Amsterdam
+              envFrom:
+                - secretRef:
+                    name: cullarr

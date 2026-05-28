@@ -9,6 +9,7 @@ resources:
   - homepage.yaml
   - it-tools.yaml
   - whoami.yaml
+  - cullarr.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage
