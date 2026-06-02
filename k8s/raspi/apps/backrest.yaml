@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: backrest
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: backrest
+  targetNamespace: backrest
+  install:
+    createNamespace: false
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: ghcr.io/garethgeorge/backrest:v1.13.0
+    strategy: Recreate
+    port: 9898
+    hostname: backrest-raspi.greedo.net
+    env:
+      BACKREST_PORT: "0.0.0.0:9898"
+      BACKREST_DATA: /data
+      BACKREST_CONFIG: /data/config.json
+      XDG_CACHE_HOME: /data/cache
+      TZ: Europe/Amsterdam
+    existingSecret: backrest
+    persistence:
+      enabled: true
+      storageClass: local-path
+      size: 1Gi
+      mountPath: /data
