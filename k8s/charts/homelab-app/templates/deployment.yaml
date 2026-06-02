@@ -56,7 +56,7 @@ spec:
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
             {{- end }}
           {{- end }}
-          {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap }}
+          {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap .Values.hostPaths }}
           volumeMounts:
             {{- if .Values.persistence.enabled }}
             - name: data
@@ -76,8 +76,13 @@ spec:
               subPath: {{ . }}
             {{- end }}
             {{- end }}
+            {{- range .Values.hostPaths }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              readOnly: {{ .readOnly | default false }}
+            {{- end }}
           {{- end }}
-      {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap }}
+      {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap .Values.hostPaths }}
       volumes:
         {{- if .Values.persistence.enabled }}
         - name: data
@@ -88,5 +93,10 @@ spec:
         - name: config
           configMap:
             name: {{ if .Values.existingConfigMap }}{{ .Values.existingConfigMap }}{{ else }}{{ .Release.Name }}-config{{ end }}
+        {{- end }}
+        {{- range .Values.hostPaths }}
+        - name: {{ .name }}
+          hostPath:
+            path: {{ .hostPath }}
         {{- end }}
       {{- end }}

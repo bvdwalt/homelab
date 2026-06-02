@@ -23,3 +23,9 @@ configFiles: {}
 existingConfigMap: ""
 configKeys: []
 configMountPath: ""
+
+hostPaths: []
+# - name: pvcs
+#   hostPath: /var/lib/rancher/k3s/storage
+#   mountPath: /pvcs
+#   readOnly: true

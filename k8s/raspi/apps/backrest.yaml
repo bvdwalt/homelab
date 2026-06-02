@@ -33,3 +33,8 @@ spec:
       storageClass: local-path
       size: 1Gi
       mountPath: /data
+    hostPaths:
+      - name: pvcs
+        hostPath: /var/lib/rancher/k3s/storage
+        mountPath: /pvcs
+        readOnly: true
