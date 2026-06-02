@@ -24,6 +24,8 @@ existingConfigMap: ""
 configKeys: []
 configMountPath: ""
 
+hostNetwork: false
+
 hostPaths: []
 # - name: pvcs
 #   hostPath: /var/lib/rancher/k3s/storage

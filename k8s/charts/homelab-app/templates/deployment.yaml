@@ -22,6 +22,10 @@ spec:
       labels:
         {{- include "homelab-app.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.hostNetwork }}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
       containers:
         - name: {{ .Release.Name }}
           image: {{ .Values.image }}
