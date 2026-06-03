@@ -12,6 +12,7 @@ resources:
   - vaultwarden.yaml
   - pocket-id.yaml
   - homepage.yaml
+  - metering-api.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage
