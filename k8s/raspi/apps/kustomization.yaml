@@ -15,6 +15,7 @@ resources:
   - metering-api.yaml
   - miniflux.yaml
   - linkwarden.yaml
+  - atuin.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage
