@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: ghcr.io/miniflux/miniflux:2.3.0@sha256:65266db84761d09d999946218adfc91fd7abbd4a1086f74b3ad0e51083e30df2
+    image: ghcr.io/miniflux/miniflux:2.3.1@sha256:65266db84761d09d999946218adfc91fd7abbd4a1086f74b3ad0e51083e30df2
     port: 8080
     hostname: miniflux.greedo.net
     env:
