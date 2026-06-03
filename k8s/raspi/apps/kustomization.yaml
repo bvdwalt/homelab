@@ -5,3 +5,4 @@ resources:
   - whoami.yaml
   - beszel-hub.yaml
   - beszel-agent.yaml
+  - it-tools.yaml

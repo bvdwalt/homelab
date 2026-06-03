@@ -7,7 +7,6 @@ resources:
   - metering-api.yaml
   - metering-dashboard.yaml
   - homepage.yaml
-  - it-tools.yaml
   - whoami.yaml
   - cullarr.yaml
   - miniflux.yaml
