@@ -9,3 +9,4 @@ resources:
   - cullarr.yaml
   - metering-dashboard.yaml
   - actual-budget.yaml
+  - vaultwarden.yaml

@@ -1,0 +1,36 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vaultwarden
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: vaultwarden
+  targetNamespace: vaultwarden
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: vaultwarden/server:1.36.0@sha256:d626d04934cd1192ad8ced1adb975099fca78cec33ab467d2d3c923cde7f3b0c
+    port: 8080
+    hostname: vw.greedo.net
+    strategy: Recreate
+    env:
+      DOMAIN: "https://vw.greedo.net"
+      TZ: "Europe/Amsterdam"
+      ROCKET_PORT: "8080"
+    persistence:
+      enabled: true
+      mountPath: /data
+      storageClass: local-path
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 65534
+      runAsGroup: 65534
