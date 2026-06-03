@@ -6,3 +6,4 @@ resources:
   - beszel-hub.yaml
   - beszel-agent.yaml
   - it-tools.yaml
+  - cullarr.yaml

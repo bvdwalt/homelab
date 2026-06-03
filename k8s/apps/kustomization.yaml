@@ -8,7 +8,6 @@ resources:
   - metering-dashboard.yaml
   - homepage.yaml
   - whoami.yaml
-  - cullarr.yaml
   - miniflux.yaml
   - linkwarden.yaml
   - atuin.yaml

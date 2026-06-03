@@ -12,12 +12,6 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
-          hostAliases:
-            - ip: "192.168.100.1"
-              hostnames:
-                - jellyfin.greedo.net
-                - sonarr.greedo.net
-                - radarr.greedo.net
           containers:
             - name: cullarr
               image: robotwizard/cullarr:0.3.3@sha256:a59d31641bfe6326a6b64bd07f67f9cbd8d8e95824259a67369b7bd2feb5b1da
