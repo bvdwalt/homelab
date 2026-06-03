@@ -5,7 +5,6 @@ resources:
   - actual-budget.yaml
   - pocket-id.yaml
   - metering-api.yaml
-  - metering-dashboard.yaml
   - homepage.yaml
   - whoami.yaml
   - miniflux.yaml

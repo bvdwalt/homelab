@@ -7,3 +7,4 @@ resources:
   - beszel-agent.yaml
   - it-tools.yaml
   - cullarr.yaml
+  - metering-dashboard.yaml
