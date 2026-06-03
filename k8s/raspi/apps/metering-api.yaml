@@ -21,7 +21,7 @@ spec:
     port: 8080
     hostname: metering-api.greedo.net
     env:
-      POSTGRES_HOST: "10.13.1.165"
+      POSTGRES_HOST: "postgres.greedo.net"
       POSTGRES_USER: "app"
       POSTGRES_DB: "data"
       TZ: "Europe/Amsterdam"
