@@ -28,7 +28,6 @@ spec:
     persistence:
       enabled: true
       mountPath: /data
-      storageClass: local-path
     securityContext:
       enabled: true
       runAsNonRoot: true

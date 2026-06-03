@@ -27,4 +27,3 @@ spec:
       enabled: true
       size: 100Mi
       mountPath: /data
-      storageClass: local-path

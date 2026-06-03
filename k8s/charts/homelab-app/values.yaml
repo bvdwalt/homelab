@@ -11,7 +11,7 @@ persistence:
   enabled: false
   size: 100Mi
   mountPath: /data
-  storageClass: truenas-nfs
+  storageClass: local-path
 
 securityContext:
   enabled: true

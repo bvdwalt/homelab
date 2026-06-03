@@ -28,4 +28,3 @@ spec:
     persistence:
       enabled: true
       mountPath: /data/data
-      storageClass: local-path

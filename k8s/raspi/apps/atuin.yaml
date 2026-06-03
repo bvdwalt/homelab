@@ -31,7 +31,6 @@ spec:
     persistence:
       enabled: true
       mountPath: /config
-      storageClass: local-path
     securityContext:
       enabled: true
       runAsNonRoot: true

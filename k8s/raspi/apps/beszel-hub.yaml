@@ -25,6 +25,5 @@ spec:
       TZ: Europe/Amsterdam
     persistence:
       enabled: true
-      storageClass: local-path
       size: 1Gi
       mountPath: /beszel_data

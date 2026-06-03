@@ -30,7 +30,6 @@ spec:
       enabled: true
       size: 100Mi
       mountPath: /app/data
-      storageClass: local-path
     securityContext:
       enabled: true
       runAsNonRoot: true
