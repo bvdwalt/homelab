@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pocket-id
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: pocket-id
+  targetNamespace: pocket-id
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: ghcr.io/pocket-id/pocket-id:v2.7.0@sha256:45bdeaf3fcd6d07cf8721e98785d93324bb8e65b586498874c05a3d489c8094e
+    port: 1411
+    hostname: pocketid.greedo.net
+    strategy: Recreate
+    env:
+      APP_URL: "https://pocketid.greedo.net"
+      TRUST_PROXY: "true"
+      TZ: "Europe/Amsterdam"
+    existingSecret: pocket-id-secrets
+    persistence:
+      enabled: true
+      size: 100Mi
+      mountPath: /app/data
+      storageClass: local-path
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 3004
+      runAsGroup: 3004

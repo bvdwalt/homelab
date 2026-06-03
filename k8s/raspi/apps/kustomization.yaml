@@ -10,3 +10,4 @@ resources:
   - metering-dashboard.yaml
   - actual-budget.yaml
   - vaultwarden.yaml
+  - pocket-id.yaml
