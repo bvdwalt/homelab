@@ -5,7 +5,7 @@
         description: Movie and TV show management
         widget:
             type: jellyseerr
-            url: http://seerr:5055
+            url: https://seerr.greedo.net
             key: "{{HOMEPAGE_VAR_JELLYSEERR_KEY}}"
     - Jellyfin:
         href: https://jellyfin.greedo.net
@@ -13,7 +13,7 @@
         description: Media server
         widget:
             type: jellyfin
-            url: http://jellyfin:8096
+            url: https://jellyfin.greedo.net
             key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
             enableBlocks: true
             enableNowPlaying: true
@@ -56,7 +56,7 @@
         description: Subtitle management
         widget:
             type: bazarr
-            url: http://vpn:6767
+            url: https://bazarr.greedo.net
             key: "{{HOMEPAGE_VAR_BAZARR_KEY}}"
     - Profilarr:
         href: https://profilarr.greedo.net
@@ -72,7 +72,7 @@
         description: Torrent client
         widget:
             type: transmission
-            url: http://vpn:9091
+            url: https://transmission.greedo.net
             username: transmission
             password: transmission
             rpcUrl: /transmission/
@@ -111,7 +111,7 @@
         description: TrueNAS management
         widget:
           type: truenas
-          url: https://192.168.100.1:444
+          url: https://10.13.1.165:444
           key: "{{HOMEPAGE_VAR_TRUENAS_KEY}}"
           enablePools: true
           nasType: scale

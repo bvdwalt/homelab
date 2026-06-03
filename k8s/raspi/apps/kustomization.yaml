@@ -11,3 +11,18 @@ resources:
   - actual-budget.yaml
   - vaultwarden.yaml
   - pocket-id.yaml
+  - homepage.yaml
+configMapGenerator:
+  - name: homepage-config
+    namespace: homepage
+    options:
+      disableNameSuffixHash: true
+    files:
+      - homepage-config/settings.yaml
+      - homepage-config/bookmarks.yaml
+      - homepage-config/widgets.yaml
+      - homepage-config/services.yaml
+      - homepage-config/kubernetes.yaml
+      - homepage-config/docker.yaml
+      - homepage-config/custom.css
+      - homepage-config/custom.js
