@@ -73,7 +73,8 @@
         widget:
             type: qbittorrent
             url: https://downloads.greedo.net
-            apiKey: "{{HOMEPAGE_VAR_QBITTORRENT_KEY}}"
+            username: "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}"
     - Lidarr:
         href: https://lidarr.greedo.net
         icon: lidarr
