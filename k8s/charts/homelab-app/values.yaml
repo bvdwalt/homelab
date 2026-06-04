@@ -26,6 +26,8 @@ existingConfigMap: ""
 configKeys: []
 configMountPath: ""
 
+initContainers: []
+
 hostNetwork: false
 
 hostPaths: []
