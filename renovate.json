@@ -6,15 +6,5 @@
     "managerFilePatterns": [
       "/(^|/)k8s/[^/]+/.+\\.yaml$/"
     ]
-  },
-  "regexManagers": [
-    {
-      "fileMatch": ["k8s/[^/]+/apps/.+\\.yaml$"],
-      "matchStrings": [
-        "image: (?<depName>[^:]+):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]+)",
-        "image: (?<depName>[^:]+):(?<currentValue>[^@\\s]+)"
-      ],
-      "datasourceTemplate": "docker"
-    }
-  ]
+  }
 }
