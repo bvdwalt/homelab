@@ -56,7 +56,7 @@
         description: Subtitle management
         widget:
             type: bazarr
-            url: https://bazarr.greedo.net
+            url: http://bazarr.greedo.net:6767
             key: "{{HOMEPAGE_VAR_BAZARR_KEY}}"
     - Profilarr:
         href: https://profilarr.greedo.net
