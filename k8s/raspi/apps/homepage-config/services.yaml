@@ -66,16 +66,14 @@
         href: https://prowlarr.greedo.net
         icon: prowlarr
         description: Manage indexes
-    - Transmission:
-        href: https://transmission.greedo.net
-        icon: transmission
+    - qBittorrent:
+        href: https://downloads.greedo.net
+        icon: qbittorrent
         description: Torrent client
         widget:
-            type: transmission
-            url: https://transmission.greedo.net
-            username: transmission
-            password: transmission
-            rpcUrl: /transmission/
+            type: qbittorrent
+            url: https://downloads.greedo.net
+            apiKey: "{{HOMEPAGE_VAR_QBITTORRENT_KEY}}"
     - Lidarr:
         href: https://lidarr.greedo.net
         icon: lidarr
