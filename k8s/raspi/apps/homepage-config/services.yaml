@@ -72,7 +72,7 @@
         description: Torrent client
         widget:
             type: qbittorrent
-            url: https://downloads.greedo.net
+            url: http://10.13.1.165:8082
             username: "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}"
             password: "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}"
     - Lidarr:
