@@ -52,6 +52,9 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop: ["ALL"]
+              {{- if .Values.securityContext.capabilities.add }}
+              add: {{ toJson .Values.securityContext.capabilities.add }}
+              {{- end }}
             seccompProfile:
               type: RuntimeDefault
             {{- if .Values.securityContext.runAsNonRoot }}

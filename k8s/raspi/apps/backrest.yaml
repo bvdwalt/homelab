@@ -32,6 +32,9 @@ spec:
       enabled: true
       size: 1Gi
       mountPath: /data
+    securityContext:
+      capabilities:
+        add: [DAC_READ_SEARCH]
     hostPaths:
       - name: pvcs
         hostPath: /var/lib/rancher/k3s/storage

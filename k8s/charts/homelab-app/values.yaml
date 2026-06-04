@@ -18,6 +18,8 @@ securityContext:
   runAsNonRoot: false
   runAsUser: null
   runAsGroup: null
+  capabilities:
+    add: []
 
 configFiles: {}
 existingConfigMap: ""
