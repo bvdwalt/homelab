@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: ghcr.io/pocket-id/pocket-id:v2.8.0@sha256:45bdeaf3fcd6d07cf8721e98785d93324bb8e65b586498874c05a3d489c8094e
+    image: ghcr.io/pocket-id/pocket-id:v2.8.0@sha256:a073640418b2cfc8587c488a7270580b3ab95cae2c543f5d64bbbe1fd7ccbae8
     port: 1411
     hostname: pocketid.greedo.net
     strategy: Recreate
