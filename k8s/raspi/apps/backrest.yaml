@@ -40,7 +40,7 @@ spec:
     configMountPath: /excludes
     initContainers:
       - name: sync-excludes
-        image: python:3.12-alpine
+        image: python:3.14-alpine
         command: [python3, /excludes/sync-excludes.py]
         volumeMounts:
           - name: data
