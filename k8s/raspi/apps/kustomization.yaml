@@ -17,6 +17,7 @@ resources:
   - miniflux.yaml
   - linkwarden.yaml
   - atuin.yaml
+  - speedtest-tracker.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage

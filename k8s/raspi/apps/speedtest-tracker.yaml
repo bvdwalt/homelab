@@ -1,0 +1,32 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: speedtest-tracker
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: speedtest-tracker
+  targetNamespace: speedtest-tracker
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: lscr.io/linuxserver/speedtest-tracker:1.14.3@sha256:79c00631575dec6d91c10ed904c211224f00813013a305c2284324e195a538bb
+    port: 80
+    hostname: speedtest.greedo.net
+    strategy: Recreate
+    env:
+      TZ: "Europe/Amsterdam"
+      PUID: "1000"
+      PGID: "1000"
+    existingSecret: speedtest-tracker
+    persistence:
+      enabled: true
+      size: 500Mi
+      mountPath: /config
