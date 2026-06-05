@@ -32,9 +32,3 @@ spec:
       enabled: true
       size: 500Mi
       mountPath: /config
-    configFiles:
-      tz-override.conf: |
-        [www]
-        env[APP_TIMEZONE] = Europe/Amsterdam
-        env[DISPLAY_TIMEZONE] = Europe/Amsterdam
-    configMountPath: /etc/php84/php-fpm.d
