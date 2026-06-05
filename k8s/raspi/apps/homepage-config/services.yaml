@@ -140,3 +140,4 @@
         widget:
             type: speedtest
             url: https://speedtest.greedo.net
+            key: "{{HOMEPAGE_VAR_SPEEDTEST_KEY}}"
