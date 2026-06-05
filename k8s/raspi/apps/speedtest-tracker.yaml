@@ -23,6 +23,7 @@ spec:
     strategy: Recreate
     env:
       TZ: "Europe/Amsterdam"
+      APP_TIMEZONE: "Europe/Amsterdam"
       SPEEDTEST_SCHEDULE: "0 * * * *"
     existingSecret: speedtest-tracker
     securityContext:
