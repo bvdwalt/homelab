@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: robotwizard/overdrive:0.1.4@sha256:f901f26cfd5d381f672de81f0546a9771556c94247c842e3c4868d46fc424367
+    image: robotwizard/overdrive:0.1.4@sha256:a93f930c227fc71d019f3fc8d6750f91d1c76dae94f69d5bfa09bd18dcc0dd8c
     port: 8080
     hostname: overdrive.greedo.net
     strategy: Recreate
