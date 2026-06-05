@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: overdrive
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: overdrive
+  targetNamespace: overdrive
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: robotwizard/overdrive:0.1.4@sha256:f901f26cfd5d381f672de81f0546a9771556c94247c842e3c4868d46fc424367
+    port: 8080
+    hostname: overdrive.greedo.net
+    strategy: Recreate
+    env:
+      TZ: "Europe/Amsterdam"
+    securityContext:
+      enabled: false
+    persistence:
+      enabled: true
+      size: 500Mi
+      mountPath: /data

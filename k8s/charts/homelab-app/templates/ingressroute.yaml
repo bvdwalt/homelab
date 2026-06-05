@@ -12,6 +12,13 @@ spec:
   routes:
     - match: Host(`{{ .Values.hostname }}`)
       kind: Rule
+      {{- if .Values.middlewares }}
+      middlewares:
+        {{- range .Values.middlewares }}
+        - name: {{ .name }}
+          namespace: {{ .namespace }}
+        {{- end }}
+      {{- end }}
       services:
         - name: {{ .Release.Name }}
           port: 80

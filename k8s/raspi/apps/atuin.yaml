@@ -27,6 +27,7 @@ spec:
       ATUIN_PORT: "8888"
       ATUIN_OPEN_REGISTRATION: "false"
       TZ: "Europe/Amsterdam"
+    middlewares: []
     existingSecret: atuin
     persistence:
       enabled: true

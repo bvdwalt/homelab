@@ -18,6 +18,7 @@ resources:
   - linkwarden.yaml
   - atuin.yaml
   - speedtest-tracker.yaml
+  - overdrive.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage

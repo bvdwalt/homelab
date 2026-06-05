@@ -3,6 +3,10 @@ port: 80
 hostname: ""
 strategy: RollingUpdate
 
+middlewares:
+  - name: oidc-auth
+    namespace: kube-system
+
 args: []
 env: {}
 existingSecret: ""

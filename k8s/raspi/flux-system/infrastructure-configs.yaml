@@ -12,3 +12,8 @@ spec:
     name: flux-system
   dependsOn:
     - name: infrastructure-releases
+    - name: infrastructure-secrets
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: oidc-auth

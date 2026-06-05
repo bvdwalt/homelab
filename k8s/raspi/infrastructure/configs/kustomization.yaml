@@ -4,3 +4,5 @@ resources:
   - clusterissuer.yaml
   - wildcard-cert.yaml
   - tlsstore.yaml
+  - traefik.yaml
+  - oidc-auth.yaml
