@@ -23,9 +23,9 @@ spec:
     strategy: Recreate
     env:
       TZ: "Europe/Amsterdam"
-      PUID: "1000"
-      PGID: "1000"
     existingSecret: speedtest-tracker
+    securityContext:
+      enabled: false
     persistence:
       enabled: true
       size: 500Mi
