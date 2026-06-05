@@ -23,7 +23,6 @@ spec:
     strategy: Recreate
     env:
       TZ: "Europe/Amsterdam"
-      APP_TIMEZONE: "Europe/Amsterdam"
       SPEEDTEST_SCHEDULE: "0 * * * *"
     existingSecret: speedtest-tracker
     securityContext:
@@ -33,6 +32,7 @@ spec:
       size: 500Mi
       mountPath: /config
     configFiles:
-      tz-override.ini: |
-        date.timezone = Europe/Amsterdam
-    configMountPath: /etc/php84/conf.d
+      tz-override.conf: |
+        [www]
+        env[APP_TIMEZONE] = Europe/Amsterdam
+    configMountPath: /etc/php84/php-fpm.d
