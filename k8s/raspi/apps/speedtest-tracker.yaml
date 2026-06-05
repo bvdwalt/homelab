@@ -32,3 +32,7 @@ spec:
       enabled: true
       size: 500Mi
       mountPath: /config
+    configFiles:
+      tz-override.ini: |
+        date.timezone = Europe/Amsterdam
+    configMountPath: /etc/php84/conf.d
