@@ -27,14 +27,14 @@ spec:
       - --web-addr
       - 0.0.0.0:8080
       - --config
-      - /opt/adguardhome/conf/AdGuardHome.yaml
+      - /data/conf/AdGuardHome.yaml
       - --work-dir
-      - /opt/adguardhome/work
+      - /data/work
     env:
       TZ: Europe/Amsterdam
     persistence:
       enabled: true
-      mountPath: /opt/adguardhome
+      mountPath: /data
       size: 1Gi
     securityContext:
       enabled: true
