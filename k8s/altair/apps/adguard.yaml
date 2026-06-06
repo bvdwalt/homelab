@@ -1,0 +1,44 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: adguard
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: adguard
+  targetNamespace: adguard
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: adguard/adguardhome:v0.107.77
+    port: 8080
+    hostname: adguard.greedo.net
+    strategy: Recreate
+    hostNetwork: true
+    args:
+      - --no-check-update
+      - --web-addr
+      - 0.0.0.0:8080
+      - --config
+      - /opt/adguardhome/conf/AdGuardHome.yaml
+      - --work-dir
+      - /opt/adguardhome/work
+    env:
+      TZ: Europe/Amsterdam
+    persistence:
+      enabled: true
+      mountPath: /opt/adguardhome
+      size: 1Gi
+    securityContext:
+      enabled: true
+      runAsNonRoot: false
+      capabilities:
+        add:
+          - NET_BIND_SERVICE
