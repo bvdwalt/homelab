@@ -3,3 +3,10 @@ kind: Kustomization
 resources:
   - whoami.yaml
   - adguard.yaml
+configMapGenerator:
+  - name: adguard-config
+    namespace: adguard
+    options:
+      disableNameSuffixHash: true
+    files:
+      - adguard-config/AdGuardHome.yaml

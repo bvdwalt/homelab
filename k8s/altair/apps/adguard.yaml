@@ -36,6 +36,29 @@ spec:
       enabled: true
       mountPath: /data
       size: 1Gi
+    existingConfigMap: adguard-config
+    configKeys:
+      - AdGuardHome.yaml
+    configMountPath: /config-seed
+    initContainers:
+      - name: config-seed
+        image: busybox
+        command:
+          - sh
+          - -c
+          - |
+            if [ ! -f /data/conf/AdGuardHome.yaml ]; then
+              mkdir -p /data/conf
+              cp /config-seed/AdGuardHome.yaml /data/conf/AdGuardHome.yaml
+              echo "Config seeded from ConfigMap"
+            else
+              echo "Config already exists, skipping seed"
+            fi
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: config
+            mountPath: /config-seed
     securityContext:
       enabled: true
       runAsNonRoot: false
