@@ -3,6 +3,9 @@ kind: Kustomization
 resources:
   - whoami.yaml
   - adguard.yaml
+  - jellyfin.yaml
+  - seerr.yaml
+  - navidrome.yaml
 configMapGenerator:
   - name: adguard-config
     namespace: adguard

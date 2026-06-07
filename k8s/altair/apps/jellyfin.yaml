@@ -1,0 +1,40 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: jellyfin
+  targetNamespace: jellyfin
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: lscr.io/linuxserver/jellyfin:10.11.10
+    port: 8096
+    hostname: jellyfin.greedo.net
+    strategy: Recreate
+    env:
+      PUID: "1000"
+      PGID: "993"
+      TZ: Europe/Amsterdam
+    persistence:
+      enabled: true
+      mountPath: /config
+      size: 10Gi
+    hostPaths:
+      - name: dri
+        hostPath: /dev/dri
+        mountPath: /dev/dri
+      - name: media
+        hostPath: /mnt/media
+        mountPath: /data/media
+    securityContext:
+      enabled: false
