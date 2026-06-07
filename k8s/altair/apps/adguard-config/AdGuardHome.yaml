@@ -296,7 +296,7 @@ filtering:
       answer: 10.13.1.164
       enabled: true
     - domain: '*.greedo.net'
-      answer: 10.13.1.165
+      answer: 10.13.1.167
       enabled: true
     - domain: raspi.local
       answer: 10.13.1.164
