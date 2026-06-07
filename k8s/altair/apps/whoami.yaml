@@ -19,4 +19,4 @@ spec:
   values:
     image: traefik/whoami:latest
     port: 80
-    hostname: whoami-altair.greedo.net
+    hostname: whoami.greedo.net

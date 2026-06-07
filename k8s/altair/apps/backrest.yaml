@@ -20,7 +20,7 @@ spec:
     image: ghcr.io/garethgeorge/backrest:v1.13.0
     strategy: Recreate
     port: 9898
-    hostname: backrest-altair.greedo.net
+    hostname: backrest.greedo.net
     env:
       BACKREST_PORT: "0.0.0.0:9898"
       BACKREST_DATA: /data

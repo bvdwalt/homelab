@@ -349,16 +349,16 @@ filtering:
     - domain: beszel.greedo.net
       answer: 10.13.1.164
       enabled: true
-    - domain: whoami-altair.greedo.net
-      answer: 10.13.1.166
-      enabled: true
     - domain: speedtest.greedo.net
       answer: 10.13.1.164
       enabled: true
     - domain: overdrive.greedo.net
       answer: 10.13.1.164
       enabled: true
-    - domain: whoami-altair.greedo.net
+    - domain: whoami.greedo.net
+      answer: 10.13.1.167
+      enabled: true
+    - domain: backrest.greedo.net
       answer: 10.13.1.167
       enabled: true
   safe_fs_patterns:
