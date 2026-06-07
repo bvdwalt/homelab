@@ -33,8 +33,14 @@ spec:
       - name: dri
         hostPath: /dev/dri
         mountPath: /dev/dri
-      - name: media
-        hostPath: /mnt/media
-        mountPath: /data/media
+      - name: shows
+        hostPath: /mnt/media/shows
+        mountPath: /shows
+      - name: movies
+        hostPath: /mnt/media/movies
+        mountPath: /movies
+      - name: music
+        hostPath: /mnt/media/music
+        mountPath: /music
     securityContext:
       enabled: false
