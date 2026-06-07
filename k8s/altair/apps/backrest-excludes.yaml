@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backrest-excludes
+  namespace: backrest
+data:
+  excludes.txt: |
+    # Backrest own cache
+    /data/cache
+
+    # SQLite WAL/SHM — transient, not needed for restore
+    *.db-wal
+    *.db-shm
+    *.sqlite-wal
+    *.sqlite-shm
+
+    # Logs
+    **/logs
+    *.log
+    *.log.*
+
+    # Internal app backups — redundant with restic versioning
+    **/Backups
+    **/backups
+    **/backup
+
+    # Git metadata
+    **/.git
+
+    # Temp/lock files
+    *.tmp
+    *.pid
+    *.lock
+    *.bak
+
+    # AdGuard query logs and filter cache — large, not useful for restore
+    **/adguard/*/work
+
+  sync-excludes.py: |
+    #!/usr/bin/env python3
+    """Sync excludes.txt into all plans in Backrest's config.json."""
+
+    import json
+    import shutil
+    import sys
+    from pathlib import Path
+
+    EXCLUDES_FILE = Path("/excludes/excludes.txt")
+    CONFIG_FILE = Path("/data/config.json")
+
+
+    def parse_excludes(path: Path) -> list[str]:
+        excludes = []
+        for line in path.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#"):
+                excludes.append(line)
+        return excludes
+
+
+    def main() -> None:
+        if not EXCLUDES_FILE.exists():
+            sys.exit(f"excludes.txt not found at {EXCLUDES_FILE}")
+        if not CONFIG_FILE.exists():
+            print(f"config.json not found at {CONFIG_FILE}, skipping (first run?)")
+            return
+
+        excludes = parse_excludes(EXCLUDES_FILE)
+        print(f"Parsed {len(excludes)} excludes from {EXCLUDES_FILE.name}")
+
+        config = json.loads(CONFIG_FILE.read_text())
+
+        for plan in config.get("plans", []):
+            plan_id = plan.get("id", "?")
+            old = plan.get("excludes", [])
+            plan["excludes"] = excludes
+            print(f"  Plan '{plan_id}': {len(old)} -> {len(excludes)} excludes")
+
+        backup = CONFIG_FILE.with_suffix(".json.bak")
+        shutil.copy2(CONFIG_FILE, backup)
+        CONFIG_FILE.write_text(json.dumps(config, indent=2))
+        print(f"Config updated (backup at {backup.name})")
+
+
+    if __name__ == "__main__":
+        main()

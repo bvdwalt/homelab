@@ -9,6 +9,8 @@ resources:
   - downloads
   - postgresql
   - gitea
+  - backrest.yaml
+  - backrest-excludes.yaml
 configMapGenerator:
   - name: adguard-config
     namespace: adguard
