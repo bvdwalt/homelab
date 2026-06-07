@@ -8,6 +8,7 @@ resources:
   - navidrome.yaml
   - downloads
   - postgresql
+  - gitea
 configMapGenerator:
   - name: adguard-config
     namespace: adguard
