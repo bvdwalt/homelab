@@ -1,0 +1,145 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radarr
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`radarr.greedo.net`)
+      services:
+        - name: radarr
+          port: 80
+    - kind: Rule
+      match: Host(`radarr.greedo.net`) && PathPrefix(`/api`)
+      services:
+        - name: radarr
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarr
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`sonarr.greedo.net`)
+      services:
+        - name: sonarr
+          port: 80
+    - kind: Rule
+      match: Host(`sonarr.greedo.net`) && PathPrefix(`/api`)
+      services:
+        - name: sonarr
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lidarr
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`lidarr.greedo.net`)
+      services:
+        - name: lidarr
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bazarr
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`bazarr.greedo.net`)
+      services:
+        - name: bazarr
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prowlarr
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`prowlarr.greedo.net`)
+      services:
+        - name: prowlarr
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: qbittorrent
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`downloads.greedo.net`)
+      services:
+        - name: qbittorrent
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: flaresolverr
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`flaresolverr.greedo.net`)
+      services:
+        - name: flaresolverr
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: profilarr
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`profilarr.greedo.net`)
+      services:
+        - name: profilarr
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: music-grabber
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`musicgrabber.greedo.net`)
+      services:
+        - name: music-grabber
+          port: 80
+  tls: {}

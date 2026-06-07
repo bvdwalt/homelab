@@ -1,0 +1,224 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: downloads
+  namespace: downloads
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: downloads
+  template:
+    metadata:
+      labels:
+        app: downloads
+    spec:
+      containers:
+        - name: gluetun
+          image: qmcgaw/gluetun:v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+          envFrom:
+            - secretRef:
+                name: downloads-vpn
+          env:
+            - name: VPN_SERVICE_PROVIDER
+              value: mullvad
+            - name: VPN_TYPE
+              value: wireguard
+            - name: SERVER_COUNTRIES
+              value: Netherlands
+            - name: WIREGUARD_ADDRESSES
+              value: 10.74.116.211/32
+            - name: FIREWALL_INPUT_PORTS
+              value: "7878,8989,8686,9696,6767,8191,8082,6868,8080,51413"
+            - name: FIREWALL_OUTBOUND_SUBNETS
+              value: "10.42.0.0/16,10.43.0.0/16,10.13.1.0/24"
+          volumeMounts:
+            - name: tun
+              mountPath: /dev/net/tun
+
+        - name: radarr
+          image: lscr.io/linuxserver/radarr:6.1.1@sha256:c0a4335d4249b46102f64cf6fa27ffc3bddfd9138fac1e4ddf238afd37f02d1f
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          volumeMounts:
+            - name: radarr-config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+            - name: movies
+              mountPath: /movies
+
+        - name: sonarr
+          image: lscr.io/linuxserver/sonarr:4.0.17@sha256:0b5c4803f92456fb9b65bae8375716ea120b4ea17b3cced7da32b63f0085782b
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          volumeMounts:
+            - name: sonarr-config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+            - name: shows
+              mountPath: /shows
+
+        - name: lidarr
+          image: lscr.io/linuxserver/lidarr:3.1.0.4875-ls20@sha256:7aa2f4d4ac373a989a6e773d4c43c6a81bccf45cdf2598f74f1dbf6cede8e467
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          volumeMounts:
+            - name: lidarr-config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+            - name: music
+              mountPath: /music
+
+        - name: bazarr
+          image: lscr.io/linuxserver/bazarr:1.5.6@sha256:4b5e510042bf471c8bafab89cada9774fba2fb25f16ec64235151cacbe847c10
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          volumeMounts:
+            - name: bazarr-config
+              mountPath: /config
+            - name: movies
+              mountPath: /movies
+            - name: shows
+              mountPath: /shows
+
+        - name: prowlarr
+          image: lscr.io/linuxserver/prowlarr:2.3.5@sha256:2489c6dbaf11e3a6d71aeb2e6980d04193d4af611aa7064a974851222fd41722
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          volumeMounts:
+            - name: prowlarr-config
+              mountPath: /config
+
+        - name: qbittorrent
+          image: lscr.io/linuxserver/qbittorrent:latest
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: WEBUI_PORT
+              value: "8082"
+          volumeMounts:
+            - name: qbittorrent-config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+
+        - name: flaresolverr
+          image: ghcr.io/flaresolverr/flaresolverr:v3.5.0@sha256:139dfee1c6f89249c8d665d1333a42e8ec74ec0a86bc6bb1c8461e10d3a66a47
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: LOG_LEVEL
+              value: info
+
+        - name: profilarr
+          image: santiagosayshey/profilarr:v1.1.4@sha256:8a514f8429cd33885166facc9eb6504fa9ded056c737609e5e8ef32ae0afb350
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+          volumeMounts:
+            - name: profilarr-config
+              mountPath: /config
+
+        - name: music-grabber
+          image: g33kphr33k/musicgrabber:2.9.1@sha256:a33b388cbd95d27e1a617d3a5fdcb3d94d283afabf8c4b74fdd7c53efe0626b5
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: MUSIC_DIR
+              value: /music
+            - name: DB_PATH
+              value: music_grabber.db
+            - name: ENABLE_MUSICBRAINZ
+              value: "true"
+            - name: DEFAULT_CONVERT_TO_FLAC
+              value: "true"
+          volumeMounts:
+            - name: music-grabber-data
+              mountPath: /data
+            - name: music
+              mountPath: /music
+          resources:
+            limits:
+              memory: 3Gi
+
+      volumes:
+        - name: tun
+          hostPath:
+            path: /dev/net/tun
+        - name: radarr-config
+          persistentVolumeClaim:
+            claimName: radarr-config
+        - name: sonarr-config
+          persistentVolumeClaim:
+            claimName: sonarr-config
+        - name: lidarr-config
+          persistentVolumeClaim:
+            claimName: lidarr-config
+        - name: bazarr-config
+          persistentVolumeClaim:
+            claimName: bazarr-config
+        - name: prowlarr-config
+          persistentVolumeClaim:
+            claimName: prowlarr-config
+        - name: qbittorrent-config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: profilarr-config
+          persistentVolumeClaim:
+            claimName: profilarr-config
+        - name: music-grabber-data
+          persistentVolumeClaim:
+            claimName: music-grabber-data
+        - name: downloads
+          hostPath:
+            path: /mnt/downloads
+        - name: shows
+          hostPath:
+            path: /mnt/media/shows
+        - name: movies
+          hostPath:
+            path: /mnt/media/movies
+        - name: music
+          hostPath:
+            path: /mnt/media/music

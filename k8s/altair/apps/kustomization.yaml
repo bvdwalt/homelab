@@ -6,6 +6,7 @@ resources:
   - jellyfin.yaml
   - seerr.yaml
   - navidrome.yaml
+  - downloads
 configMapGenerator:
   - name: adguard-config
     namespace: adguard
