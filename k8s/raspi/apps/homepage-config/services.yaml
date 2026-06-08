@@ -50,8 +50,7 @@
         description: Music
     - Overdrive:
         href: https://overdrive.greedo.net
-        icon: komga
-        description: Ebook library
+        description: Internet speed tracker
 
 - Media Management:
     - Bazarr:
