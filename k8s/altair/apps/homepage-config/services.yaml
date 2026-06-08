@@ -48,9 +48,6 @@
         href: https://navidrome.greedo.net
         icon: navidrome
         description: Music
-    - Overdrive:
-        href: https://overdrive.greedo.net
-        description: Internet speed tracker
 
 - Media Management:
     - Bazarr:
@@ -122,3 +119,6 @@
     - Metering:
         href: https://metering.greedo.net
         description: Metering dashboard
+    - Overdrive:
+        href: https://overdrive.greedo.net
+        description: Internet speed tracker
