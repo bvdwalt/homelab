@@ -48,6 +48,10 @@
         href: https://navidrome.greedo.net
         icon: navidrome
         description: Music
+    - Overdrive:
+        href: https://overdrive.greedo.net
+        icon: komga
+        description: Ebook library
 
 - Media Management:
     - Bazarr:
@@ -104,6 +108,18 @@
         href: https://adguard.greedo.net
         icon: adguard-home
         description: Adguard Home DNS Blocking
+    - Grafana:
+        href: https://grafana.greedo.net
+        icon: grafana
+        description: Metrics and dashboards
+    - Backrest:
+        href: https://backrest.greedo.net
+        icon: backrest
+        description: Backup management
+    - IT Tools:
+        href: https://ittools.greedo.net
+        icon: it-tools
+        description: Developer utilities
     - Metering:
         href: https://metering.greedo.net
         description: Metering dashboard
