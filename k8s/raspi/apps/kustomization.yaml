@@ -9,4 +9,3 @@ resources:
   - vaultwarden.yaml
   - miniflux.yaml
   - linkwarden.yaml
-  - speedtest-tracker.yaml

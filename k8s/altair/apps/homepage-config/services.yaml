@@ -122,11 +122,3 @@
     - Metering:
         href: https://metering.greedo.net
         description: Metering dashboard
-    - Speedtest Tracker:
-        href: https://speedtest.greedo.net
-        icon: speedtest-tracker
-        description: Internet speed monitoring
-        widget:
-            type: speedtest
-            url: https://speedtest.greedo.net
-            key: "{{HOMEPAGE_VAR_SPEEDTEST_KEY}}"
