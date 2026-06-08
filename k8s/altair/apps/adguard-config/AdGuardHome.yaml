@@ -241,31 +241,10 @@ filtering:
     - domain: vw.greedo.net
       answer: 10.13.1.164
       enabled: true
-    - domain: ittools.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: metering.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: metering-api.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: homepage.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: budget.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: pocketid.greedo.net
-      answer: 10.13.1.164
-      enabled: true
     - domain: miniflux.greedo.net
       answer: 10.13.1.164
       enabled: true
     - domain: linkwarden.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: atuin.greedo.net
       answer: 10.13.1.164
       enabled: true
     - domain: backrest-raspi.greedo.net
