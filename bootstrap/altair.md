@@ -63,11 +63,13 @@ disable-cloud-controller: true
 resolv-conf: /etc/rancher/k3s/resolv.conf
 EOF
 
-# Custom resolv.conf without greedo.net search domain.
-# Without this, pods inherit the search domain and github.com.greedo.net
-# (which hits TrueNAS via wildcard DNS) takes priority over github.com.
+# Custom resolv.conf — overrides Tailscale MagicDNS and prevents the
+# greedo.net search domain from poisoning external lookups. Shared file
+# lives in bootstrap/k3s-resolv.conf; apply the same content to both clusters.
 cat > /etc/rancher/k3s/resolv.conf << EOF
-nameserver 10.13.1.165
+nameserver 10.13.1.167
+nameserver 10.13.1.1
+nameserver 1.1.1.1
 EOF
 
 mkdir -p /etc/systemd/system/k3s.service.d/
