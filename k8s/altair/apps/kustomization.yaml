@@ -20,6 +20,7 @@ resources:
   - homepage.yaml
   - pocket-id.yaml
   - atuin.yaml
+  - overdrive.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage

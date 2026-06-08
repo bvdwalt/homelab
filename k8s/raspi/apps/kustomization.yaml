@@ -10,4 +10,3 @@ resources:
   - miniflux.yaml
   - linkwarden.yaml
   - speedtest-tracker.yaml
-  - overdrive.yaml

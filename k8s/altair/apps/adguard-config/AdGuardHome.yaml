@@ -259,9 +259,6 @@ filtering:
     - domain: speedtest.greedo.net
       answer: 10.13.1.164
       enabled: true
-    - domain: overdrive.greedo.net
-      answer: 10.13.1.164
-      enabled: true
     - domain: whoami.greedo.net
       answer: 10.13.1.167
       enabled: true
