@@ -289,6 +289,9 @@ filtering:
     - domain: backrest.greedo.net
       answer: 10.13.1.167
       enabled: true
+    - domain: grafana.greedo.net
+      answer: 10.13.1.167
+      enabled: true
   safe_fs_patterns:
     - /data/work/userfilters/*
   safebrowsing_cache_size: 1048576

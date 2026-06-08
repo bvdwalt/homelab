@@ -11,6 +11,7 @@ resources:
   - gitea
   - backrest.yaml
   - backrest-excludes.yaml
+  - monitoring
 configMapGenerator:
   - name: adguard-config
     namespace: adguard
