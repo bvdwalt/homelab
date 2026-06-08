@@ -1,0 +1,28 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: metering-api
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: metering-api
+  targetNamespace: metering
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: robotwizard/metering-api:v0.8.0@sha256:61993c1c53efa1c0d92142fbfb099b673051b7000fe562e7244b70d699a44a89
+    port: 8080
+    hostname: metering-api.greedo.net
+    env:
+      POSTGRES_HOST: "postgresql.postgresql.svc.cluster.local"
+      POSTGRES_USER: "app"
+      POSTGRES_DB: "data"
+      TZ: "Europe/Amsterdam"
+    existingSecret: metering-secrets

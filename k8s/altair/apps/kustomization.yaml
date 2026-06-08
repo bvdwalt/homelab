@@ -12,7 +12,28 @@ resources:
   - backrest.yaml
   - backrest-excludes.yaml
   - monitoring
+  - it-tools.yaml
+  - metering-dashboard.yaml
+  - metering-api.yaml
+  - actual-budget.yaml
+  - cullarr.yaml
+  - homepage.yaml
+  - pocket-id.yaml
+  - atuin.yaml
 configMapGenerator:
+  - name: homepage-config
+    namespace: homepage
+    options:
+      disableNameSuffixHash: true
+    files:
+      - homepage-config/settings.yaml
+      - homepage-config/bookmarks.yaml
+      - homepage-config/widgets.yaml
+      - homepage-config/services.yaml
+      - homepage-config/kubernetes.yaml
+      - homepage-config/docker.yaml
+      - homepage-config/custom.css
+      - homepage-config/custom.js
   - name: adguard-config
     namespace: adguard
     options:
