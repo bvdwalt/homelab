@@ -21,6 +21,13 @@ spec:
     port: 8080
     hostname: adguard.greedo.net
     strategy: Recreate
+    readinessProbe:
+      httpGet:
+        path: /control/status
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      failureThreshold: 3
     hostNetwork: true
     args:
       - --no-check-update

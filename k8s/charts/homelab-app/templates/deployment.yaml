@@ -39,6 +39,10 @@ spec:
           {{- end }}
           ports:
             - containerPort: {{ .Values.port }}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- end }}
           {{- if .Values.env }}
           env:
             {{- range $key, $val := .Values.env }}

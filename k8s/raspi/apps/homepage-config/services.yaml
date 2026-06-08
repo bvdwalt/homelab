@@ -56,7 +56,7 @@
         description: Subtitle management
         widget:
             type: bazarr
-            url: http://bazarr.greedo.net:6767
+            url: https://bazarr.greedo.net
             key: "{{HOMEPAGE_VAR_BAZARR_KEY}}"
     - Profilarr:
         href: https://profilarr.greedo.net
@@ -72,7 +72,7 @@
         description: Torrent client
         widget:
             type: qbittorrent
-            url: http://downloads.greedo.net:8082
+            url: https://downloads.greedo.net
             username: "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}"
             password: "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}"
     - Lidarr:
@@ -86,34 +86,12 @@
         href: https://beszel.greedo.net
         icon: beszel
         description: Server Metrics
-    - Komodo:
-        href: https://komodo.greedo.net
-        icon: komodo
-        description: Docker management
-    - Arcane:
-        href: https://arcane.greedo.net
-        icon: arcane
-        description: Docker management
 
 - Other Services:
     - Vaultwarden:
         href: https://vw.greedo.net
         icon: vaultwarden
         description: Password management
-    - Dozzle:
-        href: https://dozzle.greedo.net
-        icon: dozzle
-        description: Log viewer
-    - TrueNAS:
-        href: https://truenas.local:444
-        icon: truenas
-        description: TrueNAS management
-        widget:
-          type: truenas
-          url: https://10.13.1.165:444
-          key: "{{HOMEPAGE_VAR_TRUENAS_KEY}}"
-          enablePools: true
-          nasType: scale
     - Pocket-ID:
         href: https://pocketid.greedo.net
         icon: pocket-id
@@ -123,16 +101,12 @@
         icon: traefik
         description: Reverse proxy
     - Adguard Home:
-        href: http://truenas.local:8080
+        href: https://adguard.greedo.net
         icon: adguard-home
         description: Adguard Home DNS Blocking
     - Metering:
         href: https://metering.greedo.net
         description: Metering dashboard
-    - Change Detection:
-        href: https://changedetection.greedo.net
-        icon: changedetection
-        description: SteamDeck watchlist
     - Speedtest Tracker:
         href: https://speedtest.greedo.net
         icon: speedtest-tracker
