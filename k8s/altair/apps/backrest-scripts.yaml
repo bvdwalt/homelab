@@ -37,7 +37,7 @@ data:
     **/adguard/*/work
 
     # Jellyfin resized image cache — regenerated on demand, not needed for restore
-    **/jellyfin-data/cache/images/resized-images
+    **/cache/images/resized-images
 
   sync-excludes.py: |
     #!/usr/bin/env python3
