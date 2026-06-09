@@ -7,3 +7,4 @@ resources:
   - deployment.yaml
   - services.yaml
   - ingressroutes.yaml
+  - backrest-rbac.yaml

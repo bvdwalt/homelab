@@ -8,9 +8,7 @@ data:
     # Backrest own cache
     /data/cache
 
-    # SQLite WAL/SHM — transient, not needed for restore
-    *.db-wal
-    *.db-shm
+    # SQLite WAL/SHM — must be backed up alongside .db for consistent restore
     *.sqlite-wal
     *.sqlite-shm
 

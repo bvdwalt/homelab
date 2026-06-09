@@ -48,7 +48,7 @@ spec:
       capabilities:
         add: [DAC_READ_SEARCH]
     existingConfigMap: backrest-scripts
-    configKeys: [excludes.txt, sync-excludes.py, diff-summary.py]
+    configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, pre-backup.sh, post-backup.sh]
     configMountPath: /scripts
     extraContainers:
       - name: scripts

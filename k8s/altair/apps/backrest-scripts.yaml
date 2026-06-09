@@ -8,9 +8,7 @@ data:
     # Backrest own cache
     /data/cache
 
-    # SQLite WAL/SHM — transient, not needed for restore
-    *.db-wal
-    *.db-shm
+    # SQLite WAL/SHM — must be backed up alongside .db for consistent restore
     *.sqlite-wal
     *.sqlite-shm
 
@@ -38,6 +36,34 @@ data:
 
     # Jellyfin resized image cache — regenerated on demand, not needed for restore
     **/cache/images/resized-images
+
+  pre-backup.sh: |
+    #!/bin/sh
+    KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    KUBE_CA=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    KUBE_API=https://kubernetes.default.svc
+
+    curl -sf -X PATCH \
+      "$KUBE_API/apis/apps/v1/namespaces/downloads/deployments/downloads/scale" \
+      -H "Authorization: Bearer $KUBE_TOKEN" \
+      -H "Content-Type: application/merge-patch+json" \
+      --cacert "$KUBE_CA" \
+      -d '{"spec":{"replicas":0}}'
+
+    sleep 30
+
+  post-backup.sh: |
+    #!/bin/sh
+    KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    KUBE_CA=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    KUBE_API=https://kubernetes.default.svc
+
+    curl -sf -X PATCH \
+      "$KUBE_API/apis/apps/v1/namespaces/downloads/deployments/downloads/scale" \
+      -H "Authorization: Bearer $KUBE_TOKEN" \
+      -H "Content-Type: application/merge-patch+json" \
+      --cacert "$KUBE_CA" \
+      -d '{"spec":{"replicas":1}}'
 
   sync-excludes.py: |
     #!/usr/bin/env python3
