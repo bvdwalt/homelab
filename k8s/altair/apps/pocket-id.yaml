@@ -21,6 +21,7 @@ spec:
     port: 1411
     hostname: pocketid.greedo.net
     strategy: Recreate
+    priorityClassName: system-cluster-critical
     resources:
       requests:
         memory: 16Mi
