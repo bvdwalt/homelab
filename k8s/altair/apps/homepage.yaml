@@ -26,6 +26,13 @@ spec:
         memory: 64Mi
       limits:
         memory: 256Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
     env:
       HOMEPAGE_ALLOWED_HOSTS: "homepage.greedo.net"
       TZ: "Europe/Amsterdam"

@@ -34,6 +34,13 @@ spec:
       initialDelaySeconds: 5
       periodSeconds: 5
       failureThreshold: 3
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      failureThreshold: 3
     hostNetwork: true
     args:
       - --no-check-update

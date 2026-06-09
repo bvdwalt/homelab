@@ -25,6 +25,12 @@ spec:
         memory: 8Mi
       limits:
         memory: 32Mi
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
     env:
       POSTGRES_HOST: "postgresql.postgresql.svc.cluster.local"
       POSTGRES_USER: "app"

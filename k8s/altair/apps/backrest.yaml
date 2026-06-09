@@ -24,6 +24,13 @@ spec:
         memory: 16Mi
       limits:
         memory: 128Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 9898
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
     port: 9898
     hostname: backrest.greedo.net
     env:

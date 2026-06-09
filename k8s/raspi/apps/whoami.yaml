@@ -25,3 +25,10 @@ spec:
         memory: 8Mi
       limits:
         memory: 32Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 30
+      failureThreshold: 3

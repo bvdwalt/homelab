@@ -25,6 +25,12 @@ spec:
         memory: 16Mi
       limits:
         memory: 32Mi
+    livenessProbe:
+      tcpSocket:
+        port: 45876
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
     hostNetwork: true
     env:
       LISTEN: ":45876"

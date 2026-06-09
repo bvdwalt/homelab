@@ -25,6 +25,13 @@ spec:
         memory: 8Mi
       limits:
         memory: 64Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
     env:
       TZ: "Europe/Amsterdam"
     securityContext:

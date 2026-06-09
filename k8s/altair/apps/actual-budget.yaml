@@ -26,6 +26,13 @@ spec:
         memory: 32Mi
       limits:
         memory: 128Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 5006
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
     env:
       TZ: "Europe/Amsterdam"
     persistence:

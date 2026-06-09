@@ -25,6 +25,13 @@ spec:
         memory: 16Mi
       limits:
         memory: 64Mi
+    livenessProbe:
+      httpGet:
+        path: /healthcheck
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
     env:
       BASE_URL: "https://miniflux.greedo.net"
       RUN_MIGRATIONS: "1"

@@ -26,6 +26,13 @@ spec:
         memory: 512Mi
       limits:
         memory: 1536Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      failureThreshold: 3
     env:
       NEXTAUTH_URL: "https://linkwarden.greedo.net/api/v1/auth"
       TZ: "Europe/Amsterdam"
