@@ -35,6 +35,7 @@ configKeys: []
 configMountPath: ""
 
 initContainers: []
+extraContainers: []
 
 hostNetwork: false
 priorityClassName: ""

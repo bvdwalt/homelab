@@ -108,6 +108,9 @@ spec:
               readOnly: {{ .readOnly | default false }}
             {{- end }}
           {{- end }}
+        {{- if .Values.extraContainers }}
+        {{- toYaml .Values.extraContainers | nindent 8 }}
+        {{- end }}
       {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap .Values.hostPaths }}
       volumes:
         {{- if .Values.persistence.enabled }}
