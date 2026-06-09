@@ -20,6 +20,11 @@ spec:
     image: robotwizard/metering-api:v0.8.0@sha256:61993c1c53efa1c0d92142fbfb099b673051b7000fe562e7244b70d699a44a89
     port: 8080
     hostname: metering-api.greedo.net
+    resources:
+      requests:
+        memory: 8Mi
+      limits:
+        memory: 32Mi
     env:
       POSTGRES_HOST: "postgresql.postgresql.svc.cluster.local"
       POSTGRES_USER: "app"

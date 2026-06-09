@@ -37,6 +37,7 @@ configMountPath: ""
 initContainers: []
 
 hostNetwork: false
+priorityClassName: ""
 
 hostPaths: []
 # - name: pvcs

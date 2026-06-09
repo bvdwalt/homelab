@@ -21,6 +21,11 @@ spec:
     port: 5006
     hostname: budget.greedo.net
     strategy: Recreate
+    resources:
+      requests:
+        memory: 32Mi
+      limits:
+        memory: 128Mi
     env:
       TZ: "Europe/Amsterdam"
     persistence:

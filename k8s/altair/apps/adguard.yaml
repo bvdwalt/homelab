@@ -21,6 +21,12 @@ spec:
     port: 8080
     hostname: adguard.greedo.net
     strategy: Recreate
+    priorityClassName: system-cluster-critical
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 512Mi
     readinessProbe:
       httpGet:
         path: /

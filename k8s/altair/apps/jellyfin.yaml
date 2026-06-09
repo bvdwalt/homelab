@@ -21,6 +21,11 @@ spec:
     port: 8096
     hostname: jellyfin.greedo.net
     strategy: Recreate
+    resources:
+      requests:
+        memory: 256Mi
+      limits:
+        memory: 1Gi
     env:
       PUID: "1000"
       PGID: "993"

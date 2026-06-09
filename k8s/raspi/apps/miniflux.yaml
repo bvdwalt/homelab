@@ -20,6 +20,11 @@ spec:
     image: ghcr.io/miniflux/miniflux:2.3.1@sha256:42f14382a035e9d9bbc33910ca53f72d47177f75c3c638d2c5a85adf5582d538
     port: 8080
     hostname: miniflux.greedo.net
+    resources:
+      requests:
+        memory: 16Mi
+      limits:
+        memory: 64Mi
     env:
       BASE_URL: "https://miniflux.greedo.net"
       RUN_MIGRATIONS: "1"

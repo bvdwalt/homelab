@@ -27,6 +27,11 @@ spec:
       ATUIN_PORT: "8888"
       ATUIN_OPEN_REGISTRATION: "false"
       TZ: "Europe/Amsterdam"
+    resources:
+      requests:
+        memory: 8Mi
+      limits:
+        memory: 64Mi
     middlewares: []
     existingSecret: atuin
     persistence:

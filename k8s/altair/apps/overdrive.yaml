@@ -21,6 +21,11 @@ spec:
     port: 8080
     hostname: overdrive.greedo.net
     strategy: Recreate
+    resources:
+      requests:
+        memory: 8Mi
+      limits:
+        memory: 64Mi
     env:
       TZ: "Europe/Amsterdam"
     securityContext:

@@ -20,3 +20,8 @@ spec:
     image: traefik/whoami:v1.10.4
     port: 80
     hostname: whoami.greedo.net
+    resources:
+      requests:
+        memory: 8Mi
+      limits:
+        memory: 32Mi

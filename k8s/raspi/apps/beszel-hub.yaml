@@ -21,6 +21,11 @@ spec:
     port: 8090
     hostname: beszel.greedo.net
     strategy: Recreate
+    resources:
+      requests:
+        memory: 32Mi
+      limits:
+        memory: 128Mi
     env:
       TZ: Europe/Amsterdam
     persistence:

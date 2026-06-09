@@ -21,6 +21,11 @@ spec:
     port: 8080
     hostname: vw.greedo.net
     strategy: Recreate
+    resources:
+      requests:
+        memory: 32Mi
+      limits:
+        memory: 128Mi
     env:
       DOMAIN: "https://vw.greedo.net"
       TZ: "Europe/Amsterdam"
