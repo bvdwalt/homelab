@@ -12,6 +12,9 @@ args: []
 env: {}
 existingSecret: ""
 
+resources: {}
+livenessProbe: {}
+
 persistence:
   enabled: false
   size: 100Mi
