@@ -50,7 +50,7 @@ data:
       --cacert "$KUBE_CA" \
       -d '{"spec":{"replicas":0}}'
 
-    sleep 30
+    sleep 10
 
   post-backup.sh: |
     #!/bin/sh
