@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - backrest.yaml
-  - backrest-excludes.yaml
+  - backrest-scripts.yaml
   - whoami.yaml
   - beszel-hub.yaml
   - beszel-agent.yaml

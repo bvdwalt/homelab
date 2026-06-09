@@ -10,7 +10,7 @@ resources:
   - postgresql
   - gitea
   - backrest.yaml
-  - backrest-excludes.yaml
+  - backrest-scripts.yaml
   - monitoring
   - it-tools.yaml
   - metering-dashboard.yaml

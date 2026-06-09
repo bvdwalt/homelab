@@ -35,18 +35,18 @@ spec:
     securityContext:
       capabilities:
         add: [DAC_READ_SEARCH]
-    existingConfigMap: backrest-excludes
-    configKeys: [excludes.txt, sync-excludes.py]
-    configMountPath: /excludes
+    existingConfigMap: backrest-scripts
+    configKeys: [excludes.txt, sync-excludes.py, diff-summary.py]
+    configMountPath: /scripts
     initContainers:
       - name: sync-excludes
         image: python:3.14-alpine
-        command: [python3, /excludes/sync-excludes.py]
+        command: [python3, /scripts/sync-excludes.py]
         volumeMounts:
           - name: data
             mountPath: /data
           - name: config
-            mountPath: /excludes
+            mountPath: /scripts
     hostPaths:
       - name: pvcs
         hostPath: /var/lib/rancher/k3s/storage
