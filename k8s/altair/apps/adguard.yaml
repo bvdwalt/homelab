@@ -23,7 +23,7 @@ spec:
     strategy: Recreate
     readinessProbe:
       httpGet:
-        path: /control/status
+        path: /
         port: 8080
       initialDelaySeconds: 5
       periodSeconds: 5
