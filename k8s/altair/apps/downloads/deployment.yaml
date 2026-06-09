@@ -123,7 +123,7 @@ spec:
               mountPath: /config
 
         - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:latest
+          image: lscr.io/linuxserver/qbittorrent:5.2.1@sha256:689c81f580345135e48b5aa09b26a4d864d7af1b9a496a47db61eebe71fd480c
           env:
             - name: TZ
               value: Europe/Amsterdam
