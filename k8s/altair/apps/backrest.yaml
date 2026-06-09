@@ -52,7 +52,7 @@ spec:
     configMountPath: /scripts
     extraContainers:
       - name: scripts
-        image: python:3.13-alpine
+        image: python:3.14-alpine
         command: [sh, -c, "apk add --no-cache restic rclone && sleep infinity"]
         envFrom:
           - secretRef:
@@ -64,7 +64,7 @@ spec:
             mountPath: /scripts
     initContainers:
       - name: sync-excludes
-        image: python:3.13-alpine
+        image: python:3.14-alpine
         command: [python3, /scripts/sync-excludes.py]
         volumeMounts:
           - name: data
