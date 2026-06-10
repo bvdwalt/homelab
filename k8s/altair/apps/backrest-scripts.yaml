@@ -40,8 +40,34 @@ data:
     # Prometheus TSDB — ephemeral metrics data, rebuilds from scraping; not worth restoring
     **/prometheus-db
 
+  pg-dump.sh: |
+    #!/bin/sh
+    set -e
+
+    PGHOST="postgresql-rw.postgresql.svc.cluster.local"
+    BACKUP_DIR="/data/pgdumps"
+    DATABASES="linkwarden data atuin"
+
+    mkdir -p "$BACKUP_DIR"
+
+    for db in $DATABASES; do
+      echo "Dumping $db..."
+      PGPASSWORD="$password" pg_dump \
+        -h "$PGHOST" \
+        -U "$username" \
+        -F c \
+        -f "$BACKUP_DIR/${db}.dump" \
+        "$db"
+    done
+
+    echo "PostgreSQL dumps complete"
+
   pre-backup.sh: |
     #!/bin/sh
+    set -e
+
+    /scripts/pg-dump.sh
+
     KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
     KUBE_CA=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
     KUBE_API=https://kubernetes.default.svc

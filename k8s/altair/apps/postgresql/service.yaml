@@ -6,7 +6,8 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: postgresql
+    cnpg.io/cluster: postgresql
+    cnpg.io/instanceRole: primary
   ports:
     - port: 5432
       targetPort: 5432
