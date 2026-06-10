@@ -5,6 +5,7 @@ metadata:
   namespace: postgresql
 spec:
   instances: 1
+  enableSuperuserAccess: true
   storage:
     size: 2Gi
     storageClass: local-path
