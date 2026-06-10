@@ -69,7 +69,7 @@ data:
     #!/bin/sh
     set -e
 
-    /scripts/pg-dump.sh
+    sh /scripts/pg-dump.sh
 
     KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
     KUBE_CA=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
