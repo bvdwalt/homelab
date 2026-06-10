@@ -33,7 +33,7 @@ spec:
       failureThreshold: 3
     env:
       POSTGRES_HOST: "postgresql.postgresql.svc.cluster.local"
-      POSTGRES_USER: "app"
+      POSTGRES_USER: "metering"
       POSTGRES_DB: "data"
       TZ: "Europe/Amsterdam"
     existingSecret: metering-secrets
