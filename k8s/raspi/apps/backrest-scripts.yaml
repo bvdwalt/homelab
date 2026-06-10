@@ -40,6 +40,9 @@ data:
     # Prometheus TSDB — ephemeral metrics data, rebuilds from scraping; not worth restoring
     **/prometheus-db
 
+    # PostgreSQL CNPG data — backed up via pg_dump in pgdumps/ instead
+    **/postgresql-1_postgresql_*
+
   sync-excludes.py: |
     #!/usr/bin/env python3
     """Sync excludes.txt into all plans in Backrest's config.json."""
