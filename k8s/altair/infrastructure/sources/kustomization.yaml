@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - jetstack.yaml
   - prometheus-community.yaml
+  - stakater.yaml
