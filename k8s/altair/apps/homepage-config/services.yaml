@@ -36,10 +36,6 @@
         href: https://gitea.greedo.net
         icon: gitea
         description: Self-Hosted Git
-    - Miniflux:
-        href: https://miniflux.greedo.net
-        icon: miniflux
-        description: Miniflux RSS Reader
     - Linkwarden:
         href: https://linkwarden.greedo.net
         icon: linkwarden

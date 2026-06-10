@@ -6,7 +6,7 @@ Raspberry Pi 5 running k3s, with Traefik for ingress, cert-manager for TLS, and 
 
 ```
 TrueNAS SCALE (10.13.1.165)
-└── Postgres — shared database for miniflux, linkwarden, atuin, metering-api
+└── Postgres — shared database for linkwarden, atuin, metering-api
 
 Raspberry Pi 5 (10.13.1.164) — k3s
 ├── Traefik         — ingress, *.greedo.net

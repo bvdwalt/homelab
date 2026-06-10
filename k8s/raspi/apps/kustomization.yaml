@@ -7,5 +7,4 @@ resources:
   - beszel-hub.yaml
   - beszel-agent.yaml
   - vaultwarden.yaml
-  - miniflux.yaml
   - linkwarden.yaml
