@@ -69,6 +69,7 @@ data:
     #!/bin/sh
     set -e
 
+    apk add --no-cache postgresql18-client > /dev/null 2>&1
     sh /scripts/pg-dump.sh
 
     KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
