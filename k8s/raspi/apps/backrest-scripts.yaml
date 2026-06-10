@@ -41,7 +41,7 @@ data:
     **/prometheus-db
 
     # PostgreSQL CNPG data — backed up via pg_dump in pgdumps/ instead
-    **/postgresql-1_postgresql_*
+    **/postgresql_postgresql-1_*
 
   sync-excludes.py: |
     #!/usr/bin/env python3
