@@ -37,6 +37,9 @@ data:
     # Jellyfin resized image cache — regenerated on demand, not needed for restore
     **/cache/images/resized-images
 
+    # Prometheus TSDB — ephemeral metrics data, rebuilds from scraping; not worth restoring
+    **/prometheus-db
+
   pre-backup.sh: |
     #!/bin/sh
     KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
