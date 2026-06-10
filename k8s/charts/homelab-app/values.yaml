@@ -41,6 +41,9 @@ hostNetwork: false
 priorityClassName: ""
 
 hostPaths: []
+
+podAnnotations:
+  reloader.stakater.com/auto: "true"
 # - name: pvcs
 #   hostPath: /var/lib/rancher/k3s/storage
 #   mountPath: /pvcs
