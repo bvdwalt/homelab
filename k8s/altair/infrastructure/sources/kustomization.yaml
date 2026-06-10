@@ -4,3 +4,4 @@ resources:
   - jetstack.yaml
   - prometheus-community.yaml
   - stakater.yaml
+  - cnpg.yaml
