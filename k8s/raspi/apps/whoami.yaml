@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: traefik/whoami:v1.10.4
+    image: traefik/whoami:v1.11.0
     port: 80
     hostname: whoami-raspi.greedo.net
     resources:
