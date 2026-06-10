@@ -65,10 +65,16 @@ spec:
               value: {{ $val | quote }}
             {{- end }}
           {{- end }}
-          {{- if .Values.existingSecret }}
+          {{- if or .Values.existingSecret .Values.extraSecrets }}
           envFrom:
+            {{- if .Values.existingSecret }}
             - secretRef:
                 name: {{ .Values.existingSecret }}
+            {{- end }}
+            {{- range .Values.extraSecrets }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
           {{- end }}
           {{- if .Values.securityContext.enabled }}
           securityContext:

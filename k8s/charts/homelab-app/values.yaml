@@ -11,6 +11,7 @@ middlewares: []
 args: []
 env: {}
 existingSecret: ""
+extraSecrets: []
 
 resources: {}
 livenessProbe: {}

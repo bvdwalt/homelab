@@ -40,6 +40,8 @@ spec:
       XDG_CACHE_HOME: /data/cache
       TZ: Europe/Amsterdam
     existingSecret: backrest
+    extraSecrets:
+      - postgresql-superuser-backrest
     persistence:
       enabled: true
       size: 1Gi
