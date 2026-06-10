@@ -40,6 +40,9 @@ data:
     # Prometheus TSDB — ephemeral metrics data, rebuilds from scraping; not worth restoring
     **/prometheus-db
 
+    # PostgreSQL CNPG data — backed up via pg_dump in pgdumps/ instead
+    **/postgresql-1_postgresql_*
+
   pg-dump.sh: |
     #!/bin/sh
     set -e
