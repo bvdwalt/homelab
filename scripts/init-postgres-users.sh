@@ -21,14 +21,29 @@ LINKWARDEN_PASS=$(kubectl --context=raspi -n linkwarden get secret linkwarden \
 echo "==> Creating users..."
 
 $PSQL <<SQL
-CREATE USER atuin WITH PASSWORD '${ATUIN_PASS}';
+DO \$\$
+BEGIN
+  CREATE USER atuin WITH PASSWORD '${ATUIN_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER atuin WITH PASSWORD '${ATUIN_PASS}';
+END \$\$;
 GRANT ALL PRIVILEGES ON DATABASE atuin TO atuin;
 ALTER DATABASE atuin OWNER TO atuin;
 
-CREATE USER metering WITH PASSWORD '${METERING_PASS}';
+DO \$\$
+BEGIN
+  CREATE USER metering WITH PASSWORD '${METERING_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER metering WITH PASSWORD '${METERING_PASS}';
+END \$\$;
 GRANT ALL PRIVILEGES ON DATABASE data TO metering;
 
-CREATE USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
+DO \$\$
+BEGIN
+  CREATE USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
+END \$\$;
 GRANT ALL PRIVILEGES ON DATABASE linkwarden TO linkwarden;
 ALTER DATABASE linkwarden OWNER TO linkwarden;
 SQL
