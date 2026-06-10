@@ -31,6 +31,15 @@ data:
     *.lock
     *.bak
 
+    # AdGuard query logs and filter cache — large, not useful for restore
+    **/adguard/*/work
+
+    # Jellyfin resized image cache — regenerated on demand, not needed for restore
+    **/cache/images/resized-images
+
+    # Prometheus TSDB — ephemeral metrics data, rebuilds from scraping; not worth restoring
+    **/prometheus-db
+
   sync-excludes.py: |
     #!/usr/bin/env python3
     """Sync excludes.txt into all plans in Backrest's config.json."""
