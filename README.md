@@ -1,20 +1,25 @@
 # homelab
 
-Raspberry Pi 5 running k3s, with Traefik for ingress, cert-manager for TLS, and local-path for persistent storage.
+Two k3s clusters managed with Flux, running on a Raspberry Pi 5 and an HP Elite Mini 800 G9.
 
 ## Architecture
 
 ```
-TrueNAS SCALE (10.13.1.165)
-└── Postgres — shared database for linkwarden, atuin, metering-api
+Altair — HP Elite Mini 800 G9
+├── Proxmox VE (10.13.1.166)
+└── k3s LXC   (10.13.1.167)
+    ├── Traefik         — ingress, *.altair.greedo.net
+    ├── cert-manager    — wildcard TLS via Let's Encrypt + Cloudflare DNS-01
+    ├── CNPG PostgreSQL — shared database (atuin, metering, linkwarden)
+    └── services/       — see k8s/altair/apps/
 
-Raspberry Pi 5 (10.13.1.164) — k3s
+Raspi — Raspberry Pi 5 (10.13.1.164)
 ├── Traefik         — ingress, *.greedo.net
 ├── cert-manager    — wildcard TLS via Let's Encrypt + Cloudflare DNS-01
 └── services/       — see k8s/raspi/apps/
 ```
 
-AdGuard DNS (running on TrueNAS) resolves `*.greedo.net → 10.13.1.164`.
+AdGuard (running on Altair) resolves `*.greedo.net → 10.13.1.164` and `*.altair.greedo.net → 10.13.1.167`.
 
 ## Repo layout
 
@@ -22,12 +27,14 @@ AdGuard DNS (running on TrueNAS) resolves `*.greedo.net → 10.13.1.164`.
 k8s/
   charts/
     homelab-app/       — shared Helm chart used by all services
+  altair/
+    apps/              — HelmRelease resources for each service
+    infrastructure/    — configs, secrets, sources
   raspi/
     apps/              — HelmRelease resources for each service
-    infrastructure/
-      configs/         — CRD-dependent configs (ClusterIssuer, certs, TLS store)
-      secrets/         — SOPS-encrypted Secrets + namespace pre-creation
-      sources/         — HelmRepository sources
+    infrastructure/    — configs, secrets, sources
+scripts/
+  init-postgres-users.sh  — restore CNPG app users after cluster recreate
 ```
 
 ## Prerequisites
@@ -40,15 +47,21 @@ Your age private key must exist at `~/Library/Application Support/sops/age/keys.
 
 ## Bootstrap
 
-### 1. Install k3s on the Pi
+See `scripts/README.md` for maintenance scripts (e.g. PostgreSQL user init).
+
+### k3s on the Pi
 
 ```bash
 curl -sfL https://get.k3s.io | sh -
 ```
 
-Copy `/etc/rancher/k3s/k3s.yaml` to `~/.kube/config` on your local machine and set the server IP to `10.13.1.164`.
+Copy `/etc/rancher/k3s/k3s.yaml` to `~/.kube/config` and set the server IP to `10.13.1.164`.
 
-### 2. Install the SOPS age key into the cluster
+### k3s on Altair (Proxmox LXC)
+
+See the LXC setup notes — requires `/dev/kmsg` passthrough, `/proc/sys` remount, and `--disable=cloud-controller` in the k3s config.
+
+### Install the SOPS age key
 
 ```bash
 kubectl create namespace flux-system
@@ -57,19 +70,21 @@ kubectl create secret generic sops-age \
   --from-file=age.agekey="$HOME/Library/Application Support/sops/age/keys.txt"
 ```
 
-### 3. Bootstrap Flux
+Repeat for each cluster context.
+
+### Bootstrap Flux
 
 Requires a fine-grained GitHub PAT scoped to this repo with Contents and Administration read/write.
 
 ```bash
-flux bootstrap github \
-  --owner=bvdwalt \
-  --repository=homelab \
-  --path=k8s/raspi \
-  --personal
+# Raspi
+flux bootstrap github --owner=bvdwalt --repository=homelab --path=k8s/raspi --personal
+
+# Altair
+flux bootstrap github --owner=bvdwalt --repository=homelab --path=k8s/altair --personal --context=altair
 ```
 
-Flux reconciles every 10 minutes. Force an immediate sync with:
+Force an immediate sync with:
 
 ```bash
 flux reconcile kustomization flux-system --with-source
@@ -80,7 +95,7 @@ flux reconcile kustomization flux-system --with-source
 Secrets are SOPS-encrypted with an age key. Edit a secret with:
 
 ```bash
-sops k8s/raspi/infrastructure/secrets/<name>.sops.yaml
+sops k8s/<cluster>/infrastructure/secrets/<name>.sops.yaml
 ```
 
-The `.sops.yaml` creation rule applies automatically to files under `k8s/raspi/infrastructure/secrets/`.
+The `.sops.yaml` creation rule applies automatically to files under `k8s/*/infrastructure/secrets/`.

@@ -1,2 +1,3 @@
 # k3s — generated kubeconfig
 k8s/raspi/kubeconfig
+.claude/
