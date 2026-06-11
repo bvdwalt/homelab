@@ -14,7 +14,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: cullarr
-              image: robotwizard/cullarr:0.3.3@sha256:a59d31641bfe6326a6b64bd07f67f9cbd8d8e95824259a67369b7bd2feb5b1da
+              image: ghcr.io/bvdwalt/cullarr:0.4.1@sha256:0b5d3c5623f0b647cae901d869e934db1f1105f9c75b727644a1bcc49e3dd6da
               env:
                 - name: CULLARR_JELLYFIN_URL
                   value: https://jellyfin.greedo.net
