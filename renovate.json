@@ -4,7 +4,8 @@
   "dependencyDashboard": true,
   "flux": {
     "managerFilePatterns": [
-      "/(^|/)k8s/[^/]+/.+\\.yaml$/"
+      "/(^|/)k8s/[^/]+/.+\\.yaml$/",
+      "/(^|/)k8s/common/.+\\.yaml$/"
     ]
   }
 }
