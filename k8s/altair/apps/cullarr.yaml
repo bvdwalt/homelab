@@ -37,3 +37,9 @@ spec:
               envFrom:
                 - secretRef:
                     name: cullarr
+              resources:
+                requests:
+                  cpu: 25m
+                  memory: 64Mi
+                limits:
+                  memory: 256Mi

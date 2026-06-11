@@ -6,6 +6,12 @@ metadata:
 spec:
   instances: 1
   enableSuperuserAccess: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
   storage:
     size: 2Gi
     storageClass: local-path
