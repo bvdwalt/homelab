@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: healthchecks
+    namespace: monitoring
+stringData:
+    ping-url: ENC[AES256_GCM,data:6uZrMbGsVa3XBYMQSaRKuXfnoXogmlaI/Y+fGHeej6WyhPy9u/NwD5nE/vdLPbfGtMG8mKWoSbo=,iv:FR5EljPyYRiEwT6ArnHKDdxeYQZn6OqwzSw9Ak+SIcA=,tag:CfnFaKxxHKAekg1JOcSb3w==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBjN2oxU2hvQ1VNbHBWbFEr
+            djR0enpJRytsWFNMUjk0RlZsVUttVllEMTBVCkZnS1ZlNU93eGcxMmpwSjFxY29k
+            SXE3RGwzN285SGg1aHFBUmxuMURrd2sKLS0tIC9rZ1BIQ21rS3ZnZ2loVXE4ZzMx
+            TlUwTis3dHR2YkllaWxYeEt4dTlmYVUK+XBeaIrgOVAVA3dxDwgVMm4uRYpk472F
+            NyEAoFw2nWtjeE7AB1eUsSp9lBoQ76Ar5/j167P3XUMSLcWmS3W3+w==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-06-11T13:58:41Z"
+    mac: ENC[AES256_GCM,data:fNb3RUd23NRHFn1DL5SSsRm/RyYrOsWJ2vh7VYPlUlvvzImZ+0eQOiYuVRgsW7wxeB9Yck/OnRs926sOjRyO82bpeE/p9kRpsjtNrsd1XHVqdQ0wI1hbgWu80IJaE+e0Gl2GhmIChbTZfXEAmITHNWFy1RWhgy8EgiweIeD2BG8=,iv:Z8hZxiwtjOk8VwMmSyjF0JqcRm21KXspIit9VHcrvcI=,tag:joS6A7ayReO6ZYWSLgSp/Q==,type:str]
+    version: 3.13.1

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ntfy-alertmanager
+  namespace: monitoring
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ntfy-alertmanager
+  template:
+    metadata:
+      labels:
+        app: ntfy-alertmanager
+    spec:
+      containers:
+        - name: ntfy-alertmanager
+          image: xenrox/ntfy-alertmanager:1.0.0
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: config
+              mountPath: /etc/ntfy-alertmanager/config
+              subPath: config
+      volumes:
+        - name: config
+          secret:
+            secretName: ntfy-alertmanager-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ntfy-alertmanager
+  namespace: monitoring
+spec:
+  selector:
+    app: ntfy-alertmanager
+  ports:
+    - port: 8080
+      targetPort: 8080
