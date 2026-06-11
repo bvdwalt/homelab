@@ -8,10 +8,6 @@ data:
     # Backrest own cache
     /data/cache
 
-    # SQLite WAL/SHM — must be backed up alongside .db for consistent restore
-    *.sqlite-wal
-    *.sqlite-shm
-
     # Logs
     **/logs
     *.log
