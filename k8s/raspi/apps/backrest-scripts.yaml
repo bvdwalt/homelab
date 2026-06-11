@@ -33,6 +33,10 @@ data:
 
     # AdGuard query logs and filter cache — large, not useful for restore
     **/adguard/*/work
+    **/adguard/*/work/**
+
+    # Sentry crash/telemetry envelopes — ephemeral, not useful for restore
+    **/Sentry/**
 
     # Jellyfin resized image cache — regenerated on demand, not needed for restore
     **/cache/images/resized-images
