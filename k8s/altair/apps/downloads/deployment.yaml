@@ -40,6 +40,12 @@ spec:
           volumeMounts:
             - name: tun
               mountPath: /dev/net/tun
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
 
         - name: radarr
           image: lscr.io/linuxserver/radarr:6.1.1@sha256:c0a4335d4249b46102f64cf6fa27ffc3bddfd9138fac1e4ddf238afd37f02d1f
@@ -57,6 +63,12 @@ spec:
               mountPath: /downloads
             - name: movies
               mountPath: /movies
+          resources:
+            requests:
+              cpu: 10m
+              memory: 192Mi
+            limits:
+              memory: 512Mi
 
         - name: sonarr
           image: lscr.io/linuxserver/sonarr:4.0.17@sha256:0b5c4803f92456fb9b65bae8375716ea120b4ea17b3cced7da32b63f0085782b
@@ -74,6 +86,12 @@ spec:
               mountPath: /downloads
             - name: shows
               mountPath: /shows
+          resources:
+            requests:
+              cpu: 10m
+              memory: 192Mi
+            limits:
+              memory: 512Mi
 
         - name: lidarr
           image: lscr.io/linuxserver/lidarr:3.1.0.4875-ls20@sha256:7aa2f4d4ac373a989a6e773d4c43c6a81bccf45cdf2598f74f1dbf6cede8e467
@@ -91,6 +109,12 @@ spec:
               mountPath: /downloads
             - name: music
               mountPath: /music
+          resources:
+            requests:
+              cpu: 10m
+              memory: 192Mi
+            limits:
+              memory: 512Mi
 
         - name: bazarr
           image: lscr.io/linuxserver/bazarr:1.5.6@sha256:4b5e510042bf471c8bafab89cada9774fba2fb25f16ec64235151cacbe847c10
@@ -108,6 +132,12 @@ spec:
               mountPath: /movies
             - name: shows
               mountPath: /shows
+          resources:
+            requests:
+              cpu: 10m
+              memory: 192Mi
+            limits:
+              memory: 512Mi
 
         - name: prowlarr
           image: lscr.io/linuxserver/prowlarr:2.3.5@sha256:2489c6dbaf11e3a6d71aeb2e6980d04193d4af611aa7064a974851222fd41722
@@ -121,6 +151,12 @@ spec:
           volumeMounts:
             - name: prowlarr-config
               mountPath: /config
+          resources:
+            requests:
+              cpu: 10m
+              memory: 192Mi
+            limits:
+              memory: 512Mi
 
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:5.2.1@sha256:689c81f580345135e48b5aa09b26a4d864d7af1b9a496a47db61eebe71fd480c
@@ -138,6 +174,12 @@ spec:
               mountPath: /config
             - name: downloads
               mountPath: /downloads
+          resources:
+            requests:
+              cpu: 25m
+              memory: 384Mi
+            limits:
+              memory: 1Gi
 
         - name: flaresolverr
           image: ghcr.io/flaresolverr/flaresolverr:v3.5.0@sha256:139dfee1c6f89249c8d665d1333a42e8ec74ec0a86bc6bb1c8461e10d3a66a47
@@ -146,6 +188,12 @@ spec:
               value: Europe/Amsterdam
             - name: LOG_LEVEL
               value: info
+          resources:
+            requests:
+              cpu: 10m
+              memory: 192Mi
+            limits:
+              memory: 1Gi
 
         - name: profilarr
           image: santiagosayshey/profilarr:v1.1.4@sha256:8a514f8429cd33885166facc9eb6504fa9ded056c737609e5e8ef32ae0afb350
@@ -155,6 +203,12 @@ spec:
           volumeMounts:
             - name: profilarr-config
               mountPath: /config
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
 
         - name: music-grabber
           image: g33kphr33k/musicgrabber:2.9.1@sha256:a33b388cbd95d27e1a617d3a5fdcb3d94d283afabf8c4b74fdd7c53efe0626b5
@@ -179,8 +233,11 @@ spec:
             - name: music
               mountPath: /music
           resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
             limits:
-              memory: 3Gi
+              memory: 1Gi
 
       volumes:
         - name: tun
