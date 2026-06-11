@@ -55,7 +55,7 @@ jobs:
           resource: ${{ matrix.resource }}
           live-branch: main
       - name: Post diff as PR comment
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@v3
         if: ${{ steps.diff.outputs.diff != '' }}
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
