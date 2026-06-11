@@ -1,0 +1,67 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: flux-local test (${{ matrix.cluster }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cluster:
+          - raspi
+          - altair
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@v2.8.8
+      - uses: allenporter/flux-local/action/test@8.3.0
+        with:
+          path: k8s/${{ matrix.cluster }}/flux-system
+          enable-helm: true
+
+  diff:
+    name: flux-local diff (${{ matrix.cluster }}/${{ matrix.resource }})
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        cluster:
+          - raspi
+          - altair
+        resource:
+          - kustomization
+          - helmrelease
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@v2.8.8
+      - uses: allenporter/flux-local/action/diff@8.3.0
+        id: diff
+        with:
+          path: k8s/${{ matrix.cluster }}/flux-system
+          resource: ${{ matrix.resource }}
+          live-branch: main
+      - name: Post diff as PR comment
+        uses: mshick/add-pr-comment@v2
+        if: ${{ steps.diff.outputs.diff != '' }}
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message-id: ${{ matrix.cluster }}-${{ matrix.resource }}
+          message-failure: Unable to post diff
+          message: |
+            `````diff
+            ${{ steps.diff.outputs.diff }}
+            `````
