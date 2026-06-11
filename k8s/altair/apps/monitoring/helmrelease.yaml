@@ -25,7 +25,39 @@ spec:
       interval: 12h
   values:
     alertmanager:
-      enabled: false
+      enabled: true
+      alertmanagerSpec:
+        secrets:
+          - healthchecks
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            memory: 256Mi
+      config:
+        route:
+          receiver: ntfy
+          group_by: ["namespace", "alertname"]
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 12h
+          routes:
+            - receiver: healthchecks
+              matchers:
+                - alertname = Watchdog
+              group_wait: 0s
+              group_interval: 5m
+              repeat_interval: 5m
+        receivers:
+          - name: ntfy
+            webhook_configs:
+              - url: http://ntfy-alertmanager.monitoring.svc.cluster.local:8080
+                send_resolved: true
+          - name: healthchecks
+            webhook_configs:
+              - url_file: /etc/alertmanager/secrets/healthchecks/ping-url
+                send_resolved: false
 
     kubeEtcd:
       enabled: false

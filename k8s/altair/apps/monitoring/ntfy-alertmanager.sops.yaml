@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: ntfy-alertmanager-config
+    namespace: monitoring
+stringData:
+    config: ENC[AES256_GCM,data:ptlbB1+xjpvUrt37GVEOcG5OeyZULUUkXYSbkKmrPkUu5XasAthfJ2TpEns7RFFex0HIoyMgwGdPefUGb31sOXyfLgJqZ13lzp39SlnIoOCcC7gjk7TeZDec1hVgHJP5oVn1Zb97hAGT5x3Q2LGRsRvMtyq6VpvoF5Pg+e+kZ8OsAXGTCEPRpfghqyyNQBPukXXs0fmQEY2ySYCpSR/U79OhC2QTrOi7tc/uP4mrMLJq2jS5/itkQ0MfQ+W8qBgvjc3yKyr31uWDHEv5A/G8ZbrKIPdRNy2EQB90LczMvM3APDuA75sSS5Cr8DaqcYV3RC3NpDRoPrbBHautXIifiRZFnRtbCSV/qQMAuZvCLZcm6ZqshGTu2T1VtVybwAjQq7BXAjCfKfpIrj/h8DLIGZpzONQBd+j4Uxup5ifuyueMOInGF0PzFRlvbLHdMu6+kKZwliIdNe01EhRuTfNN8NQwrc/rL0uG/J1lkWi/uTKQxbn6o9GY6+WGCOXoungmyNvr9QygvsV+XE43HptBC6UyHlb4VxmmLRkGhTR7eqqDbJzRmYY5uzyc7wwlTsvNiADQEtEANuTIYNA7UhOicnz04LMe7+YhyyMjnqw2kq2ucveJABkyLlxNjWpx/OAY+q/+TO5xdO4myfQGlQ==,iv:bx2sNbtfefVQ5QOG6IxuLknRbl/ISvSopT+irzfn1X4=,tag:7mjVmTq48qRSggF8UZNWXA==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBidlZvejg0ajRsU3NFaElo
+            am9XNHkyaWJkZ2Fsb1Z0Ujlmb2REMmIxSmk4CnhKbkxnc3JlTk1uS0R0UzdxNEsx
+            aCtJTktlM0Uxc09hMkk4WkJMQkgyYkkKLS0tIHVma1JENDg1WlNibnNGMmFGcXh3
+            VkZZOHYrZzdSVllKbE9NS2hLbXRHRmcKsAZ2HVjWcBH3e+CSA23RLVz6G/LwnX8Y
+            DzF503M94p9XV8IC2PSRAqu97staMLL2T4JT1ndAmq1K3q0pJaYaQw==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-06-11T13:58:41Z"
+    mac: ENC[AES256_GCM,data:mZu2f7YJiJdhNHy2v7gigVsc0nRjJt1gAR/oVe/UpuFsBvG93VJC73kKkH6KHSzt9md1le7Z6CXb+v7YM6gb2ZCPFso8U0/pJe1YhxaT6+Bh9dQ5FYG/evKI5oVHlRQOsi53NtN3MM8QwVsPL0GjCZJ7rj4+8xZCyhmec918yD8=,iv:mPjvOnDnZHKs3MAxeoagLhnRkFDpd602mmdVYMZX5d4=,tag:2sJKK6Aoa9kMPnKUXuJf3g==,type:str]
+    version: 3.13.1
