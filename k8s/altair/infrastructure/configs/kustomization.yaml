@@ -6,3 +6,4 @@ resources:
   - tlsstore.yaml
   - traefik.yaml
   - oidc-auth.yaml
+  - traefik-dashboard.yaml

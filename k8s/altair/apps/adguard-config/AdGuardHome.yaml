@@ -250,6 +250,9 @@ filtering:
     - domain: whoami-raspi.greedo.net
       answer: 10.13.1.164
       enabled: true
+    - domain: traefik-raspi.greedo.net
+      answer: 10.13.1.164
+      enabled: true
     - domain: beszel.greedo.net
       answer: 10.13.1.164
       enabled: true

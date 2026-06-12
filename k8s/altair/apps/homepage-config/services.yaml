@@ -92,10 +92,14 @@
         href: https://pocketid.greedo.net
         icon: pocket-id
         description: OIDC Auth Passkeys
-    - Traefik:
+    - Traefik (Altair):
         href: https://traefik.greedo.net
         icon: traefik
-        description: Reverse proxy
+        description: Reverse proxy (Altair)
+    - Traefik (Raspi):
+        href: https://traefik-raspi.greedo.net
+        icon: traefik
+        description: Reverse proxy (Raspi)
     - Adguard Home:
         href: https://adguard.greedo.net
         icon: adguard-home
