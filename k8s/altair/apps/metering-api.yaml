@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: robotwizard/metering-api:v0.8.0@sha256:61993c1c53efa1c0d92142fbfb099b673051b7000fe562e7244b70d699a44a89
+    image: robotwizard/metering-api:v0.10.0@sha256:1a54707271cc25034af47e50c857c9594c7c2034fe46974c280a7d664449020b
     port: 8080
     hostname: metering-api.greedo.net
     resources:
