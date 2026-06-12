@@ -26,13 +26,6 @@ spec:
         memory: 128Mi
       limits:
         memory: 384Mi
-    readinessProbe:
-      httpGet:
-        path: /
-        port: 5055
-      initialDelaySeconds: 10
-      periodSeconds: 10
-      failureThreshold: 6
     livenessProbe:
       httpGet:
         path: /

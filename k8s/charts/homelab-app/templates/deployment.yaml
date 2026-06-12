@@ -49,6 +49,14 @@ spec:
           {{- if .Values.readinessProbe }}
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- else }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 6
           {{- end }}
           {{- if .Values.livenessProbe }}
           livenessProbe:
