@@ -8,3 +8,4 @@ resources:
   - services.yaml
   - ingressroutes.yaml
   - backrest-rbac.yaml
+  - networkpolicy.yaml
