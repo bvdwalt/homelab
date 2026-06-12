@@ -26,6 +26,13 @@ spec:
         memory: 32Mi
       limits:
         memory: 128Mi
+    readinessProbe:
+      httpGet:
+        path: /alive
+        port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      failureThreshold: 6
     livenessProbe:
       httpGet:
         path: /alive

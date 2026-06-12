@@ -25,6 +25,12 @@ spec:
         memory: 16Mi
       limits:
         memory: 32Mi
+    readinessProbe:
+      tcpSocket:
+        port: 45876
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      failureThreshold: 6
     livenessProbe:
       tcpSocket:
         port: 45876
