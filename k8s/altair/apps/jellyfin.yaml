@@ -26,6 +26,13 @@ spec:
         memory: 256Mi
       limits:
         memory: 1Gi
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 8096
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 6
     livenessProbe:
       httpGet:
         path: /

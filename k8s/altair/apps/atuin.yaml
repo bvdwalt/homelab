@@ -32,6 +32,12 @@ spec:
         memory: 8Mi
       limits:
         memory: 64Mi
+    readinessProbe:
+      tcpSocket:
+        port: 8888
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      failureThreshold: 6
     livenessProbe:
       tcpSocket:
         port: 8888
