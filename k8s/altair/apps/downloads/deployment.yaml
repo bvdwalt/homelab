@@ -40,6 +40,13 @@ spec:
           volumeMounts:
             - name: tun
               mountPath: /dev/net/tun
+          readinessProbe:
+            httpGet:
+              path: /v1/publicip/ip
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
@@ -63,6 +70,13 @@ spec:
               mountPath: /downloads
             - name: movies
               mountPath: /movies
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 7878
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
@@ -86,6 +100,13 @@ spec:
               mountPath: /downloads
             - name: shows
               mountPath: /shows
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 8989
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
@@ -109,6 +130,13 @@ spec:
               mountPath: /downloads
             - name: music
               mountPath: /music
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 8686
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
@@ -132,6 +160,13 @@ spec:
               mountPath: /movies
             - name: shows
               mountPath: /shows
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 6767
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
@@ -151,6 +186,13 @@ spec:
           volumeMounts:
             - name: prowlarr-config
               mountPath: /config
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 9696
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
@@ -174,6 +216,13 @@ spec:
               mountPath: /config
             - name: downloads
               mountPath: /downloads
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8082
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 25m
@@ -188,6 +237,13 @@ spec:
               value: Europe/Amsterdam
             - name: LOG_LEVEL
               value: info
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8191
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
@@ -203,6 +259,13 @@ spec:
           volumeMounts:
             - name: profilarr-config
               mountPath: /config
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 6868
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
@@ -232,6 +295,13 @@ spec:
               mountPath: /data
             - name: music
               mountPath: /music
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 6
           resources:
             requests:
               cpu: 10m
