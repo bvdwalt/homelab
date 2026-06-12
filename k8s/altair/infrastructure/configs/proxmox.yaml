@@ -1,0 +1,47 @@
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: proxmox-transport
+  namespace: kube-system
+spec:
+  insecureSkipVerify: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxmox
+  namespace: kube-system
+spec:
+  ports:
+    - port: 8006
+      protocol: TCP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: proxmox
+  namespace: kube-system
+subsets:
+  - addresses:
+      - ip: 10.13.1.166
+    ports:
+      - port: 8006
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: proxmox
+  namespace: kube-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`pve.greedo.net`)
+      kind: Rule
+      services:
+        - name: proxmox
+          port: 8006
+          scheme: https
+          serversTransport: proxmox-transport
+  tls:
+    secretName: greedo-net-wildcard-tls

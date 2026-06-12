@@ -13,4 +13,4 @@ spec:
         - name: api@internal
           kind: TraefikService
   tls:
-    secretName: wildcard-greedo-net-tls
+    secretName: greedo-net-wildcard-tls

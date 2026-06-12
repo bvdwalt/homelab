@@ -92,6 +92,10 @@
         href: https://pocketid.greedo.net
         icon: pocket-id
         description: OIDC Auth Passkeys
+    - Proxmox:
+        href: https://pve.greedo.net
+        icon: proxmox
+        description: Proxmox VE hypervisor
     - Traefik (Altair):
         href: https://traefik.greedo.net
         icon: traefik
