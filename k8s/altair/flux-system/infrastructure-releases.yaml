@@ -5,6 +5,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  timeout: 5m
+  retryInterval: 2m
   path: ./k8s/altair/infrastructure/releases
   prune: true
   sourceRef:
