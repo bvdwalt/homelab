@@ -41,8 +41,8 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     env:
-      PUID: "0"
-      PGID: "0"
+      PUID: "1000"
+      PGID: "993"
       TZ: Europe/Amsterdam
     persistence:
       enabled: true
@@ -62,4 +62,4 @@ spec:
         hostPath: /mnt/media/music
         mountPath: /music
     securityContext:
-      privileged: true
+      enabled: false
