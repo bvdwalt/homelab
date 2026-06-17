@@ -9,6 +9,9 @@ spec:
   routes:
     - match: Host(`traefik.greedo.net`)
       kind: Rule
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: api@internal
           kind: TraefikService

@@ -3,10 +3,9 @@ port: 80
 hostname: ""
 strategy: RollingUpdate
 
-middlewares: []
-# middlewares:
-#   - name: oidc-auth
-#     namespace: kube-system
+middlewares:
+  - name: oidc-auth
+    namespace: kube-system
 
 args: []
 env: {}
