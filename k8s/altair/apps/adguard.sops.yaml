@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: adguard
+    namespace: adguard
+stringData:
+    ADGUARD_PASSWORD_HASH: ENC[AES256_GCM,data:meffiQ3YeKl0CfAAaR/gIOVdvy/gBHOVxS6o7YEeuluDnn+3VS5VSZV8R2oEGpKJxfxNQBMmTqG1OYst,iv:9rokake78MV/t1XJtRb/PXR38fwPhq3mWraOI6hAaOM=,tag:ZnUP0lzEvd5fQYmS5eQhLg==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBHdGllZEh1c2dsKzNxVWQr
+            WFFHeEdRS3FnQ09pVzVZY0RJallyeUdVNnlnCmhaS0x0aHlaWFYxNEJHMEZPSkxm
+            MDZHYUpBK2ZrWmVOZG52U1o2SFhLdTQKLS0tIDZzYlI4Q3VhVmhqWFBwTVJUSWlD
+            d0FGaHpxdS9wWnlldHdidkRsWVJZTncKJmjKwkva5L9cicOzBRq86jiDUyIz+2lN
+            ujjHM552u/HXNUa5UtPx8lDa7WQyrFi0Oix0LBXr8zYak6fbyNlgNg==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-06-17T09:26:02Z"
+    mac: ENC[AES256_GCM,data:aV3vMtrls7C99juxL2AN/X6zdsYwmnN5MdwugBO5oD2l4B7NUzscCBJtb3rNhU4NhTgXFOg6gDqqorf6vE2T9CVakYQEk4oxIRxmVaLdikPLyBzWQM+1E1wGbofkUB3W23r/DF8DqNBfXASEbbVkjLsLUpFlpWPXOrI+z/5Sovg=,iv:NZtPIp0gHir45exr3qazEKBVsraVCoJw7y40t3yvaGg=,tag:IoEuCnjgoYbZ2Yn6PxNkqw==,type:str]
+    version: 3.13.1

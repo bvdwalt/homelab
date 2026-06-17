@@ -60,6 +60,7 @@ spec:
     configKeys:
       - AdGuardHome.yaml
     configMountPath: /config-seed
+    existingSecret: adguard
     initContainers:
       - name: config-seed
         image: busybox:1.38.0@sha256:fd8d9aa63ba2f0982b5304e1ee8d3b90a210bc1ffb5314d980eb6962f1a9715d
@@ -74,6 +75,11 @@ spec:
             else
               echo "Config already exists, skipping seed"
             fi
+            sed -i "s|password: .*|password: ${ADGUARD_PASSWORD_HASH}|" /data/conf/AdGuardHome.yaml
+            echo "Password updated from secret"
+        envFrom:
+          - secretRef:
+              name: adguard
         volumeMounts:
           - name: data
             mountPath: /data

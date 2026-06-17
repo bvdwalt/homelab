@@ -13,7 +13,7 @@ http:
   session_ttl: 30d
 users:
   - name: barend
-    password: $2a$10$SMeK0Fo1BzTa2pFe3b6/4uZCoeYX3TrU3y9YQ/E27xxoof74LSoSe
+    password: PLACEHOLDER
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""

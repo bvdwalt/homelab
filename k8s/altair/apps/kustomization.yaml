@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - whoami.yaml
   - adguard.yaml
+  - adguard.sops.yaml
   - jellyfin.yaml
   - seerr.yaml
   - navidrome.yaml
