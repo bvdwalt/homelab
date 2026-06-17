@@ -23,6 +23,7 @@ persistence:
 
 securityContext:
   enabled: true
+  privileged: false
   runAsNonRoot: false
   runAsUser: null
   runAsGroup: null

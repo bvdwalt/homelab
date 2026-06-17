@@ -62,4 +62,4 @@ spec:
         hostPath: /mnt/media/music
         mountPath: /music
     securityContext:
-      enabled: false
+      privileged: true

@@ -84,7 +84,10 @@ spec:
                 name: {{ . }}
             {{- end }}
           {{- end }}
-          {{- if .Values.securityContext.enabled }}
+          {{- if .Values.securityContext.privileged }}
+          securityContext:
+            privileged: true
+          {{- else if .Values.securityContext.enabled }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
