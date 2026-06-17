@@ -41,8 +41,8 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     env:
-      PUID: "1000"
-      PGID: "993"
+      PUID: "0"
+      PGID: "0"
       TZ: Europe/Amsterdam
     persistence:
       enabled: true
