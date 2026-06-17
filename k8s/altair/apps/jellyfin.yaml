@@ -61,3 +61,4 @@ spec:
         mountPath: /music
     securityContext:
       privileged: true
+      runAsUser: 0

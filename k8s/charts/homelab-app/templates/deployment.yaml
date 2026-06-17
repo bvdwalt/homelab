@@ -87,6 +87,9 @@ spec:
           {{- if .Values.securityContext.privileged }}
           securityContext:
             privileged: true
+            {{- if not (kindIs "invalid" .Values.securityContext.runAsUser) }}
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            {{- end }}
           {{- else if .Values.securityContext.enabled }}
           securityContext:
             allowPrivilegeEscalation: false
