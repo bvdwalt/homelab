@@ -4,7 +4,8 @@ metadata:
   name: proxmox-transport
   namespace: kube-system
 spec:
-  insecureSkipVerify: true
+  rootCAsSecrets:
+    - proxmox-ca
 ---
 apiVersion: v1
 kind: Service
