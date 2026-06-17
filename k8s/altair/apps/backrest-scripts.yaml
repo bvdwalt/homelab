@@ -72,31 +72,8 @@ data:
     apk add --no-cache postgresql18-client > /dev/null 2>&1
     sh /scripts/pg-dump.sh
 
-    KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-    KUBE_CA=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-    KUBE_API=https://kubernetes.default.svc
-
-    curl -sf -X PATCH \
-      "$KUBE_API/apis/apps/v1/namespaces/downloads/deployments/downloads/scale" \
-      -H "Authorization: Bearer $KUBE_TOKEN" \
-      -H "Content-Type: application/merge-patch+json" \
-      --cacert "$KUBE_CA" \
-      -d '{"spec":{"replicas":0}}'
-
-    sleep 10
-
   post-backup.sh: |
     #!/bin/sh
-    KUBE_TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-    KUBE_CA=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-    KUBE_API=https://kubernetes.default.svc
-
-    curl -sf -X PATCH \
-      "$KUBE_API/apis/apps/v1/namespaces/downloads/deployments/downloads/scale" \
-      -H "Authorization: Bearer $KUBE_TOKEN" \
-      -H "Content-Type: application/merge-patch+json" \
-      --cacert "$KUBE_CA" \
-      -d '{"spec":{"replicas":1}}'
 
   sync-excludes.py: |
     #!/usr/bin/env python3
