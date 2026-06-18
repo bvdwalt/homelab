@@ -5,7 +5,7 @@
         description: Movie and TV show management
         widget:
             type: jellyseerr
-            url: https://seerr.greedo.net
+            url: http://seerr.seerr.svc.cluster.local
             key: "{{HOMEPAGE_VAR_JELLYSEERR_KEY}}"
     - Jellyfin:
         href: https://jellyfin.greedo.net
@@ -13,7 +13,7 @@
         description: Media server
         widget:
             type: jellyfin
-            url: https://jellyfin.greedo.net
+            url: http://jellyfin.jellyfin.svc.cluster.local
             key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
             enableBlocks: true
             enableNowPlaying: true
