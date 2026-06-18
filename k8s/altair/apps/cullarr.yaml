@@ -17,15 +17,15 @@ spec:
               image: ghcr.io/bvdwalt/cullarr:0.4.1@sha256:0b5d3c5623f0b647cae901d869e934db1f1105f9c75b727644a1bcc49e3dd6da
               env:
                 - name: CULLARR_JELLYFIN_URL
-                  value: https://jellyfin.greedo.net
+                  value: http://jellyfin.jellyfin.svc.cluster.local:8096
                 - name: CULLARR_SONARR_URL
-                  value: https://sonarr.greedo.net
+                  value: http://sonarr.downloads.svc.cluster.local
                 - name: CULLARR_SONARR_ENABLED
                   value: "true"
                 - name: CULLARR_SONARR_UNMONITOR
                   value: "true"
                 - name: CULLARR_RADARR_URL
-                  value: https://radarr.greedo.net
+                  value: http://radarr.downloads.svc.cluster.local
                 - name: CULLARR_RADARR_ENABLED
                   value: "true"
                 - name: CULLARR_RADARR_REMOVE
