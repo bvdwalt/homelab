@@ -37,6 +37,12 @@ data:
     # Jellyfin resized image cache — regenerated on demand, not needed for restore
     **/cache/images/resized-images
 
+    # Jellyfin transcode segments — ephemeral HLS files, not needed for restore
+    **/cache/transcodes
+
+    # Jellyfin IntroDB/IntroSkipper chromaprints — regenerated on library scan
+    **/introskipper/chromaprints
+
     # Prometheus TSDB — ephemeral metrics data, rebuilds from scraping; not worth restoring
     **/prometheus-db
 
