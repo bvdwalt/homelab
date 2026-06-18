@@ -6,5 +6,4 @@ resources:
   - whoami.yaml
   - beszel-hub.yaml
   - beszel-agent.yaml
-  - vaultwarden.yaml
   - linkwarden.yaml
