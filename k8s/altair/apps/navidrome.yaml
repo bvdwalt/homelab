@@ -33,6 +33,7 @@ spec:
       initialDelaySeconds: 15
       periodSeconds: 30
       failureThreshold: 3
+    middlewares: []
     env:
       ND_MUSICFOLDER: /music
       ND_DATAFOLDER: /data
