@@ -24,6 +24,14 @@ spec:
         - port: 8191  # flaresolverr
         - port: 6868  # profilarr
         - port: 8080  # music-grabber
+    # cullarr → radarr + sonarr
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: cullarr
+      ports:
+        - port: 7878  # radarr
+        - port: 8989  # sonarr
   egress:
     # DNS
     - to:
