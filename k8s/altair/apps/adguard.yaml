@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: adguard/adguardhome:v0.107.77
+    image: adguard/adguardhome:v0.107.77@sha256:a8e81f370e086a9fa8c8a9f36dfe0222a8b1439541a4f39bc90aa360fce54cab
     port: 8080
     hostname: adguard.greedo.net
     strategy: Recreate

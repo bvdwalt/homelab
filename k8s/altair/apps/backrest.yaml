@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: ghcr.io/garethgeorge/backrest:v1.13.0
+    image: ghcr.io/garethgeorge/backrest:v1.13.0@sha256:140b1e7f574eba437f807c6f856b2b718b0ddfd6e55a3b7dc889f49360e28b4d
     strategy: Recreate
     resources:
       requests:
@@ -54,7 +54,7 @@ spec:
     configMountPath: /scripts
     extraContainers:
       - name: scripts
-        image: postgres:18-alpine
+        image: postgres:18-alpine@sha256:3f0182f7f06d949972a1d1901ff774e6d0b7c03ca95a27a12958d713fe5ea153
         command: [sh, -c, "apk add --no-cache restic rclone python3 curl && sleep infinity"]
         envFrom:
           - secretRef:
@@ -69,7 +69,7 @@ spec:
             mountPath: /scripts
     initContainers:
       - name: sync-excludes
-        image: python:3.14-alpine
+        image: python:3.14-alpine@sha256:47f36929d95852c8aa959380eeeea761ba7411ebe793d090da4cd518ac3af237
         command: [python3, /scripts/sync-excludes.py]
         volumeMounts:
           - name: data

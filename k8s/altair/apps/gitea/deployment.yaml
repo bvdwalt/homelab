@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: gitea
-          image: docker.gitea.com/gitea:1.26.2
+          image: docker.gitea.com/gitea:1.26.2@sha256:0b35a8706dd0171866ca4b787b53b272a519fff5ba7520ef4bddbe58121411f9
           env:
             - name: USER_UID
               value: "1000"

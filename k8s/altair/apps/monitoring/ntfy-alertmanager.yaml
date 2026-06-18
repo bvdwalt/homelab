@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: ntfy-alertmanager
-          image: xenrox/ntfy-alertmanager:1.0.0
+          image: xenrox/ntfy-alertmanager:1.0.0@sha256:a6edbbd356b8bf10d5672a81141d20e2262f38a2a76fb82dcfa8125825de8f6a
           ports:
             - containerPort: 8080
           readinessProbe:

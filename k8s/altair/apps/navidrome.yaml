@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: deluan/navidrome:0.62.0
+    image: deluan/navidrome:0.62.0@sha256:6f597ad2238475c63b2d43b835ea8db99dd7ff669029b0557132341270521ce8
     port: 4533
     hostname: navidrome.greedo.net
     strategy: Recreate

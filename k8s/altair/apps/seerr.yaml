@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: ghcr.io/seerr-team/seerr:v3.3.0
+    image: ghcr.io/seerr-team/seerr:v3.3.0@sha256:2892b14e960d946fb91573792505dcba011075638f27104360fd21aa157fa2bc
     port: 5055
     hostname: seerr.greedo.net
     strategy: Recreate
