@@ -39,3 +39,8 @@ spec:
       enabled: true
       mountPath: /app/config
       size: 1Gi
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
