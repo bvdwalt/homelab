@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: lscr.io/linuxserver/jellyfin:10.11.11
+    image: jellyfin/jellyfin:10.11.11@sha256:0b901391a662862eddb5dc55d244d7883cbb6236ef5b9a6ea82abc78a89819f0
     port: 8096
     hostname: jellyfin.greedo.net
     strategy: Recreate
@@ -41,9 +41,11 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     env:
-      PUID: "1000"
-      PGID: "993"
       TZ: Europe/Amsterdam
+      JELLYFIN_CONFIG_DIR: /config
+      JELLYFIN_DATA_DIR: /config/data
+      JELLYFIN_CACHE_DIR: /config/cache
+      JELLYFIN_LOG_DIR: /config/log
     persistence:
       enabled: true
       mountPath: /config
@@ -62,4 +64,6 @@ spec:
         hostPath: /mnt/media/music
         mountPath: /music
     securityContext:
-      enabled: false
+      enabled: true
+      privileged: true
+      runAsUser: 0
