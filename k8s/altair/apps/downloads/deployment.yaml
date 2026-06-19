@@ -208,7 +208,7 @@ spec:
               memory: 512Mi
 
         - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:5.2.2@sha256:bca2cf536c00900f0b8fb62ca3dcbed8ee64293165d41c8240d2cc952d4ef048
+          image: lscr.io/linuxserver/qbittorrent:20.04.1@sha256:fc98c8af048936d0070dc5e5992feab08664f8a61a860d91be02f782f8721485
           env:
             - name: TZ
               value: Europe/Amsterdam
