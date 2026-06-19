@@ -94,3 +94,15 @@ spec:
   resources:
     requests:
       storage: 200Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: slskd-data
+  namespace: downloads
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi

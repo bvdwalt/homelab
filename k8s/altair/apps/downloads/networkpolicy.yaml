@@ -24,6 +24,7 @@ spec:
         - port: 8191  # flaresolverr
         - port: 6868  # profilarr
         - port: 8080  # music-grabber
+        - port: 5030  # slskd
     # cullarr → radarr + sonarr
     - from:
         - namespaceSelector:

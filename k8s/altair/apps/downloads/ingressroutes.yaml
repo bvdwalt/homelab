@@ -143,3 +143,18 @@ spec:
         - name: music-grabber
           port: 80
   tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: slskd
+  namespace: downloads
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`slskd.greedo.net`)
+      services:
+        - name: slskd
+          port: 80
+  tls: {}

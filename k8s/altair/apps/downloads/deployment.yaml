@@ -34,7 +34,7 @@ spec:
             - name: WIREGUARD_ADDRESSES
               value: 10.74.116.211/32
             - name: FIREWALL_INPUT_PORTS
-              value: "7878,8989,8686,9696,6767,8191,8082,6868,8080,51413"
+              value: "7878,8989,8686,9696,6767,8191,8082,6868,8080,51413,5030,50300"
             - name: FIREWALL_OUTBOUND_SUBNETS
               value: "10.42.0.0/16,10.43.0.0/16,10.13.1.0/24"
           volumeMounts:
@@ -309,6 +309,47 @@ spec:
             limits:
               memory: 1Gi
 
+        - name: slskd
+          image: slskd/slskd:0.22.4
+          envFrom:
+            - secretRef:
+                name: slskd-credentials
+          env:
+            - name: SLSKD_APP_DIR
+              value: /data
+            - name: SLSKD_DOWNLOADS_DIR
+              value: /downloads/slskd
+            - name: SLSKD_MUSIC_DIR
+              value: /music
+            - name: SLSKD_SLSK_LISTEN_PORT
+              value: "50300"
+            - name: SLSKD_HTTP_PORT
+              value: "5030"
+            - name: SLSKD_REMOTE_CONFIGURATION
+              value: "true"
+            - name: TZ
+              value: Europe/Amsterdam
+          volumeMounts:
+            - name: slskd-data
+              mountPath: /data
+            - name: downloads
+              mountPath: /downloads
+            - name: music
+              mountPath: /music
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5030
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+
       volumes:
         - name: tun
           hostPath:
@@ -349,3 +390,6 @@ spec:
         - name: music
           hostPath:
             path: /mnt/media/music
+        - name: slskd-data
+          persistentVolumeClaim:
+            claimName: slskd-data
