@@ -13,5 +13,11 @@
     "managerFilePatterns": [
       "/(^|/)k8s/[^/]+/.+\\.yaml$/"
     ]
-  }
+  },
+  "packageRules": [
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
+      "allowedVersions": "/^5\\./"
+    }
+  ]
 }
