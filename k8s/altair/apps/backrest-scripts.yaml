@@ -34,11 +34,27 @@ data:
     # Sentry crash/telemetry envelopes — ephemeral, not useful for restore
     **/Sentry/**
 
-    # Jellyfin resized image cache — regenerated on demand, not needed for restore
-    **/cache/images/resized-images
+    # Image/art caches — refetched from metadata agents on scan
+    **/cache/images
+    **/cache/backgrounds
+    **/cache/transcoding
 
     # Jellyfin transcode segments — ephemeral HLS files, not needed for restore
     **/cache/transcodes
+
+    # Arr suite cover art — fully regeneratable from metadata agents
+    **/MediaCover
+
+    # Vaultwarden favicon cache — re-fetched per login on demand
+    **/icon_cache
+
+    # Gitea ephemeral state — rebuilt on startup
+    **/gitea/indexers
+    **/gitea/queues
+    **/gitea/sessions
+
+    # qBittorrent torrent resume state — rebuilt via force-recheck after restore
+    **/qBittorrent/BT_backup
 
     # Jellyfin IntroDB/IntroSkipper chromaprints — regenerated on library scan
     **/introskipper/chromaprints
