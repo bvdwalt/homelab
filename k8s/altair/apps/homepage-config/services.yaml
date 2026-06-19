@@ -75,6 +75,10 @@
         href: https://lidarr.greedo.net
         icon: lidarr
         description: Music management
+    - slskd:
+        href: https://slskd.greedo.net
+        icon: slskd
+        description: Soulseek
     - Music Grabber:
         href: https://musicgrabber.greedo.net
         description: Music
