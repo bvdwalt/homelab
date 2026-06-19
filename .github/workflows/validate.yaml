@@ -20,7 +20,7 @@ jobs:
           - raspi
           - altair
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@v2.8.8
       - uses: allenporter/flux-local/action/test@8.3.0
@@ -45,7 +45,7 @@ jobs:
           - kustomization
           - helmrelease
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@v2.8.8
       - uses: allenporter/flux-local/action/diff@8.3.0
