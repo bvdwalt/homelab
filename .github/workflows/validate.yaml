@@ -29,7 +29,7 @@ jobs:
           enable-helm: true
 
   diff:
-    name: flux-local diff (${{ matrix.cluster }}/${{ matrix.resource }})
+    name: flux-local diff (${{ matrix.resource }})
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
@@ -38,9 +38,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cluster:
-          - raspi
-          - altair
         resource:
           - kustomization
           - helmrelease
@@ -49,19 +46,44 @@ jobs:
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@v2.8.8
       - uses: allenporter/flux-local/action/diff@8.3.0
-        id: diff
+        id: diff-raspi
         with:
-          path: k8s/${{ matrix.cluster }}/flux-system
+          path: k8s/raspi/flux-system
           resource: ${{ matrix.resource }}
           live-branch: main
+      - uses: allenporter/flux-local/action/diff@8.3.0
+        id: diff-altair
+        with:
+          path: k8s/altair/flux-system
+          resource: ${{ matrix.resource }}
+          live-branch: main
+      - name: Combine diffs
+        id: combined
+        env:
+          RASPI_DIFF: ${{ steps.diff-raspi.outputs.diff }}
+          ALTAIR_DIFF: ${{ steps.diff-altair.outputs.diff }}
+        run: |
+          combined=""
+          [ -n "$RASPI_DIFF" ] && combined="$RASPI_DIFF"
+          [ -n "$ALTAIR_DIFF" ] && combined="${combined:+$combined$'\n'}$ALTAIR_DIFF"
+          if [ -n "$combined" ]; then
+            {
+              echo 'diff<<EOF'
+              printf '%s\n' "$combined"
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+            echo "has_diff=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_diff=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Post diff as PR comment
         uses: mshick/add-pr-comment@v3
-        if: ${{ steps.diff.outputs.diff != '' }}
+        if: steps.combined.outputs.has_diff == 'true'
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          message-id: ${{ matrix.cluster }}-${{ matrix.resource }}
+          message-id: ${{ matrix.resource }}
           message-failure: Unable to post diff
           message: |
             `````diff
-            ${{ steps.diff.outputs.diff }}
+            ${{ steps.combined.outputs.diff }}
             `````
