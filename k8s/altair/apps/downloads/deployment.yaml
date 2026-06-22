@@ -49,7 +49,7 @@ spec:
               mountPath: /dev/net/tun
           readinessProbe:
             exec:
-              command: ["/bin/sh", "-c", "wget -q -O /dev/null http://127.0.0.1:8000/v1/healthcheck"]
+              command: ["/bin/sh", "-c", "wget -q -O /dev/null http://127.0.0.1:8000/v1/publicip/ip"]
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 6
