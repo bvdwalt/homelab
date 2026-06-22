@@ -51,12 +51,14 @@ jobs:
           path: k8s/raspi/flux-system
           resource: ${{ matrix.resource }}
           live-branch: main
+          api-versions: monitoring.coreos.com/v1/ServiceMonitor
       - uses: allenporter/flux-local/action/diff@8.3.0
         id: diff-altair
         with:
           path: k8s/altair/flux-system
           resource: ${{ matrix.resource }}
           live-branch: main
+          api-versions: monitoring.coreos.com/v1/ServiceMonitor
       - name: Combine diffs
         id: combined
         env:
