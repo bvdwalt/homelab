@@ -42,4 +42,5 @@ spec:
       POSTGRES_USER: "metering"
       POSTGRES_DB: "data"
       TZ: "Europe/Amsterdam"
+    middlewares: []
     existingSecret: metering-secrets
