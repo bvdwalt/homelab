@@ -9,6 +9,12 @@ spec:
     - Ingress
     - Egress
   ingress:
+    # Kubelet health probes (node IP)
+    - from:
+        - ipBlock:
+            cidr: 10.13.1.0/24
+      ports:
+        - port: 8000  # gluetun control API
     # Traefik (kube-system) → app ports
     - from:
         - namespaceSelector:
