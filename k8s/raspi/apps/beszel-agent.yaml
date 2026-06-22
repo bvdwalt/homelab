@@ -41,5 +41,5 @@ spec:
     env:
       LISTEN: ":45876"
       TZ: Europe/Amsterdam
-      HUB_URL: https://beszel.greedo.net
+      HUB_URL: https://beszel.raspi.greedo.net
     existingSecret: beszel-agent

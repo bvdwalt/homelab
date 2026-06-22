@@ -32,7 +32,7 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     port: 9898
-    hostname: backrest-raspi.greedo.net
+    hostname: backrest.raspi.greedo.net
     env:
       BACKREST_PORT: "0.0.0.0:9898"
       BACKREST_DATA: /data
