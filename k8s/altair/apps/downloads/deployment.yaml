@@ -48,9 +48,8 @@ spec:
             - name: tun
               mountPath: /dev/net/tun
           readinessProbe:
-            httpGet:
-              path: /v1/publicip/ip
-              port: 8000
+            exec:
+              command: ["/bin/sh", "-c", "wget -q -O /dev/null http://127.0.0.1:8000/v1/healthcheck"]
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 6
