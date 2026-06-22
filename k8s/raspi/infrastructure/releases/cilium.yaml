@@ -28,11 +28,26 @@ spec:
     ipv4NativeRoutingCIDR: 10.42.0.0/16
     ipam:
       mode: kubernetes
+    bpf:
+      masquerade: true
     operator:
       replicas: 1
     hubble:
       enabled: true
+      metrics:
+        enableOpenMetrics: true
+        enabled:
+          - dns
+          - drop
+          - tcp
+          - flow
+          - port-distribution
+          - httpV2
       relay:
         enabled: true
       ui:
+        enabled: true
+    prometheus:
+      enabled: true
+      serviceMonitor:
         enabled: true

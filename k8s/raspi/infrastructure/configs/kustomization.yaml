@@ -7,3 +7,4 @@ resources:
   - traefik.yaml
   - oidc-auth.yaml
   - traefik-dashboard.yaml
+  - hubble-ui.yaml

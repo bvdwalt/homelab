@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hubble-ui
+  namespace: kube-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`hubble.greedo.net`)
+      kind: Rule
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
+      services:
+        - name: hubble-ui
+          port: 80
+  tls:
+    secretName: greedo-net-wildcard-tls
