@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`hubble-raspi.greedo.net`)
+    - match: Host(`hubble.raspi.greedo.net`)
       kind: Rule
       middlewares:
         - name: oidc-auth

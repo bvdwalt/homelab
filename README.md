@@ -8,18 +8,18 @@ Two k3s clusters managed with Flux, running on a Raspberry Pi 5 and an HP Elite 
 Altair — HP Elite Mini 800 G9
 ├── Proxmox VE (10.13.1.166)
 └── k3s LXC   (10.13.1.167)
-    ├── Traefik         — ingress, *.altair.greedo.net
+    ├── Traefik         — ingress, *.greedo.net
     ├── cert-manager    — wildcard TLS via Let's Encrypt + Cloudflare DNS-01
     ├── CNPG PostgreSQL — shared database (atuin, metering, linkwarden)
     └── services/       — see k8s/altair/apps/
 
 Raspi — Raspberry Pi 5 (10.13.1.164)
-├── Traefik         — ingress, *.greedo.net
+├── Traefik         — ingress, *.raspi.greedo.net
 ├── cert-manager    — wildcard TLS via Let's Encrypt + Cloudflare DNS-01
 └── services/       — see k8s/raspi/apps/
 ```
 
-AdGuard (running on Altair) resolves `*.greedo.net → 10.13.1.164` and `*.altair.greedo.net → 10.13.1.167`.
+AdGuard (running on Altair) resolves `*.greedo.net → 10.13.1.167` and `*.raspi.greedo.net → 10.13.1.164`, with per-service overrides for Raspi services that don't use the `raspi.` subdomain.
 
 ## Repo layout
 

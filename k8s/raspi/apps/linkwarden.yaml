@@ -19,7 +19,7 @@ spec:
   values:
     image: ghcr.io/linkwarden/linkwarden:v2.14.1@sha256:31cf4bd2a2e111991fa5c9de03174c8698869c83722105c6ce529e4c911e6861
     port: 3000
-    hostname: linkwarden.greedo.net
+    hostname: linkwarden.raspi.greedo.net
     strategy: Recreate
     resources:
       requests:
@@ -41,7 +41,7 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     env:
-      NEXTAUTH_URL: "https://linkwarden.greedo.net/api/v1/auth"
+      NEXTAUTH_URL: "https://linkwarden.raspi.greedo.net/api/v1/auth"
       TZ: "Europe/Amsterdam"
     existingSecret: linkwarden
     persistence:

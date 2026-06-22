@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`traefik-raspi.greedo.net`)
+    - match: Host(`traefik.raspi.greedo.net`)
       kind: Rule
       middlewares:
         - name: oidc-auth

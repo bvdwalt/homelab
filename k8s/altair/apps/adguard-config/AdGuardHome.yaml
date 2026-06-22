@@ -238,24 +238,6 @@ filtering:
     - domain: truenas.royal-penny.ts.net
       answer: 10.13.1.165
       enabled: true
-    - domain: vw.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: linkwarden.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: backrest-raspi.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: whoami-raspi.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: traefik-raspi.greedo.net
-      answer: 10.13.1.164
-      enabled: true
-    - domain: beszel.greedo.net
-      answer: 10.13.1.164
-      enabled: true
     - domain: whoami.greedo.net
       answer: 10.13.1.167
       enabled: true

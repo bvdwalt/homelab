@@ -37,7 +37,7 @@
         icon: gitea
         description: Self-Hosted Git
     - Linkwarden:
-        href: https://linkwarden.greedo.net
+        href: https://linkwarden.raspi.greedo.net
         icon: linkwarden
         description: Links
     - Navidrome:
@@ -83,7 +83,7 @@
         href: https://musicgrabber.greedo.net
         description: Music
     - Beszel:
-        href: https://beszel.greedo.net
+        href: https://beszel.raspi.greedo.net
         icon: beszel
         description: Server Metrics
 
@@ -105,7 +105,7 @@
         icon: traefik
         description: Reverse proxy (Altair)
     - Traefik (Raspi):
-        href: https://traefik-raspi.greedo.net
+        href: https://traefik.raspi.greedo.net
         icon: traefik
         description: Reverse proxy (Raspi)
     - Adguard Home:
