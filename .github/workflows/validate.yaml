@@ -20,10 +20,10 @@ jobs:
           - raspi
           - altair
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@v2.8.8
-      - uses: allenporter/flux-local/action/test@8.3.0
+        uses: fluxcd/flux2/action@1fd61a06264d71cf445ed55c4f14d401d26a1c64 # v2.8.8
+      - uses: allenporter/flux-local/action/test@88f56a2113aeda1551111d446734e9f4a4bee7d4 # 8.3.0
         with:
           path: k8s/${{ matrix.cluster }}/flux-system
           enable-helm: true
@@ -42,17 +42,17 @@ jobs:
           - kustomization
           - helmrelease
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@v2.8.8
-      - uses: allenporter/flux-local/action/diff@8.3.0
+        uses: fluxcd/flux2/action@1fd61a06264d71cf445ed55c4f14d401d26a1c64 # v2.8.8
+      - uses: allenporter/flux-local/action/diff@88f56a2113aeda1551111d446734e9f4a4bee7d4 # 8.3.0
         id: diff-raspi
         with:
           path: k8s/raspi/flux-system
           resource: ${{ matrix.resource }}
           live-branch: main
           api-versions: monitoring.coreos.com/v1/ServiceMonitor
-      - uses: allenporter/flux-local/action/diff@8.3.0
+      - uses: allenporter/flux-local/action/diff@88f56a2113aeda1551111d446734e9f4a4bee7d4 # 8.3.0
         id: diff-altair
         with:
           path: k8s/altair/flux-system
@@ -79,7 +79,7 @@ jobs:
             echo "has_diff=false" >> "$GITHUB_OUTPUT"
           fi
       - name: Post diff as PR comment
-        uses: mshick/add-pr-comment@v3
+        uses: mshick/add-pr-comment@ec328af66588ab8f77cdeb2c264f14aba45bbf59 # v3
         if: steps.combined.outputs.has_diff == 'true'
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
