@@ -14,6 +14,12 @@
       "/(^|/)k8s/[^/]+/.+\\.yaml$/"
     ]
   },
+  "hostRules": [
+    {
+      "matchHost": "docker.gitea.com",
+      "hostType": "docker"
+    }
+  ],
   "packageRules": [
     {
       "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
