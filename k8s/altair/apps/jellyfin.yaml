@@ -63,6 +63,7 @@ spec:
       - name: music
         hostPath: /mnt/media/music
         mountPath: /music
+    middlewares: []
     securityContext:
       enabled: true
       privileged: true
