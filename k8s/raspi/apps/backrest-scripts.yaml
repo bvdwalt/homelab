@@ -92,6 +92,123 @@ data:
     if __name__ == "__main__":
         main()
 
+  config-template.json: |
+    {
+      "modno": 4,
+      "version": 6,
+      "instance": "raspi",
+      "repos": [
+        {
+          "id": "pvcs",
+          "uri": "rclone:pcloud:backups/raspi",
+          "guid": "336ed042f29884c3bd0df7955292852aa48e6ce1c92388fd6e60c93422bcc7cd",
+          "password": "",
+          "prunePolicy": {
+            "schedule": {
+              "cron": "0 3 * * *",
+              "clock": "CLOCK_LAST_RUN_TIME"
+            },
+            "maxUnusedPercent": 10
+          },
+          "checkPolicy": {
+            "schedule": {
+              "cron": "0 5 1 * *",
+              "clock": "CLOCK_LAST_RUN_TIME"
+            }
+          },
+          "commandPrefix": {},
+          "forgetPolicy": {
+            "schedule": {
+              "cron": "0 3 * * *",
+              "clock": "CLOCK_LAST_RUN_TIME"
+            },
+            "retention": {
+              "policyTimeBucketed": {
+                "daily": 5,
+                "weekly": 2,
+                "monthly": 6,
+                "keepLastN": 5
+              }
+            }
+          }
+        }
+      ],
+      "plans": [
+        {
+          "id": "pvcs",
+          "repo": "pvcs",
+          "paths": [
+            "/pvcs"
+          ],
+          "excludes": [],
+          "schedule": {
+            "cron": "0 2 * * *",
+            "clock": "CLOCK_LOCAL"
+          },
+          "retention": {
+            "policyTimeBucketed": {
+              "hourly": 24,
+              "daily": 30,
+              "monthly": 12
+            }
+          }
+        }
+      ],
+      "auth": {
+        "users": [
+          {
+            "name": "barend",
+            "passwordBcrypt": "JDJhJDEwJFFCRm52SXVlQW83UjNQOVhFWUdIWS5YSFNHNWZDZDkuNWdGS3VIaGczbXU1eW8vQ05lQlV5"
+          }
+        ]
+      }
+    }
+
+  restore-config.py: |
+    #!/usr/bin/env python3
+    """Restore config.json from template on first run.
+
+    Copies /scripts/config-template.json to /data/config.json if it does not
+    exist, injecting RESTIC_PASSWORD from the environment.
+    The sync.identity section is intentionally absent from the template —
+    backrest generates a fresh identity on first startup.
+    """
+    import json
+    import os
+    from pathlib import Path
+
+    CONFIG = Path("/data/config.json")
+    TEMPLATE = Path("/scripts/config-template.json")
+
+    if CONFIG.exists():
+        print("config.json exists, skipping restore")
+    else:
+        config = json.loads(TEMPLATE.read_text())
+        password = os.environ["RESTIC_PASSWORD"]
+        for repo in config.get("repos", []):
+            repo["password"] = password
+        CONFIG.write_text(json.dumps(config, indent=2))
+        print(f"Restored config.json ({len(config.get('repos', []))} repo(s))")
+
+  extract-config.py: |
+    #!/usr/bin/env python3
+    """Print current backrest config with password blanked, ready to commit to git.
+
+    Usage (inside backrest scripts container):
+      python3 /scripts/extract-config.py
+
+    Paste the output as config-template.json in backrest-scripts.yaml, then commit.
+    The sync section is excluded — it contains a private key and regenerates on startup.
+    """
+    import json
+    from pathlib import Path
+
+    config = json.loads(Path("/data/config.json").read_text())
+    for repo in config.get("repos", []):
+        repo["password"] = ""
+    config.pop("sync", None)
+    print(json.dumps(config, indent=2))
+
   diff-summary.py: |
     #!/usr/bin/env python3
     """Summarize restic diff output grouped by app/PVC.

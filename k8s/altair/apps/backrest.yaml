@@ -50,7 +50,7 @@ spec:
       capabilities:
         add: [DAC_READ_SEARCH]
     existingConfigMap: backrest-scripts
-    configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, pg-dump.sh, pre-backup.sh, post-backup.sh]
+    configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, pg-dump.sh, pre-backup.sh, post-backup.sh, config-template.json, restore-config.py, extract-config.py]
     configMountPath: /scripts
     extraContainers:
       - name: scripts
@@ -68,6 +68,17 @@ spec:
           - name: config
             mountPath: /scripts
     initContainers:
+      - name: restore-config
+        image: python:3.14-alpine@sha256:47f36929d95852c8aa959380eeeea761ba7411ebe793d090da4cd518ac3af237
+        command: [python3, /scripts/restore-config.py]
+        envFrom:
+          - secretRef:
+              name: backrest
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: config
+            mountPath: /scripts
       - name: sync-excludes
         image: python:3.14-alpine@sha256:47f36929d95852c8aa959380eeeea761ba7411ebe793d090da4cd518ac3af237
         command: [python3, /scripts/sync-excludes.py]
