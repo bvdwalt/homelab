@@ -2,21 +2,28 @@
 
 Two k3s clusters managed with Flux, running on a Raspberry Pi 5 and an HP Elite Mini 800 G9.
 
+## Key components
+
+| Component | Role |
+|-----------|------|
+| [Flux](https://fluxcd.io) | GitOps — all cluster state is reconciled from this repo |
+| [Cilium](https://cilium.io) | CNI on both clusters, native routing on Raspi |
+| [Traefik](https://traefik.io) | Ingress controller, TLS termination |
+| [cert-manager](https://cert-manager.io) | Wildcard TLS certificates via Let's Encrypt + Cloudflare DNS-01 |
+| [CNPG](https://cloudnative-pg.io) | CloudNativePG — shared PostgreSQL cluster on Altair |
+| [AdGuard Home](https://adguard.com/adguard-home) | Local DNS with per-service rewrite rules |
+| [Renovate](https://docs.renovatebot.com) | Automated dependency updates for Helm charts and container images |
+| [SOPS + age](https://github.com/getsops/sops) | Secrets encrypted at rest in the repo |
+
 ## Architecture
 
 ```
 Altair — HP Elite Mini 800 G9
-├── Proxmox VE (10.13.1.166)
-└── k3s LXC   (10.13.1.167)
-    ├── Traefik         — ingress, *.greedo.net
-    ├── cert-manager    — wildcard TLS via Let's Encrypt + Cloudflare DNS-01
-    ├── CNPG PostgreSQL — shared database (atuin, metering, linkwarden)
-    └── services/       — see k8s/altair/apps/
+├── Proxmox VE  (10.13.1.166)
+└── k3s LXC     (10.13.1.167)  — *.greedo.net
 
-Raspi — Raspberry Pi 5 (10.13.1.164)
-├── Traefik         — ingress, *.raspi.greedo.net
-├── cert-manager    — wildcard TLS via Let's Encrypt + Cloudflare DNS-01
-└── services/       — see k8s/raspi/apps/
+Raspi — Raspberry Pi 5
+└── k3s         (10.13.1.164)  — *.raspi.greedo.net
 ```
 
 AdGuard (running on Altair) resolves `*.greedo.net → 10.13.1.167` and `*.raspi.greedo.net → 10.13.1.164`, with per-service overrides for Raspi services that don't use the `raspi.` subdomain.
