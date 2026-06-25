@@ -11,3 +11,4 @@ spec:
   dnsNames:
     - "*.greedo.net"
     - greedo.net
+    - "*.raspi.greedo.net"

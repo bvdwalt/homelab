@@ -129,6 +129,10 @@ pages:
               - title: Music Grabber
                 url: https://musicgrabber.greedo.net
 
+  - name: Dev
+    columns:
+      - size: full
+        widgets:
           - type: releases
             show-source-icon: true
             collapse-after: 5
@@ -153,3 +157,4 @@ pages:
             pull-requests-limit: 5
             issues-limit: 5
             commits-limit: 5
+
