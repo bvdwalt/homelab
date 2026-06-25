@@ -25,6 +25,7 @@ spec:
         memory: 64Mi
       limits:
         memory: 128Mi
+    existingSecret: glance-secrets
     existingConfigMap: glance-config
     configMountPath: /app/config
     configKeys:
