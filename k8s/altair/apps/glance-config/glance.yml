@@ -65,63 +65,72 @@ pages:
               - title: Jellyfin
                 url: https://jellyfin.greedo.net
                 icon: si:jellyfin
-              - title: Jellyseerr
+              - title: Jellyseerr — Media requests
                 url: https://seerr.greedo.net
                 icon: si:jellyfin
-              - title: Sonarr
+              - title: Sonarr — TV shows
                 url: https://sonarr.greedo.net
                 icon: si:sonarr
-              - title: Radarr
+              - title: Radarr — Movies
                 url: https://radarr.greedo.net
                 icon: si:radarr
-              - title: Navidrome
+              - title: Navidrome — Music streaming
                 url: https://navidrome.greedo.net
                 icon: si:navidrome
-              - title: ActualBudget
+              - title: ActualBudget — Budgeting
                 url: https://budget.greedo.net
                 icon: si:actualbudget
-              - title: Gitea
+              - title: Gitea — Git hosting
                 url: https://gitea.greedo.net
                 icon: si:gitea
-              - title: Linkwarden
+              - title: Linkwarden — Bookmarks
                 url: https://linkwarden.raspi.greedo.net
-              - title: Bazarr
+                icon: di:linkwarden
+              - title: Bazarr — Subtitles
                 url: https://bazarr.greedo.net
-              - title: Prowlarr
+                icon: di:bazarr
+              - title: Prowlarr — Indexers
                 url: https://prowlarr.greedo.net
-              - title: qBittorrent
+                icon: di:prowlarr
+              - title: qBittorrent — Torrents
                 url: https://downloads.greedo.net
                 icon: si:qbittorrent
-              - title: Lidarr
+              - title: Lidarr — Music downloads
                 url: https://lidarr.greedo.net
-              - title: slskd
+                icon: di:lidarr
+              - title: slskd — Soulseek
                 url: https://slskd.greedo.net
-              - title: Beszel
+                icon: di:slskd
+              - title: Beszel — System monitor
                 url: https://beszel.raspi.greedo.net
-              - title: Vaultwarden
+                icon: di:beszel
+              - title: Vaultwarden — Passwords
                 url: https://vw.greedo.net
                 icon: si:vaultwarden
-              - title: Pocket-ID
+              - title: Pocket-ID — SSO
                 url: https://pocketid.greedo.net
-              - title: Proxmox
+                icon: di:pocket-id
+              - title: Proxmox — Virtualisation
                 url: https://pve.greedo.net
                 icon: si:proxmox
-              - title: Traefik (Altair)
+              - title: Traefik (Altair) — Reverse proxy
                 url: https://traefik.greedo.net
                 icon: si:traefikproxy
-              - title: Traefik (Raspi)
+              - title: Traefik (Raspi) — Reverse proxy
                 url: https://traefik.raspi.greedo.net
                 icon: si:traefikproxy
-              - title: AdGuard Home
+              - title: AdGuard Home — DNS / Ad blocking
                 url: https://adguard.greedo.net
                 icon: si:adguard
-              - title: Grafana
+              - title: Grafana — Metrics
                 url: https://grafana.greedo.net
                 icon: si:grafana
-              - title: Backrest
+              - title: Backrest — Backups
                 url: https://backrest.greedo.net
-              - title: IT Tools
+                icon: di:backrest
+              - title: IT Tools — Dev utilities
                 url: https://ittools.greedo.net
+                icon: di:it-tools
               - title: Overdrive
                 url: https://overdrive.greedo.net
               - title: Metering
