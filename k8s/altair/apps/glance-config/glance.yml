@@ -85,7 +85,7 @@ pages:
                 icon: si:gitea
               - title: Linkwarden — Bookmarks
                 url: https://linkwarden.raspi.greedo.net
-                icon: di:linkwarden
+                icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
               - title: Bazarr — Subtitles
                 url: https://bazarr.greedo.net
                 icon: di:bazarr
