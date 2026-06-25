@@ -65,9 +65,9 @@ pages:
               - title: Jellyfin
                 url: https://jellyfin.greedo.net
                 icon: si:jellyfin
-              - title: Jellyseerr — Media requests
+              - title: Seerr — Media requests
                 url: https://seerr.greedo.net
-                icon: si:jellyfin
+                icon: si:seerr
               - title: Sonarr — TV shows
                 url: https://sonarr.greedo.net
                 icon: si:sonarr
