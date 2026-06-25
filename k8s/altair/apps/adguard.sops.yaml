@@ -4,7 +4,7 @@ metadata:
     name: adguard
     namespace: adguard
 stringData:
-    ADGUARD_PASSWORD_HASH: ENC[AES256_GCM,data:meffiQ3YeKl0CfAAaR/gIOVdvy/gBHOVxS6o7YEeuluDnn+3VS5VSZV8R2oEGpKJxfxNQBMmTqG1OYst,iv:9rokake78MV/t1XJtRb/PXR38fwPhq3mWraOI6hAaOM=,tag:ZnUP0lzEvd5fQYmS5eQhLg==,type:str]
+    ADGUARD_PASSWORD_HASH: ENC[AES256_GCM,data:PBQp54tvdCWL22PU76HTSdcAK6hyHYarAuarMkwpGsymi6qxGb321Ca/1slQhW0ypII6E+7nNwY9pSFW,iv:6qOt/y+3XmaQDgSbjMxvh6sTET7M8ts9y3FrDPVQK0M=,tag:R8WjFDMmZ+FC4bLoMVEvPw==,type:str]
 sops:
     age:
         - enc: |
@@ -17,6 +17,6 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
     encrypted_regex: ^(data|stringData)$
-    lastmodified: "2026-06-17T09:26:02Z"
-    mac: ENC[AES256_GCM,data:aV3vMtrls7C99juxL2AN/X6zdsYwmnN5MdwugBO5oD2l4B7NUzscCBJtb3rNhU4NhTgXFOg6gDqqorf6vE2T9CVakYQEk4oxIRxmVaLdikPLyBzWQM+1E1wGbofkUB3W23r/DF8DqNBfXASEbbVkjLsLUpFlpWPXOrI+z/5Sovg=,iv:NZtPIp0gHir45exr3qazEKBVsraVCoJw7y40t3yvaGg=,tag:IoEuCnjgoYbZ2Yn6PxNkqw==,type:str]
+    lastmodified: "2026-06-25T14:48:33Z"
+    mac: ENC[AES256_GCM,data:pxh2FIlwWixoGvAwko27e+p5WWWb+kI2Gy5roYMfth30SDL1mYrt8EQvvkaJXY8b6XDW60lDOCqZF3Q92ehxLcABbKcAKzATPeqnD8YU/3j5O9eDkH25cRHqlx27p/h79yJbaRf/p0hD+l8Pd1jGX0E6/yQbASng1kINeFWTT8o=,iv:MbYzYVFAbZfJGiqjBUOxUxLtJ+Dp0kgz5TZ06U7cYP4=,tag:AgIzQrjkfurdPamiglskDw==,type:str]
     version: 3.13.1
