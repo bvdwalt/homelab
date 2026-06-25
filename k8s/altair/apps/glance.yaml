@@ -19,7 +19,7 @@ spec:
   values:
     image: glanceapp/glance:v0.8.5@sha256:32ab73d80f2b8b5fb0735b0431deb36b93fbb6b2fb43592449b0178c8b83e350
     port: 8080
-    hostname: glance.greedo.net
+    hostname: home.greedo.net
     resources:
       requests:
         memory: 64Mi

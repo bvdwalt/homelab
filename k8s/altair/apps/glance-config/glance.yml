@@ -6,8 +6,10 @@ pages:
           - type: clock
             hour-format: 24h
             timezones:
-              - timezone: Europe/Amsterdam
-                label: Amsterdam
+              - timezone: Africa/Johannesburg
+                label: Cape Town
+              - timezone: Asia/Dubai
+                label: Dubai
               - timezone: UTC
                 label: UTC
 
