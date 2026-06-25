@@ -76,7 +76,7 @@ pages:
                 icon: si:radarr
               - title: Navidrome — Music streaming
                 url: https://navidrome.greedo.net
-                icon: si:navidrome
+                icon: di:navidrome
               - title: ActualBudget — Budgeting
                 url: https://budget.greedo.net
                 icon: si:actualbudget
