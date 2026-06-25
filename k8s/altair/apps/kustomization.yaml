@@ -43,7 +43,7 @@ configMapGenerator:
     options:
       disableNameSuffixHash: true
     files:
-      - glance-config/glance.yaml
+      - glance-config/glance.yml
   - name: adguard-config
     namespace: adguard
     options:

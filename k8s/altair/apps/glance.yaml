@@ -26,6 +26,6 @@ spec:
       limits:
         memory: 128Mi
     existingConfigMap: glance-config
-    configMountPath: /etc/glance
+    configMountPath: /app/config
     configKeys:
-      - glance.yaml
+      - glance.yml
