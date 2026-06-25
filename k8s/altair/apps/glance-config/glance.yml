@@ -54,7 +54,7 @@ pages:
 
           - type: dns-stats
             service: adguard
-            url: https://adguard.greedo.net
+            url: http://adguard.adguard.svc.cluster.local
             username: ${ADGUARD_USERNAME}
             password: ${ADGUARD_PASSWORD}
             hour-format: 24h
