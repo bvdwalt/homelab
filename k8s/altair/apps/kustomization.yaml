@@ -23,6 +23,7 @@ resources:
   - atuin.yaml
   - overdrive.yaml
   - vaultwarden.yaml
+  - glance.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage
@@ -37,6 +38,12 @@ configMapGenerator:
       - homepage-config/docker.yaml
       - homepage-config/custom.css
       - homepage-config/custom.js
+  - name: glance-config
+    namespace: glance
+    options:
+      disableNameSuffixHash: true
+    files:
+      - glance-config/glance.yaml
   - name: adguard-config
     namespace: adguard
     options:

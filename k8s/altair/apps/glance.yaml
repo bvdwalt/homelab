@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: glance
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: glance
+  targetNamespace: glance
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: glanceapp/glance:v0.7.10
+    port: 8080
+    hostname: glance.greedo.net
+    resources:
+      requests:
+        memory: 64Mi
+      limits:
+        memory: 128Mi
+    existingConfigMap: glance-config
+    configMountPath: /etc/glance
+    configKeys:
+      - glance.yaml

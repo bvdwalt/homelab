@@ -1,0 +1,125 @@
+pages:
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: clock
+            hour-format: 12h
+
+          - type: search
+            search-engine: duckduckgo
+
+          - type: bookmarks
+            groups:
+              - title: Developer
+                links:
+                  - title: GitHub
+                    url: https://github.com/
+              - title: Social
+                links:
+                  - title: Reddit
+                    url: https://reddit.com/
+                  - title: YouTube
+                    url: https://youtube.com/
+
+      - size: full
+        widgets:
+          - type: group
+            title: Main
+            widgets:
+              - type: iframe
+                source: https://seerr.greedo.net
+                title: Jellyseerr
+                height: 60
+              - type: bookmarks
+                groups:
+                  - title: Services
+                    links:
+                      - title: Jellyfin
+                        url: https://jellyfin.greedo.net
+                        icon: si:jellyfin
+                      - title: Jellyseerr
+                        url: https://seerr.greedo.net
+                        icon: si:jellyfin
+                      - title: Sonarr
+                        url: https://sonarr.greedo.net
+                        icon: si:sonarr
+                      - title: Radarr
+                        url: https://radarr.greedo.net
+                        icon: si:radarr
+                      - title: ActualBudget
+                        url: https://budget.greedo.net
+                        icon: si:actualbudget
+                      - title: Gitea
+                        url: https://gitea.greedo.net
+                        icon: si:gitea
+                      - title: Linkwarden
+                        url: https://linkwarden.raspi.greedo.net
+                      - title: Navidrome
+                        url: https://navidrome.greedo.net
+                        icon: si:navidrome
+
+          - type: group
+            title: Media Management
+            widgets:
+              - type: bookmarks
+                groups:
+                  - title: Tools
+                    links:
+                      - title: Bazarr
+                        url: https://bazarr.greedo.net
+                        icon: si:bazarr
+                      - title: Profilarr
+                        url: https://profilarr.greedo.net
+                      - title: Prowlarr
+                        url: https://prowlarr.greedo.net
+                        icon: si:prowlarr
+                      - title: qBittorrent
+                        url: https://downloads.greedo.net
+                        icon: si:qbittorrent
+                      - title: Lidarr
+                        url: https://lidarr.greedo.net
+                        icon: si:lidarr
+                      - title: slskd
+                        url: https://slskd.greedo.net
+                      - title: Music Grabber
+                        url: https://musicgrabber.greedo.net
+                      - title: Beszel
+                        url: https://beszel.raspi.greedo.net
+                        icon: si:beszel
+
+          - type: group
+            title: Other Services
+            widgets:
+              - type: bookmarks
+                groups:
+                  - title: Infrastructure
+                    links:
+                      - title: Vaultwarden
+                        url: https://vw.greedo.net
+                        icon: si:vaultwarden
+                      - title: Pocket-ID
+                        url: https://pocketid.greedo.net
+                      - title: Proxmox
+                        url: https://pve.greedo.net
+                        icon: si:proxmox
+                      - title: Traefik (Altair)
+                        url: https://traefik.greedo.net
+                        icon: si:traefikproxy
+                      - title: Traefik (Raspi)
+                        url: https://traefik.raspi.greedo.net
+                        icon: si:traefikproxy
+                      - title: AdGuard Home
+                        url: https://adguard.greedo.net
+                        icon: si:adguard
+                      - title: Grafana
+                        url: https://grafana.greedo.net
+                        icon: si:grafana
+                      - title: Backrest
+                        url: https://backrest.greedo.net
+                      - title: IT Tools
+                        url: https://ittools.greedo.net
+                      - title: Metering
+                        url: https://metering.greedo.net
+                      - title: Overdrive
+                        url: https://overdrive.greedo.net
