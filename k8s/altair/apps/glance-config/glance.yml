@@ -58,6 +58,7 @@ pages:
             username: ${ADGUARD_USERNAME}
             password: ${ADGUARD_PASSWORD}
             hour-format: 24h
+            hide-graph: true
 
           - type: monitor
             title: Services
