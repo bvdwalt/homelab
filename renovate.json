@@ -3,6 +3,7 @@
   "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "pinDigests": true,
+  "ignoreDigestUpdates": true,
   "flux": {
     "managerFilePatterns": [
       "/(^|/)k8s/[^/]+/.+\\.yaml$/",
