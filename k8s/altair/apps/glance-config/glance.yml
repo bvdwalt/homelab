@@ -67,7 +67,7 @@ pages:
                 icon: si:jellyfin
               - title: Seerr — Media requests
                 url: https://seerr.greedo.net
-                icon: si:seerr
+                icon: di:seerr
               - title: Sonarr — TV shows
                 url: https://sonarr.greedo.net
                 icon: si:sonarr
