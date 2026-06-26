@@ -76,7 +76,7 @@ pages:
                 icon: si:radarr
               - title: Navidrome — Music streaming
                 url: https://navidrome.greedo.net
-                icon: si:navidrome
+                icon: di:navidrome
               - title: ActualBudget — Budgeting
                 url: https://budget.greedo.net
                 icon: si:actualbudget
@@ -85,31 +85,31 @@ pages:
                 icon: si:gitea
               - title: Linkwarden — Bookmarks
                 url: https://linkwarden.raspi.greedo.net
-                icon: si:linkwarden
+                icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
               - title: Bazarr — Subtitles
                 url: https://bazarr.greedo.net
-                icon: si:bazarr
+                icon: di:bazarr
               - title: Prowlarr — Indexers
                 url: https://prowlarr.greedo.net
-                icon: si:prowlarr
+                icon: di:prowlarr
               - title: qBittorrent — Torrents
                 url: https://downloads.greedo.net
                 icon: si:qbittorrent
               - title: Lidarr — Music downloads
                 url: https://lidarr.greedo.net
-                icon: si:lidarr
+                icon: di:lidarr
               - title: slskd — Soulseek
                 url: https://slskd.greedo.net
-                icon: si:slskd
+                icon: di:slskd
               - title: Beszel — System monitor
                 url: https://beszel.raspi.greedo.net
-                icon: si:beszel
+                icon: di:beszel
               - title: Vaultwarden — Passwords
                 url: https://vw.greedo.net
                 icon: si:vaultwarden
               - title: Pocket-ID — SSO
                 url: https://pocketid.greedo.net
-                icon: si:pocket-id
+                icon: di:pocket-id
               - title: Proxmox — Virtualisation
                 url: https://pve.greedo.net
                 icon: si:proxmox
@@ -127,10 +127,10 @@ pages:
                 icon: si:grafana
               - title: Backrest — Backups
                 url: https://backrest.greedo.net
-                icon: si:backrest
+                icon: di:backrest
               - title: IT Tools — Dev utilities
                 url: https://ittools.greedo.net
-                icon: si:it-tools
+                icon: di:it-tools
               - title: Overdrive
                 url: https://overdrive.greedo.net
               - title: Metering
