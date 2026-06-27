@@ -1,0 +1,10 @@
+misconfigurations:
+  - id: AVD-KSV-0017
+    paths:
+      - "k8s/altair/apps/jellyfin.yaml"
+    statement: "Privileged required for Intel QSV hardware transcoding in Proxmox LXC where setgroups is blocked"
+
+  - id: AVD-KSV-0017
+    paths:
+      - "k8s/charts/homelab-app/templates/deployment.yaml"
+    statement: "Privileged is opt-in via .Values.securityContext.privileged; only enabled for Jellyfin (see above)"
