@@ -28,6 +28,11 @@
     {
       "matchUpdateTypes": ["digest"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["fluxcd/flux2"],
+      "matchUpdateTypes": ["pin", "pinDigest"],
+      "enabled": false
     }
   ]
 }
