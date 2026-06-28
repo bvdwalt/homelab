@@ -3,7 +3,6 @@
   "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "pinDigests": true,
-  "ignoreDigestUpdates": true,
   "flux": {
     "managerFilePatterns": [
       "/(^|/)k8s/[^/]+/.+\\.yaml$/",
@@ -25,6 +24,10 @@
     {
       "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
       "allowedVersions": "/^5\\./"
+    },
+    {
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
     }
   ]
 }
