@@ -15,6 +15,10 @@ spec:
       labels:
         app: ntfy-alertmanager
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
         - name: ntfy-alertmanager
           image: xenrox/ntfy-alertmanager:1.0.0@sha256:a6edbbd356b8bf10d5672a81141d20e2262f38a2a76fb82dcfa8125825de8f6a
@@ -40,6 +44,7 @@ spec:
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
+            readOnlyRootFilesystem: true
           volumeMounts:
             - name: config
               mountPath: /etc/ntfy-alertmanager/config

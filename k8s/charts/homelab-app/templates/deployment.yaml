@@ -33,6 +33,16 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       {{- end }}
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        {{- if .Values.securityContext.runAsNonRoot }}
+        runAsNonRoot: true
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+        runAsGroup: {{ .Values.securityContext.runAsGroup }}
+        {{- end }}
+      {{- end }}
       {{- if .Values.initContainers }}
       initContainers:
         {{- toYaml .Values.initContainers | nindent 8 }}
@@ -104,6 +114,9 @@ spec:
             runAsNonRoot: true
             runAsUser: {{ .Values.securityContext.runAsUser }}
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
+            {{- end }}
+            {{- if .Values.securityContext.readOnlyRootFilesystem }}
+            readOnlyRootFilesystem: true
             {{- end }}
           {{- end }}
           {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap .Values.hostPaths }}

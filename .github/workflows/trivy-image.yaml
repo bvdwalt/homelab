@@ -1,0 +1,35 @@
+name: Trivy image scan
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1' # weekly, Monday 06:00 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  image-scan:
+    name: Image vulnerability scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - name: Extract image references
+        id: images
+        run: |
+          images=$(grep -rh 'image:' k8s/ \
+            | sed 's/.*image:[[:space:]]*//' \
+            | grep -v '{{' \
+            | sort -u \
+            | tr '\n' ' ')
+          echo "list=$images" >> "$GITHUB_OUTPUT"
+      - name: Trivy image scan
+        run: |
+          for image in ${{ steps.images.outputs.list }}; do
+            echo "::group::$image"
+            docker run --rm aquasec/trivy:latest image \
+              --severity HIGH,CRITICAL \
+              --exit-code 0 \
+              "$image" || true
+            echo "::endgroup::"
+          done
