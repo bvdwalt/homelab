@@ -27,6 +27,7 @@ securityContext:
   runAsNonRoot: false
   runAsUser: null
   runAsGroup: null
+  readOnlyRootFilesystem: false
   capabilities:
     add: []
 

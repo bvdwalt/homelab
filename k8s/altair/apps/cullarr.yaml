@@ -12,6 +12,9 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
           containers:
             - name: cullarr
               image: ghcr.io/bvdwalt/cullarr:0.4.1@sha256:0b5d3c5623f0b647cae901d869e934db1f1105f9c75b727644a1bcc49e3dd6da
@@ -37,6 +40,12 @@ spec:
               envFrom:
                 - secretRef:
                     name: cullarr
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
+                seccompProfile:
+                  type: RuntimeDefault
               resources:
                 requests:
                   cpu: 25m
