@@ -263,6 +263,9 @@ spec:
 
         - name: profilarr
           image: santiagosayshey/profilarr:v1.1.5@sha256:8033e9c6d6995f37625afeb93d7020e99566f549ae83b65f1db7e11048952d0f
+          securityContext:
+            capabilities:
+              drop: ["ALL"]
           env:
             - name: TZ
               value: Europe/Amsterdam
@@ -321,6 +324,9 @@ spec:
 
         - name: slskd
           image: slskd/slskd:0.25.1@sha256:ab9ed50e028b524cefdb7c1dd8ebca368a076e18441ee8ac2326473eb850b4c3
+          securityContext:
+            capabilities:
+              drop: ["ALL"]
           envFrom:
             - secretRef:
                 name: slskd-credentials
