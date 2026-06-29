@@ -28,6 +28,7 @@ spec:
           securityContext:
             capabilities:
               add: ["NET_ADMIN"]
+              drop: ["ALL"]
           envFrom:
             - secretRef:
                 name: downloads-vpn
@@ -238,6 +239,9 @@ spec:
 
         - name: flaresolverr
           image: ghcr.io/flaresolverr/flaresolverr:v3.5.0@sha256:139dfee1c6f89249c8d665d1333a42e8ec74ec0a86bc6bb1c8461e10d3a66a47
+          securityContext:
+            capabilities:
+              drop: ["ALL"]
           env:
             - name: TZ
               value: Europe/Amsterdam
