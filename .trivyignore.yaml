@@ -174,6 +174,7 @@ misconfigurations:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/monitoring/ntfy-alertmanager.yaml"
       - "altair/apps/cullarr.yaml"
+      - "altair/apps/downloads/deployment.yaml"
     statement: "CPU limits not set; intentional to avoid throttling on this homelab cluster"
 
   - id: AVD-KSV-0012
