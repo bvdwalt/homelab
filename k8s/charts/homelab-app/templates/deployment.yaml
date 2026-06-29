@@ -49,6 +49,9 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
+          {{- if hasSuffix ":latest" .Values.image }}
+          {{- fail (printf "image %q must not use :latest tag" .Values.image) }}
+          {{- end }}
           image: {{ .Values.image }}
           {{- if .Values.args }}
           args:

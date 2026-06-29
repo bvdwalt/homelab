@@ -9,6 +9,60 @@ misconfigurations:
       - "charts/homelab-app/templates/deployment.yaml"
     statement: "Privileged is opt-in via .Values.securityContext.privileged; only enabled for Jellyfin (see above)"
 
+  - id: AVD-KSV-0012
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+    statement: "runAsNonRoot is opt-in via .Values.securityContext.runAsNonRoot; Trivy scans the raw template, not rendered values"
+
+  - id: AVD-KSV-0014
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+    statement: "readOnlyRootFilesystem is opt-in via .Values.securityContext.readOnlyRootFilesystem; Trivy scans the raw template, not rendered values"
+
+  - id: AVD-KSV-0011
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+    statement: "CPU limits are opt-in via .Values.resources; not enforced by default in this homelab chart"
+
+  - id: AVD-KSV-0015
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+    statement: "CPU requests are opt-in via .Values.resources; not enforced by default in this homelab chart"
+
+  - id: AVD-KSV-0016
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+    statement: "Memory requests are opt-in via .Values.resources; not enforced by default in this homelab chart"
+
+  - id: AVD-KSV-0018
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+    statement: "Memory limits are opt-in via .Values.resources; not enforced by default in this homelab chart"
+
+  - id: AVD-KSV-0117
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+    statement: "Port is user-configured via .Values.port; default of 80 is a placeholder, apps use non-privileged ports in practice"
+
+  - id: AVD-KSV-0013
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+    statement: "image is required by the caller; template enforces non-latest at render time via fail; Trivy sees the unrendered template with empty default"
+
+  - id: AVD-KSV-0020
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+      - "altair/flux-system/gotk-components.yaml"
+      - "raspi/flux-system/gotk-components.yaml"
+    statement: "runAsUser is opt-in via .Values.securityContext.runAsUser; gotk-components is Flux-managed and not user-modifiable"
+
+  - id: AVD-KSV-0021
+    paths:
+      - "charts/homelab-app/templates/deployment.yaml"
+      - "altair/flux-system/gotk-components.yaml"
+      - "raspi/flux-system/gotk-components.yaml"
+    statement: "runAsGroup is opt-in via .Values.securityContext.runAsGroup; gotk-components is Flux-managed and not user-modifiable"
+
   - id: AVD-KSV-0109
     paths:
       - "altair/apps/backrest-scripts.yaml"
