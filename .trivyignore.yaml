@@ -149,9 +149,101 @@ misconfigurations:
     statement: "Resource quotas are not enforced in this homelab cluster; Flux CRDs and app manifests are not expected to reference ResourceQuota objects"
 
   - id: AVD-KSV-0125
+    statement: "Docker Hub and other well-known public registries are permitted in this homelab; no private registry policy is enforced"
+
+  - id: AVD-KSV-0001
     paths:
-      - "altair/flux-system/gotk-components.yaml"
-      - "raspi/flux-system/gotk-components.yaml"
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Images are pinned with both tag and digest; Trivy false positive on digest-pinned images"
+
+  - id: AVD-KSV-0003
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Gitea and LinuxServer.io s6-overlay containers require root capabilities during init before dropping to unprivileged user"
+
+  - id: AVD-KSV-0004
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Gitea and LinuxServer.io s6-overlay containers start as root during init then drop to PUID/PGID; root required during init"
+
+  - id: AVD-KSV-0011
+    paths:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/monitoring/ntfy-alertmanager.yaml"
-    statement: "Images are from well-known public registries (ghcr.io, Docker Hub); no private registry policy is enforced in this homelab"
+      - "altair/apps/cullarr.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "CPU limits not set; intentional to avoid throttling on this homelab cluster"
+
+  - id: AVD-KSV-0012
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+      - "altair/apps/cullarr.yaml"
+    statement: "Gitea, LinuxServer.io s6-overlay, and cullarr images start as root; cannot set runAsNonRoot"
+
+  - id: AVD-KSV-0015
+    paths:
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Some sidecar containers in the downloads pod do not set CPU requests; intentional for this homelab"
+
+  - id: AVD-KSV-0016
+    paths:
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Some sidecar containers in the downloads pod do not set memory requests; intentional for this homelab"
+
+  - id: AVD-KSV-0018
+    paths:
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Some sidecar containers in the downloads pod do not set memory limits; intentional for this homelab"
+
+  - id: AVD-KSV-0020
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+      - "altair/apps/monitoring/ntfy-alertmanager.yaml"
+      - "altair/apps/cullarr.yaml"
+    statement: "PUID/PGID set to 1000 via environment variables; UID constraint is acceptable in this homelab"
+
+  - id: AVD-KSV-0021
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+      - "altair/apps/monitoring/ntfy-alertmanager.yaml"
+      - "altair/apps/cullarr.yaml"
+    statement: "PUID/PGID set to 1000 via environment variables; GID constraint is acceptable in this homelab"
+
+  - id: AVD-KSV-0022
+    paths:
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "gluetun requires NET_ADMIN for WireGuard VPN tunnel management; capability is scoped to the gluetun sidecar only"
+
+  - id: AVD-KSV-0023
+    paths:
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "gluetun requires NET_ADMIN for WireGuard VPN tunnel management; capability is scoped to the gluetun sidecar only"
+
+  - id: AVD-KSV-0030
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Gitea and LinuxServer.io containers require default capabilities during root init phase; cannot drop all capabilities"
+
+  - id: AVD-KSV-0104
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Gitea and LinuxServer.io s6-overlay containers require elevated permissions during init; security context cannot be fully hardened at the image level"
+
+  - id: AVD-KSV-0106
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Gitea and LinuxServer.io s6-overlay init requires privilege escalation to switch from root to unprivileged user; allowPrivilegeEscalation cannot be set to false"
+
+  - id: AVD-KSV-0117
+    paths:
+      - "altair/apps/gitea/deployment.yaml"
+    statement: "Gitea exposes port 22 for SSH git operations; privileged port is required for standard SSH client compatibility"
