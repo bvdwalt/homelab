@@ -154,29 +154,34 @@ misconfigurations:
   - id: AVD-KSV-0001
     paths:
       - "altair/apps/gitea/deployment.yaml"
-    statement: "Image is pinned with both tag and digest; Trivy false positive on digest-pinned images"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Images are pinned with both tag and digest; Trivy false positive on digest-pinned images"
 
   - id: AVD-KSV-0003
     paths:
       - "altair/apps/gitea/deployment.yaml"
-    statement: "Gitea entrypoint requires root capabilities to chown mounted volumes before dropping to USER_UID/GID"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Gitea and LinuxServer.io s6-overlay containers require root capabilities during init before dropping to unprivileged user"
 
   - id: AVD-KSV-0004
     paths:
       - "altair/apps/gitea/deployment.yaml"
-    statement: "Gitea entrypoint starts as root to chown /data then drops to USER_UID; root required during init"
+      - "altair/apps/downloads/deployment.yaml"
+    statement: "Gitea and LinuxServer.io s6-overlay containers start as root during init then drop to PUID/PGID; root required during init"
 
   - id: AVD-KSV-0011
     paths:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/monitoring/ntfy-alertmanager.yaml"
+      - "altair/apps/cullarr.yaml"
     statement: "CPU limits not set; intentional to avoid throttling on this homelab cluster"
 
   - id: AVD-KSV-0012
     paths:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/downloads/deployment.yaml"
-    statement: "Gitea and LinuxServer.io s6-overlay images start as root before dropping to unprivileged user; cannot set runAsNonRoot"
+      - "altair/apps/cullarr.yaml"
+    statement: "Gitea, LinuxServer.io s6-overlay, and cullarr images start as root; cannot set runAsNonRoot"
 
   - id: AVD-KSV-0015
     paths:
@@ -198,6 +203,7 @@ misconfigurations:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/downloads/deployment.yaml"
       - "altair/apps/monitoring/ntfy-alertmanager.yaml"
+      - "altair/apps/cullarr.yaml"
     statement: "PUID/PGID set to 1000 via environment variables; UID constraint is acceptable in this homelab"
 
   - id: AVD-KSV-0021
@@ -205,6 +211,7 @@ misconfigurations:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/downloads/deployment.yaml"
       - "altair/apps/monitoring/ntfy-alertmanager.yaml"
+      - "altair/apps/cullarr.yaml"
     statement: "PUID/PGID set to 1000 via environment variables; GID constraint is acceptable in this homelab"
 
   - id: AVD-KSV-0022
