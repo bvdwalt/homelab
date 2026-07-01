@@ -23,6 +23,16 @@ pages:
           - type: calendar
             first-day-of-week: monday
 
+          - type: weather
+            location: Cape Town, South Africa
+            units: metric
+            hour-format: 24h
+
+          - type: weather
+            location: Dubai, United Arab Emirates
+            units: metric
+            hour-format: 24h
+
           - type: search
             search-engine: https://www.ecosia.org/search?q={QUERY}
             new-tab: true
@@ -60,12 +70,19 @@ pages:
             hour-format: 24h
             hide-graph: true
 
+  - name: Homelab
+    columns:
+      - size: full
+        widgets:
           - type: monitor
             title: Services
             sites:
               - title: Jellyfin
                 url: https://jellyfin.greedo.net
                 icon: si:jellyfin
+              - title: Navidrome — Music streaming
+                url: https://navidrome.greedo.net
+                icon: di:navidrome
               - title: Seerr — Media requests
                 url: https://seerr.greedo.net
                 icon: di:seerr
@@ -75,42 +92,25 @@ pages:
               - title: Radarr — Movies
                 url: https://radarr.greedo.net
                 icon: si:radarr
-              - title: Navidrome — Music streaming
-                url: https://navidrome.greedo.net
-                icon: di:navidrome
-              - title: ActualBudget — Budgeting
-                url: https://budget.greedo.net
-                icon: si:actualbudget
-              - title: Gitea — Git hosting
-                url: https://gitea.greedo.net
-                icon: si:gitea
-              - title: Linkwarden — Bookmarks
-                url: https://linkwarden.raspi.greedo.net
-                icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
               - title: Bazarr — Subtitles
                 url: https://bazarr.greedo.net
                 icon: di:bazarr
+              - title: Lidarr — Music downloads
+                url: https://lidarr.greedo.net
+                icon: di:lidarr
               - title: Prowlarr — Indexers
                 url: https://prowlarr.greedo.net
                 icon: di:prowlarr
               - title: qBittorrent — Torrents
                 url: https://downloads.greedo.net
                 icon: si:qbittorrent
-              - title: Lidarr — Music downloads
-                url: https://lidarr.greedo.net
-                icon: di:lidarr
               - title: slskd — Soulseek
                 url: https://slskd.greedo.net
                 icon: di:slskd
-              - title: Beszel — System monitor
-                url: https://beszel.raspi.greedo.net
-                icon: di:beszel
-              - title: Vaultwarden — Passwords
-                url: https://vw.greedo.net
-                icon: si:vaultwarden
-              - title: Pocket-ID — SSO
-                url: https://pocketid.greedo.net
-                icon: di:pocket-id
+              - title: Overdrive
+                url: https://overdrive.greedo.net
+              - title: Music Grabber
+                url: https://musicgrabber.greedo.net
               - title: Proxmox — Virtualisation
                 url: https://pve.greedo.net
                 icon: si:proxmox
@@ -123,21 +123,41 @@ pages:
               - title: AdGuard Home — DNS / Ad blocking
                 url: https://adguard.greedo.net
                 icon: si:adguard
+              - title: Gitea — Git hosting
+                url: https://gitea.greedo.net
+                icon: si:gitea
+              - title: Pocket-ID — SSO
+                url: https://pocketid.greedo.net
+                icon: di:pocket-id
+              - title: Vaultwarden — Passwords
+                url: https://vw.greedo.net
+                icon: si:vaultwarden
               - title: Grafana — Metrics
                 url: https://grafana.greedo.net
                 icon: si:grafana
+              - title: Beszel — System monitor
+                url: https://beszel.raspi.greedo.net
+                icon: di:beszel
               - title: Backrest — Backups
                 url: https://backrest.greedo.net
                 icon: di:backrest
               - title: IT Tools — Dev utilities
                 url: https://ittools.greedo.net
                 icon: di:it-tools
-              - title: Overdrive
-                url: https://overdrive.greedo.net
+              - title: ActualBudget — Budgeting
+                url: https://budget.greedo.net
+                icon: si:actualbudget
+              - title: Linkwarden — Bookmarks
+                url: https://linkwarden.raspi.greedo.net
+                icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
               - title: Metering
                 url: https://metering.greedo.net
-              - title: Music Grabber
-                url: https://musicgrabber.greedo.net
+
+          - type: repository
+            repository: bvdwalt/homelab
+            pull-requests-limit: 5
+            issues-limit: 5
+            commits-limit: 5
 
   - name: Dev
     columns:
@@ -161,10 +181,4 @@ pages:
               - henrygd/beszel
               - garethgeorge/backrest
               - slskd/slskd
-
-          - type: repository
-            repository: bvdwalt/homelab
-            pull-requests-limit: 5
-            issues-limit: 5
-            commits-limit: 5
 
