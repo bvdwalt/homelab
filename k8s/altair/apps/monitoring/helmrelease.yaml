@@ -107,6 +107,19 @@ spec:
         enabled: true
         size: 1Gi
       defaultDashboardsTimezone: Europe/Amsterdam
+      envFromSecret: grafana-oidc
+      grafana.ini:
+        server:
+          root_url: https://grafana.greedo.net
+        auth.generic_oauth:
+          enabled: true
+          name: Pocket-ID
+          auth_url: https://pocketid.greedo.net/authorize
+          token_url: https://pocketid.greedo.net/api/oidc/token
+          api_url: https://pocketid.greedo.net/api/oidc/userinfo
+          scopes: openid email profile
+          use_pkce: true
+          allow_sign_up: true
 
     prometheus:
       prometheusSpec:
