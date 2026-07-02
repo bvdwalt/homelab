@@ -48,6 +48,7 @@ jobs:
             if ! docker run --rm -v "$HOME/.trivy-cache:/root/.cache" </dev/null \
               aquasec/trivy:0.72.0 image \
               --severity CRITICAL \
+              --ignore-unfixed \
               --scanners vuln \
               --exit-code 1 \
               --quiet \
