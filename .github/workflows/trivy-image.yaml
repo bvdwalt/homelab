@@ -25,11 +25,39 @@ jobs:
           echo "list=$images" >> "$GITHUB_OUTPUT"
       - name: Trivy image scan
         run: |
+          mkdir -p "$HOME/.trivy-cache"
+          failed=0
           for image in ${{ steps.images.outputs.list }}; do
             echo "::group::$image"
-            docker run --rm aquasec/trivy:latest image \
+            report=$(docker run --rm -v "$HOME/.trivy-cache:/root/.cache" \
+              aquasec/trivy:0.72.0 image \
               --severity HIGH,CRITICAL \
+              --scanners vuln \
               --exit-code 0 \
-              "$image" || true
+              --quiet \
+              "$image" || echo "scan failed for $image")
+            echo "$report"
+            if [ -n "$report" ]; then
+              {
+                echo "### \`$image\`"
+                echo '```'
+                echo "$report"
+                echo '```'
+              } >> "$GITHUB_STEP_SUMMARY"
+            fi
+            # fail the run (and trigger the scheduled-workflow notification) on CRITICALs only
+            if ! docker run --rm -v "$HOME/.trivy-cache:/root/.cache" \
+              aquasec/trivy:0.72.0 image \
+              --severity CRITICAL \
+              --scanners vuln \
+              --exit-code 1 \
+              --quiet \
+              "$image" > /dev/null 2>&1; then
+              failed=1
+            fi
             echo "::endgroup::"
           done
+          if [ "$failed" -eq 1 ]; then
+            echo "CRITICAL vulnerabilities found — see step summary" >&2
+            exit 1
+          fi
