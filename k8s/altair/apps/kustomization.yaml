@@ -4,6 +4,7 @@ resources:
   - whoami.yaml
   - adguard.yaml
   - adguard.sops.yaml
+  - adguard-dns-service.yaml
   - jellyfin.yaml
   - seerr.yaml
   - navidrome.yaml

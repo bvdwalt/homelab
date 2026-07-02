@@ -41,7 +41,6 @@ spec:
       initialDelaySeconds: 30
       periodSeconds: 30
       failureThreshold: 3
-    hostNetwork: true
     args:
       - --no-check-update
       - --web-addr

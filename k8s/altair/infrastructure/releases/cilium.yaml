@@ -22,6 +22,9 @@ spec:
       retries: 3
   values:
     kubeProxyReplacement: true
+    # node IP for LoadBalancer services with class io.cilium/node
+    nodeIPAM:
+      enabled: true
     k8sServiceHost: 10.13.1.167
     k8sServicePort: 6443
     routingMode: native
