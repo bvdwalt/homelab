@@ -4,3 +4,4 @@ resources:
   - namespace.yaml
   - cluster.yaml
   - service.yaml
+  - networkpolicy.yaml

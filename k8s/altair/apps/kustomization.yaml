@@ -20,9 +20,11 @@ resources:
   - cullarr.yaml
   - homepage.yaml
   - pocket-id.yaml
+  - pocket-id-networkpolicy.yaml
   - atuin.yaml
   - overdrive.yaml
   - vaultwarden.yaml
+  - vaultwarden-networkpolicy.yaml
   - glance.yaml
 configMapGenerator:
   - name: homepage-config
