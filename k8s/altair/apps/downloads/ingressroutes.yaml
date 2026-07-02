@@ -9,9 +9,13 @@ spec:
   routes:
     - kind: Rule
       match: Host(`radarr.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: radarr
           port: 80
+    # API-key clients (seerr, homepage): no OIDC, auth via X-Api-Key
     - kind: Rule
       match: Host(`radarr.greedo.net`) && PathPrefix(`/api`)
       services:
@@ -29,9 +33,13 @@ spec:
   routes:
     - kind: Rule
       match: Host(`sonarr.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: sonarr
           port: 80
+    # API-key clients (seerr, homepage): no OIDC, auth via X-Api-Key
     - kind: Rule
       match: Host(`sonarr.greedo.net`) && PathPrefix(`/api`)
       services:
@@ -49,6 +57,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`lidarr.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: lidarr
           port: 80
@@ -64,6 +75,15 @@ spec:
   routes:
     - kind: Rule
       match: Host(`bazarr.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
+      services:
+        - name: bazarr
+          port: 80
+    # API-key clients (homepage widget): no OIDC, auth via X-API-KEY
+    - kind: Rule
+      match: Host(`bazarr.greedo.net`) && PathPrefix(`/api`)
       services:
         - name: bazarr
           port: 80
@@ -79,6 +99,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`prowlarr.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: prowlarr
           port: 80
@@ -94,6 +117,15 @@ spec:
   routes:
     - kind: Rule
       match: Host(`downloads.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
+      services:
+        - name: qbittorrent
+          port: 80
+    # WebUI API (homepage widget): no OIDC, session auth via /api/v2/auth/login
+    - kind: Rule
+      match: Host(`downloads.greedo.net`) && PathPrefix(`/api`)
       services:
         - name: qbittorrent
           port: 80
@@ -109,6 +141,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`flaresolverr.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: flaresolverr
           port: 80
@@ -124,6 +159,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`profilarr.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: profilarr
           port: 80
@@ -139,6 +177,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`musicgrabber.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: music-grabber
           port: 80
@@ -154,6 +195,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`slskd.greedo.net`)
+      middlewares:
+        - name: oidc-auth
+          namespace: kube-system
       services:
         - name: slskd
           port: 80

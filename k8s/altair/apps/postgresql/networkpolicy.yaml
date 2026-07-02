@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: postgresql
+  namespace: postgresql
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    # CNPG operator (flux-system) → instance manager status API
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: flux-system
+    # In-cluster database consumers
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: atuin
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: metering
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: backrest
+      ports:
+        - port: 5432
+    # LAN via LoadBalancer: linkwarden on raspi cluster, psql from workstation
+    - from:
+        - ipBlock:
+            cidr: 10.13.1.0/24
+      ports:
+        - port: 5432
