@@ -7,8 +7,6 @@ spec:
   interval: 10m
   releaseName: jellyfin
   targetNamespace: jellyfin
-  install:
-    createNamespace: true
   chart:
     spec:
       chart: ./k8s/charts/homelab-app

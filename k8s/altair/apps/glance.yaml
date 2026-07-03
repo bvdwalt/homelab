@@ -7,8 +7,6 @@ spec:
   interval: 10m
   releaseName: glance
   targetNamespace: glance
-  install:
-    createNamespace: true
   chart:
     spec:
       chart: ./k8s/charts/homelab-app

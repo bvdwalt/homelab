@@ -7,8 +7,6 @@ spec:
   interval: 10m
   releaseName: vaultwarden
   targetNamespace: vaultwarden
-  install:
-    createNamespace: true
   chart:
     spec:
       chart: ./k8s/charts/homelab-app

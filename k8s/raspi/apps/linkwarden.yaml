@@ -7,8 +7,6 @@ spec:
   interval: 10m
   releaseName: linkwarden
   targetNamespace: linkwarden
-  install:
-    createNamespace: true
   chart:
     spec:
       chart: ./k8s/charts/homelab-app
