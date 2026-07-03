@@ -43,6 +43,7 @@ hostNetwork: false
 priorityClassName: ""
 
 hostPaths: []
+emptyDirs: []
 
 podAnnotations:
   reloader.stakater.com/auto: "true"

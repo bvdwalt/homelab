@@ -123,7 +123,7 @@ spec:
             readOnlyRootFilesystem: true
             {{- end }}
           {{- end }}
-          {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap .Values.hostPaths }}
+          {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap .Values.hostPaths .Values.emptyDirs }}
           volumeMounts:
             {{- if .Values.persistence.enabled }}
             - name: data
@@ -148,11 +148,15 @@ spec:
               mountPath: {{ .mountPath }}
               readOnly: {{ .readOnly | default false }}
             {{- end }}
+            {{- range .Values.emptyDirs }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+            {{- end }}
           {{- end }}
         {{- if .Values.extraContainers }}
         {{- toYaml .Values.extraContainers | nindent 8 }}
         {{- end }}
-      {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap .Values.hostPaths }}
+      {{- if or .Values.persistence.enabled .Values.configFiles .Values.existingConfigMap .Values.hostPaths .Values.emptyDirs }}
       volumes:
         {{- if .Values.persistence.enabled }}
         - name: data
@@ -168,5 +172,9 @@ spec:
         - name: {{ .name }}
           hostPath:
             path: {{ .hostPath }}
+        {{- end }}
+        {{- range .Values.emptyDirs }}
+        - name: {{ .name }}
+          emptyDir: {}
         {{- end }}
       {{- end }}
