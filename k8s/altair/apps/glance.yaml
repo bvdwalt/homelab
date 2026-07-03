@@ -30,3 +30,8 @@ spec:
     configMountPath: /app/config
     configKeys:
       - glance.yml
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000

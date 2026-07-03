@@ -36,7 +36,10 @@ spec:
     env:
       TZ: "Europe/Amsterdam"
     securityContext:
-      enabled: false
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
     persistence:
       enabled: true
       size: 500Mi

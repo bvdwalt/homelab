@@ -43,3 +43,8 @@ spec:
       TZ: Europe/Amsterdam
       HUB_URL: https://beszel.raspi.greedo.net
     existingSecret: beszel-agent
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000

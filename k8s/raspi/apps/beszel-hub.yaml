@@ -39,3 +39,8 @@ spec:
       enabled: true
       size: 1Gi
       mountPath: /beszel_data
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000

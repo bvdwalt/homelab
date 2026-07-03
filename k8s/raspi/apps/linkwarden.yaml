@@ -47,3 +47,8 @@ spec:
     persistence:
       enabled: true
       mountPath: /data/data
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
