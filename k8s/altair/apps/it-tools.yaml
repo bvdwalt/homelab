@@ -35,4 +35,12 @@ spec:
     env:
       TZ: "Europe/Amsterdam"
     securityContext:
-      enabled: false
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+    emptyDirs:
+      - name: nginx-cache
+        mountPath: /var/cache/nginx
+      - name: nginx-run
+        mountPath: /var/run
