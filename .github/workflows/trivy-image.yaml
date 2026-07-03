@@ -25,39 +25,45 @@ jobs:
       - name: Trivy image scan
         run: |
           mkdir -p "$HOME/.trivy-cache"
+          template='{{- range . -}}{{- range .Vulnerabilities -}}{{ .Severity }}|{{ .FixedVersion }}|{{ .VulnerabilityID }}|{{ .PkgName }}
+{{ end }}{{ end }}'
+          errored=0
           failed=0
           while read -r image; do
             echo "::group::$image"
-            report=$(docker run --rm -v "$HOME/.trivy-cache:/root/.cache" </dev/null \
-              aquasec/trivy:0.72.0 image \
-              --severity HIGH,CRITICAL \
-              --scanners vuln \
-              --exit-code 0 \
-              --quiet \
-              "$image" || echo "scan failed for $image")
-            echo "$report"
-            if [ -n "$report" ]; then
+            rows=$(docker run --rm -v "$HOME/.trivy-cache:/root/.cache" </dev/null \
+              aquasec/trivy:0.72.0 image --scanners vuln --quiet \
+              --format template --template "$template" "$image" 2>&1)
+            if [ $? -ne 0 ]; then
+              echo "$rows"
+              echo "### \`$image\` — SCAN ERROR" >> "$GITHUB_STEP_SUMMARY"
+              errored=1
+              echo "::endgroup::"
+              continue
+            fi
+            bad_rows=$(echo "$rows" | grep -E '^(HIGH|CRITICAL)\|')
+            fixable_critical=$(echo "$rows" | grep -c -E '^CRITICAL\|[^|]+\|')
+            echo "$bad_rows"
+            echo "fixable CRITICAL: $fixable_critical"
+            if [ -n "$bad_rows" ]; then
               {
                 echo "### \`$image\`"
-                echo '```'
-                echo "$report"
-                echo '```'
+                echo '| Severity | Fixed | CVE | Package |'
+                echo '|---|---|---|---|'
+                echo "$bad_rows" | awk -F'|' '{printf "| %s | %s | %s | %s |\n", $1, ($2==""?"-":$2), $3, $4}'
               } >> "$GITHUB_STEP_SUMMARY"
             fi
-            # fail the run (and trigger the scheduled-workflow notification) on CRITICALs only
-            if ! docker run --rm -v "$HOME/.trivy-cache:/root/.cache" </dev/null \
-              aquasec/trivy:0.72.0 image \
-              --severity CRITICAL \
-              --ignore-unfixed \
-              --scanners vuln \
-              --exit-code 1 \
-              --quiet \
-              "$image" > /dev/null 2>&1; then
+            if [ "$fixable_critical" -gt 0 ]; then
               failed=1
             fi
             echo "::endgroup::"
           done < images.txt
+          if [ "$errored" -eq 1 ]; then
+            echo "one or more images failed to scan — see step summary" >&2
+          fi
           if [ "$failed" -eq 1 ]; then
-            echo "CRITICAL vulnerabilities found — see step summary" >&2
+            echo "fixable CRITICAL vulnerabilities found — see step summary" >&2
+          fi
+          if [ "$errored" -eq 1 ] || [ "$failed" -eq 1 ]; then
             exit 1
           fi
