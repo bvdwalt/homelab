@@ -41,6 +41,7 @@ spec:
         runAsNonRoot: true
         runAsUser: {{ .Values.securityContext.runAsUser }}
         runAsGroup: {{ .Values.securityContext.runAsGroup }}
+        fsGroup: {{ .Values.securityContext.runAsGroup }}
         {{- end }}
       {{- end }}
       {{- if .Values.initContainers }}
