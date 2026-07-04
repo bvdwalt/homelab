@@ -20,6 +20,8 @@ pages:
               - timezone: UTC
                 label: UTC
 
+          - type: to-do
+
           - type: calendar
             first-day-of-week: monday
 
@@ -36,8 +38,6 @@ pages:
           - type: search
             search-engine: https://www.ecosia.org/search?q={QUERY}
             new-tab: true
-
-          - type: to-do
 
           - type: bookmarks
             groups:
@@ -70,10 +70,6 @@ pages:
             hour-format: 24h
             hide-graph: true
 
-  - name: Homelab
-    columns:
-      - size: full
-        widgets:
           - type: monitor
             title: Services
             sites:
@@ -159,10 +155,6 @@ pages:
             issues-limit: 5
             commits-limit: 5
 
-  - name: Dev
-    columns:
-      - size: full
-        widgets:
           - type: releases
             show-source-icon: true
             collapse-after: 5
