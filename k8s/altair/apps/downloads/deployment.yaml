@@ -152,7 +152,7 @@ spec:
               memory: 512Mi
 
         - name: bazarr
-          image: lscr.io/linuxserver/bazarr:1.5.6@sha256:aaaa087af75a73b7ac765dcc5d748874cfafdb93c23ec9f64fbb481dea291b23
+          image: lscr.io/linuxserver/bazarr:1.6.0@sha256:5d916d07404296ec35ee726e13e0e558f05952724cf494a7f009d913fb2b12f3
           env:
             - name: TZ
               value: Europe/Amsterdam
