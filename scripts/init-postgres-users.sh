@@ -18,6 +18,14 @@ LINKWARDEN_PASS=$(kubectl --context=raspi -n linkwarden get secret linkwarden \
   -o jsonpath='{.data.DATABASE_URL}' | base64 -d \
   | python3 -c "import sys,urllib.parse; u=urllib.parse.urlparse(sys.stdin.read().strip()); print(u.password)")
 
+JELLYSTAT_PASS=$(kubectl --context=altair -n jellystat get secret jellystat-secrets \
+  -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
+
+echo "==> Creating databases that don't already exist..."
+
+$PSQL -tc "SELECT 1 FROM pg_database WHERE datname = 'jellystat'" | grep -q 1 \
+  || $PSQL -c "CREATE DATABASE jellystat"
+
 echo "==> Creating users..."
 
 $PSQL <<SQL
@@ -47,6 +55,15 @@ EXCEPTION WHEN duplicate_object THEN
 END \$\$;
 GRANT ALL PRIVILEGES ON DATABASE linkwarden TO linkwarden;
 ALTER DATABASE linkwarden OWNER TO linkwarden;
+
+DO \$\$
+BEGIN
+  CREATE USER jellystat WITH PASSWORD '${JELLYSTAT_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER jellystat WITH PASSWORD '${JELLYSTAT_PASS}';
+END \$\$;
+GRANT ALL PRIVILEGES ON DATABASE jellystat TO jellystat;
+ALTER DATABASE jellystat OWNER TO jellystat;
 SQL
 
 echo "==> Granting table privileges..."
@@ -80,7 +97,15 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO linkwarden;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO linkwarden;
 SQL
 
+$PSQL -d jellystat <<SQL
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO jellystat;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO jellystat;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO jellystat;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO jellystat;
+SQL
+
 echo "==> Done. Restart affected deployments if needed:"
 echo "    kubectl --context=altair -n atuin rollout restart deployment/atuin"
 echo "    kubectl --context=altair -n metering rollout restart deployment/metering-api"
 echo "    kubectl --context=raspi -n linkwarden rollout restart deployment/linkwarden"
+echo "    kubectl --context=altair -n jellystat rollout restart deployment/jellystat"
