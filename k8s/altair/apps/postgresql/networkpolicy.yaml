@@ -24,6 +24,9 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: backrest
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: jellystat
       ports:
         - port: 5432
     # LAN via LoadBalancer: linkwarden on raspi cluster, psql from workstation
