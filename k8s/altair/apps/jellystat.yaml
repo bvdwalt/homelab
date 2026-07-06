@@ -47,7 +47,6 @@ spec:
       enabled: true
       mountPath: /app/backend/backup-data
       size: 1Gi
-    middlewares: []
     existingSecret: jellystat-secrets
     securityContext:
       enabled: true
