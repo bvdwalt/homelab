@@ -61,6 +61,9 @@ spec:
       - name: music
         hostPath: /mnt/media/music
         mountPath: /music
+      - name: tube
+        hostPath: /mnt/media/tube
+        mountPath: /tube
     middlewares: []
     securityContext:
       enabled: true
