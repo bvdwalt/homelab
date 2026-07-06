@@ -79,6 +79,9 @@ pages:
               - title: Navidrome — Music streaming
                 url: https://navidrome.greedo.net
                 icon: di:navidrome
+              - title: Pinchflat — YouTube archiver
+                url: https://pinchflat.greedo.net
+                icon: si:youtube
               - title: Seerr — Media requests
                 url: https://seerr.greedo.net
                 icon: di:seerr

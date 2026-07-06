@@ -26,6 +26,14 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: pinchflat
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: baseline
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: seerr
   labels:
     pod-security.kubernetes.io/enforce: restricted

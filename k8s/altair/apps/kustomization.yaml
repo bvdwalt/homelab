@@ -10,6 +10,7 @@ resources:
   - jellystat.yaml
   - seerr.yaml
   - navidrome.yaml
+  - pinchflat.yaml
   - downloads
   - postgresql
   - gitea
