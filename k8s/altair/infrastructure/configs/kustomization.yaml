@@ -10,3 +10,4 @@ resources:
   - hubble-ui.yaml
   - proxmox.yaml
   - intel-gpu-plugin.yaml
+  - flux-alerts.yaml

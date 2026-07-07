@@ -8,3 +8,4 @@ resources:
   - oidc-auth.yaml
   - traefik-dashboard.yaml
   - hubble-ui.yaml
+  - flux-alerts.yaml

@@ -1,0 +1,31 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: ntfy
+  namespace: flux-system
+spec:
+  type: generic
+  secretRef:
+    name: flux-ntfy
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: flux-errors
+  namespace: flux-system
+spec:
+  providerRef:
+    name: ntfy
+  eventSeverity: error
+  eventSources:
+    - kind: GitRepository
+      name: "*"
+    - kind: HelmRepository
+      name: "*"
+    - kind: HelmChart
+      name: "*"
+    - kind: Kustomization
+      name: "*"
+    - kind: HelmRelease
+      name: "*"
