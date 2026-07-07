@@ -1,0 +1,52 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellystat
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: jellystat
+  targetNamespace: jellystat
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: cyfershepard/jellystat:1.1.11@sha256:c4e2dfa8bddf8d5ac3a675d7202f71a54dcfe3540cc186899d9201e0fe701fa5
+    port: 3000
+    hostname: jellystat.greedo.net
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    readinessProbe:
+      httpGet:
+        path: /auth/isConfigured
+        port: 3000
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      failureThreshold: 6
+    livenessProbe:
+      httpGet:
+        path: /auth/isConfigured
+        port: 3000
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      POSTGRES_IP: "postgresql.postgresql.svc.cluster.local"
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: "jellystat"
+      POSTGRES_DB: "jellystat"
+      TZ: "Europe/Amsterdam"
+    persistence:
+      enabled: true
+      mountPath: /app/backend/backup-data
+      size: 1Gi
+    existingSecret: jellystat-secrets
+    securityContext:
+      enabled: true

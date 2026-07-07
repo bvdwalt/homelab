@@ -7,3 +7,8 @@ resources:
   - postgresql.yaml
   - gitea.yaml
   - monitoring.yaml
+  - seerr.yaml
+  - navidrome.yaml
+  - pinchflat.yaml
+  - it-tools.yaml
+  - jellystat.yaml

@@ -1,0 +1,46 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: navidrome
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: navidrome
+  targetNamespace: navidrome
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: deluan/navidrome:0.62.0@sha256:6f597ad2238475c63b2d43b835ea8db99dd7ff669029b0557132341270521ce8
+    port: 4533
+    hostname: navidrome.greedo.net
+    strategy: Recreate
+    resources:
+      requests:
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 4533
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    middlewares: []
+    env:
+      ND_MUSICFOLDER: /music
+      ND_DATAFOLDER: /data
+      TZ: Europe/Amsterdam
+    persistence:
+      enabled: true
+      mountPath: /data
+      size: 1Gi
+    hostPaths:
+      - name: music
+        hostPath: /mnt/media/music
+        mountPath: /music
