@@ -95,8 +95,6 @@ spec:
       enabled: false
 
     grafana:
-      adminUser: ""
-      adminPassword: ""
       admin:
         existingSecret: grafana-admin
         userKey: admin-user
