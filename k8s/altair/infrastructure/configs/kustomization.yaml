@@ -9,3 +9,4 @@ resources:
   - traefik-dashboard.yaml
   - hubble-ui.yaml
   - proxmox.yaml
+  - intel-gpu-plugin.yaml

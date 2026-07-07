@@ -24,6 +24,7 @@ spec:
         memory: 512Mi
       limits:
         memory: 4Gi
+        gpu.intel.com/i915: 1
     readinessProbe:
       httpGet:
         path: /health
@@ -49,9 +50,6 @@ spec:
       mountPath: /config
       size: 10Gi
     hostPaths:
-      - name: dri
-        hostPath: /dev/dri
-        mountPath: /dev/dri
       - name: shows
         hostPath: /mnt/media/shows
         mountPath: /shows
