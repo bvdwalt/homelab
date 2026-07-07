@@ -1,5 +1,6 @@
 image: ""
 port: 80
+servicePort: 80
 hostname: ""
 strategy: RollingUpdate
 

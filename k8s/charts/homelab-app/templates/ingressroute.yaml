@@ -21,6 +21,6 @@ spec:
       {{- end }}
       services:
         - name: {{ .Release.Name }}
-          port: 80
+          port: {{ .Values.servicePort }}
   tls: {}
 {{- end }}

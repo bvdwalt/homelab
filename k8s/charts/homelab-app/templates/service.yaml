@@ -9,5 +9,5 @@ spec:
   selector:
     {{- include "homelab-app.selectorLabels" . | nindent 4 }}
   ports:
-    - port: 80
+    - port: {{ .Values.servicePort }}
       targetPort: {{ .Values.port }}
