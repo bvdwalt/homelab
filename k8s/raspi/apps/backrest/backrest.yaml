@@ -1,0 +1,89 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: backrest
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: backrest
+  targetNamespace: backrest
+  install:
+    createNamespace: false
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: ghcr.io/garethgeorge/backrest:v1.13.0@sha256:77a6c9c8bef3a78f628cbb9b146f9726971921f3793a63e28e427e53a803f94b
+    strategy: Recreate
+    resources:
+      requests:
+        memory: 16Mi
+      limits:
+        memory: 128Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 9898
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    port: 9898
+    hostname: backrest.raspi.greedo.net
+    env:
+      BACKREST_PORT: "0.0.0.0:9898"
+      BACKREST_DATA: /data
+      BACKREST_CONFIG: /data/config.json
+      XDG_CACHE_HOME: /data/cache
+      TZ: Europe/Amsterdam
+    existingSecret: backrest
+    persistence:
+      enabled: true
+      size: 1Gi
+      mountPath: /data
+    securityContext:
+      capabilities:
+        add: [DAC_READ_SEARCH]
+    existingConfigMap: backrest-scripts
+    configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, config-template.json, restore-config.py, extract-config.py]
+    configMountPath: /scripts
+    extraContainers:
+      - name: scripts
+        image: python:3.14-alpine@sha256:ea1c84f6f8fd70586985617ca87516c75e583748885d70515d83c7f3c8e94174
+        command: [sh, -c, "apk add --no-cache restic rclone && sleep infinity"]
+        envFrom:
+          - secretRef:
+              name: backrest
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: config
+            mountPath: /scripts
+    initContainers:
+      - name: restore-config
+        image: python:3.14-alpine@sha256:ea1c84f6f8fd70586985617ca87516c75e583748885d70515d83c7f3c8e94174
+        command: [python3, /scripts/restore-config.py]
+        envFrom:
+          - secretRef:
+              name: backrest
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: config
+            mountPath: /scripts
+      - name: sync-excludes
+        image: python:3.14-alpine@sha256:ea1c84f6f8fd70586985617ca87516c75e583748885d70515d83c7f3c8e94174
+        command: [python3, /scripts/sync-excludes.py]
+        volumeMounts:
+          - name: data
+            mountPath: /data
+          - name: config
+            mountPath: /scripts
+    hostPaths:
+      - name: pvcs
+        hostPath: /var/lib/rancher/k3s/storage
+        mountPath: /pvcs
+        readOnly: true

@@ -1,0 +1,50 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: beszel-agent
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: beszel-agent
+  targetNamespace: beszel
+  install:
+    createNamespace: false
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: henrygd/beszel-agent:0.18.7@sha256:8874e2c53f9de5e063a6a80d6b617e20fa593ac5dc4eb4c6ce1f912f510f38f8
+    port: 45876
+    strategy: Recreate
+    resources:
+      requests:
+        memory: 16Mi
+      limits:
+        memory: 32Mi
+    readinessProbe:
+      tcpSocket:
+        port: 45876
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      failureThreshold: 6
+    livenessProbe:
+      tcpSocket:
+        port: 45876
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    hostNetwork: true
+    env:
+      LISTEN: ":45876"
+      TZ: Europe/Amsterdam
+      HUB_URL: https://beszel.raspi.greedo.net
+    existingSecret: beszel-agent
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000

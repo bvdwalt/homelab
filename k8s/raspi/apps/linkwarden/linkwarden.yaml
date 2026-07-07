@@ -1,0 +1,52 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: linkwarden
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: linkwarden
+  targetNamespace: linkwarden
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: ghcr.io/linkwarden/linkwarden:v2.14.1@sha256:31cf4bd2a2e111991fa5c9de03174c8698869c83722105c6ce529e4c911e6861
+    port: 3000
+    hostname: linkwarden.raspi.greedo.net
+    strategy: Recreate
+    resources:
+      requests:
+        memory: 512Mi
+      limits:
+        memory: 1536Mi
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 6
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      NEXTAUTH_URL: "https://linkwarden.raspi.greedo.net/api/v1/auth"
+      TZ: "Europe/Amsterdam"
+    existingSecret: linkwarden
+    persistence:
+      enabled: true
+      mountPath: /data/data
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000

@@ -1,0 +1,46 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: beszel-hub
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: beszel-hub
+  targetNamespace: beszel
+  install:
+    createNamespace: false
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: henrygd/beszel:0.18.7@sha256:a849ad80814b6a1a3be665304dcace5d4854b3bed7bde4dd1227e8ce1b82d477
+    port: 8090
+    hostname: beszel.raspi.greedo.net
+    strategy: Recreate
+    resources:
+      requests:
+        memory: 32Mi
+      limits:
+        memory: 128Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8090
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      TZ: Europe/Amsterdam
+    persistence:
+      enabled: true
+      size: 1Gi
+      mountPath: /beszel_data
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
