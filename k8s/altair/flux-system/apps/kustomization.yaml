@@ -17,3 +17,7 @@ resources:
   - actual-budget.yaml
   - atuin.yaml
   - overdrive.yaml
+  - vaultwarden.yaml
+  - pocket-id.yaml
+  - cullarr.yaml
+  - backrest.yaml

@@ -1,0 +1,27 @@
+---
+# Namespace is normally created by the vaultwarden HelmRelease (createNamespace),
+# but is defined here so the NetworkPolicy can apply on a fresh bootstrap.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vaultwarden
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    # Traefik (kube-system) only
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - port: 8080
