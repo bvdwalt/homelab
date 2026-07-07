@@ -7,5 +7,4 @@ resources:
 - infrastructure-sources.yaml
 - infrastructure-releases.yaml
 - infrastructure-configs.yaml
-- apps.yaml
 - apps/
