@@ -12,3 +12,8 @@ resources:
   - pinchflat.yaml
   - it-tools.yaml
   - jellystat.yaml
+  - metering-dashboard.yaml
+  - metering-api.yaml
+  - actual-budget.yaml
+  - atuin.yaml
+  - overdrive.yaml
