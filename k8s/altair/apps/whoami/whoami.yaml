@@ -1,0 +1,39 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: whoami
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: whoami
+  targetNamespace: whoami
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: traefik/whoami:v1.11.0@sha256:4f90b33ddca9c4d4f06527070d6e503b16d71016edea036842be2a84e60c91cb
+    port: 8080
+    hostname: whoami.greedo.net
+    resources:
+      requests:
+        memory: 8Mi
+      limits:
+        memory: 32Mi
+    env:
+      WHOAMI_PORT_NUMBER: "8080"
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 30
+      failureThreshold: 3
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 65534
+      runAsGroup: 65534

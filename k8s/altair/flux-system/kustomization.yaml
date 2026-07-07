@@ -8,3 +8,4 @@ resources:
 - infrastructure-releases.yaml
 - infrastructure-configs.yaml
 - apps.yaml
+- apps/
