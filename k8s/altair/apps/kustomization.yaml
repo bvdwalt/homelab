@@ -6,14 +6,7 @@ resources:
   - adguard.sops.yaml
   - adguard-dns-service.yaml
   - jellyfin.yaml
-  - backrest.yaml
-  - backrest-scripts.yaml
-  - cullarr.yaml
   - homepage.yaml
-  - pocket-id.yaml
-  - pocket-id-networkpolicy.yaml
-  - vaultwarden.yaml
-  - vaultwarden-networkpolicy.yaml
   - glance.yaml
 configMapGenerator:
   - name: homepage-config
