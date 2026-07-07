@@ -1,0 +1,56 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homepage
+  namespace: flux-system
+spec:
+  interval: 10m
+  releaseName: homepage
+  targetNamespace: homepage
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: ghcr.io/gethomepage/homepage:v1.13.2@sha256:a0b71c8e757298d02560186bab9fbe3fc2d375c523a62cc1019177b37e48aa28
+    port: 3000
+    hostname: homepage.greedo.net
+    priorityClassName: system-cluster-critical
+    resources:
+      requests:
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      HOMEPAGE_ALLOWED_HOSTS: "homepage.greedo.net"
+      TZ: "Europe/Amsterdam"
+    existingSecret: homepage-secrets
+    existingConfigMap: homepage-config
+    configMountPath: /app/config
+    configKeys:
+      - settings.yaml
+      - bookmarks.yaml
+      - widgets.yaml
+      - services.yaml
+      - kubernetes.yaml
+      - docker.yaml
+      - custom.css
+      - custom.js
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+    emptyDirs:
+      - name: logs
+        mountPath: /app/config/logs

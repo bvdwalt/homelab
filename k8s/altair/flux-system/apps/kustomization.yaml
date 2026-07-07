@@ -21,3 +21,7 @@ resources:
   - pocket-id.yaml
   - cullarr.yaml
   - backrest.yaml
+  - adguard.yaml
+  - jellyfin.yaml
+  - homepage.yaml
+  - glance.yaml

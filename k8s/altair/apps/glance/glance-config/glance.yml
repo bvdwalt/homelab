@@ -1,0 +1,179 @@
+theme:
+  background-color: 240 21 15
+  contrast-multiplier: 1.2
+  primary-color: 217 92 83
+  positive-color: 115 54 76
+  negative-color: 347 70 65
+
+pages:
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: clock
+            hour-format: 24h
+            timezones:
+              - timezone: Africa/Johannesburg
+                label: Cape Town
+              - timezone: Asia/Dubai
+                label: Dubai
+              - timezone: UTC
+                label: UTC
+
+          - type: to-do
+
+          - type: calendar
+            first-day-of-week: monday
+
+          - type: weather
+            location: Cape Town, South Africa
+            units: metric
+            hour-format: 24h
+
+          - type: weather
+            location: Dubai, United Arab Emirates
+            units: metric
+            hour-format: 24h
+
+          - type: search
+            search-engine: https://www.ecosia.org/search?q={QUERY}
+            new-tab: true
+
+          - type: bookmarks
+            groups:
+              - title: Developer
+                links:
+                  - title: GitHub
+                    url: https://github.com/
+              - title: Social
+                links:
+                  - title: Reddit
+                    url: https://reddit.com/
+                  - title: YouTube
+                    url: https://youtube.com/
+
+      - size: full
+        widgets:
+          - type: server-stats
+            servers:
+              - type: local
+                name: Altair
+                mountpoints:
+                  "/":
+                    name: Root
+
+          - type: dns-stats
+            service: adguard
+            url: http://adguard.adguard.svc.cluster.local
+            username: ${ADGUARD_USERNAME}
+            password: ${ADGUARD_PASSWORD}
+            hour-format: 24h
+            hide-graph: true
+
+          - type: monitor
+            title: Services
+            sites:
+              - title: Jellyfin
+                url: https://jellyfin.greedo.net
+                icon: si:jellyfin
+              - title: Navidrome — Music streaming
+                url: https://navidrome.greedo.net
+                icon: di:navidrome
+              - title: Pinchflat — YouTube archiver
+                url: https://pinchflat.greedo.net
+                icon: si:youtube
+              - title: Seerr — Media requests
+                url: https://seerr.greedo.net
+                icon: di:seerr
+              - title: Sonarr — TV shows
+                url: https://sonarr.greedo.net
+                icon: si:sonarr
+              - title: Radarr — Movies
+                url: https://radarr.greedo.net
+                icon: si:radarr
+              - title: Bazarr — Subtitles
+                url: https://bazarr.greedo.net
+                icon: di:bazarr
+              - title: Lidarr — Music downloads
+                url: https://lidarr.greedo.net
+                icon: di:lidarr
+              - title: Prowlarr — Indexers
+                url: https://prowlarr.greedo.net
+                icon: di:prowlarr
+              - title: qBittorrent — Torrents
+                url: https://downloads.greedo.net
+                icon: si:qbittorrent
+              - title: slskd — Soulseek
+                url: https://slskd.greedo.net
+                icon: di:slskd
+              - title: Overdrive
+                url: https://overdrive.greedo.net
+              - title: Music Grabber
+                url: https://musicgrabber.greedo.net
+              - title: Proxmox — Virtualisation
+                url: https://pve.greedo.net
+                icon: si:proxmox
+              - title: Traefik (Altair) — Reverse proxy
+                url: https://traefik.greedo.net
+                icon: si:traefikproxy
+              - title: Traefik (Raspi) — Reverse proxy
+                url: https://traefik.raspi.greedo.net
+                icon: si:traefikproxy
+              - title: AdGuard Home — DNS / Ad blocking
+                url: https://adguard.greedo.net
+                icon: si:adguard
+              - title: Gitea — Git hosting
+                url: https://gitea.greedo.net
+                icon: si:gitea
+              - title: Pocket-ID — SSO
+                url: https://pocketid.greedo.net
+                icon: di:pocket-id
+              - title: Vaultwarden — Passwords
+                url: https://vw.greedo.net
+                icon: si:vaultwarden
+              - title: Grafana — Metrics
+                url: https://grafana.greedo.net
+                icon: si:grafana
+              - title: Beszel — System monitor
+                url: https://beszel.raspi.greedo.net
+                icon: di:beszel
+              - title: Backrest — Backups
+                url: https://backrest.greedo.net
+                icon: di:backrest
+              - title: IT Tools — Dev utilities
+                url: https://ittools.greedo.net
+                icon: di:it-tools
+              - title: ActualBudget — Budgeting
+                url: https://budget.greedo.net
+                icon: si:actualbudget
+              - title: Linkwarden — Bookmarks
+                url: https://linkwarden.raspi.greedo.net
+                icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
+              - title: Metering
+                url: https://metering.greedo.net
+
+          - type: repository
+            repository: bvdwalt/homelab
+            pull-requests-limit: 5
+            issues-limit: 5
+            commits-limit: 5
+
+          - type: releases
+            show-source-icon: true
+            collapse-after: 5
+            repositories:
+              - glanceapp/glance
+              - jellyfin/jellyfin
+              - Sonarr/Sonarr
+              - Radarr/Radarr
+              - lidarr/Lidarr
+              - morpheus65535/bazarr
+              - Prowlarr/Prowlarr
+              - navidrome/navidrome
+              - dani-garcia/vaultwarden
+              - go-gitea/gitea
+              - AdguardTeam/AdGuardHome
+              - henrygd/beszel
+              - garethgeorge/backrest
+              - slskd/slskd
+

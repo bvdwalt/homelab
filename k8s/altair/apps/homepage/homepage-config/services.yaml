@@ -1,0 +1,132 @@
+- Main:
+    - seerr:
+        href: https://seerr.greedo.net
+        icon: jellyseerr
+        description: Movie and TV show management
+        widget:
+            type: jellyseerr
+            url: http://seerr.seerr.svc.cluster.local
+            key: "{{HOMEPAGE_VAR_JELLYSEERR_KEY}}"
+    - Jellyfin:
+        href: https://jellyfin.greedo.net
+        icon: jellyfin
+        description: Media server
+        widget:
+            type: jellyfin
+            url: http://jellyfin.jellyfin.svc.cluster.local
+            key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+            enableBlocks: true
+            enableNowPlaying: true
+            enableUser: true
+            showEpisodeNumber: true
+            expandOneStreamToTwoRows: false
+    - Sonarr:
+        href: https://sonarr.greedo.net
+        icon: sonarr
+        description: TV show management
+    - Radarr:
+        href: https://radarr.greedo.net
+        icon: radarr
+        description: Movie management
+    - ActualBudget:
+        href: https://budget.greedo.net
+        icon: actual-budget
+        description: Budgeting
+    - Gitea:
+        href: https://gitea.greedo.net
+        icon: gitea
+        description: Self-Hosted Git
+    - Linkwarden:
+        href: https://linkwarden.raspi.greedo.net
+        icon: linkwarden
+        description: Links
+    - Navidrome:
+        href: https://navidrome.greedo.net
+        icon: navidrome
+        description: Music
+
+- Media Management:
+    - Bazarr:
+        href: https://bazarr.greedo.net
+        icon: bazarr
+        description: Subtitle management
+        widget:
+            type: bazarr
+            url: https://bazarr.greedo.net
+            key: "{{HOMEPAGE_VAR_BAZARR_KEY}}"
+    - Profilarr:
+        href: https://profilarr.greedo.net
+        icon: profilarr
+        description: Profile management for content and quality
+    - Prowlarr:
+        href: https://prowlarr.greedo.net
+        icon: prowlarr
+        description: Manage indexes
+    - qBittorrent:
+        href: https://downloads.greedo.net
+        icon: qbittorrent
+        description: Torrent client
+        widget:
+            type: qbittorrent
+            url: https://downloads.greedo.net
+            username: "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}"
+    - Lidarr:
+        href: https://lidarr.greedo.net
+        icon: lidarr
+        description: Music management
+    - slskd:
+        href: https://slskd.greedo.net
+        icon: slskd
+        description: Soulseek
+    - Music Grabber:
+        href: https://musicgrabber.greedo.net
+        description: Music
+    - Beszel:
+        href: https://beszel.raspi.greedo.net
+        icon: beszel
+        description: Server Metrics
+
+- Other Services:
+    - Vaultwarden:
+        href: https://vw.greedo.net
+        icon: vaultwarden
+        description: Password management
+    - Pocket-ID:
+        href: https://pocketid.greedo.net
+        icon: pocket-id
+        description: OIDC Auth Passkeys
+    - Proxmox:
+        href: https://pve.greedo.net
+        icon: proxmox
+        description: Proxmox VE hypervisor
+    - Traefik (Altair):
+        href: https://traefik.greedo.net
+        icon: traefik
+        description: Reverse proxy (Altair)
+    - Traefik (Raspi):
+        href: https://traefik.raspi.greedo.net
+        icon: traefik
+        description: Reverse proxy (Raspi)
+    - Adguard Home:
+        href: https://adguard.greedo.net
+        icon: adguard-home
+        description: Adguard Home DNS Blocking
+    - Grafana:
+        href: https://grafana.greedo.net
+        icon: grafana
+        description: Metrics and dashboards
+    - Backrest:
+        href: https://backrest.greedo.net
+        icon: backrest
+        description: Backup management
+    - IT Tools:
+        href: https://ittools.greedo.net
+        icon: it-tools
+        description: Developer utilities
+    - Metering:
+        href: https://metering.greedo.net
+        description: Metering dashboard
+    - Overdrive:
+        href: https://overdrive.greedo.net
+        description: Internet speed tracker
