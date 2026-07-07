@@ -9,6 +9,7 @@ spec:
   retryInterval: 2m
   path: ./k8s/altair/apps/glance
   prune: true
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system
