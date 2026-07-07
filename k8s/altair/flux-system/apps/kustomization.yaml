@@ -3,3 +3,7 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - whoami.yaml
+  - downloads.yaml
+  - postgresql.yaml
+  - gitea.yaml
+  - monitoring.yaml
