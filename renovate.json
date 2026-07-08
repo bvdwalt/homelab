@@ -3,6 +3,8 @@
   "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "pinDigests": true,
+  "minimumReleaseAge": "1 day",
+  "schedule": ["0 */6 * * *"],
   "flux": {
     "managerFilePatterns": [
       "/(^|/)k8s/[^/]+/.+\\.yaml$/",
