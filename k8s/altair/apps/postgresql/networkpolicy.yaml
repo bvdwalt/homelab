@@ -8,11 +8,14 @@ spec:
   policyTypes:
     - Ingress
   ingress:
-    # CNPG operator (flux-system) → instance manager status API
+    # CNPG operator (flux-system) → instance manager status API + monitoring
     - from:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: flux-system
+      ports:
+        - port: 5432
+        - port: 8000
     # In-cluster database consumers
     - from:
         - namespaceSelector:

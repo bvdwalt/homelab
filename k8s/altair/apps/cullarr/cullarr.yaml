@@ -5,6 +5,7 @@ metadata:
   namespace: cullarr
 spec:
   schedule: "0 3 * * *"
+  concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   jobTemplate:
