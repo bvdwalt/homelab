@@ -1,13 +1,4 @@
 ---
-# Namespace is normally created by the vaultwarden HelmRelease (createNamespace),
-# but is defined here so the NetworkPolicy can apply on a fresh bootstrap.
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: vaultwarden
-  labels:
-    pod-security.kubernetes.io/enforce: restricted
----
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
