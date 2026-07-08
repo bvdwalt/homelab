@@ -20,3 +20,4 @@ spec:
   dependsOn:
     - name: infrastructure-secrets
     - name: infrastructure-configs
+    - name: namespaces
