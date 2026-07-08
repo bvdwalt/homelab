@@ -241,7 +241,7 @@ data:
         "users": [
           {
             "name": "barend",
-            "passwordBcrypt": "JDJhJDEwJFhvRkxITjdqNzkydkkvUkxQaEN1WnVYYjNWZElZRHg1WDA3VWR3SWlONW1PR1ZLQUIyb0RL"
+            "passwordBcrypt": "CHANGEME"
           }
         ]
       }
@@ -252,7 +252,7 @@ data:
     """Restore config.json from template on first run.
 
     Copies /scripts/config-template.json to /data/config.json if it does not
-    exist, injecting RESTIC_PASSWORD from the environment.
+    exist, injecting secrets from environment variables.
     The sync.identity section is intentionally absent from the template —
     backrest generates a fresh identity on first startup.
     """
@@ -270,6 +270,10 @@ data:
         password = os.environ["RESTIC_PASSWORD"]
         for repo in config.get("repos", []):
             repo["password"] = password
+        bcrypt = os.environ.get("BACKREST_ADMIN_PASSWORD_BCRYPT")
+        for user in config.get("auth", {}).get("users", []):
+            if bcrypt:
+                user["passwordBcrypt"] = bcrypt
         CONFIG.write_text(json.dumps(config, indent=2))
         print(f"Restored config.json ({len(config.get('repos', []))} repo(s))")
 
@@ -289,6 +293,8 @@ data:
     config = json.loads(Path("/data/config.json").read_text())
     for repo in config.get("repos", []):
         repo["password"] = ""
+    for user in config.get("auth", {}).get("users", []):
+        user["passwordBcrypt"] = "CHANGEME"
     config.pop("sync", None)
     print(json.dumps(config, indent=2))
 
