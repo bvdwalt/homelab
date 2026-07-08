@@ -33,6 +33,11 @@
       "matchPackageNames": ["fluxcd/flux2"],
       "matchUpdateTypes": ["pin", "pinDigest"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["aquasecurity/trivy"],
+      "matchUpdateTypes": ["pin", "pinDigest"],
+      "enabled": false
     }
   ]
 }
