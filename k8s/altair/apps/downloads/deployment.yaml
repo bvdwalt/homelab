@@ -54,6 +54,12 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            exec:
+              command: ["/bin/sh", "-c", "wget -q -O /dev/null http://127.0.0.1:8000/v1/publicip/ip"]
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -84,6 +90,13 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 7878
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -114,6 +127,13 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8989
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -144,6 +164,13 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8686
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -174,6 +201,13 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 6767
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -200,6 +234,13 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 9696
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -230,6 +271,13 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8082
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 25m
@@ -254,6 +302,13 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8191
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -276,6 +331,13 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 6868
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -312,6 +374,13 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m
@@ -356,6 +425,13 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 10
             failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5030
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
           resources:
             requests:
               cpu: 10m

@@ -9,6 +9,11 @@ creation_rules:
     key_groups:
       - age:
           - age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
+  - path_regex: k8s/raspi/apps/.+\.sops\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    key_groups:
+      - age:
+          - age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
   - path_regex: k8s/altair/apps/.+\.sops\.yaml$
     encrypted_regex: ^(data|stringData)$
     key_groups:
