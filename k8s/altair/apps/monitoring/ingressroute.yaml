@@ -13,4 +13,4 @@ spec:
         - name: prometheus-grafana
           port: 80
   tls:
-    secretName: wildcard-greedo-net-tls
+    secretName: greedo-net-wildcard-tls
