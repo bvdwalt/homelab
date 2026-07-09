@@ -42,6 +42,7 @@ spec:
     existingSecret: backrest
     extraSecrets:
       - postgresql-superuser-backrest
+      - ntfy-backrest
     persistence:
       enabled: true
       size: 1Gi
@@ -50,7 +51,7 @@ spec:
       capabilities:
         add: [DAC_READ_SEARCH]
     existingConfigMap: backrest-scripts
-    configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, pg-dump.sh, pre-backup.sh, post-backup.sh, config-template.json, restore-config.py, extract-config.py]
+    configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, pg-dump.sh, pre-backup.sh, post-backup.sh, notify-failure.sh, config-template.json, restore-config.py, extract-config.py]
     configMountPath: /scripts
     extraContainers:
       - name: scripts

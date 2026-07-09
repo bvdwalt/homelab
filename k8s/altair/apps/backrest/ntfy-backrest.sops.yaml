@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: ntfy-backrest
+    namespace: backrest
+stringData:
+    NTFY_URL: ENC[AES256_GCM,data:grmJ1rxIl7L/B/X5Duv39YEqBLlBqcmlHC+LIN68FIO7e/Qcy8kIuifkDndvxUbQ1tK2qeCVMXlDHT4RMpdu/AmSTPJhET/z,iv:riTq649bsQiJmJY/ENzxQkMK8vuvLLJ1JIOqOEAo4ps=,tag:GRAgefcBC4ZK6cpNZ5Fwdw==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDLzVPa0h5WXQvTEZUSCtK
+            ZHBCOW5MS0xMZ1g2ak5jK2NEbFV4bXU0Z3drCkkzZWhHZlQrR21UdXhCQ2VzZUR4
+            ZGJSM2ZsOWZMa3c0TXNsNE5JeUk2MEEKLS0tIEJTdEg2bS9BUG0wM0w1RU9JMUVl
+            RmRLNVp1RUlrREtLZXp0cmM5b1d2NncKBq6XntdDspSAOMYf4+rr9/oQnxSi61aH
+            vS8MbQSW1RkaOoaMp7bYgeKAD46myk2lOxBiPnQuQFajTyi+kugRnA==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-07-09T09:05:31Z"
+    mac: ENC[AES256_GCM,data:C8AGVSP+FppQYfRKrvwe1wxtGgzwbCDcxIotYryocbrEXXh6MLnyu5FWGIX8frnp1m9lE4dDxJ3fYx8bsDF9DXlrRAj0zUcb/TVnA8181kzjpMtCpHo9feiZeDDX+/yfS4t9F6iRKIRcaIzF9iZ7d8Ws79d80KBgZfBaM/6H4lE=,iv:UBdFhkPO+4C9H2GLKsT+wFI+TpM2qDg2RQKL8fio6Ck=,tag:SRxMt6bsa2e78/7JdClUhA==,type:str]
+    version: 3.13.2

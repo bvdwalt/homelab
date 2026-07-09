@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - backrest.yaml
   - backrest-scripts.yaml
+  - ntfy-backrest.sops.yaml

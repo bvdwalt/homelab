@@ -97,6 +97,17 @@ data:
   post-backup.sh: |
     #!/bin/sh
 
+  notify-failure.sh: |
+    #!/bin/sh
+    curl -s \
+      -H "Title: Backrest backup failed" \
+      -H "Priority: high" \
+      -H "Tags: warning" \
+      -d "Plan: $1
+    Task: $2
+    Error: $3" \
+      "$NTFY_URL"
+
   sync-excludes.py: |
     #!/usr/bin/env python3
     """Sync excludes.txt into all plans in Backrest's config.json."""
@@ -231,7 +242,7 @@ data:
               ],
               "onError": "ON_ERROR_CANCEL",
               "actionCommand": {
-                "command": "sh /scripts/post-backup.sh"
+                "command": "sh /scripts/notify-failure.sh {{ .ShellEscape .Plan.Id }} {{ .ShellEscape .Task }} {{ .ShellEscape .Error }}"
               }
             }
           ]
