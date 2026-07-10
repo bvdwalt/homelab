@@ -4,7 +4,7 @@
   "dependencyDashboard": true,
   "pinDigests": true,
   "minimumReleaseAge": "1 day",
-  "schedule": ["* */6 * * *"],
+  "schedule": ["0 * * * *"],
   "flux": {
     "managerFilePatterns": [
       "/(^|/)k8s/[^/]+/.+\\.yaml$/",
