@@ -29,7 +29,8 @@
     },
     {
       "matchUpdateTypes": ["digest"],
-      "minimumReleaseAge": "3 days"
+      "minimumReleaseAge": "2 days",
+      "automerge": true
     },
     {
       "matchPackageNames": ["fluxcd/flux2"],
