@@ -5,6 +5,7 @@
   "pinDigests": true,
   "minimumReleaseAge": "1 day",
   "schedule": ["* * * * *"],
+  "assignees": ["bvdwalt"],
   "flux": {
     "managerFilePatterns": [
       "/(^|/)k8s/[^/]+/.+\\.yaml$/",
