@@ -29,11 +29,6 @@
       "allowedVersions": "/^5\\./"
     },
     {
-      "matchUpdateTypes": ["digest"],
-      "minimumReleaseAge": "2 days",
-      "automerge": true
-    },
-    {
       "matchPackageNames": ["fluxcd/flux2"],
       "matchUpdateTypes": ["pin", "pinDigest"],
       "enabled": false
