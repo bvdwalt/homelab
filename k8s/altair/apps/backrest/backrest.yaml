@@ -55,7 +55,7 @@ spec:
     configMountPath: /scripts
     extraContainers:
       - name: scripts
-        image: postgres:18-alpine@sha256:3f0182f7f06d949972a1d1901ff774e6d0b7c03ca95a27a12958d713fe5ea153
+        image: postgres:18-alpine@sha256:b6a16ed0eb96e2c362811f7eeb951eac8b459e7b40be4149ea5444aa7c65569b
         command: [sh, -c, "apk add --no-cache restic rclone python3 curl && sleep infinity"]
         envFrom:
           - secretRef:
