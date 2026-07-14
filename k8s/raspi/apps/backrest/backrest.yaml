@@ -17,7 +17,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: ghcr.io/garethgeorge/backrest:v1.13.0@sha256:77a6c9c8bef3a78f628cbb9b146f9726971921f3793a63e28e427e53a803f94b
+    image: ghcr.io/garethgeorge/backrest:v1.14.1@sha256:dbf2118de71591f96c996acf5ac2292741d3f536829d0ca58c08558ab59f4e49
     strategy: Recreate
     resources:
       requests:
