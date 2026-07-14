@@ -91,6 +91,14 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO metering;
 SQL
 
 $PSQL -d linkwarden <<SQL
+DO \$\$ DECLARE r RECORD; BEGIN
+  FOR r IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
+    EXECUTE 'ALTER TABLE public.' || quote_ident(r.tablename) || ' OWNER TO linkwarden';
+  END LOOP;
+  FOR r IN SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'public' LOOP
+    EXECUTE 'ALTER SEQUENCE public.' || quote_ident(r.sequence_name) || ' OWNER TO linkwarden';
+  END LOOP;
+END \$\$;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO linkwarden;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO linkwarden;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO linkwarden;
