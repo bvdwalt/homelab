@@ -11,3 +11,5 @@ configMapGenerator:
       disableNameSuffixHash: true
     files:
       - adguard-config/AdGuardHome.yaml
+components:
+  - ../../../common/components/helmrelease-defaults

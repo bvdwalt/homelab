@@ -4,3 +4,5 @@ resources:
   - backrest.yaml
   - backrest-scripts.yaml
   - ntfy-backrest.sops.yaml
+components:
+  - ../../../common/components/helmrelease-defaults

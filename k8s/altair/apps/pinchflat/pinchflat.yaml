@@ -4,16 +4,8 @@ metadata:
   name: pinchflat
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: pinchflat
   targetNamespace: pinchflat
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: ghcr.io/kieraneglin/pinchflat:v2025.6.6@sha256:4e975edf58f0861a5cbfe8fc6aac4851ff5a02dfc3f05ffeea4982e3084a5a4a
     port: 8945

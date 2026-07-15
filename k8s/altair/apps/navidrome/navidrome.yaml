@@ -4,16 +4,8 @@ metadata:
   name: navidrome
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: navidrome
   targetNamespace: navidrome
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: deluan/navidrome:0.63.2@sha256:38246ebb80d6f7e2724eecab4acafa7b14ec66ae800b2454aa6da4c19f80a9ce
     port: 4533

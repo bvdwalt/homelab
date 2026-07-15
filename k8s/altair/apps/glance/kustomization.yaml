@@ -9,3 +9,5 @@ configMapGenerator:
       disableNameSuffixHash: true
     files:
       - glance-config/glance.yml
+components:
+  - ../../../common/components/helmrelease-defaults

@@ -4,18 +4,10 @@ metadata:
   name: backrest
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: backrest
   targetNamespace: backrest
   install:
     createNamespace: false
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: ghcr.io/garethgeorge/backrest:v1.14.1@sha256:dbf2118de71591f96c996acf5ac2292741d3f536829d0ca58c08558ab59f4e49
     strategy: Recreate

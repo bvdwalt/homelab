@@ -4,16 +4,8 @@ metadata:
   name: atuin
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: atuin
   targetNamespace: atuin
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: ghcr.io/atuinsh/atuin:18.17.1@sha256:b2567e0d80a5622dba8d6c5319b198a94ef5166003c2559b91a5406ac688aac7
     port: 8888

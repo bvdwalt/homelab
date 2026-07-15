@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - pocket-id.yaml
   - pocket-id-networkpolicy.yaml
+components:
+  - ../../../common/components/helmrelease-defaults

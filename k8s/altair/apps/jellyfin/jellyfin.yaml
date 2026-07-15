@@ -4,16 +4,8 @@ metadata:
   name: jellyfin
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: jellyfin
   targetNamespace: jellyfin
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: jellyfin/jellyfin:10.11.11@sha256:0b901391a662862eddb5dc55d244d7883cbb6236ef5b9a6ea82abc78a89819f0
     port: 8096
