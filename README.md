@@ -2,6 +2,7 @@
 
 ![Validate](https://github.com/bvdwalt/homelab/actions/workflows/validate.yaml/badge.svg)
 ![TruffleHog](https://github.com/bvdwalt/homelab/actions/workflows/trufflehog.yaml/badge.svg)
+![Checks](https://img.shields.io/github/checks-status/bvdwalt/homelab/main)
 
 Two k3s clusters managed with Flux, running on a Raspberry Pi 5 and an HP Elite Mini 800 G9.
 
