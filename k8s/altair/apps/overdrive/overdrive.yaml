@@ -4,16 +4,8 @@ metadata:
   name: overdrive
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: overdrive
   targetNamespace: overdrive
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: robotwizard/overdrive:0.2.1@sha256:2ce166d8136676db88e245abd0c93f712fe5ba5c8b537b8cf5ab8a1ec0b0f8c5
     port: 8080

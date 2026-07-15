@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - backrest.yaml
   - backrest-scripts.yaml
+components:
+  - ../../../common/components/helmrelease-defaults

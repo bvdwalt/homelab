@@ -4,16 +4,8 @@ metadata:
   name: whoami
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: whoami
   targetNamespace: whoami
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: traefik/whoami:v1.11.0@sha256:4f90b33ddca9c4d4f06527070d6e503b16d71016edea036842be2a84e60c91cb
     port: 8080

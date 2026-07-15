@@ -4,16 +4,8 @@ metadata:
   name: homepage
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: homepage
   targetNamespace: homepage
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: ghcr.io/gethomepage/homepage:v1.13.2@sha256:a0b71c8e757298d02560186bab9fbe3fc2d375c523a62cc1019177b37e48aa28
     port: 3000

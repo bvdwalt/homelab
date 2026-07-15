@@ -4,16 +4,8 @@ metadata:
   name: metering-api
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: metering-api
   targetNamespace: metering
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: robotwizard/metering-api:v0.10.0@sha256:1a54707271cc25034af47e50c857c9594c7c2034fe46974c280a7d664449020b
     port: 8080

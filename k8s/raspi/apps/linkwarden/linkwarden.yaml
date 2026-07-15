@@ -4,16 +4,8 @@ metadata:
   name: linkwarden
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: linkwarden
   targetNamespace: linkwarden
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: ghcr.io/linkwarden/linkwarden:v2.15.1@sha256:7a3cbd1643b1d330ad458466d285527abaab532241ed17b7d6235e7fc93fbcd0
     port: 3000

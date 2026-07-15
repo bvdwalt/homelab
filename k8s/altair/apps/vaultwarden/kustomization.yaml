@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - vaultwarden.yaml
   - vaultwarden-networkpolicy.yaml
+components:
+  - ../../../common/components/helmrelease-defaults

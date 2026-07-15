@@ -4,16 +4,8 @@ metadata:
   name: jellystat
   namespace: flux-system
 spec:
-  interval: 10m
   releaseName: jellystat
   targetNamespace: jellystat
-  chart:
-    spec:
-      chart: ./k8s/charts/homelab-app
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
   values:
     image: cyfershepard/jellystat:1.1.11@sha256:c4e2dfa8bddf8d5ac3a675d7202f71a54dcfe3540cc186899d9201e0fe701fa5
     port: 3000
