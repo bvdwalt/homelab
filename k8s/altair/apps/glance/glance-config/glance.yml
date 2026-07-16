@@ -17,6 +17,8 @@ pages:
                 label: Cape Town
               - timezone: Asia/Dubai
                 label: Dubai
+              - timezone: Europe/Tallinn
+                label: Tallinn
               - timezone: UTC
                 label: UTC
 
@@ -32,6 +34,11 @@ pages:
 
           - type: weather
             location: Dubai, United Arab Emirates
+            units: metric
+            hour-format: 24h
+
+          - type: weather
+            location: Tallinn, Estonia
             units: metric
             hour-format: 24h
 
