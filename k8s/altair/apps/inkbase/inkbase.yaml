@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: inkbase
+  namespace: flux-system
+spec:
+  releaseName: inkbase
+  targetNamespace: inkbase
+  values:
+    image: ghcr.io/bvdwalt/inkbase:0.4.1@sha256:b6ece8fa36f238005e85b4dd8e4e35ef88ae0b42ae2ac8184d2ad576c49f3227
+    port: 8080
+    hostname: notes.greedo.net
+    resources:
+      requests:
+        memory: 32Mi
+      limits:
+        memory: 128Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    persistence:
+      enabled: true
+      size: 500Mi
+      mountPath: /data
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
