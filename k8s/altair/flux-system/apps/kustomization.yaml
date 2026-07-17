@@ -25,4 +25,4 @@ resources:
   - jellyfin.yaml
   - homepage.yaml
   - glance.yaml
-  - inkbase.yaml
+  - palimpsest.yaml

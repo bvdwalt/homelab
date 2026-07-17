@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: inkbase
+  name: palimpsest
   namespace: flux-system
 spec:
-  releaseName: inkbase
-  targetNamespace: inkbase
+  releaseName: palimpsest
+  targetNamespace: palimpsest
   values:
-    image: ghcr.io/bvdwalt/inkbase:0.4.1@sha256:b6ece8fa36f238005e85b4dd8e4e35ef88ae0b42ae2ac8184d2ad576c49f3227
+    image: ghcr.io/bvdwalt/palimpsest:0.5.0@sha256:fad785a7b4a8542c2ccb9acbb437e6cb50279b9aeb93d1e3062d9277c4cdb76c
     port: 8080
     hostname: notes.greedo.net
     resources:
