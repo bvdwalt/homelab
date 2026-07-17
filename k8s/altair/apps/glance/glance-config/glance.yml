@@ -153,6 +153,8 @@ pages:
               - title: ActualBudget — Budgeting
                 url: https://budget.greedo.net
                 icon: si:actualbudget
+              - title: Inkbase — Notes
+                url: https://notes.greedo.net
               - title: Linkwarden — Bookmarks
                 url: https://linkwarden.raspi.greedo.net
                 icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
@@ -183,4 +185,5 @@ pages:
               - henrygd/beszel
               - garethgeorge/backrest
               - slskd/slskd
+              - bvdwalt/inkbase
 
