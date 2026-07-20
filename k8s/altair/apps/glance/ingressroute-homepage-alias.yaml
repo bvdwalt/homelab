@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: glance-homepage-alias
+  namespace: glance
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`homepage.greedo.net`)
+      kind: Rule
+      services:
+        - name: glance
+          port: 8080
+  tls: {}

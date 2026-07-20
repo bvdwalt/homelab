@@ -23,6 +23,5 @@ resources:
   - backrest.yaml
   - adguard.yaml
   - jellyfin.yaml
-  - homepage.yaml
   - glance.yaml
   - palimpsest.yaml
