@@ -52,7 +52,6 @@ jobs:
           resource: ${{ matrix.resource }}
           live-branch: main
           api-versions: monitoring.coreos.com/v1/ServiceMonitor
-          enable-helm: true
       - uses: allenporter/flux-local/action/diff@92d3a538c009c3fec120fbf50f6ef33b3e0a569c # 8.4.0
         id: diff-altair
         with:
@@ -60,7 +59,6 @@ jobs:
           resource: ${{ matrix.resource }}
           live-branch: main
           api-versions: monitoring.coreos.com/v1/ServiceMonitor
-          enable-helm: true
       - name: Combine diffs
         id: combined
         env:
