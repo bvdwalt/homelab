@@ -7,7 +7,7 @@ spec:
   releaseName: palimpsest
   targetNamespace: palimpsest
   values:
-    image: ghcr.io/bvdwalt/palimpsest:0.6.0@sha256:417095d939cd5a3470a910209143274b9490d5f5eaa01a28a066a22ea529eaa1
+    image: ghcr.io/bvdwalt/palimpsest:0.7.0@sha256:5baabd6131ab2c3a6ecb59ca800b6c0a5014684e45fc55695885af6b26f6d5af
     port: 8080
     hostname: notes.greedo.net
     resources:
