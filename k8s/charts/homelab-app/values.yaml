@@ -8,6 +8,11 @@ middlewares:
   - name: oidc-auth
     namespace: kube-system
 
+# Skip the middlewares above (OIDC) for requests under this path prefix,
+# e.g. for apps that authenticate their own API via a header/token.
+bypassOidcPathPrefix: ""
+bypassOidcExceptPath: ""
+
 args: []
 env: {}
 existingSecret: ""

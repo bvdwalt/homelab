@@ -10,6 +10,8 @@ spec:
     image: ghcr.io/bvdwalt/palimpsest:0.7.0@sha256:5baabd6131ab2c3a6ecb59ca800b6c0a5014684e45fc55695885af6b26f6d5af
     port: 8080
     hostname: notes.greedo.net
+    bypassOidcPathPrefix: /api
+    bypassOidcExceptPath: /api/config
     resources:
       requests:
         memory: 32Mi

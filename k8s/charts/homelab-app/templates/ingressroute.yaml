@@ -10,6 +10,14 @@ spec:
   entryPoints:
     - websecure
   routes:
+    {{- if .Values.bypassOidcPathPrefix }}
+    - match: Host(`{{ .Values.hostname }}`) && PathPrefix(`{{ .Values.bypassOidcPathPrefix }}`){{- if .Values.bypassOidcExceptPath }} && !Path(`{{ .Values.bypassOidcExceptPath }}`){{- end }}
+      kind: Rule
+      priority: 20
+      services:
+        - name: {{ .Release.Name }}
+          port: {{ .Values.servicePort }}
+    {{- end }}
     - match: Host(`{{ .Values.hostname }}`)
       kind: Rule
       {{- if .Values.middlewares }}
