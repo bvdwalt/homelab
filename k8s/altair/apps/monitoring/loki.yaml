@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-      interval: 12h
+      interval: 1h
   values:
     deploymentMode: SingleBinary
     loki:

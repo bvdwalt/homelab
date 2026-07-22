@@ -22,7 +22,7 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-      interval: 12h
+      interval: 1h
   values:
     alertmanager:
       enabled: true
