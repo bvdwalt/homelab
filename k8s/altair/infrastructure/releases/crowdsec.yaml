@@ -22,16 +22,6 @@ spec:
       retries: 3
   values:
     container_runtime: containerd
-    config:
-      postoverflows:
-        s01-whitelist:
-          lan-whitelist.yaml: |
-            name: crowdsecurity/lan-whitelist
-            description: "Whitelist local LAN traffic"
-            whitelist:
-              reason: "Local LAN (Altair)"
-              cidr:
-                - "10.13.1.0/24"
     lapi:
       env:
         - name: BOUNCER_KEY_traefik
