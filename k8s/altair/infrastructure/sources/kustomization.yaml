@@ -4,3 +4,4 @@ resources:
   - ../../../common/sources
   - cnpg.yaml
   - prometheus-community.yaml
+  - crowdsec.yaml
