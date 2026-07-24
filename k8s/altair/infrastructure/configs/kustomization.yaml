@@ -11,3 +11,4 @@ resources:
   - proxmox.yaml
   - intel-gpu-plugin.yaml
   - flux-alerts.yaml
+  - crowdsec-bouncer.yaml
