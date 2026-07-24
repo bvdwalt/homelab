@@ -5,3 +5,4 @@ resources:
   - cert-manager.yaml
   - reloader.yaml
   - cnpg.yaml
+  - crowdsec.yaml
