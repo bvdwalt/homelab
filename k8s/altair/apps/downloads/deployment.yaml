@@ -346,7 +346,7 @@ spec:
               memory: 256Mi
 
         - name: music-grabber
-          image: g33kphr33k/musicgrabber:3.0.2@sha256:184228ee0071d4e9c7062f7a09feb62b6033888a84e8cc955420054cdf7fadec
+          image: g33kphr33k/musicgrabber:3.0.3@sha256:18064376b9963e196f6ee875ecef76fbba3c0baad98148880d541d5a33d1bde9
           env:
             - name: TZ
               value: Europe/Amsterdam
