@@ -12,7 +12,7 @@ spec:
       crowdsecLapiHost: crowdsec-service.crowdsec.svc.cluster.local:8080
       crowdsecLapiKey: "${BOUNCER_KEY_traefik}"
       forwardedHeadersTrustedIPs:
-        - 10.13.1.0/24
+        - 10.0.0.0/24
       crowdsecAppsecEnabled: true
       crowdsecAppsecHost: crowdsec-appsec-service.crowdsec.svc.cluster.local:7422
       crowdsecAppsecFailureBlock: false

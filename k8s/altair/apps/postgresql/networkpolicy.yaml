@@ -35,6 +35,6 @@ spec:
     # LAN via LoadBalancer: linkwarden on raspi cluster, psql from workstation
     - from:
         - ipBlock:
-            cidr: 10.13.1.0/24
+            cidr: 10.0.0.0/24
       ports:
         - port: 5432
