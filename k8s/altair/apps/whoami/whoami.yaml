@@ -7,7 +7,7 @@ spec:
   releaseName: whoami
   targetNamespace: whoami
   values:
-    image: traefik/whoami:v1.11.0@sha256:4f90b33ddca9c4d4f06527070d6e503b16d71016edea036842be2a84e60c91cb
+    image: traefik/whoami:v1.12.0@sha256:80f8bb74f634d45d55967820a702c5fddf01cf92968bb29ed7a3573dd16b0e55
     port: 8080
     hostname: whoami.greedo.net
     resources:
