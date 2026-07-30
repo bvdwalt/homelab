@@ -67,8 +67,8 @@ EOF
 # greedo.net search domain from poisoning external lookups. Shared file
 # lives in bootstrap/k3s-resolv.conf; apply the same content to both clusters.
 cat > /etc/rancher/k3s/resolv.conf << EOF
-nameserver 10.13.1.167
-nameserver 10.13.1.1
+nameserver 10.0.0.167
+nameserver 10.0.0.2
 nameserver 1.1.1.1
 EOF
 

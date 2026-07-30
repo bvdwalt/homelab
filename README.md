@@ -23,14 +23,14 @@ Two k3s clusters managed with Flux, running on a Raspberry Pi 5 and an HP Elite 
 
 ```
 Altair — HP Elite Mini 800 G9
-├── Proxmox VE  (10.13.1.166)
-└── k3s LXC     (10.13.1.167)  — *.greedo.net
+├── Proxmox VE  (10.0.0.166)
+└── k3s LXC     (10.0.0.167)  — *.greedo.net
 
 Raspi — Raspberry Pi 5
 └── k3s         (10.13.1.164)  — *.raspi.greedo.net
 ```
 
-AdGuard (running on Altair) resolves `*.greedo.net → 10.13.1.167` and `*.raspi.greedo.net → 10.13.1.164`, with per-service overrides for Raspi services that don't use the `raspi.` subdomain.
+AdGuard (running on Altair) resolves `*.greedo.net → 10.0.0.167` and `*.raspi.greedo.net → 10.13.1.164`, with per-service overrides for Raspi services that don't use the `raspi.` subdomain.
 
 ## Repo layout
 

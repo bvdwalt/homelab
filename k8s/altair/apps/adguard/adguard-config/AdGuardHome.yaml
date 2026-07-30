@@ -224,7 +224,7 @@ filtering:
       answer: 10.13.1.164
       enabled: true
     - domain: '*.greedo.net'
-      answer: 10.13.1.167
+      answer: 10.0.0.167
       enabled: true
     - domain: raspi.local
       answer: 10.13.1.164
@@ -239,13 +239,13 @@ filtering:
       answer: 10.13.1.165
       enabled: true
     - domain: whoami.greedo.net
-      answer: 10.13.1.167
+      answer: 10.0.0.167
       enabled: true
     - domain: backrest.greedo.net
-      answer: 10.13.1.167
+      answer: 10.0.0.167
       enabled: true
     - domain: grafana.greedo.net
-      answer: 10.13.1.167
+      answer: 10.0.0.167
       enabled: true
   safe_fs_patterns:
     - /data/work/userfilters/*

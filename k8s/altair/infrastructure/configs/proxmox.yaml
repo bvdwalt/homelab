@@ -24,7 +24,7 @@ metadata:
   namespace: kube-system
 subsets:
   - addresses:
-      - ip: 10.13.1.166
+      - ip: 10.0.0.166
     ports:
       - port: 8006
 ---
