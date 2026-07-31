@@ -37,8 +37,6 @@ spec:
               value: mullvad
             - name: VPN_TYPE
               value: wireguard
-            - name: SERVER_COUNTRIES
-              value: Netherlands
             - name: WIREGUARD_ADDRESSES
               value: 10.74.116.211/32
             - name: FIREWALL_INPUT_PORTS
