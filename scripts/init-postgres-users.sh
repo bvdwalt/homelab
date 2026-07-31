@@ -14,17 +14,30 @@ ATUIN_PASS=$(kubectl --context=altair -n atuin get secret atuin \
 METERING_PASS=$(kubectl --context=altair -n metering get secret metering-secrets \
   -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
 
-LINKWARDEN_PASS=$(kubectl --context=raspi -n linkwarden get secret linkwarden \
-  -o jsonpath='{.data.DATABASE_URL}' | base64 -d \
-  | python3 -c "import sys,urllib.parse; u=urllib.parse.urlparse(sys.stdin.read().strip()); print(u.password)")
+LINKWARDEN_AVAILABLE=true
+set +e
+LINKWARDEN_PASS=$(kubectl --context=raspi --request-timeout=5s -n linkwarden get secret linkwarden \
+  -o jsonpath='{.data.DATABASE_URL}' 2>/dev/null | base64 -d 2>/dev/null \
+  | python3 -c "import sys,urllib.parse; u=urllib.parse.urlparse(sys.stdin.read().strip()); print(u.password)" 2>/dev/null)
+set -e
+if [ -z "$LINKWARDEN_PASS" ]; then
+  LINKWARDEN_AVAILABLE=false
+  echo "==> raspi unreachable; skipping linkwarden"
+fi
 
 JELLYSTAT_PASS=$(kubectl --context=altair -n jellystat get secret jellystat-secrets \
   -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
+
+AUTHENTIK_PASS=$(kubectl --context=altair -n authentik get secret authentik-secrets \
+  -o jsonpath='{.data.AUTHENTIK_POSTGRESQL__PASSWORD}' | base64 -d)
 
 echo "==> Creating databases that don't already exist..."
 
 $PSQL -tc "SELECT 1 FROM pg_database WHERE datname = 'jellystat'" | grep -q 1 \
   || $PSQL -c "CREATE DATABASE jellystat"
+
+$PSQL -tc "SELECT 1 FROM pg_database WHERE datname = 'authentik'" | grep -q 1 \
+  || $PSQL -c "CREATE DATABASE authentik"
 
 echo "==> Creating users..."
 
@@ -49,22 +62,35 @@ ALTER DATABASE data OWNER TO metering;
 
 DO \$\$
 BEGIN
-  CREATE USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
-EXCEPTION WHEN duplicate_object THEN
-  ALTER USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
-END \$\$;
-GRANT ALL PRIVILEGES ON DATABASE linkwarden TO linkwarden;
-ALTER DATABASE linkwarden OWNER TO linkwarden;
-
-DO \$\$
-BEGIN
   CREATE USER jellystat WITH PASSWORD '${JELLYSTAT_PASS}';
 EXCEPTION WHEN duplicate_object THEN
   ALTER USER jellystat WITH PASSWORD '${JELLYSTAT_PASS}';
 END \$\$;
 GRANT ALL PRIVILEGES ON DATABASE jellystat TO jellystat;
 ALTER DATABASE jellystat OWNER TO jellystat;
+
+DO \$\$
+BEGIN
+  CREATE USER authentik WITH PASSWORD '${AUTHENTIK_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER authentik WITH PASSWORD '${AUTHENTIK_PASS}';
+END \$\$;
+GRANT ALL PRIVILEGES ON DATABASE authentik TO authentik;
+ALTER DATABASE authentik OWNER TO authentik;
 SQL
+
+if [ "$LINKWARDEN_AVAILABLE" = true ]; then
+  $PSQL <<SQL
+DO \$\$
+BEGIN
+  CREATE USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
+END \$\$;
+GRANT ALL PRIVILEGES ON DATABASE linkwarden TO linkwarden;
+ALTER DATABASE linkwarden OWNER TO linkwarden;
+SQL
+fi
 
 echo "==> Granting table privileges..."
 
@@ -120,8 +146,24 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO jellystat;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO jellystat;
 SQL
 
+$PSQL -d authentik <<SQL
+DO \$\$ DECLARE r RECORD; BEGIN
+  FOR r IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
+    EXECUTE 'ALTER TABLE public.' || quote_ident(r.tablename) || ' OWNER TO authentik';
+  END LOOP;
+  FOR r IN SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'public' LOOP
+    EXECUTE 'ALTER SEQUENCE public.' || quote_ident(r.sequence_name) || ' OWNER TO authentik';
+  END LOOP;
+END \$\$;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO authentik;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO authentik;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO authentik;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO authentik;
+SQL
+
 echo "==> Done. Restart affected deployments if needed:"
 echo "    kubectl --context=altair -n atuin rollout restart deployment/atuin"
 echo "    kubectl --context=altair -n metering rollout restart deployment/metering-api"
 echo "    kubectl --context=raspi -n linkwarden rollout restart deployment/linkwarden"
 echo "    kubectl --context=altair -n jellystat rollout restart deployment/jellystat"
+echo "    kubectl --context=altair -n authentik rollout restart deployment/authentik-server deployment/authentik-worker"
