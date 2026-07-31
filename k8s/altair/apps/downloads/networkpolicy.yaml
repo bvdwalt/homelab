@@ -33,6 +33,14 @@ spec:
       ports:
         - port: 7878  # radarr
         - port: 8989  # sonarr
+    # seerr → radarr + sonarr
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: seerr
+      ports:
+        - port: 7878  # radarr
+        - port: 8989  # sonarr
   egress:
     # DNS
     - to:
