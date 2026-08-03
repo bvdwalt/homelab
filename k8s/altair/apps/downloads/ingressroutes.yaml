@@ -7,10 +7,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`radarr.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`radarr.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: radarr
@@ -31,10 +40,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`sonarr.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`sonarr.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: sonarr
@@ -55,10 +73,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`lidarr.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`lidarr.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: lidarr
@@ -73,10 +100,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`bazarr.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`bazarr.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: bazarr
@@ -124,10 +160,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`downloads.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`downloads.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: qbittorrent
@@ -148,10 +193,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`flaresolverr.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`flaresolverr.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: flaresolverr
@@ -166,10 +220,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`profilarr.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`profilarr.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: profilarr
@@ -184,10 +247,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`musicgrabber.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`musicgrabber.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: music-grabber
@@ -202,10 +274,19 @@ metadata:
 spec:
   entryPoints: [websecure]
   routes:
+    # Authentik outpost auth flow (login redirect/callback)
+    - kind: Rule
+      match: Host(`slskd.greedo.net`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 100
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: 80
     - kind: Rule
       match: Host(`slskd.greedo.net`)
+      priority: 1
       middlewares:
-        - name: oidc-auth
+        - name: authentik-forward-auth
           namespace: kube-system
       services:
         - name: slskd
