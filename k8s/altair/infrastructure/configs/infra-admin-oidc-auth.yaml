@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: infra-admin-oidc-auth
+  namespace: kube-system
+spec:
+  plugin:
+    traefik-oidc-auth:
+      Provider:
+        Url: "https://pocketid.greedo.net"
+        ClientId: "${INFRA_ADMIN_AUTH_CLIENT_ID}"
+        ClientSecret: "${INFRA_ADMIN_AUTH_CLIENT_SECRET}"
+      Scopes: ["openid", "profile", "email"]
+      Secret: "${INFRA_ADMIN_OIDC_SESSION_SECRET}"

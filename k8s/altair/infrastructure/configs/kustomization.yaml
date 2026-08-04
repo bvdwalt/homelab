@@ -5,8 +5,9 @@ resources:
   - wildcard-cert.yaml
   - tlsstore.yaml
   - traefik.yaml
-  - oidc-auth.yaml
   - downloads-oidc-auth.yaml
+  - infra-admin-oidc-auth.yaml
+  - household-oidc-auth.yaml
   - traefik-dashboard.yaml
   - hubble-ui.yaml
   - proxmox.yaml

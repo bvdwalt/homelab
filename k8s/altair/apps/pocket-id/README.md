@@ -2,17 +2,33 @@
 
 ## Tiered OIDC groups (per-app-group Traefik auth)
 
-By default every app protected by Pocket ID shares one OIDC client and one
-Traefik `Middleware` (`oidc-auth`), so access is all-or-nothing across every
-app that uses it. For a set of apps that should share their own access list
-(a "tier" — e.g. all of `downloads`), create a dedicated Pocket ID group +
-client + Middleware instead of adding more apps to the shared one. This
-keeps blast radius scoped: a new tier doesn't touch any existing app's auth.
+Every app protected by Pocket ID gets its own dedicated group + OIDC client
++ Traefik `Middleware` — a "tier" — rather than sharing one client/Middleware
+across unrelated apps. This keeps blast radius scoped: a new tier, or
+reassigning an app to a different tier, doesn't touch any other app's auth.
+There is no shared/default `oidc-auth` Middleware anymore (decommissioned
+once every app had a tier — see git history if you need the old pattern).
 
-Reference implementation: the `downloads` tier
+Existing tiers:
+
+| Tier | Membership | Apps |
+|------|------------|------|
+| `downloads` | all household users | radarr, sonarr, lidarr, bazarr, prowlarr, qbittorrent, flaresolverr, profilarr, music-grabber, slskd |
+| `household` | all household users | actual-budget, glance, jellystat, metering-dashboard, overdrive, pinchflat, seerr |
+| `infra-admin` | admin only | adguard, backrest, it-tools, whoami, vaultwarden, traefik dashboard, hubble-ui |
+
+`household` and `downloads` currently have identical membership but are
+kept as separate Pocket ID groups/clients rather than merged, so that
+granting someone downloads access doesn't implicitly grant household-app
+access (and vice versa) — same scoping principle as the tiers themselves.
+
+Reference implementation for a new tier: the `downloads` tier
 (`k8s/altair/apps/downloads/ingressroutes.yaml`,
 `k8s/altair/infrastructure/configs/downloads-oidc-auth.yaml`,
-`k8s/altair/infrastructure/secrets/downloads-oidc-auth.sops.yaml`).
+`k8s/altair/infrastructure/secrets/downloads-oidc-auth.sops.yaml`), or
+`household`/`infra-admin` for apps using the shared `homelab-app` chart
+(`middlewares:` override in the app's `HelmRelease` values, instead of a
+separate `ingressroutes.yaml`).
 
 ### 1. Create a Pocket ID API key
 

@@ -10,6 +10,9 @@ spec:
     image: ghcr.io/seerr-team/seerr:v3.4.1@sha256:b21cf91bb7a10d70446e104e7b7b9c9c386aa22beeac535a3271cbfc5843d142
     port: 5055
     hostname: seerr.greedo.net
+    middlewares:
+      - name: household-oidc-auth
+        namespace: kube-system
     strategy: Recreate
     resources:
       requests:

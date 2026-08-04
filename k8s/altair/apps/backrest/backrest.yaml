@@ -25,6 +25,9 @@ spec:
       failureThreshold: 3
     port: 9898
     hostname: backrest.greedo.net
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
     env:
       BACKREST_PORT: "0.0.0.0:9898"
       BACKREST_DATA: /data
