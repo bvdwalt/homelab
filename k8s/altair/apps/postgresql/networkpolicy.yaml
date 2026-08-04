@@ -30,9 +30,6 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: jellystat
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: authentik
       ports:
         - port: 5432
     # LAN via LoadBalancer: linkwarden on raspi cluster, psql from workstation

@@ -7,7 +7,6 @@ resources:
   - traefik.yaml
   - oidc-auth.yaml
   - downloads-oidc-auth.yaml
-  - authentik-forward-auth.yaml
   - traefik-dashboard.yaml
   - hubble-ui.yaml
   - proxmox.yaml
