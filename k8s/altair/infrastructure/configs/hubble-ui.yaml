@@ -10,7 +10,7 @@ spec:
     - match: Host(`hubble.greedo.net`)
       kind: Rule
       middlewares:
-        - name: oidc-auth
+        - name: infra-admin-oidc-auth
           namespace: kube-system
       services:
         - name: hubble-ui

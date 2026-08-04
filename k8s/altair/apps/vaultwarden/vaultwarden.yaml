@@ -10,6 +10,9 @@ spec:
     image: vaultwarden/server:1.37.1@sha256:ebdfe70701c60ac0c28c697e787cea767d7972940b786037b29fe0d507f821e8
     port: 8080
     hostname: vw.greedo.net
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
     strategy: Recreate
     resources:
       requests:

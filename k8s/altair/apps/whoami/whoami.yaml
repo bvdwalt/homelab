@@ -10,6 +10,9 @@ spec:
     image: traefik/whoami:v1.12.0@sha256:80f8bb74f634d45d55967820a702c5fddf01cf92968bb29ed7a3573dd16b0e55
     port: 8080
     hostname: whoami.greedo.net
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
     resources:
       requests:
         memory: 8Mi

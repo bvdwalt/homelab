@@ -10,6 +10,9 @@ spec:
     image: robotwizard/metering-dashboard:0.2.0@sha256:6ce901d953b7815142952abb4e2ac6fb7acc242a8e0185963434a364e838e852
     port: 80
     hostname: metering.greedo.net
+    middlewares:
+      - name: household-oidc-auth
+        namespace: kube-system
     resources:
       requests:
         memory: 8Mi

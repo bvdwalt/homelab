@@ -10,6 +10,9 @@ spec:
     image: adguard/adguardhome:v0.107.78@sha256:2c127294fa5f96151d9d3a433fb9d66c17e4d18cf698c2b04372a80e26fdd26f
     port: 8080
     hostname: adguard.greedo.net
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
     strategy: Recreate
     priorityClassName: system-cluster-critical
     resources:

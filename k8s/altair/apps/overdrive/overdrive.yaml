@@ -10,6 +10,9 @@ spec:
     image: robotwizard/overdrive:0.2.1@sha256:2ce166d8136676db88e245abd0c93f712fe5ba5c8b537b8cf5ab8a1ec0b0f8c5
     port: 8080
     hostname: overdrive.greedo.net
+    middlewares:
+      - name: household-oidc-auth
+        namespace: kube-system
     strategy: Recreate
     resources:
       requests:
