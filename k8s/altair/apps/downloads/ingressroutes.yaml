@@ -108,6 +108,14 @@ spec:
   tls: {}
 ---
 apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: qbittorrent-transport
+  namespace: downloads
+spec:
+  serverName: downloads.greedo.net
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: qbittorrent
@@ -123,12 +131,16 @@ spec:
       services:
         - name: qbittorrent
           port: 80
+          scheme: https
+          serversTransport: qbittorrent-transport
     # WebUI API (homepage widget): no OIDC, session auth via /api/v2/auth/login
     - kind: Rule
       match: Host(`downloads.greedo.net`) && PathPrefix(`/api`)
       services:
         - name: qbittorrent
           port: 80
+          scheme: https
+          serversTransport: qbittorrent-transport
   tls: {}
 ---
 apiVersion: traefik.io/v1alpha1
