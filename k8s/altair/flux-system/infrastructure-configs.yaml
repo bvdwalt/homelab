@@ -21,4 +21,6 @@ spec:
       - kind: Secret
         name: oidc-auth
       - kind: Secret
+        name: downloads-oidc-auth
+      - kind: Secret
         name: crowdsec-bouncer-key

@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: downloads-oidc-auth
+  namespace: kube-system
+spec:
+  plugin:
+    traefik-oidc-auth:
+      Provider:
+        Url: "https://pocketid.greedo.net"
+        ClientId: "${DOWNLOADS_AUTH_CLIENT_ID}"
+        ClientSecret: "${DOWNLOADS_AUTH_CLIENT_SECRET}"
+      Scopes: ["openid", "profile", "email"]
+      Secret: "${DOWNLOADS_OIDC_SESSION_SECRET}"
