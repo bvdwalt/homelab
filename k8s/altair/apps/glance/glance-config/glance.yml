@@ -82,15 +82,19 @@ pages:
             sites:
               - title: Jellyfin
                 url: https://jellyfin.greedo.net
+                check-url: http://jellyfin.jellyfin.svc.cluster.local/health
                 icon: si:jellyfin
               - title: Navidrome — Music streaming
                 url: https://navidrome.greedo.net
+                check-url: http://navidrome.navidrome.svc.cluster.local/
                 icon: di:navidrome
               - title: Pinchflat — YouTube archiver
                 url: https://pinchflat.greedo.net
+                check-url: http://pinchflat.pinchflat.svc.cluster.local/
                 icon: si:youtube
               - title: Seerr — Media requests
                 url: https://seerr.greedo.net
+                check-url: http://seerr.seerr.svc.cluster.local/
                 icon: di:seerr
               - title: Sonarr — TV shows
                 url: https://sonarr.greedo.net
@@ -115,10 +119,13 @@ pages:
                 icon: di:slskd
               - title: Overdrive
                 url: https://overdrive.greedo.net
+                check-url: http://overdrive.overdrive.svc.cluster.local/
               - title: Music Grabber
                 url: https://musicgrabber.greedo.net
               - title: Proxmox — Virtualisation
                 url: https://pve.greedo.net
+                check-url: https://10.0.0.166:8006
+                allow-insecure: true
                 icon: si:proxmox
               - title: Traefik (Altair) — Reverse proxy
                 url: https://traefik.greedo.net
@@ -128,9 +135,11 @@ pages:
                 icon: si:traefikproxy
               - title: AdGuard Home — DNS / Ad blocking
                 url: https://adguard.greedo.net
+                check-url: http://adguard.adguard.svc.cluster.local:8080/
                 icon: si:adguard
               - title: Gitea — Git hosting
                 url: https://gitea.greedo.net
+                check-url: http://gitea-http.gitea.svc.cluster.local:3000/api/healthz
                 icon: si:gitea
               - title: Pocket-ID — SSO
                 url: https://pocketid.greedo.net
@@ -140,26 +149,32 @@ pages:
                 icon: si:vaultwarden
               - title: Grafana — Metrics
                 url: https://grafana.greedo.net
+                check-url: http://prometheus-grafana.monitoring.svc.cluster.local/api/health
                 icon: si:grafana
               - title: Beszel — System monitor
                 url: https://beszel.raspi.greedo.net
                 icon: di:beszel
               - title: Backrest — Backups
                 url: https://backrest.greedo.net
+                check-url: http://backrest.backrest.svc.cluster.local/
                 icon: di:backrest
               - title: IT Tools — Dev utilities
                 url: https://ittools.greedo.net
+                check-url: http://it-tools.it-tools.svc.cluster.local/
                 icon: di:it-tools
               - title: ActualBudget — Budgeting
                 url: https://budget.greedo.net
+                check-url: http://actual-budget.actual-budget.svc.cluster.local/
                 icon: si:actualbudget
               - title: Palimpsest — Notes
                 url: https://notes.greedo.net
+                check-url: http://palimpsest.palimpsest.svc.cluster.local/
               - title: Linkwarden — Bookmarks
                 url: https://linkwarden.raspi.greedo.net
                 icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
               - title: Metering
                 url: https://metering.greedo.net
+                check-url: http://metering-dashboard.metering.svc.cluster.local/
 
           - type: repository
             repository: bvdwalt/homelab
