@@ -10,6 +10,9 @@ spec:
     image: ghcr.io/bvdwalt/palimpsest:0.7.1@sha256:baf7d22b695a5e716ba42df643908af00ce04a9c06f6ca3bc14ea761308e9bba
     port: 8080
     hostname: notes.greedo.net
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
     bypassOidcPathPrefix: /api
     bypassOidcExceptPath: /api/config
     resources:

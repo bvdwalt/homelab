@@ -5,7 +5,7 @@ hostname: ""
 strategy: RollingUpdate
 
 middlewares:
-  - name: oidc-auth
+  - name: household-oidc-auth
     namespace: kube-system
 
 # Skip the middlewares above (OIDC) for requests under this path prefix,
