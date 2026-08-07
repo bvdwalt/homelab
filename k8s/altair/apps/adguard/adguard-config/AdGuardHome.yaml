@@ -229,15 +229,6 @@ filtering:
     - domain: raspi.local
       answer: 10.13.1.164
       enabled: true
-    - domain: truenas.local
-      answer: 10.13.1.165
-      enabled: true
-    - domain: truenas
-      answer: 10.13.1.165
-      enabled: true
-    - domain: truenas.royal-penny.ts.net
-      answer: 10.13.1.165
-      enabled: true
     - domain: whoami.greedo.net
       answer: 10.0.0.167
       enabled: true
