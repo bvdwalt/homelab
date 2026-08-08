@@ -1,0 +1,32 @@
+---
+- name: Remove uninitialized cloud-provider taint
+  command: >
+    kubectl --context={{ kubectl_context }} taint node {{ inventory_hostname }}
+    node.cloudprovider.kubernetes.io/uninitialized:NoSchedule-
+  register: taint_result
+  failed_when:
+    - taint_result.rc != 0
+    - "'not found' not in taint_result.stderr"
+  changed_when: "'untainted' in taint_result.stdout"
+
+- name: Check whether sops-age secret already exists
+  command: kubectl --context={{ kubectl_context }} get secret sops-age -n flux-system
+  register: sops_secret_check
+  failed_when: false
+  changed_when: false
+
+- name: Ensure flux-system namespace exists
+  command: kubectl --context={{ kubectl_context }} create namespace flux-system
+  register: ns_result
+  failed_when:
+    - ns_result.rc != 0
+    - "'AlreadyExists' not in ns_result.stderr"
+  changed_when: ns_result.rc == 0
+  when: sops_secret_check.rc != 0
+
+- name: Create sops-age secret from local age key
+  command: >
+    kubectl --context={{ kubectl_context }} create secret generic sops-age
+    --namespace=flux-system
+    --from-file=age.agekey={{ sops_age_key_path }}
+  when: sops_secret_check.rc != 0

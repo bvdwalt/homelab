@@ -1,0 +1,10 @@
+protect-kernel-defaults: false
+kubelet-arg:
+  - "protect-kernel-defaults=false"
+disable-cloud-controller: true
+resolv-conf: /etc/rancher/k3s/resolv.conf
+flannel-backend: none
+disable-kube-proxy: true
+disable-network-policy: true
+disable:
+  - servicelb

@@ -1,0 +1,3 @@
+---
+kubectl_context: altair
+sops_age_key_path: "{{ lookup('env', 'HOME') }}/.config/sops/age/keys.txt"
