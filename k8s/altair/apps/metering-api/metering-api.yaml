@@ -32,7 +32,9 @@ spec:
       POSTGRES_USER: "metering"
       POSTGRES_DB: "data"
       TZ: "Europe/Amsterdam"
-    middlewares: []
+    middlewares:
+      - name: household-oidc-auth
+        namespace: kube-system
     existingSecret: metering-secrets
     securityContext:
       enabled: true
