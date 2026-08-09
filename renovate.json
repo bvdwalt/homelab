@@ -20,6 +20,13 @@
     {
       "matchHost": "docker.gitea.com",
       "hostType": "docker"
+    },
+    {
+      "matchHost": "ghcr.io",
+      "hostType": "docker",
+      "authType": "Basic",
+      "username": "bvdwalt",
+      "password": "{{ secrets.GHCR_PAT }}"
     }
   ],
   "packageRules": [
