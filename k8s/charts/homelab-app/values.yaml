@@ -1,4 +1,5 @@
 image: ""
+imagePullSecrets: []
 port: 80
 servicePort: 80
 hostname: ""

@@ -25,3 +25,4 @@ resources:
   - jellyfin.yaml
   - glance.yaml
   - palimpsest.yaml
+  - actual-importer.yaml

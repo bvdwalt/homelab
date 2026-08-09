@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actual-importer
+  namespace: flux-system
+spec:
+  releaseName: actual-importer
+  targetNamespace: actual-importer
+  values:
+    image: ghcr.io/bvdwalt/actual-importer:0.1.2
+    imagePullSecrets:
+      - ghcr-pull-secret
+    port: 8080
+    hostname: actualimporter.greedo.net
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
+    resources:
+      requests:
+        memory: 64Mi
+      limits:
+        memory: 256Mi
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      failureThreshold: 6
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      ACTUAL_SERVER_URL: "http://actual-budget.actual-budget.svc.cluster.local"
+      TZ: "Europe/Amsterdam"
+    existingSecret: actual-importer-secrets
+    persistence:
+      enabled: true
+      size: 200Mi
+      mountPath: /data
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
