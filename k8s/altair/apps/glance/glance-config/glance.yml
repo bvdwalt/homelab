@@ -135,7 +135,7 @@ pages:
                 icon: si:traefikproxy
               - title: AdGuard Home — DNS / Ad blocking
                 url: https://adguard.greedo.net
-                check-url: http://adguard.adguard.svc.cluster.local:8080/
+                check-url: http://adguard.adguard.svc.cluster.local/
                 icon: si:adguard
               - title: Gitea — Git hosting
                 url: https://gitea.greedo.net
