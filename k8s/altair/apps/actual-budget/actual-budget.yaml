@@ -11,8 +11,7 @@ spec:
     port: 5006
     hostname: budget.greedo.net
     middlewares:
-      - name: infra-admin-oidc-auth
-        namespace: kube-system
+      []
     strategy: Recreate
     resources:
       requests:
