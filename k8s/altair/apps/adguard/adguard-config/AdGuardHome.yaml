@@ -107,7 +107,7 @@ querylog:
 statistics:
   dir_path: ""
   ignored: []
-  interval: 90d
+  interval: 7d
   enabled: true
   ignored_enabled: false
 filters:
