@@ -28,6 +28,7 @@ spec:
       failureThreshold: 3
     env:
       TZ: "Europe/Amsterdam"
+      PYROSCOPE_SERVER_ADDRESS: "http://pyroscope.monitoring.svc.cluster.local:4040"
     securityContext:
       enabled: true
       runAsNonRoot: true
