@@ -7,7 +7,7 @@ spec:
   releaseName: overdrive
   targetNamespace: overdrive
   values:
-    image: robotwizard/overdrive:0.2.1@sha256:2ce166d8136676db88e245abd0c93f712fe5ba5c8b537b8cf5ab8a1ec0b0f8c5
+    image: robotwizard/overdrive:0.3.0@sha256:6e82c3d73171033ed456687b85a9cd992b4990ddbf94462fb1bb5d3baa556f47
     port: 8080
     hostname: overdrive.greedo.net
     middlewares:
