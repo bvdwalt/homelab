@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pyroscope
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`pyroscope.greedo.net`)
+      kind: Rule
+      middlewares:
+        - name: infra-admin-oidc-auth
+          namespace: kube-system
+      services:
+        - name: pyroscope
+          port: 4040
+  tls:
+    secretName: greedo-net-wildcard-tls
