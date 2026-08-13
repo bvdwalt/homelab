@@ -26,3 +26,4 @@ resources:
   - glance.yaml
   - palimpsest.yaml
   - actual-importer.yaml
+  - pyroscope.yaml
