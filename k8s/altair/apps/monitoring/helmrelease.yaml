@@ -118,6 +118,11 @@ spec:
           scopes: openid email profile
           use_pkce: true
           allow_sign_up: true
+      additionalDataSources:
+        - name: Pyroscope
+          type: grafana-pyroscope-datasource
+          access: proxy
+          url: http://pyroscope.monitoring.svc.cluster.local:4040
 
     prometheus:
       prometheusSpec:

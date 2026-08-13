@@ -5,3 +5,4 @@ resources:
   - cnpg.yaml
   - prometheus-community.yaml
   - crowdsec.yaml
+  - grafana.yaml
