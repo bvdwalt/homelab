@@ -27,6 +27,8 @@ spec:
       initialDelaySeconds: 15
       periodSeconds: 30
       failureThreshold: 3
+    env:
+      PYROSCOPE_SERVER_ADDRESS: "http://pyroscope.monitoring.svc.cluster.local:4040"
     persistence:
       enabled: true
       size: 500Mi
