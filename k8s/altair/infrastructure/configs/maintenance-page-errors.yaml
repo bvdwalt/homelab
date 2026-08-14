@@ -1,0 +1,29 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: nice-404
+  namespace: kube-system
+spec:
+  errors:
+    status:
+      - "404"
+    query: "/404.html"
+    service:
+      name: maintenance-page
+      namespace: maintenance
+      port: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: maintenance-page-errors
+  namespace: kube-system
+spec:
+  errors:
+    status:
+      - "500-599"
+    query: "/maintenance.html"
+    service:
+      name: maintenance-page
+      namespace: maintenance
+      port: 80

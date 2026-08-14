@@ -1,0 +1,87 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: maintenance-page
+  namespace: flux-system
+spec:
+  releaseName: maintenance-page
+  targetNamespace: maintenance
+  values:
+    image: nginxinc/nginx-unprivileged:1.27-alpine@sha256:65e3e85dbaed8ba248841d9d58a899b6197106c23cb0ff1a132b7bfe0547e4c0
+    port: 8080
+    middlewares: []
+    resources:
+      requests:
+        memory: 8Mi
+      limits:
+        memory: 32Mi
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 101
+      runAsGroup: 101
+    configMountPath: /usr/share/nginx/html
+    configFiles:
+      index.html: |
+        <!doctype html>
+        <html lang="en">
+        <head>
+        <meta charset="utf-8">
+        <title>Down for maintenance</title>
+        <style>
+          body { font-family: system-ui, sans-serif; background: #14161a; color: #e6e6e6;
+                 display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+          .card { text-align: center; max-width: 28rem; padding: 2rem; }
+          h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+          p { color: #9a9a9a; }
+        </style>
+        </head>
+        <body>
+          <div class="card">
+            <h1>Down for maintenance</h1>
+            <p>This service is temporarily unavailable. Check back shortly.</p>
+          </div>
+        </body>
+        </html>
+      maintenance.html: |
+        <!doctype html>
+        <html lang="en">
+        <head>
+        <meta charset="utf-8">
+        <title>Down for maintenance</title>
+        <style>
+          body { font-family: system-ui, sans-serif; background: #14161a; color: #e6e6e6;
+                 display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+          .card { text-align: center; max-width: 28rem; padding: 2rem; }
+          h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+          p { color: #9a9a9a; }
+        </style>
+        </head>
+        <body>
+          <div class="card">
+            <h1>Down for maintenance</h1>
+            <p>This service is temporarily unavailable. We're working on it &mdash; check back shortly.</p>
+          </div>
+        </body>
+        </html>
+      404.html: |
+        <!doctype html>
+        <html lang="en">
+        <head>
+        <meta charset="utf-8">
+        <title>Page not found</title>
+        <style>
+          body { font-family: system-ui, sans-serif; background: #14161a; color: #e6e6e6;
+                 display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+          .card { text-align: center; max-width: 28rem; padding: 2rem; }
+          h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+          p { color: #9a9a9a; }
+        </style>
+        </head>
+        <body>
+          <div class="card">
+            <h1>Page not found</h1>
+            <p>That page doesn't exist, or has moved.</p>
+          </div>
+        </body>
+        </html>

@@ -26,3 +26,4 @@ resources:
   - palimpsest.yaml
   - actual-importer.yaml
   - pyroscope.yaml
+  - maintenance-page.yaml
