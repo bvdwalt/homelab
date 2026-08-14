@@ -94,7 +94,7 @@ pages:
                 icon: di:seerr
               - title: Jellystat — Jellyfin stats
                 url: https://jellystat.greedo.net
-                check-url: http://jellystat.jellystat.svc.cluster.local:3000/auth/isConfigured
+                check-url: http://jellystat.jellystat.svc.cluster.local/auth/isConfigured
               - title: Sonarr — TV shows
                 url: https://sonarr.greedo.net
                 icon: si:sonarr
@@ -180,7 +180,7 @@ pages:
                 icon: si:grafana
               - title: Actual Importer — Budget imports
                 url: https://actualimporter.greedo.net
-                check-url: http://actual-importer.actual-importer.svc.cluster.local:8080/health
+                check-url: http://actual-importer.actual-importer.svc.cluster.local/health
 
           - type: repository
             repository: bvdwalt/homelab
