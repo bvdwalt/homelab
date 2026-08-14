@@ -9,7 +9,6 @@ resources:
   - monitoring.yaml
   - seerr.yaml
   - navidrome.yaml
-  - pinchflat.yaml
   - it-tools.yaml
   - jellystat.yaml
   - metering-dashboard.yaml

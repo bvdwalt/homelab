@@ -14,7 +14,7 @@ Existing tiers:
 | Tier | Membership | Apps |
 |------|------------|------|
 | `downloads` | all household users | radarr, sonarr, lidarr, bazarr, prowlarr, qbittorrent, flaresolverr, profilarr, music-grabber, slskd |
-| `household` | all household users | actual-budget, glance, jellystat, metering-dashboard, overdrive, pinchflat, seerr |
+| `household` | all household users | actual-budget, glance, jellystat, metering-dashboard, overdrive, seerr |
 | `infra-admin` | admin only | adguard, backrest, it-tools, whoami, vaultwarden, traefik dashboard, hubble-ui |
 
 `household` and `downloads` currently have identical membership but are

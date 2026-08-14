@@ -88,10 +88,6 @@ pages:
                 url: https://navidrome.greedo.net
                 check-url: http://navidrome.navidrome.svc.cluster.local/
                 icon: di:navidrome
-              - title: Pinchflat — YouTube archiver
-                url: https://pinchflat.greedo.net
-                check-url: http://pinchflat.pinchflat.svc.cluster.local/
-                icon: si:youtube
               - title: Seerr — Media requests
                 url: https://seerr.greedo.net
                 check-url: http://seerr.seerr.svc.cluster.local/
