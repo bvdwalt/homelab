@@ -92,6 +92,9 @@ pages:
                 url: https://seerr.greedo.net
                 check-url: http://seerr.seerr.svc.cluster.local/
                 icon: di:seerr
+              - title: Jellystat — Jellyfin stats
+                url: https://jellystat.greedo.net
+                check-url: http://jellystat.jellystat.svc.cluster.local:3000/auth/isConfigured
               - title: Sonarr — TV shows
                 url: https://sonarr.greedo.net
                 icon: si:sonarr
@@ -171,6 +174,13 @@ pages:
               - title: Metering
                 url: https://metering.greedo.net
                 check-url: http://metering-dashboard.metering.svc.cluster.local/
+              - title: Pyroscope — Profiling
+                url: https://pyroscope.greedo.net
+                check-url: http://pyroscope.monitoring.svc.cluster.local:4040/
+                icon: si:grafana
+              - title: Actual Importer — Budget imports
+                url: https://actualimporter.greedo.net
+                check-url: http://actual-importer.actual-importer.svc.cluster.local:8080/health
 
           - type: repository
             repository: bvdwalt/homelab
