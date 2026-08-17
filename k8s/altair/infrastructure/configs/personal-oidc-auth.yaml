@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: personal-oidc-auth
+  namespace: kube-system
+spec:
+  plugin:
+    traefik-oidc-auth:
+      Provider:
+        Url: "https://pocketid.greedo.net"
+        ClientId: "${PERSONAL_AUTH_CLIENT_ID}"
+        ClientSecret: "${PERSONAL_AUTH_CLIENT_SECRET}"
+      Scopes: ["openid", "profile", "email"]
+      Secret: "${PERSONAL_OIDC_SESSION_SECRET}"

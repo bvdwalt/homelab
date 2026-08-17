@@ -25,4 +25,6 @@ spec:
       - kind: Secret
         name: household-oidc-auth
       - kind: Secret
+        name: personal-oidc-auth
+      - kind: Secret
         name: crowdsec-bouncer-key

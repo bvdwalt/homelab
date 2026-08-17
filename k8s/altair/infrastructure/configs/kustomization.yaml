@@ -8,6 +8,7 @@ resources:
   - downloads-oidc-auth.yaml
   - infra-admin-oidc-auth.yaml
   - household-oidc-auth.yaml
+  - personal-oidc-auth.yaml
   - traefik-dashboard.yaml
   - hubble-ui.yaml
   - proxmox.yaml

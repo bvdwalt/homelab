@@ -11,7 +11,7 @@ spec:
     port: 8080
     hostname: vw.greedo.net
     middlewares:
-      - name: infra-admin-oidc-auth
+      - name: personal-oidc-auth
         namespace: kube-system
     strategy: Recreate
     resources:
