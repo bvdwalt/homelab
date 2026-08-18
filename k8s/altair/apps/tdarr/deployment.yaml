@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tdarr
+  namespace: tdarr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tdarr
+  template:
+    metadata:
+      labels:
+        app: tdarr
+    spec:
+      containers:
+        - name: tdarr
+          image: ghcr.io/haveagitgat/tdarr:2.50.01@sha256:67d6a456d3c7963d2bc50318275843015af76e1f4dced3b1c5a91f8874d230bf
+          securityContext:
+            privileged: true
+            runAsUser: 0
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "0"
+            - name: PGID
+              value: "0"
+            - name: UMASK_SET
+              value: "002"
+            - name: serverIP
+              value: "0.0.0.0"
+            - name: serverPort
+              value: "8266"
+            - name: webUIPort
+              value: "8265"
+            - name: internalNode
+              value: "true"
+            - name: nodeName
+              value: AltairInternalNode
+          ports:
+            - containerPort: 8265
+            - containerPort: 8266
+          volumeMounts:
+            - name: server
+              mountPath: /app/server
+            - name: configs
+              mountPath: /app/configs
+            - name: logs
+              mountPath: /app/logs
+            - name: cache
+              mountPath: /temp
+            - name: shows
+              mountPath: /shows
+            - name: movies
+              mountPath: /movies
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8265
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8265
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 2Gi
+      volumes:
+        - name: server
+          persistentVolumeClaim:
+            claimName: tdarr-server
+        - name: configs
+          persistentVolumeClaim:
+            claimName: tdarr-configs
+        - name: logs
+          persistentVolumeClaim:
+            claimName: tdarr-logs
+        - name: cache
+          persistentVolumeClaim:
+            claimName: tdarr-cache
+        - name: shows
+          hostPath:
+            path: /mnt/media/shows
+        - name: movies
+          hostPath:
+            path: /mnt/media/movies

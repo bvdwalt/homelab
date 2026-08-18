@@ -95,6 +95,9 @@ pages:
               - title: Jellystat — Jellyfin stats
                 url: https://jellystat.greedo.net
                 check-url: http://jellystat.jellystat.svc.cluster.local/auth/isConfigured
+              - title: Tdarr — Media transcoding
+                url: https://tdarr.greedo.net
+                check-url: http://tdarr.tdarr.svc.cluster.local/
               - title: Sonarr — TV shows
                 url: https://sonarr.greedo.net
                 icon: si:sonarr
