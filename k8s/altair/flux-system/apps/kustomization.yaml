@@ -27,3 +27,4 @@ resources:
   - actual-importer.yaml
   - pyroscope.yaml
   - maintenance-page.yaml
+  - tdarr.yaml
