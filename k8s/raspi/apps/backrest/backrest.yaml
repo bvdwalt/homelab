@@ -30,7 +30,7 @@ spec:
       BACKREST_DATA: /data
       BACKREST_CONFIG: /data/config.json
       XDG_CACHE_HOME: /data/cache
-      TZ: Europe/Amsterdam
+      TZ: Africa/Johannesburg
     existingSecret: backrest
     persistence:
       enabled: true

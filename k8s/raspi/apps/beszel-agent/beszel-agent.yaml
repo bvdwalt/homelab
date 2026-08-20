@@ -32,7 +32,7 @@ spec:
     hostNetwork: true
     env:
       LISTEN: ":45876"
-      TZ: Europe/Amsterdam
+      TZ: Africa/Johannesburg
       HUB_URL: https://beszel.raspi.greedo.net
     existingSecret: beszel-agent
     securityContext:

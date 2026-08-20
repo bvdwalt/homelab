@@ -27,7 +27,7 @@ spec:
       failureThreshold: 3
     env:
       VITE_API_HOST: "https://metering-api.greedo.net"
-      TZ: "Europe/Amsterdam"
+      TZ: "Africa/Johannesburg"
     securityContext:
       enabled: true
       runAsNonRoot: true

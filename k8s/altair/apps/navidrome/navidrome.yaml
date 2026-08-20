@@ -27,7 +27,7 @@ spec:
     env:
       ND_MUSICFOLDER: /music
       ND_DATAFOLDER: /data
-      TZ: Europe/Amsterdam
+      TZ: Africa/Johannesburg
     persistence:
       enabled: true
       mountPath: /data

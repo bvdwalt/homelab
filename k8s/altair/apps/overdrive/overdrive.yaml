@@ -27,7 +27,7 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     env:
-      TZ: "Europe/Amsterdam"
+      TZ: "Africa/Johannesburg"
       PYROSCOPE_SERVER_ADDRESS: "http://pyroscope.monitoring.svc.cluster.local:4040"
     securityContext:
       enabled: true

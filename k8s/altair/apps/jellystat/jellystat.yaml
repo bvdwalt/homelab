@@ -37,7 +37,7 @@ spec:
       POSTGRES_PORT: "5432"
       POSTGRES_USER: "jellystat"
       POSTGRES_DB: "jellystat"
-      TZ: "Europe/Amsterdam"
+      TZ: "Africa/Johannesburg"
     persistence:
       enabled: true
       mountPath: /app/backend/backup-data

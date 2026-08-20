@@ -36,7 +36,7 @@ spec:
       failureThreshold: 3
     env:
       ACTUAL_SERVER_URL: "http://actual-budget.actual-budget.svc.cluster.local"
-      TZ: "Europe/Amsterdam"
+      TZ: "Africa/Johannesburg"
     existingSecret: actual-importer-secrets
     persistence:
       enabled: true

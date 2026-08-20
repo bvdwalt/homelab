@@ -32,7 +32,7 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     env:
-      TZ: Europe/Amsterdam
+      TZ: Africa/Johannesburg
       JELLYFIN_CONFIG_DIR: /config
       JELLYFIN_DATA_DIR: /config/data
       JELLYFIN_CACHE_DIR: /config/cache

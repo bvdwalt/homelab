@@ -71,7 +71,7 @@ spec:
           image: lscr.io/linuxserver/radarr:6.3.0@sha256:a45b5ab0f850f39edb4cc9c95bbd967b52ddc3d4574a4dfb45561177db6c88f4
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: PUID
               value: "1000"
             - name: PGID
@@ -108,7 +108,7 @@ spec:
           image: lscr.io/linuxserver/sonarr:4.0.19@sha256:373159ba768e23a3a1c497d9f2b936addf8fd5b1fdce7dd6a14080ac928bfda0
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: PUID
               value: "1000"
             - name: PGID
@@ -145,7 +145,7 @@ spec:
           image: lscr.io/linuxserver/lidarr:3.1.0.4875-ls20@sha256:7aa2f4d4ac373a989a6e773d4c43c6a81bccf45cdf2598f74f1dbf6cede8e467
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: PUID
               value: "1000"
             - name: PGID
@@ -182,7 +182,7 @@ spec:
           image: lscr.io/linuxserver/bazarr:1.6.0@sha256:45a0ba295f5ca41c2cf1853ecedc099fb6f23dabbc80b8c1a73cd85eb195b60c
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: PUID
               value: "1000"
             - name: PGID
@@ -219,7 +219,7 @@ spec:
           image: lscr.io/linuxserver/prowlarr:2.5.2@sha256:1295cff29d10b486c0d8324d1559a552140a5932bf8b3d87e398654414f63f92
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: PUID
               value: "1000"
             - name: PGID
@@ -252,7 +252,7 @@ spec:
           image: lscr.io/linuxserver/qbittorrent:5.2.3@sha256:212b86dff59e3962b4082b5ef20a577e76c8f8527d2ab505cfa887b4bcecb0b0
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: PUID
               value: "1000"
             - name: PGID
@@ -294,7 +294,7 @@ spec:
               drop: ["ALL"]
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: LOG_LEVEL
               value: info
           readinessProbe:
@@ -322,7 +322,7 @@ spec:
           image: santiagosayshey/profilarr:v1.1.5@sha256:8033e9c6d6995f37625afeb93d7020e99566f549ae83b65f1db7e11048952d0f
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
           volumeMounts:
             - name: profilarr-config
               mountPath: /config
@@ -351,7 +351,7 @@ spec:
           image: g33kphr33k/musicgrabber:4.0.2@sha256:9e280b70d6a0b324dbf4cfe59e482b8f0693bdf7171f55b551c78d02c8f9cb53
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: PUID
               value: "1000"
             - name: PGID
@@ -412,7 +412,7 @@ spec:
             - name: SLSKD_REMOTE_CONFIGURATION
               value: "true"
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
           volumeMounts:
             - name: slskd-data
               mountPath: /data

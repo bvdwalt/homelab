@@ -27,7 +27,7 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     env:
-      TZ: Europe/Amsterdam
+      TZ: Africa/Johannesburg
     persistence:
       enabled: true
       mountPath: /app/config

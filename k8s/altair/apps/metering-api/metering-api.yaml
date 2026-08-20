@@ -31,7 +31,7 @@ spec:
       POSTGRES_HOST: "postgresql.postgresql.svc.cluster.local"
       POSTGRES_USER: "metering"
       POSTGRES_DB: "data"
-      TZ: "Europe/Amsterdam"
+      TZ: "Africa/Johannesburg"
     middlewares:
       - name: household-oidc-auth
         namespace: kube-system

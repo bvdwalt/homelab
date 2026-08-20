@@ -32,7 +32,7 @@ spec:
       failureThreshold: 3
     env:
       NEXTAUTH_URL: "https://linkwarden.raspi.greedo.net/api/v1/auth"
-      TZ: "Europe/Amsterdam"
+      TZ: "Africa/Johannesburg"
     existingSecret: linkwarden
     persistence:
       enabled: true

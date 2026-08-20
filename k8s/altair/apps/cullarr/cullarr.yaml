@@ -37,7 +37,7 @@ spec:
                 - name: CULLARR_DRY_RUN
                   value: "false"
                 - name: TZ
-                  value: Europe/Amsterdam
+                  value: Africa/Johannesburg
               envFrom:
                 - secretRef:
                     name: cullarr

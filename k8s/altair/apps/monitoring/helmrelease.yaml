@@ -118,7 +118,7 @@ spec:
       persistence:
         enabled: true
         size: 1Gi
-      defaultDashboardsTimezone: Europe/Amsterdam
+      defaultDashboardsTimezone: Africa/Johannesburg
       envFromSecret: grafana-oidc
       grafana.ini:
         server:

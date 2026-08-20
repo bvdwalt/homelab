@@ -16,7 +16,7 @@ spec:
       ATUIN_HOST: "0.0.0.0"
       ATUIN_PORT: "8888"
       ATUIN_OPEN_REGISTRATION: "false"
-      TZ: "Europe/Amsterdam"
+      TZ: "Africa/Johannesburg"
     resources:
       requests:
         memory: 8Mi

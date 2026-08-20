@@ -23,7 +23,7 @@ spec:
             runAsUser: 0
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: Africa/Johannesburg
             - name: PUID
               value: "0"
             - name: PGID
