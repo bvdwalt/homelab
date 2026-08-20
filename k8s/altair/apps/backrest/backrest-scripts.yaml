@@ -65,6 +65,9 @@ data:
     # PostgreSQL CNPG data — backed up via pg_dump in pgdumps/ instead
     **/pvc-*_postgresql_postgresql-1/**
 
+    # Tdarr transcode work cache — large scratch space, rebuilt during transcoding
+    **/pvc-*_tdarr_tdarr-cache/**
+
   pg-dump.sh: |
     #!/bin/sh
     set -e
