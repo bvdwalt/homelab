@@ -68,6 +68,9 @@ data:
     # Tdarr transcode work cache — large scratch space, rebuilt during transcoding
     **/pvc-*_tdarr_tdarr-cache/**
 
+    # Tdarr per-job health/transcode reports — unbounded growth, flows can be rerun on the libraries
+    **/Tdarr/DB2/JobReports/**
+
   pg-dump.sh: |
     #!/bin/sh
     set -e
