@@ -89,6 +89,7 @@ spec:
         - name: cache
           hostPath:
             path: /mnt/downloads/tdarr-cache
+            type: DirectoryOrCreate
         - name: shows
           hostPath:
             path: /mnt/media/shows
