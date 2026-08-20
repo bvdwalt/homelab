@@ -87,8 +87,8 @@ spec:
           persistentVolumeClaim:
             claimName: tdarr-logs
         - name: cache
-          persistentVolumeClaim:
-            claimName: tdarr-cache
+          hostPath:
+            path: /mnt/downloads/tdarr-cache
         - name: shows
           hostPath:
             path: /mnt/media/shows

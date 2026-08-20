@@ -34,15 +34,3 @@ spec:
   resources:
     requests:
       storage: 256Mi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: tdarr-cache
-  namespace: tdarr
-spec:
-  accessModes: [ReadWriteOnce]
-  storageClassName: local-path
-  resources:
-    requests:
-      storage: 100Gi
