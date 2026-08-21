@@ -9,7 +9,7 @@ spec:
     - kind: Rule
       match: Host(`tdarr.greedo.net`)
       middlewares:
-        - name: household-oidc-auth
+        - name: downloads-oidc-auth
           namespace: kube-system
       services:
         - name: tdarr
