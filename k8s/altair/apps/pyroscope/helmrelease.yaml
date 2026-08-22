@@ -24,18 +24,35 @@ spec:
         namespace: flux-system
       interval: 1h
   values:
-    replicaCount: 1
-    resources:
-      requests:
-        cpu: 50m
-        memory: 128Mi
-      limits:
-        memory: 512Mi
-    persistence:
-      enabled: true
-      size: 10Gi
+    pyroscope:
+      replicaCount: 1
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          memory: 512Mi
+      persistence:
+        enabled: true
+        size: 10Gi
     minio:
       enabled: false
     architecture:
       microservices:
         enabled: false
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: StatefulSet
+              name: pyroscope
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/livenessProbe
+                value:
+                  httpGet:
+                    path: /ready
+                    port: http2
+                  initialDelaySeconds: 60
+                  periodSeconds: 15
+                  failureThreshold: 6
