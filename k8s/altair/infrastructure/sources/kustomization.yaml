@@ -6,3 +6,4 @@ resources:
   - prometheus-community.yaml
   - crowdsec.yaml
   - grafana.yaml
+  - nfs-subdir-provisioner.yaml

@@ -6,3 +6,4 @@ resources:
   - reloader.yaml
   - cnpg.yaml
   - crowdsec.yaml
+  - nfs-subdir-provisioner.yaml
