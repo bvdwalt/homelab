@@ -21,7 +21,7 @@ resources:
   - cullarr.yaml
   - backrest.yaml
   - adguard.yaml
-  - copyparty.yaml
+  - filebrowser.yaml
   - jellyfin.yaml
   - glance.yaml
   - palimpsest.yaml

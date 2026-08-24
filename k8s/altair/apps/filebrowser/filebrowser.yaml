@@ -1,0 +1,50 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: filebrowser
+  namespace: flux-system
+spec:
+  releaseName: filebrowser
+  targetNamespace: filebrowser
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: filebrowser/filebrowser:v2.63.23
+    port: 80
+    hostname: filebrowser.greedo.net
+    strategy: Recreate
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
+    resources:
+      requests:
+        memory: 32Mi
+      limits:
+        memory: 256Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      TZ: Africa/Johannesburg
+    securityContext:
+      enabled: false
+    args:
+      - -d
+      - /tmp/filebrowser.db
+      - -p
+      - "80"
+      - -a
+      - "0.0.0.0"
+    hostPaths:
+      - name: music
+        hostPath: /mnt/media/music
+        mountPath: /srv/music
