@@ -26,16 +26,11 @@ spec:
       initialDelaySeconds: 15
       periodSeconds: 30
       failureThreshold: 3
+    args:
+      - -v /w::rw
+      - -e2dsa
     env:
       TZ: Africa/Johannesburg
-    configFiles:
-      copyparty.conf: |
-        [global]
-        e2dsa
-        [/music]
-        /w
-        rw
-    configMountPath: /cfg
     securityContext:
       enabled: true
       runAsNonRoot: true
