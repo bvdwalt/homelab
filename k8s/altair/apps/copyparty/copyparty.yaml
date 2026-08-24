@@ -30,6 +30,8 @@ spec:
       - -v
       - /w:music:rw
       - -e2dsa
+      - -a
+      - "anon::rw"
     env:
       TZ: Africa/Johannesburg
     securityContext:
