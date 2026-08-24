@@ -32,12 +32,6 @@ spec:
       - -e2dsa
       - -a
       - ":"
-      - -c
-      - /cfg/copyparty.conf
-    configFiles:
-      copyparty.conf: |
-        [global]
-    configMountPath: /cfg
     env:
       TZ: Africa/Johannesburg
     securityContext:
