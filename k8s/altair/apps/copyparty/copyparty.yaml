@@ -28,10 +28,10 @@ spec:
       failureThreshold: 3
     args:
       - -v
-      - /w:music:rw
+      - /w:music:rwm
       - -e2dsa
       - -a
-      - "anon::rw"
+      - ":"
     env:
       TZ: Africa/Johannesburg
     securityContext:
