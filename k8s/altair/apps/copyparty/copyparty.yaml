@@ -28,10 +28,15 @@ spec:
       failureThreshold: 3
     args:
       - -v
-      - /w:music:rwm
+      - /w:music:rwmd
       - -e2dsa
       - -a
       - ":"
+    configFiles:
+      copyparty.conf: |
+        [global]
+        cors-origin: *
+    configMountPath: /cfg
     env:
       TZ: Africa/Johannesburg
     securityContext:
