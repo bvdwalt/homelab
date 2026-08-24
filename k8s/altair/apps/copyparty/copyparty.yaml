@@ -27,7 +27,8 @@ spec:
       periodSeconds: 30
       failureThreshold: 3
     args:
-      - -v /w::rw
+      - -v
+      - /w:music:rw
       - -e2dsa
     env:
       TZ: Africa/Johannesburg
