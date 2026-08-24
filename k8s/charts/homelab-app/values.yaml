@@ -27,6 +27,7 @@ persistence:
   size: 100Mi
   mountPath: /data
   storageClass: local-path
+  accessMode: ReadWriteOnce
 
 securityContext:
   enabled: true
