@@ -32,10 +32,11 @@ spec:
       - -e2dsa
       - -a
       - ":"
+      - -c
+      - /cfg/copyparty.conf
     configFiles:
       copyparty.conf: |
         [global]
-        cors-origin: *
     configMountPath: /cfg
     env:
       TZ: Africa/Johannesburg
