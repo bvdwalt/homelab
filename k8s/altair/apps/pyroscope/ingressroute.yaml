@@ -15,5 +15,4 @@ spec:
       services:
         - name: pyroscope
           port: 4040
-  tls:
-    secretName: greedo-net-wildcard-tls
+  tls: {}
