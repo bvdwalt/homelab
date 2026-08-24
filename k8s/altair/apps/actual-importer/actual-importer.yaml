@@ -12,6 +12,7 @@ spec:
       - ghcr-pull-secret
     port: 8080
     hostname: actualimporter.greedo.net
+    strategy: Recreate
     middlewares:
       - name: personal-oidc-auth
         namespace: kube-system
