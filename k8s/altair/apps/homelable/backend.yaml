@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: homelable
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/pouzor/homelable-backend@sha256:0d1ce6f6be4c13a29a6ed5110b265c0e40dd74f0123b09ced01aa6372bb45ef0
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: homelable
+          env:
+            - name: SQLITE_PATH
+              value: /app/data/homelab.db
+            - name: CORS_ORIGINS
+              value: '["https://homelable.greedo.net"]'
+            - name: AUTH_MODE
+              value: oidc
+            - name: OIDC_DISCOVERY_URL
+              value: https://pocketid.greedo.net/.well-known/openid-configuration
+            - name: OIDC_CLIENT_ID
+              value: b32b466f-e298-4c20-9d25-44c4e06670ab
+            - name: OIDC_REDIRECT_URI
+              value: https://homelable.greedo.net/api/v1/auth/oidc/callback
+            - name: OIDC_SCOPES
+              value: "openid profile email"
+            - name: OIDC_COOKIE_SECURE
+              value: "true"
+            - name: SCANNER_RANGES
+              value: '["10.0.0.0/24"]'
+            - name: STATUS_CHECKER_INTERVAL
+              value: "60"
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          securityContext:
+            capabilities:
+              add: [NET_RAW]
+          resources:
+            requests:
+              memory: 64Mi
+            limits:
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 6
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: homelable-backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: homelable
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 8000
+      targetPort: 8000
