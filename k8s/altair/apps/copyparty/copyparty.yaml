@@ -28,6 +28,14 @@ spec:
       failureThreshold: 3
     env:
       TZ: Africa/Johannesburg
+    configFiles:
+      copyparty.conf: |
+        [global]
+        e2dsa
+        [/music]
+        /w
+        rw
+    configMountPath: /cfg
     securityContext:
       enabled: true
       runAsNonRoot: true
