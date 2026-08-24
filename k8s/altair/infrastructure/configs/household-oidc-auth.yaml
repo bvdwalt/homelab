@@ -12,3 +12,7 @@ spec:
         ClientSecret: "${HOUSEHOLD_AUTH_CLIENT_SECRET}"
       Scopes: ["openid", "profile", "email"]
       Secret: "${HOUSEHOLD_OIDC_SESSION_SECRET}"
+      HeaderPassthrough:
+        - "Remote-User=preferred_username"
+        - "Remote-Name=name"
+        - "Remote-Email=email"

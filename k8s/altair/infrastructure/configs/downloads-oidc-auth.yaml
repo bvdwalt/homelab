@@ -12,3 +12,7 @@ spec:
         ClientSecret: "${DOWNLOADS_AUTH_CLIENT_SECRET}"
       Scopes: ["openid", "profile", "email"]
       Secret: "${DOWNLOADS_OIDC_SESSION_SECRET}"
+      HeaderPassthrough:
+        - "Remote-User=preferred_username"
+        - "Remote-Name=name"
+        - "Remote-Email=email"
