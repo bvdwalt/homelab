@@ -28,4 +28,3 @@ resources:
   - pyroscope.yaml
   - maintenance-page.yaml
   - tdarr.yaml
-  - homelable.yaml
