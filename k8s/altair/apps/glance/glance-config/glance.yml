@@ -164,6 +164,9 @@ pages:
                 url: https://ittools.greedo.net
                 check-url: http://it-tools.it-tools.svc.cluster.local/
                 icon: di:it-tools
+              - title: Homelable — Network diagram
+                url: https://homelable.greedo.net
+                check-url: http://frontend.homelable.svc.cluster.local/
               - title: ActualBudget — Budgeting
                 url: https://budget.greedo.net
                 check-url: http://actual-budget.actual-budget.svc.cluster.local/
