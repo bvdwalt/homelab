@@ -30,3 +30,12 @@ spec:
           version: v1.4.5
     additionalArguments:
       - "--entrypoints.websecure.http.middlewares=kube-system-crowdsec-bouncer@kubernetescrd,kube-system-nice-404@kubernetescrd,kube-system-maintenance-page-errors@kubernetescrd"
+    deployment:
+      additionalVolumes:
+        - name: plugins
+          hostPath:
+            path: /var/lib/traefik-plugins
+            type: DirectoryOrCreate
+    additionalVolumeMounts:
+      - name: plugins
+        mountPath: /plugins-storage
