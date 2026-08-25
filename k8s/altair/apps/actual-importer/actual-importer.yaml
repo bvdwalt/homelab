@@ -12,7 +12,6 @@ spec:
       - ghcr-pull-secret
     port: 8080
     hostname: actualimporter.greedo.net
-    strategy: Recreate
     middlewares:
       - name: personal-oidc-auth
         namespace: kube-system
@@ -43,6 +42,8 @@ spec:
       enabled: true
       size: 200Mi
       mountPath: /data
+      storageClass: nfs-shared
+      accessMode: ReadWriteMany
     securityContext:
       enabled: true
       runAsNonRoot: true
