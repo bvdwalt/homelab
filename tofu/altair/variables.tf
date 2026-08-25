@@ -79,9 +79,9 @@ variable "storage_pool" {
 }
 
 variable "dns_servers" {
-  description = "LXC-level resolv.conf. NOTE: live value is stale (points at the decommissioned TrueNAS box) — kept as-is here to match reality, not to endorse it."
+  description = "LXC-level resolv.conf. Matches AdGuard's node-LB IP, same as k3s's own resolv-conf."
   type        = list(string)
-  default     = ["10.13.1.167", "1.1.1.1"]
+  default     = ["10.0.0.167", "1.1.1.1"]
 }
 
 variable "ip_address" {
