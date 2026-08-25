@@ -3,9 +3,11 @@
 Declares the Proxmox LXC container (`pct create` equivalent) that hosts Altair's
 k3s node. Covers step 2 of `bootstrap/altair.md`. Imported from the real,
 already-running container — `main.tf`'s values (node name `pve`, 12288MB
-memory, `cheetah` ZFS storage at 48G, etc.) reflect verified live state, not
-the smaller numbers in `bootstrap/altair.md`, which predate this container's
-growth.
+memory, `cheetah` ZFS storage at 96G, 16 cores, etc.) reflect verified live
+state, not the smaller numbers in `bootstrap/altair.md`, which predate this
+container's growth. Re-verify against `pct config <vmid>` before applying if
+much time has passed — cores/disk size and the media bind mounts have drifted
+from this file before without Tofu being run.
 
 ## What this does NOT cover
 

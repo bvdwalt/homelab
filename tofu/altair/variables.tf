@@ -52,7 +52,7 @@ variable "template_file" {
 
 variable "cores" {
   type    = number
-  default = 4
+  default = 16
 }
 
 variable "memory_mb" {
@@ -67,9 +67,9 @@ variable "swap_mb" {
 }
 
 variable "rootfs_size_gb" {
-  description = "Matches live config — bootstrap.md's 32G was outgrown"
+  description = "Matches live config — bootstrap.md's 32G was outgrown, then grown again after the external disk migration onto cheetah"
   type        = number
-  default     = 48
+  default     = 96
 }
 
 variable "storage_pool" {
