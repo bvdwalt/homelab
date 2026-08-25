@@ -9,6 +9,11 @@ container's growth. Re-verify against `pct config <vmid>` before applying if
 much time has passed — cores/disk size and the media bind mounts have drifted
 from this file before without Tofu being run.
 
+## Source of truth
+
+Don't hand-edit `/etc/pve/lxc/100.conf` or run `pct set`/`pct resize` on
+Altair — change `main.tf`/`variables.tf` and apply instead.
+
 ## What this does NOT cover
 
 Proxmox's API has no fields for `lxc.apparmor.profile`, `lxc.cgroup2.devices.allow`,

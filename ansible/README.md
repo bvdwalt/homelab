@@ -6,6 +6,11 @@ creating the `sops-age` secret. Step 2 (creating the LXC itself) is
 `../tofu/altair/`. Flux bootstrap (step 6) and the AdGuard rewrite (step 7)
 stay manual/one-off — see the README there for why.
 
+## Source of truth
+
+Don't hand-edit `/etc/rancher/k3s/config.yaml`, `resolv.conf`, the taint, or
+the `sops-age` secret on Altair — change the role and re-run the playbook.
+
 ## Roles
 
 - `k3s_lxc` — installs k3s, writes `config.yaml`/`resolv.conf`, the
