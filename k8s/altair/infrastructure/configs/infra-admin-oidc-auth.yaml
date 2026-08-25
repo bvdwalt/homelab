@@ -12,6 +12,7 @@ spec:
         ClientSecret: "${INFRA_ADMIN_AUTH_CLIENT_SECRET}"
       Scopes: ["openid", "profile", "email"]
       Secret: "${INFRA_ADMIN_OIDC_SESSION_SECRET}"
+      BypassAuthenticationRule: "Header(`X-Oidc-Bypass-Key`, `${OIDC_BYPASS_HEADER_SECRET}`)"
       HeaderPassthrough:
         - "Remote-User=preferred_username"
         - "Remote-Name=name"
