@@ -129,6 +129,21 @@ Check `kubectl -n kube-system logs -l app.kubernetes.io/name=traefik` for
 that's almost always a bad `Secret` length or a variable substitution
 collision, not an auth failure.
 
+## Header bypass for non-browser clients (mobile apps, scripts)
+
+For clients that can't do a browser OIDC redirect (e.g. the Actual Budget
+iOS app), each tier `Middleware` sets:
+
+```yaml
+BypassAuthenticationRule: "Header(`X-Oidc-Bypass-Key`, `${OIDC_BYPASS_HEADER_SECRET}`)"
+```
+
+One shared secret for all four tiers:
+`k8s/altair/infrastructure/secrets/oidc-bypass.sops.yaml`
+(`OIDC_BYPASS_HEADER_SECRET`, decrypt with `sops -d`). Sending that header
+value skips OIDC everywhere, so only use it for apps with their own auth
+behind it (Actual Budget requires its own server password regardless).
+
 ## Gotcha: apps with their own strict CSRF/Referer checks (e.g. qBittorrent)
 
 Some backends (qBittorrent's WebUI is the concrete case we hit) validate
