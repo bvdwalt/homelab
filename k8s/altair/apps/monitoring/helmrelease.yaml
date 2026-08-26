@@ -96,6 +96,23 @@ spec:
                 labels:
                   severity: warning
 
+      flux-rules:
+        groups:
+          - name: flux
+            rules:
+              - alert: FluxReconciliationStuck
+                annotations:
+                  summary: "Flux {{ $labels.kind }}/{{ $labels.name }} in {{ $labels.namespace }} has been Ready=False for over 20m"
+                  description: |
+                    Check `kubectl get {{ $labels.kind }} -n {{ $labels.namespace }} {{ $labels.name }}`.
+                    If its listed dependencies are actually Ready but this is still stuck, force a
+                    reconcile: kubectl annotate {{ $labels.kind }} -n {{ $labels.namespace }} {{ $labels.name }} reconcile.fluxcd.io/requestedAt="$(date +%s)" --overwrite
+                expr: |
+                  max by (kind, namespace, name) (gotk_reconcile_condition{type="Ready", status="False"}) == 1
+                for: 20m
+                labels:
+                  severity: warning
+
     kubeEtcd:
       enabled: false
 

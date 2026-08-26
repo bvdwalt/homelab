@@ -16,3 +16,4 @@ resources:
   - flux-alerts.yaml
   - crowdsec-bouncer.yaml
   - maintenance-page-errors.yaml
+  - flux-monitoring.yaml
