@@ -57,5 +57,9 @@ spec:
     middlewares: []
     securityContext:
       enabled: true
-      privileged: true
-      runAsUser: 0
+      privileged: false
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 993
+      supplementalGroups:
+        - 0

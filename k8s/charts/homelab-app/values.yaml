@@ -35,6 +35,7 @@ securityContext:
   runAsNonRoot: false
   runAsUser: null
   runAsGroup: null
+  supplementalGroups: []
   readOnlyRootFilesystem: false
   capabilities:
     add: []

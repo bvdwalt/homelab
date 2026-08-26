@@ -43,6 +43,9 @@ spec:
         runAsGroup: {{ .Values.securityContext.runAsGroup }}
         fsGroup: {{ .Values.securityContext.runAsGroup }}
         {{- end }}
+        {{- if .Values.securityContext.supplementalGroups }}
+        supplementalGroups: {{ toJson .Values.securityContext.supplementalGroups }}
+        {{- end }}
       {{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
