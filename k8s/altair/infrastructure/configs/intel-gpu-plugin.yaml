@@ -23,6 +23,8 @@ spec:
         - name: intel-gpu-plugin
           image: intel/intel-gpu-plugin:0.36.0@sha256:2db679be62b52ac985169084ca711cab6e6c59fe543ab2ddee58163d6f8d29e0
           imagePullPolicy: IfNotPresent
+          args:
+            - -shared-dev-num=2
           env:
             - name: NODE_NAME
               valueFrom:
