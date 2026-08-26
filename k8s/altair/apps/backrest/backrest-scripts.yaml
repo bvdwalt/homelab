@@ -209,7 +209,8 @@ data:
           "id": "altair-pvcs",
           "repo": "altair-pvcs",
           "paths": [
-            "/pvcs"
+            "/pvcs",
+            "/nfs-pvcs"
           ],
           "excludes": [],
           "schedule": {

@@ -88,3 +88,7 @@ spec:
         hostPath: /var/lib/rancher/k3s/storage
         mountPath: /pvcs
         readOnly: true
+      - name: nfs-pvcs
+        hostPath: /mnt/k8s-nfs
+        mountPath: /nfs-pvcs
+        readOnly: true

@@ -103,7 +103,7 @@ resource "null_resource" "raw_lxc_config" {
       grep -qxF '${line}' "$CONF" || { echo '${line}' >> "$CONF"; CHANGED=1; }
       %{endfor~}
       if [ "$CHANGED" = "1" ]; then
-        pct restart ${var.vmid}
+        pct reboot ${var.vmid}
       fi
       EOT
     ]
@@ -125,6 +125,7 @@ locals {
     "lxc.mount.entry: /cheetah/shows mnt/media/shows none bind,create=dir 0 0",
     "lxc.mount.entry: /cheetah/movies mnt/media/movies none bind,create=dir 0 0",
     "lxc.mount.entry: /cheetah/downloads mnt/downloads none bind,create=dir 0 0",
+    "lxc.mount.entry: /cheetah/k8s-nfs mnt/k8s-nfs none bind,create=dir 0 0",
     "lxc.seccomp.profile: ",
     "lxc.cap.drop: ",
     "lxc.cap.drop: mac_admin mac_override sys_time sys_rawio",
