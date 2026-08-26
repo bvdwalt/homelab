@@ -17,26 +17,36 @@ misconfigurations:
   - id: AVD-KSV-0011
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
     statement: "CPU limits are opt-in via .Values.resources; not enforced by default in this homelab chart"
 
   - id: AVD-KSV-0015
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
     statement: "CPU requests are opt-in via .Values.resources; not enforced by default in this homelab chart"
 
   - id: AVD-KSV-0016
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
     statement: "Memory requests are opt-in via .Values.resources; not enforced by default in this homelab chart"
 
   - id: AVD-KSV-0018
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
     statement: "Memory limits are opt-in via .Values.resources; not enforced by default in this homelab chart"
 
   - id: AVD-KSV-0117
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
     statement: "Port is user-configured via .Values.port; default of 80 is a placeholder, apps use non-privileged ports in practice"
 
   - id: AVD-KSV-0013
@@ -49,6 +59,8 @@ misconfigurations:
       - "charts/homelab-app/templates/deployment.yaml"
       - "altair/flux-system/gotk-components.yaml"
       - "raspi/flux-system/gotk-components.yaml"
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
     statement: "runAsUser is opt-in via .Values.securityContext.runAsUser; gotk-components is Flux-managed and not user-modifiable"
 
   - id: AVD-KSV-0021
@@ -56,6 +68,8 @@ misconfigurations:
       - "charts/homelab-app/templates/deployment.yaml"
       - "altair/flux-system/gotk-components.yaml"
       - "raspi/flux-system/gotk-components.yaml"
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
     statement: "runAsGroup is opt-in via .Values.securityContext.runAsGroup; gotk-components is Flux-managed and not user-modifiable"
 
   - id: AVD-KSV-0109
