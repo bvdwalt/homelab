@@ -37,6 +37,12 @@ spec:
             path: /var/lib/traefik-plugins
             type: DirectoryOrCreate
       initContainers:
+        - name: wait-for-dns
+          image: busybox:1.38@sha256:dc2d74b28e4cf8984fa52af1f39bc7c3d9c73760b41a74d629f5d11b1ab28616
+          command:
+            - sh
+            - -c
+            - until nslookup kubernetes.default.svc.cluster.local; do echo waiting for cluster DNS; sleep 2; done
         - name: plugins-permissions
           image: busybox:1.38@sha256:dc2d74b28e4cf8984fa52af1f39bc7c3d9c73760b41a74d629f5d11b1ab28616
           command:
