@@ -165,7 +165,7 @@ data:
 
   config-template.json: |
     {
-      "modno": 5,
+      "modno": 7,
       "version": 6,
       "instance": "altair",
       "repos": [
