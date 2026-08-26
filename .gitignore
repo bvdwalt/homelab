@@ -1,5 +1,8 @@
 # k3s — generated kubeconfig
 k8s/raspi/kubeconfig
+
+# flux-local rendered output for Trivy scanning (see .github/workflows/trivy-config.yaml)
+k8s/*/.rendered-helmreleases.yaml
 .claude/
 
 # OpenTofu
