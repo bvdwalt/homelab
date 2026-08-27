@@ -66,6 +66,23 @@ misconfigurations:
       - "raspi/.rendered-helmreleases.yaml"
     statement: "hostPaths is an explicit per-app opt-in via .Values.hostPaths for apps needing direct access to media libraries or raw storage (jellyfin, navidrome, filebrowser, backrest)"
 
+  - id: AVD-KSV-0105
+    paths:
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
+    statement: "Explicit runAsUser:0 is a narrow, reviewed opt-in for init/sidecar containers that need root for one task (chown a volume before dropping to non-root, or apk add a package) — same opt-in mechanism as AVD-KSV-0022"
+
+  - id: AVD-KSV-0106
+    paths:
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
+    statement: "Restricted-profile equivalent of AVD-KSV-0022; same reviewed per-app capabilities.add opt-in (DAC_READ_SEARCH, CHOWN)"
+
+  - id: AVD-KSV-0116
+    paths:
+      - "altair/.rendered-helmreleases.yaml"
+    statement: "jellyfin needs supplementalGroups:[0] for /dev/dri GPU device access for Intel QSV hardware transcoding in this Proxmox LXC"
+
   - id: AVD-KSV-0020
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
