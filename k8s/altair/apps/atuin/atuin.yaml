@@ -46,3 +46,4 @@ spec:
       runAsNonRoot: true
       runAsUser: 3013
       runAsGroup: 3013
+      readOnlyRootFilesystem: true

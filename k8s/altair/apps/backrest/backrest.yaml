@@ -82,6 +82,7 @@ spec:
           runAsUser: 0
           runAsNonRoot: false
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           capabilities:
             drop: [ALL]
             add: [CHOWN]
@@ -93,6 +94,7 @@ spec:
         command: [python3, /scripts/restore-config.py]
         securityContext:
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           capabilities:
             drop: [ALL]
           runAsNonRoot: true
@@ -111,6 +113,7 @@ spec:
         command: [python3, /scripts/sync-excludes.py]
         securityContext:
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           capabilities:
             drop: [ALL]
           runAsNonRoot: true

@@ -34,6 +34,7 @@ spec:
       runAsNonRoot: true
       runAsUser: 1000
       runAsGroup: 1000
+      readOnlyRootFilesystem: true
     persistence:
       enabled: true
       size: 500Mi
