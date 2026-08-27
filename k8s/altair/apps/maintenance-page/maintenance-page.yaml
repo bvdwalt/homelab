@@ -20,6 +20,10 @@ spec:
       runAsNonRoot: true
       runAsUser: 101
       runAsGroup: 101
+      readOnlyRootFilesystem: true
+    emptyDirs:
+      - name: tmp
+        mountPath: /tmp
     configMountPath: /usr/share/nginx/html
     configFiles:
       index.html: |
