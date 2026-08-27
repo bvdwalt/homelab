@@ -61,5 +61,6 @@ spec:
       runAsNonRoot: true
       runAsUser: 1000
       runAsGroup: 993
+      readOnlyRootFilesystem: true
       supplementalGroups:
         - 0
