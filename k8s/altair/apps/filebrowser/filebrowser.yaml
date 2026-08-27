@@ -36,7 +36,11 @@ spec:
     env:
       TZ: Africa/Johannesburg
     securityContext:
-      enabled: false
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
     args:
       - -d
       - /db/filebrowser.db
