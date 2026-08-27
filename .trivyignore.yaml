@@ -54,6 +54,18 @@ misconfigurations:
       - "charts/homelab-app/templates/deployment.yaml"
     statement: "image is required by the caller; template enforces non-latest at render time via fail; Trivy sees the unrendered template with empty default"
 
+  - id: AVD-KSV-0022
+    paths:
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
+    statement: "capabilities.add is an explicit per-app opt-in via .Values.securityContext.capabilities.add, reviewed case by case (e.g. backrest needs DAC_READ_SEARCH to read PVC data owned by other UIDs)"
+
+  - id: AVD-KSV-0023
+    paths:
+      - "altair/.rendered-helmreleases.yaml"
+      - "raspi/.rendered-helmreleases.yaml"
+    statement: "hostPaths is an explicit per-app opt-in via .Values.hostPaths for apps needing direct access to media libraries or raw storage (jellyfin, navidrome, filebrowser, backrest)"
+
   - id: AVD-KSV-0020
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
