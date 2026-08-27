@@ -37,6 +37,10 @@ spec:
       size: 1Gi
       mountPath: /data
     securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
       capabilities:
         add: [DAC_READ_SEARCH]
     existingConfigMap: backrest-scripts
@@ -47,6 +51,9 @@ spec:
         image: python:3.14-alpine@sha256:b8b0f41bce4ce74e0e96fc26ae9bfce1f8db8487541eedcfcfc3109f51ee70c7
         command: [sh, -c, "apk add --no-cache restic rclone && sleep infinity"]
         securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          runAsNonRoot: false
           allowPrivilegeEscalation: false
           capabilities:
             drop: [ALL]
@@ -59,6 +66,19 @@ spec:
           - name: config
             mountPath: /scripts
     initContainers:
+      - name: fix-data-perms
+        image: python:3.14-alpine@sha256:b8b0f41bce4ce74e0e96fc26ae9bfce1f8db8487541eedcfcfc3109f51ee70c7
+        command: [chown, -R, "1000:1000", /data]
+        securityContext:
+          runAsUser: 0
+          runAsNonRoot: false
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: [ALL]
+            add: [CHOWN]
+        volumeMounts:
+          - name: data
+            mountPath: /data
       - name: restore-config
         image: python:3.14-alpine@sha256:b8b0f41bce4ce74e0e96fc26ae9bfce1f8db8487541eedcfcfc3109f51ee70c7
         command: [python3, /scripts/restore-config.py]
@@ -66,6 +86,9 @@ spec:
           allowPrivilegeEscalation: false
           capabilities:
             drop: [ALL]
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
         envFrom:
           - secretRef:
               name: backrest
@@ -81,6 +104,9 @@ spec:
           allowPrivilegeEscalation: false
           capabilities:
             drop: [ALL]
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
         volumeMounts:
           - name: data
             mountPath: /data
