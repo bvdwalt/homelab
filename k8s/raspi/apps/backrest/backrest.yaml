@@ -46,6 +46,10 @@ spec:
       - name: scripts
         image: python:3.14-alpine@sha256:b8b0f41bce4ce74e0e96fc26ae9bfce1f8db8487541eedcfcfc3109f51ee70c7
         command: [sh, -c, "apk add --no-cache restic rclone && sleep infinity"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: [ALL]
         envFrom:
           - secretRef:
               name: backrest
@@ -58,6 +62,10 @@ spec:
       - name: restore-config
         image: python:3.14-alpine@sha256:b8b0f41bce4ce74e0e96fc26ae9bfce1f8db8487541eedcfcfc3109f51ee70c7
         command: [python3, /scripts/restore-config.py]
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: [ALL]
         envFrom:
           - secretRef:
               name: backrest
@@ -69,6 +77,10 @@ spec:
       - name: sync-excludes
         image: python:3.14-alpine@sha256:b8b0f41bce4ce74e0e96fc26ae9bfce1f8db8487541eedcfcfc3109f51ee70c7
         command: [python3, /scripts/sync-excludes.py]
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: [ALL]
         volumeMounts:
           - name: data
             mountPath: /data
