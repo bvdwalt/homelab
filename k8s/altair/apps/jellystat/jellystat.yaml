@@ -47,3 +47,7 @@ spec:
     existingSecret: jellystat-secrets
     securityContext:
       enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
