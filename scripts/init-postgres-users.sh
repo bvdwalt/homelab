@@ -14,17 +14,6 @@ ATUIN_PASS=$(kubectl --context=altair -n atuin get secret atuin \
 METERING_PASS=$(kubectl --context=altair -n metering get secret metering-secrets \
   -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
 
-LINKWARDEN_AVAILABLE=true
-set +e
-LINKWARDEN_PASS=$(kubectl --context=raspi --request-timeout=5s -n linkwarden get secret linkwarden \
-  -o jsonpath='{.data.DATABASE_URL}' 2>/dev/null | base64 -d 2>/dev/null \
-  | python3 -c "import sys,urllib.parse; u=urllib.parse.urlparse(sys.stdin.read().strip()); print(u.password)" 2>/dev/null)
-set -e
-if [ -z "$LINKWARDEN_PASS" ]; then
-  LINKWARDEN_AVAILABLE=false
-  echo "==> raspi unreachable; skipping linkwarden"
-fi
-
 JELLYSTAT_PASS=$(kubectl --context=altair -n jellystat get secret jellystat-secrets \
   -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
 
@@ -64,19 +53,6 @@ GRANT ALL PRIVILEGES ON DATABASE jellystat TO jellystat;
 ALTER DATABASE jellystat OWNER TO jellystat;
 SQL
 
-if [ "$LINKWARDEN_AVAILABLE" = true ]; then
-  $PSQL <<SQL
-DO \$\$
-BEGIN
-  CREATE USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
-EXCEPTION WHEN duplicate_object THEN
-  ALTER USER linkwarden WITH PASSWORD '${LINKWARDEN_PASS}';
-END \$\$;
-GRANT ALL PRIVILEGES ON DATABASE linkwarden TO linkwarden;
-ALTER DATABASE linkwarden OWNER TO linkwarden;
-SQL
-fi
-
 echo "==> Granting table privileges..."
 
 $PSQL -d atuin <<SQL
@@ -109,21 +85,6 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO metering;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO metering;
 SQL
 
-$PSQL -d linkwarden <<SQL
-DO \$\$ DECLARE r RECORD; BEGIN
-  FOR r IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
-    EXECUTE 'ALTER TABLE public.' || quote_ident(r.tablename) || ' OWNER TO linkwarden';
-  END LOOP;
-  FOR r IN SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'public' LOOP
-    EXECUTE 'ALTER SEQUENCE public.' || quote_ident(r.sequence_name) || ' OWNER TO linkwarden';
-  END LOOP;
-END \$\$;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO linkwarden;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO linkwarden;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO linkwarden;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO linkwarden;
-SQL
-
 $PSQL -d jellystat <<SQL
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO jellystat;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO jellystat;
@@ -134,5 +95,4 @@ SQL
 echo "==> Done. Restart affected deployments if needed:"
 echo "    kubectl --context=altair -n atuin rollout restart deployment/atuin"
 echo "    kubectl --context=altair -n metering rollout restart deployment/metering-api"
-echo "    kubectl --context=raspi -n linkwarden rollout restart deployment/linkwarden"
 echo "    kubectl --context=altair -n jellystat rollout restart deployment/jellystat"

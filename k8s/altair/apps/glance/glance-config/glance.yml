@@ -129,11 +129,8 @@ pages:
                 check-url: https://10.0.0.166:8006
                 allow-insecure: true
                 icon: si:proxmox
-              - title: Traefik (Altair) — Reverse proxy
+              - title: Traefik — Reverse proxy
                 url: https://traefik.greedo.net
-                icon: si:traefikproxy
-              - title: Traefik (Raspi) — Reverse proxy
-                url: https://traefik.raspi.greedo.net
                 icon: si:traefikproxy
               - title: AdGuard Home — DNS / Ad blocking
                 url: https://adguard.greedo.net
@@ -153,9 +150,6 @@ pages:
                 url: https://grafana.greedo.net
                 check-url: http://prometheus-grafana.monitoring.svc.cluster.local/api/health
                 icon: si:grafana
-              - title: Beszel — System monitor
-                url: https://beszel.raspi.greedo.net
-                icon: di:beszel
               - title: Backrest — Backups
                 url: https://backrest.greedo.net
                 check-url: http://backrest.backrest.svc.cluster.local/
@@ -171,9 +165,6 @@ pages:
               - title: Palimpsest — Notes
                 url: https://notes.greedo.net
                 check-url: http://palimpsest.palimpsest.svc.cluster.local/
-              - title: Linkwarden — Bookmarks
-                url: https://linkwarden.raspi.greedo.net
-                icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
               - title: Metering
                 url: https://metering.greedo.net
                 check-url: http://metering-dashboard.metering.svc.cluster.local/

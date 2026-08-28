@@ -220,14 +220,8 @@ filtering:
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
   rewrites:
-    - domain: '*.raspi.greedo.net'
-      answer: 10.13.1.164
-      enabled: true
     - domain: '*.greedo.net'
       answer: 10.0.0.167
-      enabled: true
-    - domain: raspi.local
-      answer: 10.13.1.164
       enabled: true
     - domain: whoami.greedo.net
       answer: 10.0.0.167

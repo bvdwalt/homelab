@@ -106,7 +106,7 @@ kubectx altair  # verify
 
 ## 5. Create the SOPS age secret
 
-Flux needs the age key before it can decrypt secrets. The existing raspi age key is reused.
+Flux needs the age key before it can decrypt secrets.
 
 ```bash
 kubectl create namespace flux-system

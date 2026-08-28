@@ -12,13 +12,12 @@ Re-creates all application database users on the Altair CNPG PostgreSQL cluster.
 
 **Prerequisites:**
 
-- `kubectl` contexts `altair` and `raspi` must be configured and reachable.
+- `kubectl` context `altair` must be configured and reachable.
 - The CNPG cluster must be healthy (`postgresql-1` pod running).
 - The app secrets that hold passwords must already exist:
   - `altair/atuin` → `ATUIN_DB_URI`
   - `altair/metering` → `POSTGRES_PASSWORD` (from `metering-secrets`)
-  - `raspi/linkwarden` → `DATABASE_URL`
-- The target databases (`atuin`, `data`, `linkwarden`) must already exist (CNPG creates them from the cluster bootstrap config).
+- The target databases (`atuin`, `data`) must already exist (CNPG creates them from the cluster bootstrap config).
 
 **Usage:**
 
@@ -33,5 +32,4 @@ The script is idempotent: it uses `DO $$ BEGIN … EXCEPTION WHEN duplicate_obje
 ```bash
 kubectl --context=altair -n atuin rollout restart deployment/atuin
 kubectl --context=altair -n metering rollout restart deployment/metering-api
-kubectl --context=raspi -n linkwarden rollout restart deployment/linkwarden
 ```
