@@ -9,7 +9,7 @@ spec:
   install:
     createNamespace: false
   values:
-    image: ghcr.io/garethgeorge/backrest:v1.14.1@sha256:8c717ba795263a1802696aacce7c4e05cfbee98af80b4806ff166e6e18bde944
+    image: ghcr.io/bvdwalt/homelab-backrest:sha-eda7493b62d9f0e56c8284338a2970cce268b0da@sha256:5d7e59edd8b21f57c5468d49940b4c81072603a24921d7115f416a53051b3243
     strategy: Recreate
     resources:
       requests:
@@ -43,20 +43,25 @@ spec:
       size: 1Gi
       mountPath: /data
     securityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
       capabilities:
-        add: [DAC_READ_SEARCH, DAC_OVERRIDE, FOWNER]
+        add: [DAC_READ_SEARCH]
     existingConfigMap: backrest-scripts
     configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, pg-dump.sh, pre-backup.sh, post-backup.sh, notify-failure.sh, config-template.json, restore-config.py, extract-config.py]
     configMountPath: /scripts
     extraContainers:
       - name: scripts
-        image: postgres:18-alpine@sha256:63bdc97d67b5133bf0e5ebd500bec6d046fa851dc81340d838f0347e616107e8
-        command: [sh, -c, "apk add --no-cache restic rclone python3 curl && sleep infinity"]
+        image: ghcr.io/bvdwalt/homelab-backrest-scripts:sha-eda7493b62d9f0e56c8284338a2970cce268b0da@sha256:a7b970124002b9a803ff5de3e58a38fa0959ec3ba5a65c9076d94f6c50427610
+        command: [sleep, infinity]
         securityContext:
-          runAsUser: 0
-          runAsGroup: 0
-          runAsNonRoot: false
+          runAsUser: 1000
+          runAsGroup: 1000
+          runAsNonRoot: true
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           capabilities:
             drop: [ALL]
         envFrom:
