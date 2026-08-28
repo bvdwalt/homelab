@@ -43,12 +43,8 @@ spec:
       size: 1Gi
       mountPath: /data
     securityContext:
-      runAsNonRoot: true
-      runAsUser: 1000
-      runAsGroup: 1000
-      readOnlyRootFilesystem: true
       capabilities:
-        add: [DAC_READ_SEARCH]
+        add: [DAC_READ_SEARCH, DAC_OVERRIDE]
     existingConfigMap: backrest-scripts
     configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, pg-dump.sh, pre-backup.sh, post-backup.sh, notify-failure.sh, config-template.json, restore-config.py, extract-config.py]
     configMountPath: /scripts
@@ -85,7 +81,7 @@ spec:
           readOnlyRootFilesystem: true
           capabilities:
             drop: [ALL]
-            add: [CHOWN]
+            add: [CHOWN, DAC_OVERRIDE]
         volumeMounts:
           - name: data
             mountPath: /data
