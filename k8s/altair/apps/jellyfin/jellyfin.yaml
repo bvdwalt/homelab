@@ -41,6 +41,9 @@ spec:
       enabled: true
       mountPath: /config
       size: 10Gi
+    emptyDirs:
+      - name: tmp
+        mountPath: /tmp
     hostPaths:
       - name: shows
         hostPath: /mnt/media/shows
