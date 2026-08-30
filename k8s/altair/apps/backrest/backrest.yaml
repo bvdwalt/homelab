@@ -45,7 +45,7 @@ spec:
     securityContext:
       readOnlyRootFilesystem: true
       capabilities:
-        add: [DAC_OVERRIDE, DAC_READ_SEARCH]
+        add: [DAC_OVERRIDE, DAC_READ_SEARCH, FOWNER]
     emptyDirs:
       - name: tmp
         mountPath: /tmp
