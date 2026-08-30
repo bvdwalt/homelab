@@ -175,6 +175,9 @@ pages:
               - title: Actual Importer — Budget imports
                 url: https://actualimporter.greedo.net
                 check-url: http://actual-importer.actual-importer.svc.cluster.local/health
+              - title: LubeLogger — Vehicle maintenance
+                url: https://lubelogger.greedo.net
+                check-url: http://lubelogger.lubelogger.svc.cluster.local:8080/
 
           - type: repository
             repository: bvdwalt/homelab
@@ -215,4 +218,5 @@ pages:
               - qdm12/gluetun
               - Dictionarry-Hub/profilarr
               - qbittorrent/qBittorrent
+              - hargata/lubelog
 
