@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lubelogger
+  namespace: flux-system
+spec:
+  releaseName: lubelogger
+  targetNamespace: lubelogger
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    image: ghcr.io/hargata/lubelogger:v1.7.1@sha256:678a5c4af387e525f06ef954b454efe536745f517f2078dc646ccce9332adb9d
+    port: 8080
+    hostname: lubelogger.greedo.net
+    strategy: Recreate
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      TZ: Africa/Johannesburg
+    securityContext:
+      enabled: true
+      runAsNonRoot: false
+    persistence:
+      enabled: true
+      size: 1Gi
+      mountPath: /App/data
+      storageClass: local-path
+      accessMode: ReadWriteOnce
+    emptyDirs:
+      - name: dataprotection-keys
+        mountPath: /root/.aspnet/DataProtection-Keys
