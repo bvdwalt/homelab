@@ -49,6 +49,9 @@ spec:
       readOnlyRootFilesystem: true
       capabilities:
         add: [DAC_READ_SEARCH]
+    emptyDirs:
+      - name: tmp
+        mountPath: /tmp
     existingConfigMap: backrest-scripts
     configKeys: [excludes.txt, sync-excludes.py, diff-summary.py, pg-dump.sh, pre-backup.sh, post-backup.sh, notify-failure.sh, config-template.json, restore-config.py, extract-config.py]
     configMountPath: /scripts
