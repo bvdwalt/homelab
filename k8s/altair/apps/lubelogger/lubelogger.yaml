@@ -38,6 +38,7 @@ spec:
     securityContext:
       enabled: true
       runAsNonRoot: false
+      readOnlyRootFilesystem: true
     persistence:
       enabled: true
       size: 1Gi

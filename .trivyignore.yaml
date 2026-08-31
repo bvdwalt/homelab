@@ -17,31 +17,31 @@ misconfigurations:
   - id: AVD-KSV-0011
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "CPU limits are opt-in via .Values.resources; not enforced by default in this homelab chart"
 
   - id: AVD-KSV-0015
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "CPU requests are opt-in via .Values.resources; not enforced by default in this homelab chart"
 
   - id: AVD-KSV-0016
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "Memory requests are opt-in via .Values.resources; not enforced by default in this homelab chart"
 
   - id: AVD-KSV-0018
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "Memory limits are opt-in via .Values.resources; not enforced by default in this homelab chart"
 
   - id: AVD-KSV-0117
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "Port is user-configured via .Values.port; default of 80 is a placeholder, apps use non-privileged ports in practice"
 
   - id: AVD-KSV-0013
@@ -51,41 +51,41 @@ misconfigurations:
 
   - id: AVD-KSV-0022
     paths:
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "capabilities.add is an explicit per-app opt-in via .Values.securityContext.capabilities.add, reviewed case by case (e.g. backrest needs DAC_READ_SEARCH to read PVC data owned by other UIDs)"
 
   - id: AVD-KSV-0023
     paths:
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "hostPaths is an explicit per-app opt-in via .Values.hostPaths for apps needing direct access to media libraries or raw storage (jellyfin, navidrome, filebrowser, backrest)"
 
   - id: AVD-KSV-0105
     paths:
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "Explicit runAsUser:0 is a narrow, reviewed opt-in for init/sidecar containers that need root for one task (chown a volume before dropping to non-root, or apk add a package) — same opt-in mechanism as AVD-KSV-0022"
 
   - id: AVD-KSV-0106
     paths:
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "Restricted-profile equivalent of AVD-KSV-0022; same reviewed per-app capabilities.add opt-in (DAC_READ_SEARCH, CHOWN)"
 
   - id: AVD-KSV-0116
     paths:
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "jellyfin needs supplementalGroups:[0] for /dev/dri GPU device access for Intel QSV hardware transcoding in this Proxmox LXC"
 
   - id: AVD-KSV-0020
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
       - "altair/flux-system/gotk-components.yaml"
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "runAsUser is opt-in via .Values.securityContext.runAsUser; gotk-components is Flux-managed and not user-modifiable"
 
   - id: AVD-KSV-0021
     paths:
       - "charts/homelab-app/templates/deployment.yaml"
       - "altair/flux-system/gotk-components.yaml"
-      - "altair/.rendered-helmreleases.yaml"
+      - "altair/.rendered/*.yaml"
     statement: "runAsGroup is opt-in via .Values.securityContext.runAsGroup; gotk-components is Flux-managed and not user-modifiable"
 
   - id: AVD-KSV-0109
@@ -252,3 +252,8 @@ misconfigurations:
     paths:
       - "altair/apps/gitea/deployment.yaml"
     statement: "Gitea exposes port 22 for SSH git operations; privileged port is required for standard SSH client compatibility"
+
+  - id: AVD-KSV-0012
+    paths:
+      - "altair/.rendered/lubelogger.yaml"
+    statement: "ASP.NET DataProtection keys are written to /root/.aspnet; app requires root. readOnlyRootFilesystem is set instead."

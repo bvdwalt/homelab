@@ -26,9 +26,9 @@ jobs:
             uvx --from flux-local flux-local build all "k8s/${cluster}/flux-system" \
               --enable-helm \
               --output-file "/tmp/rendered-${cluster}.yaml"
-            ./scripts/filter-homelab-app-chart.sh \
+            python3 ./scripts/split-homelab-app-chart.py \
               "/tmp/rendered-${cluster}.yaml" \
-              "k8s/${cluster}/.rendered-helmreleases.yaml"
+              "k8s/${cluster}/.rendered"
           done
       - name: Trivy misconfig scan
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
