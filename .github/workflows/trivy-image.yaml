@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  security-events: write
 
 jobs:
   image-scan:
@@ -24,12 +25,13 @@ jobs:
           echo "$(wc -l < images.txt) images to scan"
       - name: Trivy image scan
         run: |
-          mkdir -p "$HOME/.trivy-cache"
+          mkdir -p "$HOME/.trivy-cache" sarif-results
           template='{{- range . -}}{{- range .Vulnerabilities -}}{{ .Severity }}|{{ .FixedVersion }}|{{ .VulnerabilityID }}|{{ .PkgName }}{{ "\n" }}{{ end }}{{ end }}'
           errored=0
           failed=0
           while read -r image; do
             echo "::group::$image"
+            safe_name=$(echo "$image" | tr -c 'A-Za-z0-9._-' '_')
             rows=$(docker run --rm -v "$HOME/.trivy-cache:/root/.cache" </dev/null \
               aquasec/trivy:0.72.0 image --scanners vuln --quiet \
               --format template --template "$template" "$image" 2>&1)
@@ -40,6 +42,9 @@ jobs:
               echo "::endgroup::"
               continue
             fi
+            docker run --rm -v "$HOME/.trivy-cache:/root/.cache" -v "$PWD/sarif-results:/out" </dev/null \
+              aquasec/trivy:0.72.0 image --scanners vuln --quiet \
+              --format sarif --output "/out/${safe_name}.sarif" "$image" || true
             bad_rows=$(echo "$rows" | grep -E '^(HIGH|CRITICAL)\|')
             fixable_critical=$(echo "$rows" | grep -c -E '^CRITICAL\|[^|]+\|')
             echo "$bad_rows"
@@ -66,3 +71,8 @@ jobs:
           if [ "$errored" -eq 1 ] || [ "$failed" -eq 1 ]; then
             exit 1
           fi
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
+        if: always()
+        with:
+          sarif_file: sarif-results
