@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: crowdsec-bouncer
-  namespace: kube-system
+  namespace: traefik-config
 spec:
   plugin:
     crowdsec-bouncer:
