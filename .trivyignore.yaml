@@ -90,18 +90,13 @@ misconfigurations:
 
   - id: AVD-KSV-0109
     paths:
-      - "altair/apps/backrest-scripts.yaml"
+      - "altair/apps/backrest/backrest-scripts.yaml"
     statement: "False positive: scripts reference $password/$username as shell variables populated at runtime from SOPS secrets via env; no credentials are stored in the ConfigMap"
 
   - id: AVD-KSV-01010
     paths:
-      - "altair/apps/backrest-scripts.yaml"
+      - "altair/apps/backrest/backrest-scripts.yaml"
     statement: "False positive: scripts reference $password/$username as shell variables populated at runtime from SOPS secrets via env; no credentials are stored in the ConfigMap"
-
-  - id: AVD-KSV-0014
-    paths:
-      - "altair/apps/cullarr.yaml"
-    statement: "Image runs as root (no USER set); readOnlyRootFilesystem requires image-level fix first"
 
   - id: AVD-KSV-0014
     paths:
@@ -146,7 +141,10 @@ misconfigurations:
   - id: AVD-KSV-0037
     paths:
       - "altair/infrastructure/configs/hubble-ui.yaml"
-      - "altair/infrastructure/configs/oidc-auth.yaml"
+      - "altair/infrastructure/configs/personal-oidc-auth.yaml"
+      - "altair/infrastructure/configs/household-oidc-auth.yaml"
+      - "altair/infrastructure/configs/infra-admin-oidc-auth.yaml"
+      - "altair/infrastructure/configs/downloads-oidc-auth.yaml"
       - "altair/infrastructure/configs/proxmox.yaml"
       - "altair/infrastructure/configs/tlsstore.yaml"
       - "altair/infrastructure/configs/traefik-dashboard.yaml"
@@ -184,7 +182,6 @@ misconfigurations:
     paths:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/monitoring/ntfy-alertmanager.yaml"
-      - "altair/apps/cullarr.yaml"
       - "altair/apps/downloads/deployment.yaml"
     statement: "CPU limits not set; intentional to avoid throttling on this homelab cluster"
 
@@ -192,8 +189,7 @@ misconfigurations:
     paths:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/downloads/deployment.yaml"
-      - "altair/apps/cullarr.yaml"
-    statement: "Gitea, LinuxServer.io s6-overlay, and cullarr images start as root; cannot set runAsNonRoot"
+    statement: "Gitea and LinuxServer.io s6-overlay images start as root; cannot set runAsNonRoot"
 
   - id: AVD-KSV-0015
     paths:
@@ -215,7 +211,6 @@ misconfigurations:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/downloads/deployment.yaml"
       - "altair/apps/monitoring/ntfy-alertmanager.yaml"
-      - "altair/apps/cullarr.yaml"
     statement: "PUID/PGID set to 1000 via environment variables; UID constraint is acceptable in this homelab"
 
   - id: AVD-KSV-0021
@@ -223,7 +218,6 @@ misconfigurations:
       - "altair/apps/gitea/deployment.yaml"
       - "altair/apps/downloads/deployment.yaml"
       - "altair/apps/monitoring/ntfy-alertmanager.yaml"
-      - "altair/apps/cullarr.yaml"
     statement: "PUID/PGID set to 1000 via environment variables; GID constraint is acceptable in this homelab"
 
   - id: AVD-KSV-0022
