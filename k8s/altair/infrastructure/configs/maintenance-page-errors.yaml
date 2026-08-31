@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: nice-404
-  namespace: kube-system
+  namespace: traefik-config
 spec:
   errors:
     status:
@@ -17,7 +17,7 @@ apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: maintenance-page-errors
-  namespace: kube-system
+  namespace: traefik-config
 spec:
   errors:
     status:

@@ -29,7 +29,7 @@ spec:
           moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
           version: v1.4.5
     additionalArguments:
-      - "--entrypoints.websecure.http.middlewares=kube-system-crowdsec-bouncer@kubernetescrd,kube-system-nice-404@kubernetescrd,kube-system-maintenance-page-errors@kubernetescrd"
+      - "--entrypoints.websecure.http.middlewares=traefik-config-crowdsec-bouncer@kubernetescrd,traefik-config-nice-404@kubernetescrd,traefik-config-maintenance-page-errors@kubernetescrd"
     deployment:
       additionalVolumes:
         - name: plugins
