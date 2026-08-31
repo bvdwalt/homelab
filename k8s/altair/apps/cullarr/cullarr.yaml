@@ -43,6 +43,9 @@ spec:
                     name: cullarr
               securityContext:
                 allowPrivilegeEscalation: false
+                runAsNonRoot: true
+                runAsUser: 65532
+                runAsGroup: 65532
                 capabilities:
                   drop: ["ALL"]
                 seccompProfile:
@@ -52,4 +55,5 @@ spec:
                   cpu: 25m
                   memory: 64Mi
                 limits:
+                  cpu: 250m
                   memory: 256Mi
