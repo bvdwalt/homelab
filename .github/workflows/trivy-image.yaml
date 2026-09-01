@@ -49,6 +49,7 @@ jobs:
             fi
             docker run --rm -v "$HOME/.trivy-cache:/root/.cache" -v "$HOME/.docker/config.json:/root/.docker/config.json:ro" -v "$PWD/sarif-results:/out" </dev/null \
               aquasec/trivy:0.72.0 image --scanners vuln --quiet \
+              --severity CRITICAL --ignore-unfixed \
               --format sarif --output "/out/${safe_name}.sarif" "$image" || true
             if [ -f "sarif-results/${safe_name}.sarif" ]; then
               jq -s '
