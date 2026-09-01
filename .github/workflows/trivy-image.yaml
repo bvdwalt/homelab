@@ -27,6 +27,8 @@ jobs:
       - name: Trivy image scan
         run: |
           mkdir -p "$HOME/.trivy-cache" sarif-results
+          combined="sarif-results/combined.sarif"
+          echo '{"version":"2.1.0","$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","runs":[{"tool":{"driver":{"name":"Trivy","rules":[]}},"results":[]}]}' > "$combined"
           template='{{- range . -}}{{- range .Vulnerabilities -}}{{ .Severity }}|{{ .FixedVersion }}|{{ .VulnerabilityID }}|{{ .PkgName }}{{ "\n" }}{{ end }}{{ end }}'
           errored=0
           failed=0
@@ -46,9 +48,14 @@ jobs:
               aquasec/trivy:0.72.0 image --scanners vuln --quiet \
               --format sarif --output "/out/${safe_name}.sarif" "$image" || true
             if [ -f "sarif-results/${safe_name}.sarif" ]; then
-              jq --arg cat "${safe_name}/" '.runs[].automationDetails.id = $cat' \
-                "sarif-results/${safe_name}.sarif" > "sarif-results/${safe_name}.sarif.tmp" \
-                && mv "sarif-results/${safe_name}.sarif.tmp" "sarif-results/${safe_name}.sarif" || true
+              jq -s '
+                .[0] as $acc | .[1] as $new |
+                $acc
+                | .runs[0].results += ($new.runs[0].results // [])
+                | .runs[0].tool.driver.rules = (($acc.runs[0].tool.driver.rules // []) + ($new.runs[0].tool.driver.rules // []) | unique_by(.id))
+              ' "$combined" "sarif-results/${safe_name}.sarif" > "$combined.tmp" \
+                && mv "$combined.tmp" "$combined" || true
+              rm -f "sarif-results/${safe_name}.sarif"
             fi
             bad_rows=$(echo "$rows" | grep -E '^(HIGH|CRITICAL)\|' || true)
             fixable_critical=$(echo "$rows" | grep -c -E '^CRITICAL\|[^|]+\|' || true)
@@ -80,4 +87,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
         if: always()
         with:
-          sarif_file: sarif-results
+          sarif_file: sarif-results/combined.sarif
