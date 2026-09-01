@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   security-events: write
+  packages: read
 
 jobs:
   image-scan:
@@ -15,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
       - name: Extract image references
         run: |
           grep -rh 'image:' k8s/ \
