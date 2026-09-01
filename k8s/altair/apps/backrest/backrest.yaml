@@ -9,7 +9,7 @@ spec:
   install:
     createNamespace: false
   values:
-    image: ghcr.io/bvdwalt/homelab-backrest:sha-eda7493b62d9f0e56c8284338a2970cce268b0da@sha256:5d7e59edd8b21f57c5468d49940b4c81072603a24921d7115f416a53051b3243
+    image: ghcr.io/bvdwalt/homelab-backrest:sha-34faaaa280b9879428164e6f3d316aca079c7bc4@sha256:155c07b00ce7ae5c68dabbbb39ebd6a8fb6736a447f222ec36e6620119abf5b2
     strategy: Recreate
     resources:
       requests:
@@ -54,7 +54,7 @@ spec:
     configMountPath: /scripts
     extraContainers:
       - name: scripts
-        image: ghcr.io/bvdwalt/homelab-backrest-scripts:sha-eda7493b62d9f0e56c8284338a2970cce268b0da@sha256:a7b970124002b9a803ff5de3e58a38fa0959ec3ba5a65c9076d94f6c50427610
+        image: ghcr.io/bvdwalt/homelab-backrest-scripts:sha-34faaaa280b9879428164e6f3d316aca079c7bc4@sha256:eb0ab85defd1c01c3f1b85c5bd16bc435da3bdb0a0fec64605d51da58bc5eb95
         command: [sleep, infinity]
         securityContext:
           runAsUser: 1000
