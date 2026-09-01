@@ -21,7 +21,8 @@ jobs:
             | sed 's/.*image:[[:space:]]*//' \
             | tr -d '"' \
             | grep -E '^[a-z0-9.:/_-]+(:[A-Za-z0-9._-]+)?(@sha256:[a-f0-9]{64})?$' \
-            | sort -u > images.txt
+            | sort -u \
+            | awk -F'@sha256:' '$2=="" || !seen[$2]++' > images.txt
           echo "$(wc -l < images.txt) images to scan"
       - name: Trivy image scan
         run: |
@@ -32,10 +33,9 @@ jobs:
           while read -r image; do
             echo "::group::$image"
             safe_name=$(echo "$image" | tr -c 'A-Za-z0-9._-' '_')
-            rows=$(docker run --rm -v "$HOME/.trivy-cache:/root/.cache" </dev/null \
+            if ! rows=$(docker run --rm -v "$HOME/.trivy-cache:/root/.cache" </dev/null \
               aquasec/trivy:0.72.0 image --scanners vuln --quiet \
-              --format template --template "$template" "$image" 2>&1)
-            if [ $? -ne 0 ]; then
+              --format template --template "$template" "$image" 2>&1); then
               echo "$rows"
               echo "### \`$image\` — SCAN ERROR" >> "$GITHUB_STEP_SUMMARY"
               errored=1
