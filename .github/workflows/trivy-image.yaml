@@ -45,8 +45,8 @@ jobs:
             docker run --rm -v "$HOME/.trivy-cache:/root/.cache" -v "$PWD/sarif-results:/out" </dev/null \
               aquasec/trivy:0.72.0 image --scanners vuln --quiet \
               --format sarif --output "/out/${safe_name}.sarif" "$image" || true
-            bad_rows=$(echo "$rows" | grep -E '^(HIGH|CRITICAL)\|')
-            fixable_critical=$(echo "$rows" | grep -c -E '^CRITICAL\|[^|]+\|')
+            bad_rows=$(echo "$rows" | grep -E '^(HIGH|CRITICAL)\|' || true)
+            fixable_critical=$(echo "$rows" | grep -c -E '^CRITICAL\|[^|]+\|' || true)
             echo "$bad_rows"
             echo "fixable CRITICAL: $fixable_critical"
             if [ -n "$bad_rows" ]; then
