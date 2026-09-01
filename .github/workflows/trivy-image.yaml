@@ -45,6 +45,11 @@ jobs:
             docker run --rm -v "$HOME/.trivy-cache:/root/.cache" -v "$PWD/sarif-results:/out" </dev/null \
               aquasec/trivy:0.72.0 image --scanners vuln --quiet \
               --format sarif --output "/out/${safe_name}.sarif" "$image" || true
+            if [ -f "sarif-results/${safe_name}.sarif" ]; then
+              jq --arg cat "${safe_name}/" '.runs[].automationDetails.id = $cat' \
+                "sarif-results/${safe_name}.sarif" > "sarif-results/${safe_name}.sarif.tmp" \
+                && mv "sarif-results/${safe_name}.sarif.tmp" "sarif-results/${safe_name}.sarif" || true
+            fi
             bad_rows=$(echo "$rows" | grep -E '^(HIGH|CRITICAL)\|' || true)
             fixable_critical=$(echo "$rows" | grep -c -E '^CRITICAL\|[^|]+\|' || true)
             echo "$bad_rows"
