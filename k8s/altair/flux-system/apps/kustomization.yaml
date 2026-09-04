@@ -30,3 +30,4 @@ resources:
   - maintenance-page.yaml
   - tdarr.yaml
   - lubelogger.yaml
+  - homeassistant.yaml
