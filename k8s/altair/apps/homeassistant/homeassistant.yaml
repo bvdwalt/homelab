@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homeassistant
+  namespace: flux-system
+spec:
+  releaseName: homeassistant
+  targetNamespace: homeassistant
+  values:
+    image: homeassistant/home-assistant:2026.9.0
+    port: 8123
+    hostname: homeassistant.greedo.net
+    middlewares:
+      - name: personal-oidc-auth
+        namespace: kube-system
+    resources:
+      requests:
+        memory: 256Mi
+      limits:
+        memory: 1Gi
+    readinessProbe:
+      httpGet:
+        path: /manifest.json
+        port: 8123
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 12
+    livenessProbe:
+      httpGet:
+        path: /manifest.json
+        port: 8123
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      failureThreshold: 3
+    persistence:
+      enabled: true
+      mountPath: /config
+      size: 2Gi
+      storageClass: nfs-shared
+      accessMode: ReadWriteOnce
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
