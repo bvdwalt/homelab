@@ -40,6 +40,10 @@ spec:
       accessMode: ReadWriteOnce
     securityContext:
       enabled: true
-      runAsNonRoot: true
-      runAsUser: 1000
-      runAsGroup: 1000
+      runAsNonRoot: false
+      capabilities:
+        add:
+          - CHOWN
+          - SETUID
+          - SETGID
+          - DAC_OVERRIDE

@@ -235,4 +235,5 @@ kind: Namespace
 metadata:
   name: homeassistant
   labels:
-    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: baseline
