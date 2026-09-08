@@ -29,6 +29,10 @@ spec:
             capabilities:
               add: ["NET_ADMIN", "CHOWN"]
               drop: ["ALL"]
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "ip rule del table 51820 2>/dev/null; ip -6 rule del table 51820 2>/dev/null; true"]
           envFrom:
             - secretRef:
                 name: downloads-vpn
