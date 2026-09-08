@@ -35,6 +35,10 @@
       "allowedVersions": "/^5\\./"
     },
     {
+      "matchPackageNames": ["jellyfin/jellyfin"],
+      "allowedVersions": "/^\\d+\\.\\d+(\\.\\d+)?$/"
+    },
+    {
       "matchPackageNames": ["fluxcd/flux2"],
       "matchUpdateTypes": ["pin", "pinDigest"],
       "enabled": false
