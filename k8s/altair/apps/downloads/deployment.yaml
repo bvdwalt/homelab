@@ -51,16 +51,14 @@ spec:
             - name: gluetun-tmp
               mountPath: /tmp/gluetun
           readinessProbe:
-            httpGet:
-              path: /
-              port: 9999
+            exec:
+              command: ["/bin/sh", "-c", "wget -q -O /dev/null http://127.0.0.1:9999/"]
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 6
           livenessProbe:
-            httpGet:
-              path: /
-              port: 9999
+            exec:
+              command: ["/bin/sh", "-c", "wget -q -O /dev/null http://127.0.0.1:9999/"]
             initialDelaySeconds: 60
             periodSeconds: 30
             failureThreshold: 5
