@@ -48,6 +48,8 @@ spec:
           volumeMounts:
             - name: tun
               mountPath: /dev/net/tun
+            - name: gluetun-tmp
+              mountPath: /tmp/gluetun
           readinessProbe:
             httpGet:
               path: /
@@ -447,6 +449,8 @@ spec:
         - name: tun
           hostPath:
             path: /dev/net/tun
+        - name: gluetun-tmp
+          emptyDir: {}
         - name: radarr-config
           persistentVolumeClaim:
             claimName: radarr-config
