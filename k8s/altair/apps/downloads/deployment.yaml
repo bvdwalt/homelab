@@ -49,14 +49,16 @@ spec:
             - name: tun
               mountPath: /dev/net/tun
           readinessProbe:
-            exec:
-              command: ["/bin/sh", "-c", "wget -q -O /dev/null http://127.0.0.1:8000/v1/publicip/ip"]
+            httpGet:
+              path: /
+              port: 9999
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 6
           livenessProbe:
-            exec:
-              command: ["/bin/sh", "-c", "wget -q -O /dev/null http://127.0.0.1:8000/v1/publicip/ip"]
+            httpGet:
+              path: /
+              port: 9999
             initialDelaySeconds: 60
             periodSeconds: 30
             failureThreshold: 5
