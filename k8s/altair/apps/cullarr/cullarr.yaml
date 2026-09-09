@@ -18,7 +18,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: cullarr
-              image: ghcr.io/bvdwalt/cullarr:0.4.3@sha256:dbf1f82a7f0aa2db8ad3fab44334264b94b66bf0d135358c0836037cfec6a056
+              image: ghcr.io/bvdwalt/cullarr:0.4.4@sha256:2cc6d407df964f0b8e90682a44017d26aba713f875d319af6339938b131d4a31
               env:
                 - name: CULLARR_JELLYFIN_URL
                   value: http://jellyfin.jellyfin.svc.cluster.local
