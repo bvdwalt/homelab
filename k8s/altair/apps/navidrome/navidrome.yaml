@@ -7,7 +7,7 @@ spec:
   releaseName: navidrome
   targetNamespace: navidrome
   values:
-    image: deluan/navidrome:0.63.2@sha256:38246ebb80d6f7e2724eecab4acafa7b14ec66ae800b2454aa6da4c19f80a9ce
+    image: deluan/navidrome:0.64.0@sha256:1a64cbb2603cec5d2615c3a27e91442436b2229583408a55cdc8d85705b95e65
     port: 4533
     hostname: navidrome.greedo.net
     strategy: Recreate
