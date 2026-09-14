@@ -31,3 +31,4 @@ resources:
   - tdarr.yaml
   - lubelogger.yaml
   - homeassistant.yaml
+  - kafka.yaml

@@ -7,3 +7,4 @@ resources:
   - cnpg.yaml
   - crowdsec.yaml
   - nfs-subdir-provisioner.yaml
+  - strimzi-operator.yaml

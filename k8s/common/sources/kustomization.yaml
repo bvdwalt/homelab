@@ -4,3 +4,5 @@ resources:
   - cilium.yaml
   - jetstack.yaml
   - stakater.yaml
+  - strimzi.yaml
+  - kafbat.yaml

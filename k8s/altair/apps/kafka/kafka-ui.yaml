@@ -1,0 +1,40 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kafka-ui
+  namespace: kafka
+spec:
+  interval: 30m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: kafka-ui
+      version: "1.6.5"
+      sourceRef:
+        kind: HelmRepository
+        name: kafbat
+        namespace: flux-system
+      interval: 1h
+  values:
+    resources:
+      requests:
+        cpu: 20m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+    yamlApplicationConfig:
+      kafka:
+        clusters:
+          - name: order-pipeline
+            bootstrapServers: order-pipeline-kafka-bootstrap.kafka.svc.cluster.local:9092
+      auth:
+        type: disabled
+      management:
+        health:
+          ldap:
+            enabled: false
