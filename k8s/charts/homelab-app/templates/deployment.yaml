@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "homelab-app.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       {{- include "homelab-app.selectorLabels" . | nindent 6 }}

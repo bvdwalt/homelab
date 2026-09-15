@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: order-service
+  namespace: flux-system
+spec:
+  releaseName: order-service
+  targetNamespace: order-pipeline
+  values:
+    image: ghcr.io/bvdwalt/order-pipeline/order-service:0.2.0
+    imagePullSecrets:
+      - ghcr-pull-secret
+    port: 8080
+    resources:
+      requests:
+        memory: 32Mi
+      limits:
+        memory: 128Mi
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      failureThreshold: 6
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true

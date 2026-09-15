@@ -32,3 +32,4 @@ resources:
   - lubelogger.yaml
   - homeassistant.yaml
   - kafka.yaml
+  - order-pipeline.yaml
