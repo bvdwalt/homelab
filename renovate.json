@@ -3,6 +3,7 @@
   "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "pinDigests": true,
+  "prHourlyLimit": 6,
   "schedule": ["* * * * *"],
   "assignees": ["bvdwalt"],
   "flux": {
