@@ -98,6 +98,8 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
   applied_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 GRANT SELECT, INSERT ON schema_migrations TO inventory_service, shipping_service, notification_service;
+-- CREATE TABLE IF NOT EXISTS still requires schema CREATE privilege even when the table already exists.
+GRANT CREATE ON SCHEMA public TO inventory_service, shipping_service, notification_service;
 SQL
 
 echo "==> Granting table privileges..."
