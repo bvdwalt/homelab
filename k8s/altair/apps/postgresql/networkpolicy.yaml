@@ -30,6 +30,9 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: jellystat
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: order-pipeline
       ports:
         - port: 5432
     # LAN via LoadBalancer: psql access from workstation

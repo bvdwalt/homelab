@@ -12,6 +12,11 @@ spec:
       - ghcr-pull-secret
     replicas: 2
     port: 8080
+    env:
+      POSTGRES_HOST: "postgresql.postgresql.svc.cluster.local"
+      POSTGRES_USER: "inventory_service"
+      POSTGRES_DB: "order_pipeline"
+    existingSecret: order-pipeline-inventory-postgres
     resources:
       requests:
         memory: 32Mi

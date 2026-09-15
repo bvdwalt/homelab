@@ -17,10 +17,22 @@ METERING_PASS=$(kubectl --context=altair -n metering get secret metering-secrets
 JELLYSTAT_PASS=$(kubectl --context=altair -n jellystat get secret jellystat-secrets \
   -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
 
+INVENTORY_PASS=$(kubectl --context=altair -n order-pipeline get secret order-pipeline-inventory-postgres \
+  -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
+
+SHIPPING_PASS=$(kubectl --context=altair -n order-pipeline get secret order-pipeline-shipping-postgres \
+  -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
+
+NOTIFICATION_PASS=$(kubectl --context=altair -n order-pipeline get secret order-pipeline-notification-postgres \
+  -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
+
 echo "==> Creating databases that don't already exist..."
 
 $PSQL -tc "SELECT 1 FROM pg_database WHERE datname = 'jellystat'" | grep -q 1 \
   || $PSQL -c "CREATE DATABASE jellystat"
+
+$PSQL -tc "SELECT 1 FROM pg_database WHERE datname = 'order_pipeline'" | grep -q 1 \
+  || $PSQL -c "CREATE DATABASE order_pipeline"
 
 echo "==> Creating users..."
 
@@ -51,6 +63,41 @@ EXCEPTION WHEN duplicate_object THEN
 END \$\$;
 GRANT ALL PRIVILEGES ON DATABASE jellystat TO jellystat;
 ALTER DATABASE jellystat OWNER TO jellystat;
+
+DO \$\$
+BEGIN
+  CREATE USER inventory_service WITH PASSWORD '${INVENTORY_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER inventory_service WITH PASSWORD '${INVENTORY_PASS}';
+END \$\$;
+GRANT CONNECT ON DATABASE order_pipeline TO inventory_service;
+
+DO \$\$
+BEGIN
+  CREATE USER shipping_service WITH PASSWORD '${SHIPPING_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER shipping_service WITH PASSWORD '${SHIPPING_PASS}';
+END \$\$;
+GRANT CONNECT ON DATABASE order_pipeline TO shipping_service;
+
+DO \$\$
+BEGIN
+  CREATE USER notification_service WITH PASSWORD '${NOTIFICATION_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER notification_service WITH PASSWORD '${NOTIFICATION_PASS}';
+END \$\$;
+GRANT CONNECT ON DATABASE order_pipeline TO notification_service;
+SQL
+
+echo "==> Pre-creating shared schema_migrations table for order_pipeline..."
+
+# Pre-created as postgres so no single service user ends up owning this shared table.
+$PSQL -d order_pipeline <<SQL
+CREATE TABLE IF NOT EXISTS schema_migrations (
+  name TEXT PRIMARY KEY,
+  applied_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+GRANT SELECT, INSERT ON schema_migrations TO inventory_service, shipping_service, notification_service;
 SQL
 
 echo "==> Granting table privileges..."
@@ -96,3 +143,4 @@ echo "==> Done. Restart affected deployments if needed:"
 echo "    kubectl --context=altair -n atuin rollout restart deployment/atuin"
 echo "    kubectl --context=altair -n metering rollout restart deployment/metering-api"
 echo "    kubectl --context=altair -n jellystat rollout restart deployment/jellystat"
+echo "    kubectl --context=altair -n order-pipeline rollout restart deployment/inventory-service deployment/shipping-service deployment/notification-service"
