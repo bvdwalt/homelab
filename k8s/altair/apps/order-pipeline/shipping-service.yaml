@@ -7,7 +7,7 @@ spec:
   releaseName: shipping-service
   targetNamespace: order-pipeline
   values:
-    image: ghcr.io/bvdwalt/order-pipeline/shipping-service:0.6.0@sha256:bacab4038003659ac75c9e7a711789cabb7f81683b31fce7e13e442a0484ce25
+    image: ghcr.io/bvdwalt/order-pipeline/shipping-service:0.7.0@sha256:899b744c3ed5ce37c81c03caf52a1232471892a0d3df1e22b711e4fb0d58b169
     imagePullSecrets:
       - ghcr-pull-secret
     port: 8080
