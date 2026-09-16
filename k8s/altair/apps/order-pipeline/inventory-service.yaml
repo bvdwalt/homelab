@@ -16,6 +16,7 @@ spec:
       POSTGRES_HOST: "postgresql.postgresql.svc.cluster.local"
       POSTGRES_USER: "inventory_service"
       POSTGRES_DB: "order_pipeline"
+      CHAOS_FAILURE_RATE: "0.5"
     existingSecret: order-pipeline-inventory-postgres
     resources:
       requests:
