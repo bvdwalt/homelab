@@ -15,6 +15,7 @@ spec:
           - inventory-service
           - shipping-service
           - notification-service
+          - dlq-processor
   podMetricsEndpoints:
     - path: /metrics
       targetPort: 8080

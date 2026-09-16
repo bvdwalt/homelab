@@ -26,6 +26,9 @@ SHIPPING_PASS=$(kubectl --context=altair -n order-pipeline get secret order-pipe
 NOTIFICATION_PASS=$(kubectl --context=altair -n order-pipeline get secret order-pipeline-notification-postgres \
   -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
 
+DLQ_PASS=$(kubectl --context=altair -n order-pipeline get secret order-pipeline-dlq-processor-postgres \
+  -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
+
 echo "==> Creating databases that don't already exist..."
 
 $PSQL -tc "SELECT 1 FROM pg_database WHERE datname = 'jellystat'" | grep -q 1 \
@@ -87,6 +90,14 @@ EXCEPTION WHEN duplicate_object THEN
   ALTER USER notification_service WITH PASSWORD '${NOTIFICATION_PASS}';
 END \$\$;
 GRANT CONNECT ON DATABASE order_pipeline TO notification_service;
+
+DO \$\$
+BEGIN
+  CREATE USER dlq_service WITH PASSWORD '${DLQ_PASS}';
+EXCEPTION WHEN duplicate_object THEN
+  ALTER USER dlq_service WITH PASSWORD '${DLQ_PASS}';
+END \$\$;
+GRANT CONNECT ON DATABASE order_pipeline TO dlq_service;
 SQL
 
 echo "==> Pre-creating shared schema_migrations table for order_pipeline..."
@@ -97,9 +108,9 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
   name TEXT PRIMARY KEY,
   applied_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-GRANT SELECT, INSERT ON schema_migrations TO inventory_service, shipping_service, notification_service;
+GRANT SELECT, INSERT ON schema_migrations TO inventory_service, shipping_service, notification_service, dlq_service;
 -- CREATE TABLE IF NOT EXISTS still requires schema CREATE privilege even when the table already exists.
-GRANT CREATE ON SCHEMA public TO inventory_service, shipping_service, notification_service;
+GRANT CREATE ON SCHEMA public TO inventory_service, shipping_service, notification_service, dlq_service;
 SQL
 
 echo "==> Granting table privileges..."
@@ -145,4 +156,4 @@ echo "==> Done. Restart affected deployments if needed:"
 echo "    kubectl --context=altair -n atuin rollout restart deployment/atuin"
 echo "    kubectl --context=altair -n metering rollout restart deployment/metering-api"
 echo "    kubectl --context=altair -n jellystat rollout restart deployment/jellystat"
-echo "    kubectl --context=altair -n order-pipeline rollout restart deployment/inventory-service deployment/shipping-service deployment/notification-service"
+echo "    kubectl --context=altair -n order-pipeline rollout restart deployment/inventory-service deployment/shipping-service deployment/notification-service deployment/dlq-processor"
