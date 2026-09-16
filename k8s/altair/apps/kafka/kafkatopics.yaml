@@ -30,3 +30,36 @@ metadata:
 spec:
   partitions: 3
   replicas: 1
+---
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaTopic
+metadata:
+  name: orders.dlq
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: order-pipeline
+spec:
+  partitions: 1
+  replicas: 1
+---
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaTopic
+metadata:
+  name: inventory.dlq
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: order-pipeline
+spec:
+  partitions: 1
+  replicas: 1
+---
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaTopic
+metadata:
+  name: shipping.dlq
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: order-pipeline
+spec:
+  partitions: 1
+  replicas: 1
