@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: order-pipeline
+  namespace: order-pipeline
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchExpressions:
+      - key: app.kubernetes.io/name
+        operator: In
+        values:
+          - order-service
+          - inventory-service
+          - shipping-service
+          - notification-service
+  podMetricsEndpoints:
+    - path: /metrics
+      targetPort: 8080

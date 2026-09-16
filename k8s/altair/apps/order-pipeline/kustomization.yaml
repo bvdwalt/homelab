@@ -5,5 +5,6 @@ resources:
   - inventory-service.yaml
   - shipping-service.yaml
   - notification-service.yaml
+  - podmonitor.yaml
 components:
   - ../../../common/components/helmrelease-defaults
