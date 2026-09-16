@@ -7,7 +7,7 @@ spec:
   releaseName: inventory-service
   targetNamespace: order-pipeline
   values:
-    image: ghcr.io/bvdwalt/order-pipeline/inventory-service:0.7.0@sha256:9d0fbb58fdbec397bcce9fa6ff7d8ec707b20f011972979134015b99d0498ce0
+    image: ghcr.io/bvdwalt/order-pipeline/inventory-service:0.8.0@sha256:4accdca130e55854978b793eb51c4b7232b9cc1c78b37d15a9543da2208706bb
     imagePullSecrets:
       - ghcr-pull-secret
     replicas: 2
