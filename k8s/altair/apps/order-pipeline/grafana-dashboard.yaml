@@ -12,7 +12,7 @@ data:
       "uid": "order-pipeline",
       "timezone": "browser",
       "schemaVersion": 39,
-      "version": 1,
+      "version": 2,
       "time": { "from": "now-6h", "to": "now" },
       "templating": {
         "list": [
@@ -41,15 +41,23 @@ data:
         },
         {
           "id": 2,
-          "title": "order-service p95 latency",
+          "title": "order-service latency",
           "type": "timeseries",
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
           "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
           "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
           "targets": [
             {
+              "expr": "histogram_quantile(0.5, sum by (le) (rate(http_request_duration_seconds_bucket{route=\"/orders\"}[5m])))",
+              "legendFormat": "p50"
+            },
+            {
               "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{route=\"/orders\"}[5m])))",
               "legendFormat": "p95"
+            },
+            {
+              "expr": "sum(rate(http_request_duration_seconds_sum{route=\"/orders\"}[5m])) / sum(rate(http_request_duration_seconds_count{route=\"/orders\"}[5m]))",
+              "legendFormat": "avg"
             }
           ]
         },
@@ -69,15 +77,23 @@ data:
         },
         {
           "id": 4,
-          "title": "Consumer p95 processing duration",
+          "title": "Consumer processing duration",
           "type": "timeseries",
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
           "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
           "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
           "targets": [
             {
+              "expr": "histogram_quantile(0.5, sum by (le, topic) (rate(kafka_consumer_processing_duration_seconds_bucket[5m])))",
+              "legendFormat": "{{topic}} p50"
+            },
+            {
               "expr": "histogram_quantile(0.95, sum by (le, topic) (rate(kafka_consumer_processing_duration_seconds_bucket[5m])))",
-              "legendFormat": "{{topic}}"
+              "legendFormat": "{{topic}} p95"
+            },
+            {
+              "expr": "sum by (topic) (rate(kafka_consumer_processing_duration_seconds_sum[5m])) / sum by (topic) (rate(kafka_consumer_processing_duration_seconds_count[5m]))",
+              "legendFormat": "{{topic}} avg"
             }
           ]
         },
@@ -90,7 +106,7 @@ data:
           "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum by (topic) (increase(kafka_consumer_messages_total{result=\"dead_lettered\"}[1h]))",
+              "expr": "sum by (topic) (increase(kafka_consumer_messages_total{result=\"dead_lettered\"}[1h])) or vector(0)",
               "legendFormat": "{{topic}}"
             }
           ]
@@ -104,7 +120,7 @@ data:
           "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum by (topic) (rate(kafka_producer_errors_total[5m]))",
+              "expr": "sum by (topic) (rate(kafka_producer_errors_total[5m])) or vector(0)",
               "legendFormat": "{{topic}}"
             }
           ]
@@ -120,6 +136,48 @@ data:
             {
               "expr": "sum(up{namespace=\"order-pipeline\"})",
               "legendFormat": "up"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Consumer lag",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 0, "y": 24 },
+          "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "kafka_consumer_lag",
+              "legendFormat": "{{topic}}"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "title": "Consumer retry rate",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 8, "y": 24 },
+          "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum by (topic) (rate(kafka_consumer_retries_total[5m])) or vector(0)",
+              "legendFormat": "{{topic}}"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "title": "Orders processed by outcome",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 16, "y": 24 },
+          "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum by (outcome) (rate(orders_processed_total[5m])) or vector(0)",
+              "legendFormat": "{{outcome}}"
             }
           ]
         }
