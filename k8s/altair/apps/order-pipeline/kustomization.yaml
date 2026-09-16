@@ -6,5 +6,6 @@ resources:
   - shipping-service.yaml
   - notification-service.yaml
   - podmonitor.yaml
+  - grafana-dashboard.yaml
 components:
   - ../../../common/components/helmrelease-defaults

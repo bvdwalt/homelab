@@ -1,0 +1,127 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-pipeline-dashboard
+  namespace: order-pipeline
+  labels:
+    grafana_dashboard: "1"
+data:
+  order-pipeline.json: |
+    {
+      "title": "Order Pipeline",
+      "uid": "order-pipeline",
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "version": 1,
+      "time": { "from": "now-6h", "to": "now" },
+      "templating": {
+        "list": [
+          {
+            "name": "DS_PROMETHEUS",
+            "type": "datasource",
+            "query": "prometheus",
+            "current": {}
+          }
+        ]
+      },
+      "panels": [
+        {
+          "id": 1,
+          "title": "order-service request rate",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+          "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum by (status) (rate(http_requests_total{route=\"/orders\"}[5m]))",
+              "legendFormat": "status {{status}}"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "order-service p95 latency",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+          "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{route=\"/orders\"}[5m])))",
+              "legendFormat": "p95"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Consumer message throughput",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+          "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum by (topic, result) (rate(kafka_consumer_messages_total[5m]))",
+              "legendFormat": "{{topic}} - {{result}}"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Consumer p95 processing duration",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+          "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum by (le, topic) (rate(kafka_consumer_processing_duration_seconds_bucket[5m])))",
+              "legendFormat": "{{topic}}"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "Dead-lettered messages (1h)",
+          "type": "stat",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 0, "y": 16 },
+          "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum by (topic) (increase(kafka_consumer_messages_total{result=\"dead_lettered\"}[1h]))",
+              "legendFormat": "{{topic}}"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Producer error rate",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 8, "y": 16 },
+          "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum by (topic) (rate(kafka_producer_errors_total[5m]))",
+              "legendFormat": "{{topic}}"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "title": "Pods up",
+          "type": "stat",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 16, "y": 16 },
+          "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum(up{namespace=\"order-pipeline\"})",
+              "legendFormat": "up"
+            }
+          ]
+        }
+      ]
+    }
