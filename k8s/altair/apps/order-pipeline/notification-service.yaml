@@ -7,7 +7,7 @@ spec:
   releaseName: notification-service
   targetNamespace: order-pipeline
   values:
-    image: ghcr.io/bvdwalt/order-pipeline/notification-service:0.8.0@sha256:486fba1722090113a691a282916f717002c01bb52f745b52f153185397483d48
+    image: ghcr.io/bvdwalt/order-pipeline/notification-service:0.9.0@sha256:3c215f518bd420e5725a33c233c608031f43629be52289b897da3ae6473e76d0
     imagePullSecrets:
       - ghcr-pull-secret
     port: 8080
