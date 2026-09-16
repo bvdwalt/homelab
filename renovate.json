@@ -32,6 +32,11 @@
   ],
   "packageRules": [
     {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/bvdwalt/order-pipeline/**"],
+      "groupName": "order-pipeline"
+    },
+    {
       "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
       "allowedVersions": "/^5\\./"
     },
