@@ -8,6 +8,9 @@ metadata:
 spec:
   partitions: 3
   replicas: 1
+  config:
+    retention.ms: 604800000
+    retention.bytes: 268435456
 ---
 apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
@@ -19,6 +22,9 @@ metadata:
 spec:
   partitions: 3
   replicas: 1
+  config:
+    retention.ms: 604800000
+    retention.bytes: 268435456
 ---
 apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
@@ -30,6 +36,9 @@ metadata:
 spec:
   partitions: 3
   replicas: 1
+  config:
+    retention.ms: 604800000
+    retention.bytes: 268435456
 ---
 apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
@@ -41,6 +50,9 @@ metadata:
 spec:
   partitions: 1
   replicas: 1
+  config:
+    retention.ms: 604800000
+    retention.bytes: 268435456
 ---
 apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
@@ -52,6 +64,9 @@ metadata:
 spec:
   partitions: 1
   replicas: 1
+  config:
+    retention.ms: 604800000
+    retention.bytes: 268435456
 ---
 apiVersion: kafka.strimzi.io/v1
 kind: KafkaTopic
@@ -63,3 +78,6 @@ metadata:
 spec:
   partitions: 1
   replicas: 1
+  config:
+    retention.ms: 604800000
+    retention.bytes: 268435456
