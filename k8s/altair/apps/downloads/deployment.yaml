@@ -392,9 +392,9 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 128Mi
-            limits:
               memory: 256Mi
+            limits:
+              memory: 512Mi
 
         - name: slskd
           image: slskd/slskd:0.26.0@sha256:ecd4026d4f8fb504e2cc55323efa2c1f5b56d20d3686b018249cc36b48ea17a6
