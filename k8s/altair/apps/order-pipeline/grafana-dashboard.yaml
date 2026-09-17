@@ -34,7 +34,7 @@ data:
           "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum by (status) (rate(http_requests_total{route=\"/orders\"}[5m]))",
+              "expr": "sum by (status) (rate(http_requests_total{route=\"/orders\"}[$__rate_interval]))",
               "legendFormat": "status {{status}}"
             }
           ]
@@ -48,15 +48,15 @@ data:
           "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
           "targets": [
             {
-              "expr": "histogram_quantile(0.5, sum by (le) (rate(http_request_duration_seconds_bucket{route=\"/orders\"}[5m])))",
+              "expr": "histogram_quantile(0.5, sum by (le) (rate(http_request_duration_seconds_bucket{route=\"/orders\"}[$__rate_interval])))",
               "legendFormat": "p50"
             },
             {
-              "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{route=\"/orders\"}[5m])))",
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{route=\"/orders\"}[$__rate_interval])))",
               "legendFormat": "p95"
             },
             {
-              "expr": "sum(rate(http_request_duration_seconds_sum{route=\"/orders\"}[5m])) / sum(rate(http_request_duration_seconds_count{route=\"/orders\"}[5m]))",
+              "expr": "sum(rate(http_request_duration_seconds_sum{route=\"/orders\"}[$__rate_interval])) / sum(rate(http_request_duration_seconds_count{route=\"/orders\"}[$__rate_interval]))",
               "legendFormat": "avg"
             }
           ]
@@ -70,7 +70,7 @@ data:
           "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum by (topic, result) (rate(kafka_consumer_messages_total[5m]))",
+              "expr": "sum by (topic, result) (rate(kafka_consumer_messages_total[$__rate_interval]))",
               "legendFormat": "{{topic}} - {{result}}"
             }
           ]
@@ -84,15 +84,15 @@ data:
           "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
           "targets": [
             {
-              "expr": "histogram_quantile(0.5, sum by (le, topic) (rate(kafka_consumer_processing_duration_seconds_bucket[5m])))",
+              "expr": "histogram_quantile(0.5, sum by (le, topic) (rate(kafka_consumer_processing_duration_seconds_bucket[$__rate_interval])))",
               "legendFormat": "{{topic}} p50"
             },
             {
-              "expr": "histogram_quantile(0.95, sum by (le, topic) (rate(kafka_consumer_processing_duration_seconds_bucket[5m])))",
+              "expr": "histogram_quantile(0.95, sum by (le, topic) (rate(kafka_consumer_processing_duration_seconds_bucket[$__rate_interval])))",
               "legendFormat": "{{topic}} p95"
             },
             {
-              "expr": "sum by (topic) (rate(kafka_consumer_processing_duration_seconds_sum[5m])) / sum by (topic) (rate(kafka_consumer_processing_duration_seconds_count[5m]))",
+              "expr": "sum by (topic) (rate(kafka_consumer_processing_duration_seconds_sum[$__rate_interval])) / sum by (topic) (rate(kafka_consumer_processing_duration_seconds_count[$__rate_interval]))",
               "legendFormat": "{{topic}} avg"
             }
           ]
@@ -120,11 +120,11 @@ data:
           "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum by (topic) (rate(kafka_producer_messages_total[5m])) or vector(0)",
+              "expr": "sum by (topic) (rate(kafka_producer_messages_total[$__rate_interval])) or vector(0)",
               "legendFormat": "{{topic}} - success"
             },
             {
-              "expr": "sum by (topic) (rate(kafka_producer_errors_total[5m])) or vector(0)",
+              "expr": "sum by (topic) (rate(kafka_producer_errors_total[$__rate_interval])) or vector(0)",
               "legendFormat": "{{topic}} - error"
             }
           ]
@@ -166,7 +166,7 @@ data:
           "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum by (topic) (rate(kafka_consumer_retries_total[5m])) or vector(0)",
+              "expr": "sum by (topic) (rate(kafka_consumer_retries_total[$__rate_interval])) or vector(0)",
               "legendFormat": "{{topic}}"
             }
           ]
@@ -180,7 +180,7 @@ data:
           "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum by (outcome) (rate(orders_processed_total[5m])) or vector(0)",
+              "expr": "sum by (outcome) (rate(orders_processed_total[$__rate_interval])) or vector(0)",
               "legendFormat": "{{outcome}}"
             }
           ]
@@ -223,7 +223,7 @@ data:
           "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum by (topic) (rate(chaos_injected_total[5m])) or vector(0)",
+              "expr": "sum by (topic) (rate(chaos_injected_total[$__rate_interval])) or vector(0)",
               "legendFormat": "{{topic}}"
             }
           ]
@@ -237,23 +237,23 @@ data:
           "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
           "targets": [
             {
-              "expr": "sum(rate(orders_processed_total{outcome=\"accepted\"}[5m])) or vector(0)",
+              "expr": "sum(rate(orders_processed_total{outcome=\"accepted\"}[$__rate_interval])) or vector(0)",
               "legendFormat": "orders - accepted"
             },
             {
-              "expr": "sum(rate(orders_processed_total{outcome=\"rejected\"}[5m])) or vector(0)",
+              "expr": "sum(rate(orders_processed_total{outcome=\"rejected\"}[$__rate_interval])) or vector(0)",
               "legendFormat": "orders - rejected"
             },
             {
-              "expr": "sum(rate(shipments_processed_total{outcome=\"scheduled\"}[5m])) or vector(0)",
+              "expr": "sum(rate(shipments_processed_total{outcome=\"scheduled\"}[$__rate_interval])) or vector(0)",
               "legendFormat": "shipments - scheduled"
             },
             {
-              "expr": "sum(rate(notifications_sent_total{type=\"shipping.scheduled\"}[5m])) or vector(0)",
+              "expr": "sum(rate(notifications_sent_total{type=\"shipping.scheduled\"}[$__rate_interval])) or vector(0)",
               "legendFormat": "notified - shipped"
             },
             {
-              "expr": "sum(rate(notifications_sent_total{type=\"inventory.rejected\"}[5m])) or vector(0)",
+              "expr": "sum(rate(notifications_sent_total{type=\"inventory.rejected\"}[$__rate_interval])) or vector(0)",
               "legendFormat": "notified - rejected"
             }
           ]
