@@ -113,15 +113,19 @@ data:
         },
         {
           "id": 6,
-          "title": "Producer error rate",
+          "title": "Producer throughput",
           "type": "timeseries",
           "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
           "gridPos": { "h": 8, "w": 8, "x": 8, "y": 16 },
           "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
           "targets": [
             {
+              "expr": "sum by (topic) (rate(kafka_producer_messages_total[5m])) or vector(0)",
+              "legendFormat": "{{topic}} - success"
+            },
+            {
               "expr": "sum by (topic) (rate(kafka_producer_errors_total[5m])) or vector(0)",
-              "legendFormat": "{{topic}}"
+              "legendFormat": "{{topic}} - error"
             }
           ]
         },
@@ -178,6 +182,79 @@ data:
             {
               "expr": "sum by (outcome) (rate(orders_processed_total[5m])) or vector(0)",
               "legendFormat": "{{outcome}}"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "title": "DLQ backlog (current)",
+          "type": "stat",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 0, "y": 32 },
+          "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+          "options": { "graphMode": "area" },
+          "targets": [
+            {
+              "expr": "dlq_pending_total",
+              "legendFormat": "{{topic}}"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "title": "Oldest pending DLQ age",
+          "type": "stat",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 8, "y": 32 },
+          "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "dlq_oldest_pending_age_seconds",
+              "legendFormat": "{{topic}}"
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "title": "Chaos-injected failures",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 8, "x": 16, "y": 32 },
+          "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum by (topic) (rate(chaos_injected_total[5m])) or vector(0)",
+              "legendFormat": "{{topic}}"
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "title": "Order funnel (per stage)",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 40 },
+          "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum(rate(orders_processed_total{outcome=\"accepted\"}[5m])) or vector(0)",
+              "legendFormat": "orders - accepted"
+            },
+            {
+              "expr": "sum(rate(orders_processed_total{outcome=\"rejected\"}[5m])) or vector(0)",
+              "legendFormat": "orders - rejected"
+            },
+            {
+              "expr": "sum(rate(shipments_processed_total{outcome=\"scheduled\"}[5m])) or vector(0)",
+              "legendFormat": "shipments - scheduled"
+            },
+            {
+              "expr": "sum(rate(notifications_sent_total{type=\"shipping.scheduled\"}[5m])) or vector(0)",
+              "legendFormat": "notified - shipped"
+            },
+            {
+              "expr": "sum(rate(notifications_sent_total{type=\"inventory.rejected\"}[5m])) or vector(0)",
+              "legendFormat": "notified - rejected"
             }
           ]
         }
