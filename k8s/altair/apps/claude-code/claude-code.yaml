@@ -1,0 +1,57 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: claude-code
+  namespace: flux-system
+spec:
+  releaseName: claude-code
+  targetNamespace: claude-code
+  chart:
+    spec:
+      chart: ./k8s/charts/homelab-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    # TODO: fill in real digest after first build (see README.md)
+    image: ghcr.io/bvdwalt/homelab-claude-code:latest
+    port: 7681
+    hostname: claude.greedo.net
+    strategy: Recreate
+    middlewares:
+      - name: infra-admin-oidc-auth
+        namespace: kube-system
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 1Gi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 7681
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      TZ: Africa/Johannesburg
+      GIT_USER_NAME: Barend van der Walt
+      GIT_USER_EMAIL: 38956787+bvdwalt@users.noreply.github.com
+      REPO_URL: https://github.com/bvdwalt/homelab.git
+    existingSecret: claude-code
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
+    persistence:
+      enabled: true
+      size: 2Gi
+      mountPath: /home/claude
+      storageClass: local-path
+      accessMode: ReadWriteOnce
+    emptyDirs:
+      - name: tmp
+        mountPath: /tmp

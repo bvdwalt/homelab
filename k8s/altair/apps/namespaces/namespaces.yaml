@@ -253,3 +253,10 @@ metadata:
   labels:
     pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/warn: restricted
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: claude-code
+  labels:
+    pod-security.kubernetes.io/enforce: restricted

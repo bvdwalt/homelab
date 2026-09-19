@@ -33,3 +33,4 @@ resources:
   - homeassistant.yaml
   - kafka.yaml
   - order-pipeline.yaml
+  - claude-code.yaml
