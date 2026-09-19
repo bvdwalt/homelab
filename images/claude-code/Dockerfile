@@ -1,4 +1,4 @@
-FROM node:22-bookworm-slim@sha256:48e4b67d85f87bd551df43704e24d252f56cc5f8e9718841aace50f19948f0f9
+FROM node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
 
 ARG KUBECTL_VERSION=v1.33.5
 ARG KUBECTL_SHA256=6a12d6c39e4a611a3687ee24d8c733961bb4bae1ae975f5204400c0a6930c6fc
@@ -24,15 +24,15 @@ RUN curl -fsSL -o /usr/local/bin/ttyd "https://github.com/tsl0922/ttyd/releases/
 
 RUN npm install -g @anthropic-ai/claude-code
 
-RUN useradd -m -u 1000 -s /bin/bash claude
-USER claude
 ENV HOME=/home/claude
+RUN mkdir -p "$HOME" && chown node:node "$HOME"
+USER node
 WORKDIR /home/claude
 
-COPY --chown=claude:claude entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY --chown=node:node entrypoint.sh /usr/local/bin/entrypoint.sh
 USER root
 RUN chmod +x /usr/local/bin/entrypoint.sh
-USER claude
+USER node
 
 EXPOSE 7681
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
