@@ -7,7 +7,7 @@ spec:
   releaseName: dlq-processor
   targetNamespace: order-pipeline
   values:
-    image: ghcr.io/bvdwalt/order-pipeline/dlq-processor:0.3.0@sha256:8e2e7338340583c5d78858c1321f309c5d42db76320bb5aecaebe3c6f917cd19
+    image: ghcr.io/bvdwalt/order-pipeline/dlq-processor:0.4.0@sha256:3005a4eabd0244ec9ae955ed0285c609137b096cc200ea39e51575dbed6f8ad3
     imagePullSecrets:
       - ghcr-pull-secret
     port: 8080
