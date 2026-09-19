@@ -14,8 +14,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    # TODO: fill in real digest after first build (see README.md)
-    image: ghcr.io/bvdwalt/homelab-claude-code:latest
+    image: ghcr.io/bvdwalt/homelab-claude-code:sha-03dbed484c7fcbaab745d97caf9ba17fd96048c2@sha256:250728490abe8c791e10bd4bc1a2d87c3639a676ab20039fa70f7268b3e74b15
     port: 7681
     hostname: claude.greedo.net
     strategy: Recreate
