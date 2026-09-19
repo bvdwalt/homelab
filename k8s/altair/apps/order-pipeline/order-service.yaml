@@ -11,6 +11,8 @@ spec:
     imagePullSecrets:
       - ghcr-pull-secret
     port: 8080
+    env:
+      OTEL_EXPORTER_OTLP_ENDPOINT: "tempo.monitoring.svc.cluster.local:4317"
     resources:
       requests:
         memory: 32Mi

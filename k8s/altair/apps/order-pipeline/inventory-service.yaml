@@ -16,6 +16,7 @@ spec:
       POSTGRES_HOST: "postgresql.postgresql.svc.cluster.local"
       POSTGRES_USER: "inventory_service"
       POSTGRES_DB: "order_pipeline"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "tempo.monitoring.svc.cluster.local:4317"
     existingSecret: order-pipeline-inventory-postgres
     resources:
       requests:

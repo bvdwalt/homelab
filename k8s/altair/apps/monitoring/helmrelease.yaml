@@ -154,6 +154,10 @@ spec:
           type: grafana-pyroscope-datasource
           access: proxy
           url: http://pyroscope.monitoring.svc.cluster.local:4040
+        - name: Tempo
+          type: tempo
+          access: proxy
+          url: http://tempo.monitoring.svc.cluster.local:3200
 
     prometheus:
       prometheusSpec:

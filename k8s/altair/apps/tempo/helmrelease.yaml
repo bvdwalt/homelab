@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tempo
+  namespace: flux-system
+spec:
+  interval: 30m
+  releaseName: tempo
+  targetNamespace: monitoring
+  install:
+    createNamespace: false
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      # grafana/tempo is deprecated upstream in favor of tempo-distributed
+      # (microservices mode), but that's far heavier than this homelab needs
+      # for a single-node trace volume; single-binary mode still works fine.
+      chart: tempo
+      version: "1.24.4"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+      interval: 1h
+  values:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    persistence:
+      enabled: true
+      size: 5Gi

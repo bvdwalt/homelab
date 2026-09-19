@@ -34,3 +34,4 @@ resources:
   - kafka.yaml
   - order-pipeline.yaml
   - claude-code.yaml
+  - tempo.yaml
