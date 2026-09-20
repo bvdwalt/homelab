@@ -50,7 +50,7 @@ cd "$REPO_DIR"
 # Retry claude rc in the background so it picks up login (or re-login) automatically.
 (
     while true; do
-        claude rc --name homelab || true
+        claude rc --name homelab --spawn=worktree || true
         sleep 30
     done
 ) &
