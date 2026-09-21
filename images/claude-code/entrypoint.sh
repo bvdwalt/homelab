@@ -47,6 +47,28 @@ fi
 
 cd "$REPO_DIR"
 
+# Sync personal Claude config/skills from dotfiles (public repo, chezmoi-managed,
+# only ~/.claude is relevant here — none of it is templated, so a plain copy is fine).
+DOTFILES_DIR="${HOME}/.dotfiles"
+DOTFILES_URL="https://github.com/bvdwalt/dotfiles.git"
+if [ -d "$DOTFILES_DIR/.git" ]; then
+    git -C "$DOTFILES_DIR" pull --ff-only || true
+else
+    git clone --depth 1 "$DOTFILES_URL" "$DOTFILES_DIR" || true
+fi
+DOTFILES_CLAUDE="$DOTFILES_DIR/home/dot_claude"
+if [ -d "$DOTFILES_CLAUDE" ]; then
+    cp -f "$DOTFILES_CLAUDE/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+    cp -f "$DOTFILES_CLAUDE/private_settings.json" "$HOME/.claude/settings.json"
+    mkdir -p "$HOME/.claude/skills"
+    for skill_dir in "$DOTFILES_CLAUDE"/skills/*/; do
+        [ -d "$skill_dir" ] || continue
+        skill_name="$(basename "$skill_dir")"
+        rm -rf "${HOME:?}/.claude/skills/${skill_name:?}"
+        cp -r "$skill_dir" "$HOME/.claude/skills/$skill_name"
+    done
+fi
+
 # Retry claude rc in the background so it picks up login (or re-login) automatically.
 (
     while true; do

@@ -8,7 +8,9 @@ when the Remote Control login expires (it can't be renewed remotely, and
 that flow needs an interactive terminal). PVC at `/home/claude` holds the
 repo, shell history, and login credentials. `git push` auth comes from a
 GitHub PAT in the `claude-code` Secret. Read-only in-cluster `kubectl` via
-`rbac.yaml` (`view` ClusterRole).
+`rbac.yaml` (`view` ClusterRole). Personal `CLAUDE.md`, `settings.json`, and
+skills are pulled from `github.com/bvdwalt/dotfiles` (`home/dot_claude/`)
+into `~/.claude` on every pod start — edit them there, not on the pod.
 
 ## One-time setup
 
