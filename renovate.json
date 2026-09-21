@@ -34,11 +34,36 @@
     {
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/bvdwalt/order-pipeline/**"],
-      "groupName": "order-pipeline"
+      "groupName": "order-pipeline",
+      "sourceUrl": "https://github.com/bvdwalt/order-pipeline"
     },
     {
       "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
       "allowedVersions": "/^5\\./"
+    },
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/radarr"],
+      "changelogUrl": "https://github.com/linuxserver/docker-radarr/releases"
+    },
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/sonarr"],
+      "changelogUrl": "https://github.com/linuxserver/docker-sonarr/releases"
+    },
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/prowlarr"],
+      "changelogUrl": "https://github.com/linuxserver/docker-prowlarr/releases"
+    },
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
+      "changelogUrl": "https://github.com/linuxserver/docker-qbittorrent/releases"
+    },
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/bazarr"],
+      "changelogUrl": "https://github.com/linuxserver/docker-bazarr/releases"
+    },
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/lidarr"],
+      "changelogUrl": "https://github.com/linuxserver/docker-lidarr/releases"
     },
     {
       "matchPackageNames": ["jellyfin/jellyfin"],
