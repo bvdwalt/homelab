@@ -47,8 +47,18 @@
       "changelogUrl": "https://github.com/linuxserver/docker-{{ lookup (split packageName '/') 2 }}/releases"
     },
     {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "ghcr.io/bvdwalt/**",
+        "!ghcr.io/bvdwalt/order-pipeline/**",
+        "!ghcr.io/bvdwalt/homelab-*"
+      ],
+      "sourceUrl": "https://github.com/bvdwalt/{{ lookup (split packageName '/') 2 }}"
+    },
+    {
       "matchPackageNames": ["jellyfin/jellyfin"],
-      "allowedVersions": "/^\\d+\\.\\d+(\\.\\d+)?$/"
+      "allowedVersions": "/^\\d+\\.\\d+(\\.\\d+)?$/",
+      "sourceUrl": "https://github.com/jellyfin/jellyfin"
     },
     {
       "matchPackageNames": ["fluxcd/flux2"],
