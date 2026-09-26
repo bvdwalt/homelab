@@ -35,3 +35,4 @@ resources:
   - order-pipeline.yaml
   - claude-code.yaml
   - tempo.yaml
+  - netboot-xyz.yaml

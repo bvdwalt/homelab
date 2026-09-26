@@ -1,0 +1,47 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: netboot-xyz
+  namespace: flux-system
+spec:
+  releaseName: netboot-xyz
+  targetNamespace: netboot-xyz
+  values:
+    image: ghcr.io/netbootxyz/netbootxyz:0.7.6-nbxyz24@sha256:7bd0964fd3648cd3323772ad6ad8b0a507afe797385e4c0f587a8c23972ee4e3
+    port: 80
+    # No hostname: iPXE's plain HTTP client can't do the OIDC login Traefik
+    # would require, so this is reached directly at the node's IP instead.
+    hostNetwork: true
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      failureThreshold: 6
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      TZ: Africa/Johannesburg
+    persistence:
+      enabled: true
+      mountPath: /config
+      size: 1Gi
+    hostPaths:
+      - name: isos
+        hostPath: /mnt/isos
+        mountPath: /assets
+        readOnly: true
+    # s6-overlay init needs root + capabilities the chart's hardened default strips.
+    securityContext:
+      enabled: false
