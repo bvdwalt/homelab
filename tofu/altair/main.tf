@@ -126,6 +126,7 @@ locals {
     "lxc.mount.entry: /cheetah/movies mnt/media/movies none bind,create=dir 0 0",
     "lxc.mount.entry: /cheetah/downloads mnt/downloads none bind,create=dir 0 0",
     "lxc.mount.entry: /cheetah/k8s-nfs mnt/k8s-nfs none bind,create=dir 0 0",
+    "lxc.mount.entry: /cheetah/isos mnt/isos none bind,create=dir 0 0",
     "lxc.seccomp.profile: ",
     "lxc.cap.drop: ",
     "lxc.cap.drop: mac_admin mac_override sys_time sys_rawio",
