@@ -77,8 +77,8 @@ resource "proxmox_virtual_environment_container" "altair" {
 # seccomp raw lines (see README) — append them to the conf file directly and
 # restart, matching the manual bootstrap step plus everything added ad hoc
 # since (GPU render node renumbered to card1, tun device for VPN, media bind
-# mounts). Idempotent: only appends lines that aren't already present, and
-# only restarts when something changed.
+# mounts). Idempotent: mkdir -p is safe to repeat, conf lines only append
+# if missing, and it only restarts when one does.
 resource "null_resource" "raw_lxc_config" {
   depends_on = [proxmox_virtual_environment_container.altair]
 
@@ -99,6 +99,9 @@ resource "null_resource" "raw_lxc_config" {
       set -e
       CONF=/etc/pve/lxc/${var.vmid}.conf
       CHANGED=0
+      %{for m in local.cheetah_bind_mounts~}
+      mkdir -p '${m.source}'
+      %{endfor~}
       %{for line in local.raw_config_lines~}
       grep -qxF '${line}' "$CONF" || { echo '${line}' >> "$CONF"; CHANGED=1; }
       %{endfor~}
@@ -111,25 +114,35 @@ resource "null_resource" "raw_lxc_config" {
 }
 
 locals {
-  raw_config_lines = [
-    "lxc.apparmor.profile: unconfined",
-    "lxc.cgroup2.devices.allow: c 226:1 rwm",
-    "lxc.cgroup2.devices.allow: c 226:128 rwm",
-    "lxc.mount.entry: /dev/dri/card1 dev/dri/card1 none bind,optional,create=file",
-    "lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,create=file",
-    "lxc.mount.entry: /dev/kmsg dev/kmsg none bind,optional,create=file",
-    "lxc.cgroup2.devices.allow: c 1:11 rwm",
-    "lxc.cgroup2.devices.allow: c 10:200 rwm",
-    "lxc.mount.entry: /dev/net/tun dev/net/tun none bind,optional,create=file",
-    "lxc.mount.entry: /cheetah/music mnt/media/music none bind,create=dir 0 0",
-    "lxc.mount.entry: /cheetah/shows mnt/media/shows none bind,create=dir 0 0",
-    "lxc.mount.entry: /cheetah/movies mnt/media/movies none bind,create=dir 0 0",
-    "lxc.mount.entry: /cheetah/downloads mnt/downloads none bind,create=dir 0 0",
-    "lxc.mount.entry: /cheetah/k8s-nfs mnt/k8s-nfs none bind,create=dir 0 0",
-    "lxc.mount.entry: /cheetah/isos mnt/isos none bind,create=dir 0 0",
-    "lxc.seccomp.profile: ",
-    "lxc.cap.drop: ",
-    "lxc.cap.drop: mac_admin mac_override sys_time sys_rawio",
+  # cheetah ZFS bind mounts; source dirs auto-created above, so a new
+  # entry here is the only step needed.
+  cheetah_bind_mounts = [
+    { source = "/cheetah/music", dest = "mnt/media/music" },
+    { source = "/cheetah/shows", dest = "mnt/media/shows" },
+    { source = "/cheetah/movies", dest = "mnt/media/movies" },
+    { source = "/cheetah/downloads", dest = "mnt/downloads" },
+    { source = "/cheetah/k8s-nfs", dest = "mnt/k8s-nfs" },
+    { source = "/cheetah/isos", dest = "mnt/isos" },
   ]
+
+  raw_config_lines = concat(
+    [
+      "lxc.apparmor.profile: unconfined",
+      "lxc.cgroup2.devices.allow: c 226:1 rwm",
+      "lxc.cgroup2.devices.allow: c 226:128 rwm",
+      "lxc.mount.entry: /dev/dri/card1 dev/dri/card1 none bind,optional,create=file",
+      "lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,create=file",
+      "lxc.mount.entry: /dev/kmsg dev/kmsg none bind,optional,create=file",
+      "lxc.cgroup2.devices.allow: c 1:11 rwm",
+      "lxc.cgroup2.devices.allow: c 10:200 rwm",
+      "lxc.mount.entry: /dev/net/tun dev/net/tun none bind,optional,create=file",
+    ],
+    [for m in local.cheetah_bind_mounts : "lxc.mount.entry: ${m.source} ${m.dest} none bind,create=dir 0 0"],
+    [
+      "lxc.seccomp.profile: ",
+      "lxc.cap.drop: ",
+      "lxc.cap.drop: mac_admin mac_override sys_time sys_rawio",
+    ],
+  )
   raw_config_lines_joined = join("\n", local.raw_config_lines)
 }
