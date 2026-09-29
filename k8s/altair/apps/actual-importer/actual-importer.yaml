@@ -7,7 +7,7 @@ spec:
   releaseName: actual-importer
   targetNamespace: actual-importer
   values:
-    image: ghcr.io/bvdwalt/actual-importer:0.6.2@sha256:7112ea7c2bf2122a0936e36787c08c8234970b916de82dc67c21cac1b937a58f
+    image: ghcr.io/bvdwalt/actual-importer:0.7.2@sha256:b7f8281e382f3ea8713f76fbe19c5dab44b6c7632ac721a7785d01f2863f3edf
     imagePullSecrets:
       - ghcr-pull-secret
     port: 8080
