@@ -23,6 +23,12 @@ extraSecrets: []
 resources: {}
 livenessProbe: {}
 
+# Adds to the cluster-wide default-deny baseline; raw CiliumNetworkPolicy rule objects.
+networkPolicy:
+  enabled: false
+  ingress: []
+  egress: []
+
 persistence:
   enabled: false
   size: 100Mi
