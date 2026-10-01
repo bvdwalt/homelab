@@ -38,3 +38,5 @@ spec:
         mountPath: /var/cache/nginx
       - name: nginx-run
         mountPath: /var/run
+    networkPolicy:
+      enabled: true
