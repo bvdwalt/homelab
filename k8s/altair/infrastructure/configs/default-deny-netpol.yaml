@@ -1,10 +1,8 @@
-# Audit-only (logs via Hubble, enforces nothing); excludes infra namespaces not yet audited.
+# Not enforcing: relies on cluster-wide policyAuditMode in cilium.yaml, logs via Hubble.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: default-deny-app-namespaces
-  annotations:
-    io.cilium.network.policy/enforcement-mode: "audit"
 spec:
   endpointSelector:
     matchExpressions:
