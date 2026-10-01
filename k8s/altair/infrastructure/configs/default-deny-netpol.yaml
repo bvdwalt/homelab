@@ -15,7 +15,10 @@ spec:
           - crowdsec
           - traefik-config
           - intel-gpu-plugin
-  ingress: []
+  # Must be non-empty to engage ingress enforcement at all (unlike k8s NetworkPolicy's `[]`).
+  ingress:
+    - fromEntities:
+        - health
   egress:
     # DNS
     - toEndpoints:
