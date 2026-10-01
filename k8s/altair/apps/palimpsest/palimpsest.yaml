@@ -40,3 +40,22 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
       readOnlyRootFilesystem: true
+    # glance calls in directly; see commit message for egress rationale.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "8080"
+                  protocol: TCP
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: monitoring
+          toPorts:
+            - ports:
+                - port: "4040"
+                  protocol: TCP
