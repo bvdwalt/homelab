@@ -13,3 +13,7 @@ patches:
   target:
     kind: Deployment
     name: kustomize-controller
+- path: gitrepository-interval.yaml
+  target:
+    kind: GitRepository
+    name: flux-system
