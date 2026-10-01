@@ -59,7 +59,7 @@ spec:
     - to:
         - ipBlock:
             cidr: 10.0.0.0/24
-    # WireGuard tunnel to Mullvad (public IPs only)
+    # Internet (direct, no VPN) - indexers, metadata, trackers, downloads
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
@@ -67,6 +67,3 @@ spec:
               - 10.0.0.0/8
               - 172.16.0.0/12
               - 192.168.0.0/16
-      ports:
-        - port: 51820
-          protocol: UDP
