@@ -38,3 +38,38 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
       readOnlyRootFilesystem: true
+    # glance calls in directly; see commit message for egress rationale.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "5055"
+                  protocol: TCP
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: jellyfin
+          toPorts:
+            - ports:
+                - port: "8096"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: downloads
+          toPorts:
+            - ports:
+                - port: "7878"
+                  protocol: TCP
+                - port: "8989"
+                  protocol: TCP
+        - toFQDNs:
+            - matchName: api.themoviedb.org
+            - matchName: image.tmdb.org
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
