@@ -134,3 +134,29 @@ spec:
         hostPath: /mnt/k8s-nfs
         mountPath: /nfs-pvcs
         readOnly: true
+    # glance calls in directly; see commit message for egress rationale.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "9898"
+                  protocol: TCP
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: postgresql
+          toPorts:
+            - ports:
+                - port: "5432"
+                  protocol: TCP
+        - toFQDNs:
+            - matchName: ntfy.sh
+            - matchPattern: "*.pcloud.com"
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
