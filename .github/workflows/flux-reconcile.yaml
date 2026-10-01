@@ -1,0 +1,27 @@
+name: Trigger Flux Reconcile
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  reconcile:
+    name: Reconcile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tailscale Connect
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+      - name: Write kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.FLUX_RECONCILE_KUBECONFIG }}" | base64 -d > ~/.kube/config
+      - name: Trigger GitRepository reconcile
+        run: |
+          kubectl -n flux-system annotate gitrepository flux-system \
+            reconcile.fluxcd.io/requestedAt="$(date -u +%FT%TZ)" --overwrite

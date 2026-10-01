@@ -18,3 +18,4 @@ resources:
   - maintenance-page-errors.yaml
   - flux-monitoring.yaml
   - default-deny-netpol.yaml
+  - github-actions-reconcile.yaml
