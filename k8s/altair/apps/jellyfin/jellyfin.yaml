@@ -67,3 +67,31 @@ spec:
       readOnlyRootFilesystem: true
       supplementalGroups:
         - 0
+    # seerr and glance call in directly; see commit message for egress rationale.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: seerr
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "8096"
+                  protocol: TCP
+      egress:
+        - toFQDNs:
+            - matchName: api.themoviedb.org
+            - matchName: image.tmdb.org
+            - matchName: api.trakt.tv
+            - matchPattern: "*.jellyfin.org"
+            - matchName: www.omdbapi.com
+            - matchName: musicbrainz.org
+            - matchName: www.theaudiodb.com
+            - matchPattern: "*.github.io"
+            - matchName: raw.githubusercontent.com
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
