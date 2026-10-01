@@ -24,6 +24,17 @@ spec:
     emptyDirs:
       - name: tmp
         mountPath: /tmp
+    # No hostname/IngressRoute of its own; reached by Traefik's errors Middlewares instead.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: kube-system
+          toPorts:
+            - ports:
+                - port: "8080"
+                  protocol: TCP
     configMountPath: /usr/share/nginx/html
     configFiles:
       index.html: |
