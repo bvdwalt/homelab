@@ -19,30 +19,3 @@ spec:
       port: 53
       targetPort: 53
       protocol: TCP
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: adguard
-  namespace: adguard
-spec:
-  podSelector: {}
-  policyTypes:
-    - Ingress
-  ingress:
-    # DNS: LAN + all cluster workloads
-    - ports:
-        - port: 53
-          protocol: UDP
-        - port: 53
-          protocol: TCP
-    # admin UI: Traefik + glance dns-stats widget
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: glance
-      ports:
-        - port: 8080
