@@ -1,0 +1,36 @@
+# Audit-only (logs via Hubble, enforces nothing); excludes infra namespaces not yet audited.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: default-deny-app-namespaces
+  annotations:
+    io.cilium.network.policy/enforcement-mode: "audit"
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: k8s:io.kubernetes.pod.namespace
+        operator: NotIn
+        values:
+          - kube-system
+          - flux-system
+          - cert-manager
+          - crowdsec
+          - traefik-config
+          - intel-gpu-plugin
+  ingress: []
+  egress:
+    # DNS
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+    # Kubernetes API server + Cilium health checks
+    - toEntities:
+        - kube-apiserver
+        - health

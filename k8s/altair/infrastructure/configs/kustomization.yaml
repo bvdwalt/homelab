@@ -17,3 +17,4 @@ resources:
   - crowdsec-bouncer.yaml
   - maintenance-page-errors.yaml
   - flux-monitoring.yaml
+  - default-deny-netpol.yaml
