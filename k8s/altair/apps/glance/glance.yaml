@@ -36,3 +36,117 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
       readOnlyRootFilesystem: true
+    # Egress needs confirmed via conntrack + glance.yml's monitor/dns-stats/weather/releases widgets.
+    networkPolicy:
+      enabled: true
+      egress:
+        - toFQDNs:
+            - matchName: api.github.com
+            - matchPattern: "*.open-meteo.com"
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
+        # Proxmox (LAN, no hostname in config)
+        - toCIDR:
+            - 10.0.0.166/32
+          toPorts:
+            - ports:
+                - port: "8006"
+                  protocol: TCP
+        # palimpsest, overdrive, adguard, actual-importer, lubelogger
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: palimpsest
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: overdrive
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: adguard
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: actual-importer
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: lubelogger
+          toPorts:
+            - ports:
+                - port: "8080"
+                  protocol: TCP
+        # gitea, jellystat
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: gitea
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: jellystat
+          toPorts:
+            - ports:
+                - port: "3000"
+                  protocol: TCP
+        # metering-dashboard, it-tools, grafana (all in-namespace port 80)
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: metering
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: it-tools
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: monitoring
+          toPorts:
+            - ports:
+                - port: "80"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: jellyfin
+          toPorts:
+            - ports:
+                - port: "8096"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: tdarr
+          toPorts:
+            - ports:
+                - port: "8265"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: seerr
+          toPorts:
+            - ports:
+                - port: "5055"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: actual-budget
+          toPorts:
+            - ports:
+                - port: "5006"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: monitoring
+          toPorts:
+            - ports:
+                - port: "4040"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: backrest
+          toPorts:
+            - ports:
+                - port: "9898"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: navidrome
+          toPorts:
+            - ports:
+                - port: "4533"
+                  protocol: TCP
+        # Sonarr, Radarr, Bazarr, Lidarr, Prowlarr, qBittorrent, slskd, Music Grabber,
+        # Traefik, Pocket-ID, Vaultwarden: no check-url, so the public URL via Traefik is checked.
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: kube-system
+          toPorts:
+            - ports:
+                - port: "8443"
+                  protocol: TCP
