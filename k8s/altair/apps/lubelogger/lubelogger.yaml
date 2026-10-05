@@ -48,3 +48,14 @@ spec:
     emptyDirs:
       - name: dataprotection-keys
         mountPath: /root/.aspnet/DataProtection-Keys
+    # glance calls in directly; no egress observed.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "8080"
+                  protocol: TCP
