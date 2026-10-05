@@ -38,3 +38,16 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
       readOnlyRootFilesystem: true
+    # actual-importer and glance call in directly; no egress observed.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: actual-importer
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "5006"
+                  protocol: TCP
