@@ -87,6 +87,13 @@ spec:
                   protocol: TCP
         - toEndpoints:
             - matchLabels:
+                k8s:io.kubernetes.pod.namespace: degoog
+          toPorts:
+            - ports:
+                - port: "4444"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
                 k8s:io.kubernetes.pod.namespace: downloads
           toPorts:
             - ports:

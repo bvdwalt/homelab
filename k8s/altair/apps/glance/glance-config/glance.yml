@@ -194,6 +194,9 @@ pages:
               - title: Profilarr
                 url: https://profilarr.greedo.net
                 check-url: http://profilarr.downloads.svc.cluster.local/
+              - title: Degoog - Search
+                url: https://goog.greedo.net
+                check-url: http://degoog.degoog.svc.cluster.local/
 
           - type: repository
             repository: bvdwalt/homelab

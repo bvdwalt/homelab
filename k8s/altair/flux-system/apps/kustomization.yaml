@@ -36,3 +36,4 @@ resources:
   - claude-code.yaml
   - tempo.yaml
   - netboot-xyz.yaml
+  - degoog.yaml

@@ -1,0 +1,56 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: degoog
+  namespace: flux-system
+spec:
+  releaseName: degoog
+  targetNamespace: degoog
+  values:
+    image: ghcr.io/degoog-org/degoog:1.0.0@sha256:e1ce8ee724a4514d269b74088424e579322bdfcf718256c1c5dd2cbb5aaf510c
+    port: 4444
+    hostname: goog.greedo.net
+    strategy: Recreate
+    middlewares:
+      - name: household-oidc-auth
+        namespace: kube-system
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 4444
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      TZ: Africa/Johannesburg
+      DEGOOG_WIZARD: "false"
+    persistence:
+      enabled: true
+      size: 1Gi
+      mountPath: /app/data
+      storageClass: local-path
+      accessMode: ReadWriteOnce
+    # glance calls in directly. Egress is a starting point (extension store
+    # clones from github); add engine hosts once confirmed via Hubble.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "4444"
+                  protocol: TCP
+      egress:
+        - toFQDNs:
+            - matchName: github.com
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
