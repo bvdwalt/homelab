@@ -84,39 +84,39 @@ pages:
                 url: https://jellyfin.greedo.net
                 check-url: http://jellyfin.jellyfin.svc.cluster.local/health
                 icon: si:jellyfin
-              - title: Navidrome — Music streaming
+              - title: Navidrome - Music streaming
                 url: https://navidrome.greedo.net
                 check-url: http://navidrome.navidrome.svc.cluster.local/
                 icon: di:navidrome
-              - title: Seerr — Media requests
+              - title: Seerr - Media requests
                 url: https://seerr.greedo.net
                 check-url: http://seerr.seerr.svc.cluster.local/
                 icon: di:seerr
-              - title: Jellystat — Jellyfin stats
+              - title: Jellystat - Jellyfin stats
                 url: https://jellystat.greedo.net
                 check-url: http://jellystat.jellystat.svc.cluster.local/auth/isConfigured
-              - title: Tdarr — Media transcoding
+              - title: Tdarr - Media transcoding
                 url: https://tdarr.greedo.net
                 check-url: http://tdarr.tdarr.svc.cluster.local/
-              - title: Sonarr — TV shows
+              - title: Sonarr - TV shows
                 url: https://sonarr.greedo.net
                 icon: si:sonarr
-              - title: Radarr — Movies
+              - title: Radarr - Movies
                 url: https://radarr.greedo.net
                 icon: si:radarr
-              - title: Bazarr — Subtitles
+              - title: Bazarr - Subtitles
                 url: https://bazarr.greedo.net
                 icon: di:bazarr
-              - title: Lidarr — Music downloads
+              - title: Lidarr - Music downloads
                 url: https://lidarr.greedo.net
                 icon: di:lidarr
-              - title: Prowlarr — Indexers
+              - title: Prowlarr - Indexers
                 url: https://prowlarr.greedo.net
                 icon: di:prowlarr
-              - title: qBittorrent — Torrents
+              - title: qBittorrent - Torrents
                 url: https://downloads.greedo.net
                 icon: si:qbittorrent
-              - title: slskd — Soulseek
+              - title: slskd - Soulseek
                 url: https://slskd.greedo.net
                 icon: di:slskd
               - title: Overdrive
@@ -124,60 +124,76 @@ pages:
                 check-url: http://overdrive.overdrive.svc.cluster.local/
               - title: Music Grabber
                 url: https://musicgrabber.greedo.net
-              - title: Proxmox — Virtualisation
+              - title: Proxmox - Virtualisation
                 url: https://pve.greedo.net
                 check-url: https://10.0.0.166:8006
                 allow-insecure: true
                 icon: si:proxmox
-              - title: Traefik — Reverse proxy
+              - title: Traefik - Reverse proxy
                 url: https://traefik.greedo.net
                 icon: si:traefikproxy
-              - title: AdGuard Home — DNS / Ad blocking
+              - title: AdGuard Home - DNS / Ad blocking
                 url: https://adguard.greedo.net
                 check-url: http://adguard.adguard.svc.cluster.local/
                 icon: si:adguard
-              - title: Gitea — Git hosting
+              - title: Gitea - Git hosting
                 url: https://gitea.greedo.net
                 check-url: http://gitea-http.gitea.svc.cluster.local:3000/api/healthz
                 icon: si:gitea
-              - title: Pocket-ID — SSO
+              - title: Pocket-ID - SSO
                 url: https://pocketid.greedo.net
                 icon: di:pocket-id
-              - title: Vaultwarden — Passwords
+              - title: Vaultwarden - Passwords
                 url: https://vw.greedo.net
                 icon: si:vaultwarden
-              - title: Grafana — Metrics
+              - title: Grafana - Metrics
                 url: https://grafana.greedo.net
                 check-url: http://prometheus-grafana.monitoring.svc.cluster.local/api/health
                 icon: si:grafana
-              - title: Backrest — Backups
+              - title: Backrest - Backups
                 url: https://backrest.greedo.net
                 check-url: http://backrest.backrest.svc.cluster.local/
                 icon: di:backrest
-              - title: IT Tools — Dev utilities
+              - title: IT Tools - Dev utilities
                 url: https://ittools.greedo.net
                 check-url: http://it-tools.it-tools.svc.cluster.local/
                 icon: di:it-tools
-              - title: ActualBudget — Budgeting
+              - title: ActualBudget - Budgeting
                 url: https://budget.greedo.net
                 check-url: http://actual-budget.actual-budget.svc.cluster.local/
                 icon: si:actualbudget
-              - title: Palimpsest — Notes
+              - title: Palimpsest - Notes
                 url: https://notes.greedo.net
                 check-url: http://palimpsest.palimpsest.svc.cluster.local/
               - title: Metering
                 url: https://metering.greedo.net
                 check-url: http://metering-dashboard.metering.svc.cluster.local/
-              - title: Pyroscope — Profiling
+              - title: Pyroscope - Profiling
                 url: https://pyroscope.greedo.net
                 check-url: http://pyroscope.monitoring.svc.cluster.local:4040/
                 icon: si:grafana
-              - title: Actual Importer — Budget imports
+              - title: Actual Importer - Budget imports
                 url: https://actualimporter.greedo.net
                 check-url: http://actual-importer.actual-importer.svc.cluster.local/health
-              - title: LubeLogger — Vehicle maintenance
+              - title: LubeLogger - Vehicle maintenance
                 url: https://lubelogger.greedo.net
                 check-url: http://lubelogger.lubelogger.svc.cluster.local:8080/
+              - title: Filebrowser - File management
+                url: https://filebrowser.greedo.net
+                check-url: http://filebrowser.filebrowser.svc.cluster.local/
+              - title: netboot.xyz - PXE boot menu
+                url: http://10.0.0.167:3000
+              - title: Home Assistant
+                url: https://homeassistant.greedo.net
+                check-url: http://homeassistant.homeassistant.svc.cluster.local:8123/
+                icon: si:homeassistant
+              - title: Kafka UI
+                url: https://kafka.greedo.net
+                check-url: http://kafka-ui.kafka.svc.cluster.local/
+                icon: si:apachekafka
+              - title: Profilarr
+                url: https://profilarr.greedo.net
+                check-url: http://profilarr.downloads.svc.cluster.local/
 
           - type: repository
             repository: bvdwalt/homelab
