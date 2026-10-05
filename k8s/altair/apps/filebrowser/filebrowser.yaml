@@ -58,3 +58,5 @@ spec:
       - name: music
         hostPath: /mnt/media/music
         mountPath: /srv/music
+    networkPolicy:
+      enabled: true
