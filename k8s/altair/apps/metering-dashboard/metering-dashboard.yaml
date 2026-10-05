@@ -39,3 +39,15 @@ spec:
         mountPath: /var/cache/nginx
       - name: nginx-run
         mountPath: /var/run
+    # glance calls in directly. Static frontend; VITE_API_HOST is baked into
+    # the browser bundle, the browser calls metering-api, not this pod.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "80"
+                  protocol: TCP

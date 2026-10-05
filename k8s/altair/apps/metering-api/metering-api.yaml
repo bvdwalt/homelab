@@ -42,3 +42,14 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
       readOnlyRootFilesystem: true
+    # browsers call this directly via its own hostname; no other caller found.
+    networkPolicy:
+      enabled: true
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: postgresql
+          toPorts:
+            - ports:
+                - port: "5432"
+                  protocol: TCP
