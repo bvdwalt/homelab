@@ -13,10 +13,13 @@ spec:
         - podSelector: {}
       ports:
         - port: 9092
-    # Traefik (kube-system) -> kafka-ui
+    # Traefik (kube-system) + glance monitor widget -> kafka-ui
     - from:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: kube-system
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: glance
       ports:
         - port: 8080
