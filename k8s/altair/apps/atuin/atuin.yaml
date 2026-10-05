@@ -47,3 +47,14 @@ spec:
       runAsUser: 3013
       runAsGroup: 3013
       readOnlyRootFilesystem: true
+    # egress to postgresql only, confirmed via conntrack.
+    networkPolicy:
+      enabled: true
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: postgresql
+          toPorts:
+            - ports:
+                - port: "5432"
+                  protocol: TCP
