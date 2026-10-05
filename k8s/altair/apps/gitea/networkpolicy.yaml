@@ -1,0 +1,25 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: gitea
+  namespace: gitea
+spec:
+  endpointSelector:
+    matchLabels:
+      app: gitea
+  ingress:
+    # web UI: Traefik + glance monitor widget
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: glance
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+    # git-over-ssh: LAN clients via the LoadBalancer
+    - toPorts:
+        - ports:
+            - port: "22"
+              protocol: TCP
