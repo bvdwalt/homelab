@@ -54,3 +54,14 @@ spec:
     emptyDirs:
       - name: tmp
         mountPath: /tmp
+    # api.anthropic.com confirmed live; github.com confirmed by REPO_URL.
+    networkPolicy:
+      enabled: true
+      egress:
+        - toFQDNs:
+            - matchName: api.anthropic.com
+            - matchName: github.com
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
