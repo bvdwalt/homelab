@@ -39,3 +39,22 @@ spec:
       enabled: true
       size: 500Mi
       mountPath: /data
+    # glance calls in directly; see commit message for egress rationale.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "8080"
+                  protocol: TCP
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: monitoring
+          toPorts:
+            - ports:
+                - port: "4040"
+                  protocol: TCP
