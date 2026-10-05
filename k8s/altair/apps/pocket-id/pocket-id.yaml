@@ -40,3 +40,5 @@ spec:
       runAsUser: 3004
       runAsGroup: 3004
       readOnlyRootFilesystem: true
+    networkPolicy:
+      enabled: true
