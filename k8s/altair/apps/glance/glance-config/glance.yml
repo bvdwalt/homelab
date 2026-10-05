@@ -177,7 +177,7 @@ pages:
                 check-url: http://actual-importer.actual-importer.svc.cluster.local/health
               - title: LubeLogger - Vehicle maintenance
                 url: https://lubelogger.greedo.net
-                check-url: http://lubelogger.lubelogger.svc.cluster.local:8080/
+                check-url: http://lubelogger.lubelogger.svc.cluster.local/
               - title: Filebrowser - File management
                 url: https://filebrowser.greedo.net
                 check-url: http://filebrowser.filebrowser.svc.cluster.local/
