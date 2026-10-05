@@ -54,7 +54,13 @@ spec:
             - ports:
                 - port: "8006"
                   protocol: TCP
-        # palimpsest, overdrive, adguard, actual-importer, lubelogger
+        # netboot.xyz (LAN, no hostname in config)
+        - toCIDR:
+            - 10.0.0.167/32
+          toPorts:
+            - ports:
+                - port: "3000"
+                  protocol: TCP
         - toEndpoints:
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: palimpsest
@@ -66,11 +72,26 @@ spec:
                 k8s:io.kubernetes.pod.namespace: actual-importer
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: lubelogger
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: kafka
           toPorts:
             - ports:
                 - port: "8080"
                   protocol: TCP
-        # gitea, jellystat
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: homeassistant
+          toPorts:
+            - ports:
+                - port: "8123"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: downloads
+          toPorts:
+            - ports:
+                - port: "80"
+                  protocol: TCP
         - toEndpoints:
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: gitea
@@ -80,7 +101,6 @@ spec:
             - ports:
                 - port: "3000"
                   protocol: TCP
-        # metering-dashboard, it-tools, grafana (all in-namespace port 80)
         - toEndpoints:
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: metering
@@ -88,6 +108,8 @@ spec:
                 k8s:io.kubernetes.pod.namespace: it-tools
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: monitoring
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: filebrowser
           toPorts:
             - ports:
                 - port: "80"
@@ -141,8 +163,7 @@ spec:
             - ports:
                 - port: "4533"
                   protocol: TCP
-        # Sonarr, Radarr, Bazarr, Lidarr, Prowlarr, qBittorrent, slskd, Music Grabber,
-        # Traefik, Pocket-ID, Vaultwarden: no check-url, so the public URL via Traefik is checked.
+        # Apps without a check-url: the public URL via Traefik is checked instead.
         - toEndpoints:
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: kube-system

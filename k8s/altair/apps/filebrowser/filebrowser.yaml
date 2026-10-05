@@ -58,5 +58,14 @@ spec:
       - name: music
         hostPath: /mnt/media/music
         mountPath: /srv/music
+    # glance now calls in directly (added to its dashboard).
     networkPolicy:
       enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "80"
+                  protocol: TCP
