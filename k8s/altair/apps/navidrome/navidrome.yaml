@@ -61,3 +61,15 @@ spec:
     emptyDirs:
       - name: tmp
         mountPath: /tmp
+    # glance calls in directly; no egress observed (Last.fm/Spotify
+    # integration needs API keys, none configured).
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "4533"
+                  protocol: TCP
