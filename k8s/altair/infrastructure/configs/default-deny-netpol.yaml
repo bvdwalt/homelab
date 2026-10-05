@@ -31,6 +31,9 @@ spec:
               protocol: UDP
             - port: "53"
               protocol: TCP
+          rules:
+            dns:
+              - matchPattern: "*"
     # Kubernetes API server + Cilium health checks
     - toEntities:
         - kube-apiserver
