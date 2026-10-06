@@ -40,8 +40,8 @@ spec:
       mountPath: /app/data
       storageClass: local-path
       accessMode: ReadWriteOnce
-    # glance calls in directly. Egress is a starting point (extension store
-    # clones from github); add engine hosts once confirmed via Hubble.
+    # glance calls in directly. Egress covers the enabled engines (ddg web/images/news,
+    # ecosia, google web/images/videos, reddit, wikipedia), favicons and the github store.
     networkPolicy:
       enabled: true
       ingress:
@@ -55,6 +55,14 @@ spec:
       egress:
         - toFQDNs:
             - matchName: github.com
+            - matchName: duckduckgo.com
+            - matchName: html.duckduckgo.com
+            - matchName: icons.duckduckgo.com
+            - matchName: www.ecosia.org
+            - matchName: www.google.com
+            - matchName: i.ytimg.com
+            - matchName: www.reddit.com
+            - matchPattern: "*.wikipedia.org"
           toPorts:
             - ports:
                 - port: "443"
