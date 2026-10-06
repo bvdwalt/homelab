@@ -1,7 +1,4 @@
-# Host-level policy (reserved:host). Incomplete by design: covers netboot-xyz's
-# hostNetwork ports only. The rest of the node's port surface (SSH, apiserver,
-# kubelet, LoadBalancer services, metrics) is still being discovered from Hubble
-# AUDIT data before this is ever enforced.
+# Host-level policy (reserved:host). Audit-only while policyAuditMode is on.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -9,7 +6,7 @@ metadata:
 spec:
   nodeSelector: {}
   ingress:
-    # netboot-xyz: web config UI, nginx asset/menu server, TFTP
+    # netboot-xyz: web UI, nginx assets, TFTP (PXE clients on the LAN)
     - toPorts:
         - ports:
             - port: "3000"
@@ -18,3 +15,51 @@ spec:
               protocol: TCP
             - port: "69"
               protocol: UDP
+    # sshd
+    - fromCIDR:
+        - 10.0.0.0/24
+      toPorts:
+        - ports:
+            - port: "22"
+              protocol: TCP
+    # kube-apiserver: LAN workstation + in-cluster clients
+    - fromCIDR:
+        - 10.0.0.0/24
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # kubelet, node-exporter, cilium/hubble metrics: prometheus, metrics-server
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+      toPorts:
+        - ports:
+            - port: "10250"
+              protocol: TCP
+            - port: "9100"
+              protocol: TCP
+            - port: "9962"
+              protocol: TCP
+            - port: "9963"
+              protocol: TCP
+            - port: "9965"
+              protocol: TCP
+            - port: "4244"
+              protocol: TCP
+    # cilium-health probes
+    - fromEntities:
+        - health
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "4240"
+              protocol: TCP
