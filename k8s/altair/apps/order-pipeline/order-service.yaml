@@ -38,3 +38,29 @@ spec:
       runAsUser: 1000
       runAsGroup: 1000
       readOnlyRootFilesystem: true
+    # scraped by Prometheus; produces to kafka, OTLP to tempo.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: monitoring
+          toPorts:
+            - ports:
+                - port: "8080"
+                  protocol: TCP
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: kafka
+          toPorts:
+            - ports:
+                - port: "9092"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: monitoring
+          toPorts:
+            - ports:
+                - port: "4317"
+                  protocol: TCP
