@@ -1,0 +1,20 @@
+# Host-level policy (reserved:host). Incomplete by design: covers netboot-xyz's
+# hostNetwork ports only. The rest of the node's port surface (SSH, apiserver,
+# kubelet, LoadBalancer services, metrics) is still being discovered from Hubble
+# AUDIT data before this is ever enforced.
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: host-firewall
+spec:
+  nodeSelector: {}
+  ingress:
+    # netboot-xyz: web config UI, nginx asset/menu server, TFTP
+    - toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+            - port: "80"
+              protocol: TCP
+            - port: "69"
+              protocol: UDP
