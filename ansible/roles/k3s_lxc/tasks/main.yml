@@ -5,6 +5,20 @@
     state: present
     update_cache: true
 
+- name: Disable rpcbind (NFSv4.2 only, port 111 unused and not in the host firewall)
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+    masked: true
+  loop:
+    - rpcbind.service
+    - rpcbind.socket
+  register: rpcbind_disable
+  failed_when:
+    - rpcbind_disable.failed | default(false)
+    - "'Could not find the requested service' not in (rpcbind_disable.msg | default(''))"
+
 - name: Check whether k3s is already installed
   stat:
     path: /usr/local/bin/k3s
