@@ -61,6 +61,8 @@ spec:
         - toFQDNs:
             - matchName: api.anthropic.com
             - matchName: github.com
+            - matchName: platform.claude.com
+            - matchName: mcp-proxy.anthropic.com
           toPorts:
             - ports:
                 - port: "443"
