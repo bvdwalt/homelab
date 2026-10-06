@@ -6,3 +6,4 @@ resources:
   - ntfy-alertmanager.yaml
   - ntfy-alertmanager.sops.yaml
   - healthchecks.sops.yaml
+  - networkpolicy.yaml
