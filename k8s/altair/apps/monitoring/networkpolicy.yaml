@@ -52,7 +52,7 @@ spec:
         - ports:
             - port: "9153"
               protocol: TCP
-    # kubelet, node-exporter, cilium-agent (hostNetwork)
+    # kubelet, node-exporter, cilium-agent and hubble metrics (hostNetwork)
     - toEntities:
         - host
       toPorts:
@@ -62,6 +62,8 @@ spec:
             - port: "9100"
               protocol: TCP
             - port: "9962"
+              protocol: TCP
+            - port: "9965"
               protocol: TCP
 ---
 apiVersion: cilium.io/v2

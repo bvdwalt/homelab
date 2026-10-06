@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hubble-netpol-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  hubble-netpol.json: |
+    {
+      "title": "Network Policy Audit",
+      "uid": "hubble-netpol",
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "version": 1,
+      "time": { "from": "now-24h", "to": "now" },
+      "templating": {
+        "list": [
+          {
+            "name": "DS_PROMETHEUS",
+            "type": "datasource",
+            "query": "prometheus",
+            "current": {}
+          }
+        ]
+      },
+      "panels": [
+        {
+          "id": 1,
+          "title": "Would-be-blocked flows (AUDIT) over the selected range",
+          "type": "table",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 10, "w": 24, "x": 0, "y": 0 },
+          "fieldConfig": { "defaults": {}, "overrides": [] },
+          "transformations": [
+            { "id": "organize", "options": { "excludeByName": { "Time": true }, "renameByName": { "source": "From", "destination": "To (domain, app or world)", "protocol": "Proto", "Value": "Flows" } } },
+            { "id": "sortBy", "options": { "sort": [ { "field": "Flows", "desc": true } ] } }
+          ],
+          "targets": [
+            {
+              "expr": "sum by (source, destination, protocol) (increase(hubble_flows_processed_total{verdict=\"AUDIT\"}[$__range])) > 0",
+              "instant": true,
+              "format": "table"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "AUDIT flow rate",
+          "type": "timeseries",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+          "fieldConfig": { "defaults": { "unit": "ops" }, "overrides": [] },
+          "targets": [
+            {
+              "expr": "sum by (source, destination) (rate(hubble_flows_processed_total{verdict=\"AUDIT\"}[$__rate_interval])) > 0",
+              "legendFormat": "{{source}} -> {{destination}}"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "AUDIT to world with no DNS name (find the IP with hubble observe)",
+          "type": "table",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+          "fieldConfig": { "defaults": {}, "overrides": [] },
+          "transformations": [
+            { "id": "organize", "options": { "excludeByName": { "Time": true, "destination": true }, "renameByName": { "source": "From", "Value": "Flows" } } }
+          ],
+          "targets": [
+            {
+              "expr": "sum by (source) (increase(hubble_flows_processed_total{verdict=\"AUDIT\", destination=\"world\"}[$__range])) > 0",
+              "instant": true,
+              "format": "table"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Dropped flows (enforcement)",
+          "type": "table",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 18 },
+          "fieldConfig": { "defaults": {}, "overrides": [] },
+          "transformations": [
+            { "id": "organize", "options": { "excludeByName": { "Time": true }, "renameByName": { "source": "From", "destination": "To", "reason": "Reason", "Value": "Drops" } } },
+            { "id": "sortBy", "options": { "sort": [ { "field": "Drops", "desc": true } ] } }
+          ],
+          "targets": [
+            {
+              "expr": "sum by (source, destination, reason) (increase(hubble_drop_total[$__range])) > 0",
+              "instant": true,
+              "format": "table"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "DNS lookups by app and domain",
+          "type": "table",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 18 },
+          "fieldConfig": { "defaults": {}, "overrides": [] },
+          "transformations": [
+            { "id": "organize", "options": { "excludeByName": { "Time": true }, "renameByName": { "source": "App", "query": "Domain", "Value": "Lookups" } } },
+            { "id": "sortBy", "options": { "sort": [ { "field": "Lookups", "desc": true } ] } }
+          ],
+          "targets": [
+            {
+              "expr": "topk(100, sum by (source, query) (increase(hubble_dns_queries_total[$__range]))) > 0",
+              "instant": true,
+              "format": "table"
+            }
+          ]
+        }
+      ]
+    }

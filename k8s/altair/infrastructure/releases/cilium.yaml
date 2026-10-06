@@ -43,13 +43,19 @@ spec:
       enabled: true
       metrics:
         enableOpenMetrics: true
+        # No ip fallback: peer IPs (torrents) would explode cardinality, they land in "world".
         enabled:
-          - dns
-          - drop
+          - "dns:query;ignoreAAAA;sourceContext=workload-name|reserved-identity"
+          - "drop:sourceContext=workload-name|reserved-identity;destinationContext=dns|workload-name|reserved-identity"
           - tcp
-          - flow
+          - "flow:sourceContext=workload-name|reserved-identity;destinationContext=dns|workload-name|reserved-identity"
           - port-distribution
           - httpV2
+        serviceMonitor:
+          enabled: true
+          interval: 30s
+          labels:
+            release: prometheus
       relay:
         enabled: true
       ui:
@@ -59,3 +65,6 @@ spec:
       serviceMonitor:
         enabled: true
         trustCRDsExist: true
+        # Prometheus only selects ServiceMonitors labelled release=prometheus.
+        labels:
+          release: prometheus
