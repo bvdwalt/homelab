@@ -47,3 +47,6 @@ spec:
     # s6-overlay init needs root + capabilities the chart's hardened default strips.
     securityContext:
       enabled: false
+    # hostNetwork has no Cilium endpoint; covered by the host firewall policy.
+    networkPolicy:
+      enabled: false
