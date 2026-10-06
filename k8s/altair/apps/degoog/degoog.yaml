@@ -33,6 +33,7 @@ spec:
       enabled: true
       capabilities:
         add: [CHOWN, SETUID, SETGID]
+    existingSecret: degoog
     persistence:
       enabled: true
       size: 1Gi
