@@ -7,3 +7,4 @@ resources:
   - kafka-ui.yaml
   - ingressroute.yaml
   - networkpolicy.yaml
+  - egress-policy.yaml

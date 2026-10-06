@@ -1,0 +1,57 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kafka-egress
+  namespace: kafka
+spec:
+  endpointSelector:
+    matchLabels:
+      strimzi.io/kind: cluster-operator
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            strimzi.io/name: order-pipeline-kafka
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
+            - port: "9091"
+              protocol: TCP
+            - port: "8443"
+              protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: entity-operator-egress
+  namespace: kafka
+spec:
+  endpointSelector:
+    matchLabels:
+      strimzi.io/name: order-pipeline-entity-operator
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            strimzi.io/name: order-pipeline-kafka
+      toPorts:
+        - ports:
+            - port: "9091"
+              protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kafka-ui-egress
+  namespace: kafka
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kafka-ui
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            strimzi.io/name: order-pipeline-kafka
+      toPorts:
+        - ports:
+            - port: "9092"
+              protocol: TCP
