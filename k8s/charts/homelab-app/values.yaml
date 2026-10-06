@@ -25,7 +25,7 @@ livenessProbe: {}
 
 # Adds to the cluster-wide default-deny baseline; raw CiliumNetworkPolicy rule objects.
 networkPolicy:
-  enabled: false
+  enabled: true
   ingress: []
   egress: []
 
