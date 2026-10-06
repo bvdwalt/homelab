@@ -33,6 +33,13 @@ spec:
       ports:
         - port: 7878  # radarr
         - port: 8989  # sonarr
+    # glance → profilarr status check
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: glance
+      ports:
+        - port: 6868  # profilarr
     # seerr → radarr + sonarr
     - from:
         - namespaceSelector:
