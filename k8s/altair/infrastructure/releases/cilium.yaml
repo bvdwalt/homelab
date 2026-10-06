@@ -23,6 +23,8 @@ spec:
   values:
     # TEMP: log-only, don't enforce, while auditing the new default-deny netpol.
     policyAuditMode: true
+    hostFirewall:
+      enabled: true
     kubeProxyReplacement: true
     # node IP for LoadBalancer services with class io.cilium/node
     nodeIPAM:
