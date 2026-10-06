@@ -89,7 +89,7 @@ data:
           ],
           "targets": [
             {
-              "expr": "sum by (source, destination, reason) (increase(hubble_drop_total[$__range])) > 0",
+              "expr": "sum by (source, destination, reason) (increase(hubble_drop_total{reason!=\"UNSUPPORTED_L3_PROTOCOL\"}[$__range])) > 0",
               "instant": true,
               "format": "table"
             }
