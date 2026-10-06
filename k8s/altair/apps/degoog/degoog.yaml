@@ -31,9 +31,6 @@ spec:
       DEGOOG_WIZARD: "false"
     securityContext:
       enabled: true
-      runAsNonRoot: true
-      runAsUser: 1000
-      runAsGroup: 1000
       capabilities:
         add: [CHOWN, SETUID, SETGID]
     persistence:
