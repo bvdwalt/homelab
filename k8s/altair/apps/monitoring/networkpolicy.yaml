@@ -233,6 +233,8 @@ spec:
             k8s:io.kubernetes.pod.namespace: monitoring
             app.kubernetes.io/name: alloy
         - matchLabels:
+            k8s:io.kubernetes.pod.namespace: glance
+        - matchLabels:
             k8s:io.kubernetes.pod.namespace: palimpsest
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: overdrive
@@ -277,4 +279,23 @@ spec:
       toPorts:
         - ports:
             - port: "8080"
+              protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: prometheus-operator
+  namespace: monitoring
+spec:
+  endpointSelector:
+    matchLabels:
+      app: kube-prometheus-stack-operator
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: prometheus
+      toPorts:
+        - ports:
+            - port: "10250"
               protocol: TCP

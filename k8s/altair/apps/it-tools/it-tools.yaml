@@ -40,3 +40,11 @@ spec:
         mountPath: /var/run
     networkPolicy:
       enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "80"
+                  protocol: TCP
