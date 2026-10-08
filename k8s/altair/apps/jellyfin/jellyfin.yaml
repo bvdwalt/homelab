@@ -76,6 +76,8 @@ spec:
                 k8s:io.kubernetes.pod.namespace: seerr
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: glance
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: cullarr
           toPorts:
             - ports:
                 - port: "8096"
