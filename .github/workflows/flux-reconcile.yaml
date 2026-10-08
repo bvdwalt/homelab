@@ -4,6 +4,12 @@ on:
     branches:
       - main
 
+permissions: {}
+
+concurrency:
+  group: flux-reconcile
+  cancel-in-progress: true
+
 jobs:
   reconcile:
     name: Reconcile
@@ -19,10 +25,13 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@bda439f5f36b99b262ebdcd3613869bddb064c8e # v5
       - name: Write kubeconfig
+        env:
+          KUBECONFIG_B64: ${{ secrets.FLUX_RECONCILE_KUBECONFIG }}
         run: |
+          umask 077
           mkdir -p ~/.kube
-          echo "${{ secrets.FLUX_RECONCILE_KUBECONFIG }}" | base64 -d > ~/.kube/config
+          echo "$KUBECONFIG_B64" | base64 -d > ~/.kube/config
       - name: Trigger GitRepository reconcile
         run: |
-          kubectl -n flux-system annotate gitrepository flux-system \
+          kubectl --request-timeout=30s -n flux-system annotate gitrepository flux-system \
             reconcile.fluxcd.io/requestedAt="$(date -u +%FT%TZ)" --overwrite
