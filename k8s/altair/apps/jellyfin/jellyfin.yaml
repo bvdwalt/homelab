@@ -88,6 +88,9 @@ spec:
             - matchName: image.tmdb.org
             - matchName: api.trakt.tv
             - matchPattern: "*.jellyfin.org"
+            - matchPattern: "*.mirror.jellyfin.org"
+            - matchName: intro-skipper.org
+            - matchName: cdn.jsdelivr.net
             - matchName: www.omdbapi.com
             - matchName: musicbrainz.org
             - matchName: www.theaudiodb.com

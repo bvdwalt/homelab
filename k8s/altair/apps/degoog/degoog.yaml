@@ -60,6 +60,8 @@ spec:
             - matchName: icons.duckduckgo.com
             - matchName: www.ecosia.org
             - matchName: www.google.com
+            - matchName: suggestqueries.google.com
+            - matchPattern: "*.gstatic.com"
             - matchName: i.ytimg.com
             - matchName: www.reddit.com
             - matchPattern: "*.wikipedia.org"

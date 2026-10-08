@@ -61,7 +61,7 @@ spec:
         automation: !include automations.yaml
         script: !include scripts.yaml
         scene: !include scenes.yaml
-    # glance calls in directly; egress intentionally not allowed, see commit.
+    # glance calls in directly; egress only for the met.no weather entity.
     networkPolicy:
       enabled: true
       ingress:
@@ -71,4 +71,12 @@ spec:
           toPorts:
             - ports:
                 - port: "8123"
+                  protocol: TCP
+      egress:
+        - toFQDNs:
+            - matchName: api.met.no
+            - matchPattern: "*.api.met.no"
+          toPorts:
+            - ports:
+                - port: "443"
                   protocol: TCP
