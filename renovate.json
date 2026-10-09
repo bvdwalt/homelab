@@ -3,6 +3,12 @@
   "extends": ["config:recommended"],
   "dependencyDashboard": true,
   "pinDigests": true,
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "minimumReleaseAge": null
+  },
   "prHourlyLimit": 6,
   "schedule": ["* * * * *"],
   "assignees": ["bvdwalt"],
@@ -59,6 +65,15 @@
       "matchPackageNames": ["jellyfin/jellyfin"],
       "allowedVersions": "/^\\d+\\.\\d+(\\.\\d+)?$/",
       "sourceUrl": "https://github.com/jellyfin/jellyfin"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/bvdwalt/**"],
+      "minimumReleaseAge": null
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions"
     },
     {
       "matchPackageNames": ["fluxcd/flux2"],
