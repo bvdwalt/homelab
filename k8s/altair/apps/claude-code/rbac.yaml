@@ -46,7 +46,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 ---
 # Write access limited to the downloads namespace: exec + port-forward for
-# debugging qBittorrent/arr apps. Not read-only, unlike the bindings above.
+# debugging. Not read-only, unlike the bindings above.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
