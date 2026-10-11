@@ -22,7 +22,9 @@ RUN curl -fsSL -o /usr/local/bin/ttyd "https://github.com/tsl0922/ttyd/releases/
     && echo "${TTYD_SHA256}  /usr/local/bin/ttyd" | sha256sum -c - \
     && chmod +x /usr/local/bin/ttyd
 
-RUN npm install -g @anthropic-ai/claude-code
+# renovate: datasource=npm depName=@anthropic-ai/claude-code
+ARG CLAUDE_CODE_VERSION=2.1.296
+RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
 ENV HOME=/home/claude
 RUN mkdir -p "$HOME" && chown node:node "$HOME"

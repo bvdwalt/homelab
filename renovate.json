@@ -23,6 +23,15 @@
       "/(^|/)k8s/[^/]+/.+\\.yaml$/"
     ]
   },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)images/[^/]+/Dockerfile$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+ARG \\S+_VERSION=(?<currentValue>\\S+)"
+      ]
+    }
+  ],
   "hostRules": [
     {
       "matchHost": "docker.gitea.com",
