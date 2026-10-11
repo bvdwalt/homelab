@@ -81,6 +81,11 @@
       "minimumReleaseAge": null
     },
     {
+      "matchDatasources": ["npm"],
+      "matchPackageNames": ["@anthropic-ai/claude-code"],
+      "minimumReleaseAge": null
+    },
+    {
       "matchManagers": ["github-actions"],
       "groupName": "github-actions"
     },
