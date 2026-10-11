@@ -8,6 +8,9 @@
 - name: Post-install cluster fixups (run from control machine, not the LXC)
   hosts: k3s_altair
   connection: local
+  vars:
+    # The inventory's ansible_connection beats the connection keyword above.
+    ansible_connection: local
   gather_facts: false
   roles:
     - k3s_cluster_init
