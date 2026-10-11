@@ -1,11 +1,19 @@
-# Read-only cluster access for the claude-code pod's default ServiceAccount.
+# Dedicated ServiceAccount so the RBAC below isn't inherited by anything else
+# that runs in the namespace via "default".
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: claude-code
+  namespace: claude-code
+---
+# Read-only cluster access for the claude-code pod's ServiceAccount.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: claude-code-view
 subjects:
   - kind: ServiceAccount
-    name: default
+    name: claude-code
     namespace: claude-code
 roleRef:
   kind: ClusterRole
@@ -38,7 +46,7 @@ metadata:
   name: claude-code-view-extra
 subjects:
   - kind: ServiceAccount
-    name: default
+    name: claude-code
     namespace: claude-code
 roleRef:
   kind: ClusterRole
@@ -64,7 +72,7 @@ metadata:
   namespace: downloads
 subjects:
   - kind: ServiceAccount
-    name: default
+    name: claude-code
     namespace: claude-code
 roleRef:
   kind: Role

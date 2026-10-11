@@ -56,6 +56,8 @@ initContainers: []
 extraContainers: []
 
 automountServiceAccountToken: false
+# Empty uses the namespace's default ServiceAccount.
+serviceAccountName: ""
 
 hostNetwork: false
 priorityClassName: ""
