@@ -209,7 +209,8 @@ data:
           "repo": "altair-pvcs",
           "paths": [
             "/pvcs",
-            "/nfs-pvcs"
+            "/nfs-pvcs",
+            "/k3s-secrets/encryption-config.json"
           ],
           "excludes": [],
           "schedule": {

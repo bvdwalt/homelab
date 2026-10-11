@@ -182,6 +182,9 @@ spec:
         - name: {{ .name }}
           hostPath:
             path: {{ .hostPath }}
+            {{- if .type }}
+            type: {{ .type }}
+            {{- end }}
         {{- end }}
         {{- range .Values.emptyDirs }}
         - name: {{ .name }}
