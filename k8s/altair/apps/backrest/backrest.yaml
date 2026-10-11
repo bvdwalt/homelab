@@ -126,6 +126,12 @@ spec:
           - name: config
             mountPath: /scripts
     hostPaths:
+      # Only the secrets-encryption key, not the rest of cred/ (CA and signing keys).
+      - name: k3s-encryption-key
+        hostPath: /var/lib/rancher/k3s/server/cred/encryption-config.json
+        mountPath: /k3s-secrets/encryption-config.json
+        readOnly: true
+        type: File
       - name: pvcs
         hostPath: /var/lib/rancher/k3s/storage
         mountPath: /pvcs

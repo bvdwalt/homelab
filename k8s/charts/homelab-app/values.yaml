@@ -71,3 +71,4 @@ podAnnotations:
 #   hostPath: /var/lib/rancher/k3s/storage
 #   mountPath: /pvcs
 #   readOnly: true
+#   type: File  # optional hostPath type (File, Directory, ...)
