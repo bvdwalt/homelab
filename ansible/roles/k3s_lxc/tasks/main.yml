@@ -75,7 +75,7 @@
     enabled: true
 
 - name: Wait for the node to report Ready
-  command: /usr/local/bin/k3s kubectl get node {{ inventory_hostname }} -o jsonpath={.status.conditions[?(@.type=="Ready")].status}
+  command: /usr/local/bin/k3s kubectl get node {{ inventory_hostname }} -o 'jsonpath={.status.conditions[?(@.type=="Ready")].status}'
   register: node_ready
   until: node_ready.stdout == "True"
   retries: 30
