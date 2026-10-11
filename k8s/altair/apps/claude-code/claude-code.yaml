@@ -18,6 +18,7 @@ spec:
     port: 7681
     hostname: claude.greedo.net
     strategy: Recreate
+    serviceAccountName: claude-code
     automountServiceAccountToken: true
     middlewares:
       - name: infra-admin-oidc-auth
