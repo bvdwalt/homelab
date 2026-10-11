@@ -55,6 +55,8 @@ configMountPath: ""
 initContainers: []
 extraContainers: []
 
+automountServiceAccountToken: false
+
 hostNetwork: false
 priorityClassName: ""
 

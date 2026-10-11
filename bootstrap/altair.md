@@ -60,6 +60,7 @@ protect-kernel-defaults: false
 kubelet-arg:
   - "protect-kernel-defaults=false"
 disable-cloud-controller: true
+secrets-encryption: true
 resolv-conf: /etc/rancher/k3s/resolv.conf
 EOF
 
@@ -87,6 +88,15 @@ Verify the node is Ready:
 export PATH=$PATH:/usr/local/bin
 k3s kubectl get nodes
 ```
+
+Secrets encryption only applies to newly written Secrets. On an existing cluster, re-encrypt the rest once and check:
+
+```bash
+k3s secrets-encrypt reencrypt
+k3s secrets-encrypt status
+```
+
+Back up `/var/lib/rancher/k3s/server/cred/encryption-config.json`; without it the Secrets are unreadable.
 
 ## 4. Configure kubectl on your laptop
 
