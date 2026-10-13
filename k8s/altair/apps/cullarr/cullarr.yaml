@@ -40,7 +40,7 @@ spec:
                 - name: CULLARR_RADARR_REMOVE
                   value: "true"
                 - name: CULLARR_DRY_RUN
-                  value: "true"
+                  value: "false"
                 - name: TZ
                   value: Africa/Johannesburg
               envFrom:
