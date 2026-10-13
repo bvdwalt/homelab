@@ -33,6 +33,8 @@ spec:
                   value: "true"
                 - name: CULLARR_SONARR_UNMONITOR_SERIES
                   value: "true"
+                - name: CULLARR_SONARR_REMOVE_SERIES
+                  value: "true"
                 - name: CULLARR_RADARR_URL
                   value: http://radarr.downloads.svc.cluster.local
                 - name: CULLARR_RADARR_ENABLED
