@@ -21,7 +21,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: cullarr
-              image: ghcr.io/bvdwalt/cullarr:0.5.0@sha256:1985bb558881cda9af345658adcaa9bbd43629ef603b348db6ff3e8f311ba717
+              image: ghcr.io/bvdwalt/cullarr:0.6.0@sha256:98a4280973e3a5155b4ef3f1729f371c4b43f5d4b69ac134944d2daf5a47eeef
               env:
                 - name: CULLARR_JELLYFIN_URL
                   value: http://jellyfin.jellyfin.svc.cluster.local
@@ -31,6 +31,8 @@ spec:
                   value: "true"
                 - name: CULLARR_SONARR_UNMONITOR
                   value: "true"
+                - name: CULLARR_SONARR_UNMONITOR_SERIES
+                  value: "true"
                 - name: CULLARR_RADARR_URL
                   value: http://radarr.downloads.svc.cluster.local
                 - name: CULLARR_RADARR_ENABLED
@@ -38,7 +40,7 @@ spec:
                 - name: CULLARR_RADARR_REMOVE
                   value: "true"
                 - name: CULLARR_DRY_RUN
-                  value: "false"
+                  value: "true"
                 - name: TZ
                   value: Africa/Johannesburg
               envFrom:
