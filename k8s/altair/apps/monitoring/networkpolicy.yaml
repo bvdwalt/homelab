@@ -256,6 +256,8 @@ spec:
             k8s:io.kubernetes.pod.namespace: palimpsest
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: overdrive
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: downloads
       toPorts:
         - ports:
             - port: "4040"

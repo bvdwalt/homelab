@@ -305,7 +305,7 @@ spec:
               memory: 128Mi
 
         - name: dredge
-          image: ghcr.io/jigsmiths/dredge:0.3.0@sha256:6fca8d1dfeaaf42521cf51d404bee42392ad61a2e74995a4012078a1f6806e9e
+          image: ghcr.io/jigsmiths/dredge:0.4.0@sha256:1e78897941b2954041b0161842791f1575c8246f83f583dea4fa3b1fe1155147
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
@@ -322,6 +322,8 @@ spec:
               value: /music
             - name: DB_PATH
               value: /data/dredge.db
+            - name: PYROSCOPE_SERVER_ADDRESS
+              value: http://pyroscope.monitoring.svc.cluster.local:4040
           volumeMounts:
             - name: dredge-data
               mountPath: /data
