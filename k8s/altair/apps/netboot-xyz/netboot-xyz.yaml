@@ -14,6 +14,7 @@ spec:
     # hostNetwork also exposes nginx (80/tcp, asset/menu server) and TFTP
     # (69/udp) on the node IP regardless of the port declared here.
     hostNetwork: true
+    strategy: Recreate
     resources:
       requests:
         memory: 128Mi
