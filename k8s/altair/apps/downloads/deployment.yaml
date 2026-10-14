@@ -304,48 +304,49 @@ spec:
             limits:
               memory: 128Mi
 
-        - name: music-grabber
-          image: g33kphr33k/musicgrabber:4.3.1@sha256:696ae0eda6c6f0149c22d5264c5a1a32d2f78733ec2f205ed451134eeda173dc
+        - name: dredge
+          image: ghcr.io/jigsmiths/dredge:0.3.0@sha256:6fca8d1dfeaaf42521cf51d404bee42392ad61a2e74995a4012078a1f6806e9e
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
           env:
             - name: TZ
               value: Africa/Johannesburg
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
+            - name: PORT
+              value: "8080"
             - name: MUSIC_DIR
               value: /music
             - name: DB_PATH
-              value: music_grabber.db
-            - name: ENABLE_MUSICBRAINZ
-              value: "true"
-            - name: DEFAULT_CONVERT_TO_FLAC
-              value: "true"
+              value: /data/dredge.db
           volumeMounts:
-            - name: music-grabber-data
+            - name: dredge-data
               mountPath: /data
             - name: music
               mountPath: /music
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: 8080
-            initialDelaySeconds: 10
+            initialDelaySeconds: 5
             periodSeconds: 10
             failureThreshold: 6
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 30
             failureThreshold: 5
           resources:
             requests:
               cpu: 10m
-              memory: 256Mi
+              memory: 64Mi
             limits:
-              memory: 512Mi
+              memory: 256Mi
 
         - name: slskd
           image: slskd/slskd:0.26.0@sha256:ecd4026d4f8fb504e2cc55323efa2c1f5b56d20d3686b018249cc36b48ea17a6
@@ -420,9 +421,9 @@ spec:
         - name: profilarr-config
           persistentVolumeClaim:
             claimName: profilarr-config
-        - name: music-grabber-data
+        - name: dredge-data
           persistentVolumeClaim:
-            claimName: music-grabber-data
+            claimName: dredge-data
         - name: downloads
           hostPath:
             path: /mnt/downloads

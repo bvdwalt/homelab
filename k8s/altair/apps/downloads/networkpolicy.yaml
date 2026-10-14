@@ -23,7 +23,7 @@ spec:
         - port: 8082  # qbittorrent
         - port: 8191  # flaresolverr
         - port: 6868  # profilarr
-        - port: 8080  # music-grabber
+        - port: 8080  # dredge
         - port: 5030  # slskd
     # cullarr → radarr + sonarr
     - from:
