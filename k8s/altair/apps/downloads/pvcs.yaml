@@ -86,7 +86,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: music-grabber-data
+  name: dredge-data
   namespace: downloads
 spec:
   accessModes: [ReadWriteOnce]

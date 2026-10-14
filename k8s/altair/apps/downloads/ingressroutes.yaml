@@ -195,18 +195,18 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: music-grabber
+  name: dredge
   namespace: downloads
 spec:
   entryPoints: [websecure]
   routes:
     - kind: Rule
-      match: Host(`musicgrabber.greedo.net`)
+      match: Host(`dredge.greedo.net`)
       middlewares:
         - name: downloads-oidc-auth
           namespace: kube-system
       services:
-        - name: music-grabber
+        - name: dredge
           port: 80
   tls: {}
 ---
