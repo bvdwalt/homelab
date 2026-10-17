@@ -25,15 +25,12 @@
       "position": { "x": 0, "y": 120 }
     },
     {
-      "name": "Remove non-English audio and subtitle tracks",
+      "name": "Remove non-English audio and subtitles (never the last audio)",
       "sourceRepo": "Community",
-      "pluginName": "ffmpegCommandRemoveStreamByProperty",
+      "pluginName": "customFunction",
       "version": "1.0.0",
       "inputsDB": {
-        "codecType": "any",
-        "propertyToCheck": "tags.language",
-        "valuesToRemove": "eng,und",
-        "condition": "not_includes"
+        "code": "module.exports = async (args) => {\n  const streams = args.variables.ffmpegCommand.streams;\n  const isForeign = (s) => s.tags && s.tags.language && !/eng|und/i.test(s.tags.language);\n\n  const audio = streams.filter((s) => s.codec_type === 'audio' && !s.removed);\n  const keepsAudio = audio.some((s) => !isForeign(s));\n  if (!keepsAudio && audio.length > 0) {\n    args.jobLog('No English/undefined audio - keeping all audio tracks\\n');\n  }\n\n  streams.forEach((s) => {\n    if (s.removed || !isForeign(s)) return;\n    const isAudio = s.codec_type === 'audio';\n    if (isAudio && !keepsAudio) return;\n    if (!isAudio && s.codec_type !== 'subtitle') return;\n    s.removed = true;\n    args.jobLog(`Removing ${s.codec_type} stream 0:${s.index} (language ${s.tags.language})\\n`);\n  });\n\n  return { outputFileObj: args.inputFileObj, outputNumber: 1, variables: args.variables };\n};\n"
       },
       "fpEnabled": true,
       "id": "removeNonEng",
@@ -45,7 +42,7 @@
       "pluginName": "customFunction",
       "version": "1.0.0",
       "inputsDB": {
-        "code": "module.exports = async (args) => {\n  const streams = args.variables.ffmpegCommand.streams;\n  const audio = streams.filter((s) => s.codec_type === 'audio' && !s.removed);\n  const hasNonAacAudio = audio.some((s) => s.codec_name !== 'aac');\n  let removedCount = 0;\n  if (hasNonAacAudio) {\n    audio.forEach((s) => {\n      if (s.codec_name === 'aac' && !(s.tags && s.tags.title === 'Night Mode')) {\n        s.removed = true;\n        removedCount += 1;\n        args.jobLog(`Removing old plain AAC audio stream 0:${s.index}\\n`);\n      }\n    });\n  } else {\n    args.jobLog('No non-AAC audio to fall back on - keeping AAC\\n');\n  }\n  if (removedCount > 0) {\n    args.variables.ffmpegCommand.shouldProcess = true;\n  }\n  return { outputFileObj: args.inputFileObj, outputNumber: 1, variables: args.variables };\n};\n"
+        "code": "module.exports = async (args) => {\n  const streams = args.variables.ffmpegCommand.streams;\n  const isCommentary = (s) => (s.tags && /commentary|description/i.test(s.tags.title || ''))\n    || (s.disposition && (s.disposition.comment === 1 || s.disposition.descriptions === 1\n      || s.disposition.visual_impaired === 1));\n  const audio = streams.filter((s) => s.codec_type === 'audio' && !s.removed);\n  const hasNonAacSource = audio.some((s) => s.codec_name !== 'aac' && !isCommentary(s)\n    && (!s.tags || !s.tags.language || /eng|und/i.test(s.tags.language)));\n  let removedCount = 0;\n  if (hasNonAacSource) {\n    audio.forEach((s) => {\n      if (s.codec_name === 'aac' && !isCommentary(s) && !(s.tags && s.tags.title === 'Night Mode')) {\n        s.removed = true;\n        removedCount += 1;\n        args.jobLog(`Removing old plain AAC audio stream 0:${s.index}\\n`);\n      }\n    });\n  } else {\n    args.jobLog('No non-AAC audio to fall back on - keeping AAC\\n');\n  }\n  if (removedCount > 0) {\n    args.variables.ffmpegCommand.shouldProcess = true;\n  }\n  return { outputFileObj: args.inputFileObj, outputNumber: 1, variables: args.variables };\n};\n"
       },
       "fpEnabled": true,
       "id": "removeOldAac",
@@ -112,7 +109,7 @@
       "pluginName": "customFunction",
       "version": "1.0.0",
       "inputsDB": {
-        "code": "module.exports = async (args) => {\n  const streams = args.variables.ffmpegCommand.streams;\n\n  const isEngAudio = (s) => s.codec_type === 'audio' && !s.removed\n    && (!s.tags || !s.tags.language || /eng|und/i.test(s.tags.language));\n\n  const candidates = streams.filter(isEngAudio);\n  if (candidates.length === 0) {\n    args.jobLog('No English/undefined audio stream found - skipping Night Mode track\\n');\n    return { outputFileObj: args.inputFileObj, outputNumber: 1, variables: args.variables };\n  }\n\n  const source = candidates.reduce((a, b) => ((b.channels || 0) > (a.channels || 0) ? b : a));\n\n  const alreadyHasNightMode = streams.some((s) => s.codec_type === 'audio' && !s.removed\n    && s.tags && s.tags.title === 'Night Mode');\n  if (alreadyHasNightMode) {\n    args.jobLog('Night Mode track already present - skipping\\n');\n    return { outputFileObj: args.inputFileObj, outputNumber: 1, variables: args.variables };\n  }\n\n  const nightMode = JSON.parse(JSON.stringify(source));\n  nightMode.index = streams.length;\n  nightMode.codec_name = 'aac';\n  nightMode.channels = 2;\n  nightMode.outputArgs = [\n    '-c:{outputIndex}', 'aac',\n    '-filter:a:{outputTypeIndex}',\n    'pan=stereo|FL=0.6*FC+0.5*FL+0.3*BL+0.2*LFE|FR=0.6*FC+0.5*FR+0.3*BR+0.2*LFE,acompressor=threshold=-20dB:ratio=4:attack=20:release=300:makeup=3,loudnorm=I=-16:TP=-1.5:LRA=6',\n    '-b:a:{outputTypeIndex}', '192k',\n    '-metadata:s:a:{outputTypeIndex}', 'title=Night Mode',\n    '-disposition:a:{outputTypeIndex}', 'default',\n  ];\n\n  // Insert immediately before the source stream so Night Mode becomes the first audio track\n  const sourceArrayIndex = streams.findIndex((s) => s.index === source.index);\n  streams.splice(sourceArrayIndex, 0, nightMode);\n\n  // Clear default disposition on the original track so players default to Night Mode\n  source.outputArgs.push('-disposition:a:{outputTypeIndex}', '0');\n\n  args.variables.ffmpegCommand.shouldProcess = true;\n  args.jobLog(`Added Night Mode stereo AAC track sourced from stream 0:${source.index}\\n`);\n\n  return {\n    outputFileObj: args.inputFileObj,\n    outputNumber: 1,\n    variables: args.variables,\n  };\n};\n"
+        "code": "module.exports = async (args) => {\n  const streams = args.variables.ffmpegCommand.streams;\n\n  const isCommentary = (s) => (s.tags && /commentary|description/i.test(s.tags.title || ''))\n    || (s.disposition && (s.disposition.comment === 1 || s.disposition.descriptions === 1\n      || s.disposition.visual_impaired === 1));\n\n  const isEngAudio = (s) => s.codec_type === 'audio' && !s.removed && !isCommentary(s)\n    && (!s.tags || !s.tags.language || /eng|und/i.test(s.tags.language));\n\n  const candidates = streams.filter(isEngAudio);\n  if (candidates.length === 0) {\n    args.jobLog('No English/undefined non-commentary audio stream found - skipping Night Mode track\\n');\n    return { outputFileObj: args.inputFileObj, outputNumber: 1, variables: args.variables };\n  }\n\n  const source = candidates.reduce((a, b) => ((b.channels || 0) > (a.channels || 0) ? b : a));\n\n  const alreadyHasNightMode = streams.some((s) => s.codec_type === 'audio' && !s.removed\n    && s.tags && s.tags.title === 'Night Mode');\n  if (alreadyHasNightMode) {\n    args.jobLog('Night Mode track already present - skipping\\n');\n    return { outputFileObj: args.inputFileObj, outputNumber: 1, variables: args.variables };\n  }\n\n  const nightMode = JSON.parse(JSON.stringify(source));\n  nightMode.index = streams.length;\n  nightMode.codec_name = 'aac';\n  nightMode.channels = 2;\n  nightMode.outputArgs = [\n    '-c:{outputIndex}', 'aac',\n    '-filter:a:{outputTypeIndex}',\n    'pan=stereo|FL=0.6*FC+0.5*FL+0.3*BL+0.2*LFE|FR=0.6*FC+0.5*FR+0.3*BR+0.2*LFE,acompressor=threshold=-20dB:ratio=4:attack=20:release=300:makeup=3,loudnorm=I=-16:TP=-1.5:LRA=6',\n    '-b:a:{outputTypeIndex}', '192k',\n    '-metadata:s:a:{outputTypeIndex}', 'title=Night Mode',\n    '-disposition:a:{outputTypeIndex}', 'default',\n  ];\n\n  // Insert immediately before the source stream so Night Mode becomes the first audio track\n  const sourceArrayIndex = streams.findIndex((s) => s.index === source.index);\n  streams.splice(sourceArrayIndex, 0, nightMode);\n\n  // Clear default disposition on the original track so players default to Night Mode\n  source.outputArgs.push('-disposition:a:{outputTypeIndex}', '0');\n\n  args.variables.ffmpegCommand.shouldProcess = true;\n  args.jobLog(`Added Night Mode stereo AAC track sourced from stream 0:${source.index}\\n`);\n\n  return {\n    outputFileObj: args.inputFileObj,\n    outputNumber: 1,\n    variables: args.variables,\n  };\n};\n"
       },
       "fpEnabled": true,
       "id": "addNightModeAudio",
@@ -137,6 +134,18 @@
       "fpEnabled": true,
       "id": "noProcessComment",
       "position": { "x": 420, "y": 580 }
+    },
+    {
+      "name": "Verify output still has audio and video",
+      "sourceRepo": "Community",
+      "pluginName": "customFunction",
+      "version": "1.0.0",
+      "inputsDB": {
+        "code": "module.exports = async (args) => {\n  const { execFileSync } = require('child_process');\n  const countStreams = (file) => {\n    const out = execFileSync('tdarr-ffprobe', ['-v', 'error', '-show_entries', 'stream=codec_type', '-of', 'json', file], { maxBuffer: 10 * 1024 * 1024 });\n    const counts = { video: 0, audio: 0 };\n    (JSON.parse(out.toString()).streams || []).forEach((s) => {\n      if (s.codec_type in counts) counts[s.codec_type] += 1;\n    });\n    return counts;\n  };\n\n  try {\n    const before = countStreams(args.originalLibraryFile._id);\n    const after = countStreams(args.inputFileObj._id);\n    args.jobLog(`Streams before: ${JSON.stringify(before)}, after: ${JSON.stringify(after)}\\n`);\n    const lostAudio = before.audio > 0 && after.audio === 0;\n    const lostVideo = before.video > 0 && after.video === 0;\n    if (lostAudio || lostVideo) {\n      args.jobLog(`Output lost ${lostAudio ? 'all audio' : 'all video'} - rejecting\\n`);\n      return { outputFileObj: args.inputFileObj, outputNumber: 2, variables: args.variables };\n    }\n  } catch (err) {\n    args.jobLog(`Could not verify output streams (${err.message}) - rejecting\\n`);\n    return { outputFileObj: args.inputFileObj, outputNumber: 2, variables: args.variables };\n  }\n\n  return { outputFileObj: args.inputFileObj, outputNumber: 1, variables: args.variables };\n};\n"
+      },
+      "fpEnabled": true,
+      "id": "verifyStreams",
+      "position": { "x": 150, "y": 620 }
     },
     {
       "name": "Validate output size (10%-200%)",
@@ -172,7 +181,7 @@
       "position": { "x": 150, "y": 740 }
     },
     {
-      "name": "Rejected - output size out of range, original kept",
+      "name": "Rejected - output failed validation, original kept",
       "sourceRepo": "Community",
       "pluginName": "comment",
       "version": "1.0.0",
@@ -203,7 +212,9 @@
     { "source": "skipDVComment", "sourceHandle": "1", "target": "addNightModeAudio", "targetHandle": null, "id": "e5" },
     { "source": "setEncoder", "sourceHandle": "1", "target": "addNightModeAudio", "targetHandle": null, "id": "e7" },
     { "source": "addNightModeAudio", "sourceHandle": "1", "target": "execute", "targetHandle": null, "id": "e8" },
-    { "source": "execute", "sourceHandle": "1", "target": "sizeCheck", "targetHandle": null, "id": "e9_processed" },
+    { "source": "execute", "sourceHandle": "1", "target": "verifyStreams", "targetHandle": null, "id": "e9_processed" },
+    { "source": "verifyStreams", "sourceHandle": "1", "target": "sizeCheck", "targetHandle": null, "id": "e9b_verified" },
+    { "source": "verifyStreams", "sourceHandle": "2", "target": "resetOriginal", "targetHandle": null, "id": "e9c_noaudio" },
     { "source": "execute", "sourceHandle": "2", "target": "noProcessComment", "targetHandle": null, "id": "e10_noprocess" },
     { "source": "sizeCheck", "sourceHandle": "1", "target": "replace", "targetHandle": null, "id": "e11_ok" },
     { "source": "sizeCheck", "sourceHandle": "2", "target": "resetOriginal", "targetHandle": null, "id": "e12_toosmall" },
