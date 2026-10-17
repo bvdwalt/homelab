@@ -6,3 +6,10 @@ resources:
   - service.yaml
   - ingressroute.yaml
   - networkpolicy.yaml
+  - flow-sync.yaml
+configMapGenerator:
+  - name: tdarr-flow
+    namespace: tdarr
+    files:
+      - flow/flow.json
+      - flow/sync.js
