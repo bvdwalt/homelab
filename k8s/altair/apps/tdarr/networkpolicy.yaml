@@ -18,6 +18,15 @@ spec:
         - ports:
             - port: "8265"
               protocol: TCP
+    # flow sync CronJob
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: tdarr
+            app: tdarr-flow-sync
+      toPorts:
+        - ports:
+            - port: "8265"
+              protocol: TCP
   egress:
     # update check and plugin sync
     - toFQDNs:
