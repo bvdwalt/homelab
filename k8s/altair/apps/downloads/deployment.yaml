@@ -305,7 +305,7 @@ spec:
               memory: 128Mi
 
         - name: dredge
-          image: ghcr.io/jigsmiths/dredge:0.5.0@sha256:fa8ddc31c95742a2db308549377302a87dcbf55a6a60e72d89008bbd9537831f
+          image: ghcr.io/jigsmiths/dredge:0.6.1@sha256:43a73da68ee2989fa45165b00351cfb3eec69ea7dd8565c4b07e08d216f96fdf
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
