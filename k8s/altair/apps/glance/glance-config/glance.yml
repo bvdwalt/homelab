@@ -122,7 +122,7 @@ pages:
               - title: Overdrive
                 url: https://overdrive.greedo.net
                 check-url: http://overdrive.overdrive.svc.cluster.local/
-              - title: Music Grabber
+              - title: Dredge - Music downloads
                 url: https://dredge.greedo.net
               - title: Proxmox - Virtualisation
                 url: https://pve.greedo.net
