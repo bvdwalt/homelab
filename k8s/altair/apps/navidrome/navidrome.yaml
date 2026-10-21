@@ -40,7 +40,7 @@ spec:
       readOnlyRootFilesystem: true
     initContainers:
       - name: fix-data-perms
-        image: python:3.14-alpine@sha256:7f2ec713f0436c59df2362d973b6a05af9e87ba78f0e94f5245c302984a7a1fd
+        image: python:3.15-alpine@sha256:ff95aad772d41f11f6aa513d1955843e7dac0749b34b07d467822b75303b2b03
         command: [chown, -R, "1000:1000", /data]
         securityContext:
           runAsUser: 0
