@@ -18,9 +18,12 @@ spec:
         size: 5Gi
         kraftMetadata: shared
         class: local-path
+  jvmOptions:
+    -Xms: 256m
+    -Xmx: 384m
   resources:
     requests:
       cpu: 100m
       memory: 512Mi
     limits:
-      memory: 1Gi
+      memory: 640Mi

@@ -3,8 +3,5 @@ kind: Kustomization
 resources:
   - kafkanodepool.yaml
   - kafka-cluster.yaml
-  - kafkatopics.yaml
-  - kafka-ui.yaml
-  - ingressroute.yaml
   - networkpolicy.yaml
   - egress-policy.yaml

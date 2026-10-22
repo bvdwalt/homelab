@@ -18,18 +18,7 @@ spec:
       transaction.state.log.min.isr: 1
       default.replication.factor: 1
       min.insync.replicas: 1
-  entityOperator:
-    topicOperator:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 256Mi
-        limits:
-          memory: 384Mi
-    userOperator:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 256Mi
-        limits:
-          memory: 384Mi
+      auto.create.topics.enable: true
+      num.partitions: 3
+      log.retention.ms: 604800000
+      log.retention.bytes: 268435456

@@ -72,8 +72,6 @@ spec:
                 k8s:io.kubernetes.pod.namespace: actual-importer
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: lubelogger
-            - matchLabels:
-                k8s:io.kubernetes.pod.namespace: kafka
           toPorts:
             - ports:
                 - port: "8080"
