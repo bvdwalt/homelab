@@ -187,10 +187,6 @@ pages:
                 url: https://homeassistant.greedo.net
                 check-url: http://homeassistant.homeassistant.svc.cluster.local/
                 icon: si:homeassistant
-              - title: Kafka UI
-                url: https://kafka.greedo.net
-                check-url: http://kafka-ui.kafka.svc.cluster.local/
-                icon: si:apachekafka
               - title: Profilarr
                 url: https://profilarr.greedo.net
                 check-url: http://profilarr.downloads.svc.cluster.local/

@@ -8,18 +8,8 @@ spec:
   policyTypes:
     - Ingress
   ingress:
-    # In-namespace: broker <-> entity operator, cluster operator, kafka-ui
+    # In-namespace: broker <-> cluster operator
     - from:
         - podSelector: {}
       ports:
         - port: 9092
-    # Traefik (kube-system) + glance monitor widget -> kafka-ui
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: glance
-      ports:
-        - port: 8080
