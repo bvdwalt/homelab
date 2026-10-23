@@ -49,7 +49,6 @@ spec:
           - "drop:sourceContext=workload-name|reserved-identity;destinationContext=dns|workload-name|reserved-identity"
           - tcp
           - "flow:sourceContext=workload-name|reserved-identity;destinationContext=dns|workload-name|reserved-identity"
-          - port-distribution
           - httpV2
         serviceMonitor:
           enabled: true
