@@ -63,3 +63,17 @@ spec:
         - ports:
             - port: "4240"
               protocol: TCP
+    # ping: LAN (incl. Tailscale via Proxmox SNAT) + cilium-health
+    - fromCIDR:
+        - 10.0.0.0/24
+      icmps:
+        - fields:
+            - type: 8
+              family: IPv4
+    - fromEntities:
+        - health
+        - remote-node
+      icmps:
+        - fields:
+            - type: 8
+              family: IPv4

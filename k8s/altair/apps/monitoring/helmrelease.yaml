@@ -113,6 +113,23 @@ spec:
                 labels:
                   severity: warning
 
+      cilium-rules:
+        groups:
+          - name: cilium
+            rules:
+              # in-cluster only; external FQDN/world drops are intentional blocks
+              - alert: CiliumPolicyDrops
+                annotations:
+                  summary: "Cilium dropped {{ $labels.source }} -> {{ $labels.destination }} by policy"
+                  description: |
+                    Check `hubble observe --verdict DROPPED --from-workload {{ $labels.source }}` and the Network Policy Audit dashboard.
+                expr: |
+                  sum by (source, destination, protocol) (
+                    increase(hubble_drop_total{reason="POLICY_DENIED", source!="reserved:world", destination!~"reserved:world|.*\\..*"}[15m])
+                  ) > 0
+                labels:
+                  severity: warning
+
     kubeApiServer:
       serviceMonitor:
         metricRelabelings:
