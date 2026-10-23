@@ -32,7 +32,27 @@ spec:
     - toFQDNs:
         - matchName: api.tdarr.io
         - matchName: github.com
+        - matchName: codeload.github.com
       toPorts:
         - ports:
             - port: "443"
+              protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: tdarr-flow-sync
+  namespace: tdarr
+spec:
+  endpointSelector:
+    matchLabels:
+      app: tdarr-flow-sync
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: tdarr
+            app: tdarr
+      toPorts:
+        - ports:
+            - port: "8265"
               protocol: TCP

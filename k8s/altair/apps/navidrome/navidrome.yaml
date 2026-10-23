@@ -73,3 +73,12 @@ spec:
             - ports:
                 - port: "4533"
                   protocol: TCP
+      egress:
+        # deezer album art
+        - toFQDNs:
+            - matchName: api.deezer.com
+            - matchPattern: "*.dzcdn.net"
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
