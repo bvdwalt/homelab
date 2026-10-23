@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Turn the Kafka + order-pipeline learning stack off/on to free ~2 GiB of memory.
-# off: saves the cluster ID, suspends Flux, scales services to 0, deletes the Kafka CR and node pool (PVC and data are kept).
-# on:  resumes Flux, restores the cluster ID, then scales the services back up.
+# off: saves the cluster ID, suspends Flux, scales services to 0, deletes the Kafka CR and node pool (PVC and data are kept), then stops the Strimzi operator.
+# on:  starts the operator, resumes Flux, restores the cluster ID, then scales the services back up.
 set -euo pipefail
 
 CTX="--context=altair"
@@ -17,12 +17,16 @@ case "${1:-}" in
     kubectl $CTX -n order-pipeline scale deployment --all --replicas=0
     $K delete kafka order-pipeline
     $K delete kafkanodepool dual-role
+    # the operator must stay up until the broker is gone
+    $K wait --for=delete pod/order-pipeline-dual-role-0 --timeout=120s
+    $K scale deployment strimzi-cluster-operator --replicas=0
     ;;
   on)
     ID=$($K get configmap kafka-cluster-id -o jsonpath='{.data.id}')
     [ -n "$ID" ] || { echo "no saved cluster ID, aborting" >&2; exit 1; }
     # flux resume would block on the health check, which fails until the ID is restored
     kubectl $CTX -n flux-system patch kustomization kafka --type=merge -p '{"spec":{"suspend":false}}'
+    $K scale deployment strimzi-cluster-operator --replicas=1
     until $K get kafka order-pipeline >/dev/null 2>&1; do sleep 2; done
     # the operator may write its own ID first, so keep re-applying until it sticks
     until [ "$($K get configmap order-pipeline-dual-role-0 -o jsonpath='{.data.cluster\.id}' 2>/dev/null)" = "$ID" ]; do
