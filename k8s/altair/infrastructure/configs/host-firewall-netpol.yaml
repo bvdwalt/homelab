@@ -1,4 +1,4 @@
-# Host-level policy (reserved:host). Audit-only while policyAuditMode is on.
+# Host-level policy (reserved:host). Not in kustomization.yaml until applied with the dead-man switch.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
