@@ -1,0 +1,62 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: spotter
+  namespace: flux-system
+spec:
+  releaseName: spotter
+  targetNamespace: spotter
+  values:
+    image: ghcr.io/bvdwalt/spotter:0.4.1@sha256:69b18a4746ae9f7cc2da3a4d0238b88330832e75b6d2e31e5a50bff50f5146dd
+    port: 8080
+    hostname: spotter.greedo.net
+    strategy: Recreate # one AISStream connection per API key
+    middlewares:
+      - name: household-oidc-auth
+        namespace: kube-system
+    resources:
+      requests:
+        memory: 32Mi
+      limits:
+        memory: 128Mi
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      TZ: Africa/Johannesburg
+      RADIUS_NM: "150"
+      ADSB_BASE_URL: https://opendata.adsb.fi/api/v2
+      ADSB_POLL_INTERVAL: 5s
+      ROUTE_API_URL: https://adsb.im/api/0/routeset
+      PHOTO_API_URL: https://api.planespotters.net/pub/photos/hex
+    existingSecret: spotter # HOME_LAT, HOME_LON, AISSTREAM_API_KEY
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "8080"
+                  protocol: TCP
+      egress:
+        - toFQDNs:
+            - matchName: opendata.adsb.fi
+            - matchName: stream.aisstream.io
+            - matchName: adsb.im
+            - matchName: api.planespotters.net
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
