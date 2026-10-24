@@ -7,7 +7,7 @@ spec:
   releaseName: spotter
   targetNamespace: spotter
   values:
-    image: ghcr.io/bvdwalt/spotter:0.8.0@sha256:de9225d4e6ef081ba5de43225d4317b51afc01a53f7e94f938b1c6b94453337a
+    image: ghcr.io/bvdwalt/spotter:0.9.0@sha256:700d34391c71ad0530ced0714758752a075d2b1909e79b8eee5c1539f204f712
     port: 8080
     hostname: spotter.greedo.net
     strategy: Recreate # one AISStream connection per API key, and a single SQLite writer
