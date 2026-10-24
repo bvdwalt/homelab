@@ -7,10 +7,10 @@ spec:
   releaseName: spotter
   targetNamespace: spotter
   values:
-    image: ghcr.io/bvdwalt/spotter:0.4.1@sha256:69b18a4746ae9f7cc2da3a4d0238b88330832e75b6d2e31e5a50bff50f5146dd
+    image: ghcr.io/bvdwalt/spotter:0.7.0@sha256:17f34f339f05fd8a0295412c2c501887a1ad1312ae618a5f301093ef93299aa2
     port: 8080
     hostname: spotter.greedo.net
-    strategy: Recreate # one AISStream connection per API key
+    strategy: Recreate # one AISStream connection per API key, and a single SQLite writer
     middlewares:
       - name: household-oidc-auth
         namespace: kube-system
@@ -31,9 +31,15 @@ spec:
       RADIUS_NM: "150"
       ADSB_BASE_URL: https://opendata.adsb.fi/api/v2
       ADSB_POLL_INTERVAL: 5s
+      ADSB_POINTS: "-32.08,21.16,200;-28.16,25.97,200" # CPT to JNB corridor
+      DB_PATH: /data/spotter.db
       ROUTE_API_URL: https://adsb.im/api/0/routeset
       PHOTO_API_URL: https://api.planespotters.net/pub/photos/hex
     existingSecret: spotter # HOME_LAT, HOME_LON, AISSTREAM_API_KEY
+    persistence:
+      enabled: true
+      size: 1Gi
+      mountPath: /data
     securityContext:
       enabled: true
       runAsNonRoot: true
