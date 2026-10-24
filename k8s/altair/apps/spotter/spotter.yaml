@@ -31,7 +31,7 @@ spec:
       RADIUS_NM: "150"
       ADSB_BASE_URL: https://opendata.adsb.fi/api/v2
       ADSB_POLL_INTERVAL: 5s
-      ADSB_POINTS: "-32.08,21.16,200;-28.16,25.97,200" # CPT to JNB corridor
+      ADSB_POINTS: "-32.5,20.0,250;-29.0,25.5,250;-25.0,28.5,250;-30.0,30.5,250;-33.0,26.0,250" # SA, Lesotho, Eswatini
       DB_PATH: /data/spotter.db
       ROUTE_API_URL: https://adsb.im/api/0/routeset
       PHOTO_API_URL: https://api.planespotters.net/pub/photos/hex
