@@ -165,6 +165,9 @@ pages:
               - title: Palimpsest - Notes
                 url: https://notes.greedo.net
                 check-url: http://palimpsest.palimpsest.svc.cluster.local/
+              - title: Spotter - Planes and ships
+                url: https://spotter.greedo.net
+                check-url: http://spotter.spotter.svc.cluster.local/health
               - title: Metering
                 url: https://metering.greedo.net
                 check-url: http://metering-dashboard.metering.svc.cluster.local/
@@ -221,6 +224,7 @@ pages:
               - bvdwalt/palimpsest
               - bvdwalt/cullarr
               - bvdwalt/overdrive
+              - bvdwalt/spotter
               - actualbudget/actual
               - atuinsh/atuin
               - filebrowser/filebrowser

@@ -65,6 +65,8 @@ spec:
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: palimpsest
             - matchLabels:
+                k8s:io.kubernetes.pod.namespace: spotter
+            - matchLabels:
                 k8s:io.kubernetes.pod.namespace: overdrive
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: adguard

@@ -37,3 +37,4 @@ resources:
   - tempo.yaml
   - netboot-xyz.yaml
   - degoog.yaml
+  - spotter.yaml
