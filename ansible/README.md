@@ -14,7 +14,7 @@ the `sops-age` secret on Altair — change the role and re-run the playbook.
 ## Roles
 
 - `k3s_lxc` — installs k3s, writes `config.yaml`/`resolv.conf`, the
-  `/proc/sys` remount systemd override, masks `rpcbind` (NFSv4.2 only), and
+  `/proc/sys` remount and `GOMEMLIMIT` systemd overrides, masks `rpcbind` (NFSv4.2 only), and
   waits for the node to go Ready.
   Runs via `pct exec` on the Proxmox host, not direct SSH to the container —
   there's no SSH key authorized inside the LXC itself, matching how the

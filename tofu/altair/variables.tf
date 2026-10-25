@@ -58,12 +58,12 @@ variable "cores" {
 variable "memory_mb" {
   description = "Matches live config — bootstrap.md's 8192 was outgrown"
   type        = number
-  default     = 12288
+  default     = 13312
 }
 
 variable "swap_mb" {
   type    = number
-  default = 512
+  default = 2048
 }
 
 variable "rootfs_size_gb" {
