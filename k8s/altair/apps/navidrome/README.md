@@ -20,3 +20,15 @@ while logged in as each user:
 
 Each playlist created this way is owned by whichever user was logged in when
 it was created, so it stays correctly per-user.
+
+## Lyrics plugin
+
+[navidrome-lyrics-plugin](https://github.com/J0R6IT0/navidrome-lyrics-plugin)
+is fetched by the `fetch-lyrics-plugin` init container (pinned version and
+sha256) into `/data/plugins`.
+
+- **Setup**: as admin, enable and approve "Lyrics" under Settings > Plugins.
+- **Other providers**: add their hosts to the egress rule first (only
+  `lrclib.net` and `api.lyrics.ovh` are allowed).
+- **Upgrading**: Renovate bumps `PLUGIN_VERSION` and `PLUGIN_SHA256` together.
+- The web UI doesn't show plugin lyrics; use a client such as Feishin.
