@@ -30,6 +30,13 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+ARG \\S+_VERSION=(?<currentValue>\\S+)"
       ]
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)k8s/[^/]+/.+\\.yaml$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+- name: \\S+_VERSION\\s+value: (?<currentValue>\\S+)\\s+- name: \\S+_SHA256\\s+value: (?<currentDigest>[a-f0-9]{64})"
+      ]
     }
   ],
   "hostRules": [
