@@ -65,6 +65,15 @@
     - reload systemd
     - restart k3s
 
+- name: Write k3s Go memory limit override (returns idle heap to the OS)
+  template:
+    src: memory.conf.j2
+    dest: /etc/systemd/system/k3s.service.d/memory.conf
+    mode: "0644"
+  notify:
+    - reload systemd
+    - restart k3s
+
 - name: Flush handlers before verifying node readiness
   meta: flush_handlers
 
