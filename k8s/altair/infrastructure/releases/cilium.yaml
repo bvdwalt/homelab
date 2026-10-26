@@ -25,9 +25,6 @@ spec:
     policyAuditMode: true
     hostFirewall:
       enabled: true
-    dnsProxy:
-      # TEMP: transparent DNS proxy stopped answering pods after the 2026-10-25 LXC reboot.
-      enableTransparentMode: false
     kubeProxyReplacement: true
     # node IP for LoadBalancer services with class io.cilium/node
     nodeIPAM:
