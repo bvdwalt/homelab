@@ -29,7 +29,7 @@ spec:
       ND_DATAFOLDER: /data
       TZ: Africa/Johannesburg
       ND_ENABLEINSIGHTSCOLLECTOR: "false"
-      ND_UILOGINBACKGROUNDURL: ""
+      ND_UILOGINBACKGROUNDURL: "data:,"
       # default priority plus nd-lyrics as last fallback
       ND_LYRICSPRIORITY: ".ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,embedded,nd-lyrics"
     persistence:
