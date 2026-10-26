@@ -1,4 +1,4 @@
-# Host-level policy (reserved:host). Not in kustomization.yaml until applied with the dead-man switch.
+# Host-level policy (reserved:host).
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
