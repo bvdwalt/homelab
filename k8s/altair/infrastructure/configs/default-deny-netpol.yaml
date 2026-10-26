@@ -1,4 +1,3 @@
-# Not enforcing: relies on cluster-wide policyAuditMode in cilium.yaml, logs via Hubble.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
