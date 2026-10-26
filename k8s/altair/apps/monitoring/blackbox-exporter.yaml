@@ -1,0 +1,64 @@
+# DNS canary: probes CoreDNS from the monitoring namespace, which default-deny-app-namespaces covers.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: blackbox-exporter
+  namespace: flux-system
+spec:
+  interval: 30m
+  releaseName: blackbox-exporter
+  targetNamespace: monitoring
+  install:
+    createNamespace: false
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: prometheus-blackbox-exporter
+      version: "11.20.1"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      interval: 1h
+  values:
+    fullnameOverride: blackbox-exporter
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+      limits:
+        memory: 64Mi
+    config:
+      modules:
+        dns_cluster:
+          prober: dns
+          timeout: 5s
+          dns:
+            query_name: kubernetes.default.svc.cluster.local
+            query_type: A
+            preferred_ip_protocol: ip4
+        dns_external:
+          prober: dns
+          timeout: 5s
+          dns:
+            query_name: cloudflare.com
+            query_type: A
+            preferred_ip_protocol: ip4
+    serviceMonitor:
+      enabled: true
+      defaults:
+        labels:
+          release: prometheus
+        interval: 30s
+        scrapeTimeout: 10s
+      targets:
+        - name: coredns-cluster
+          url: 10.43.0.10:53
+          module: dns_cluster
+        - name: coredns-external
+          url: 10.43.0.10:53
+          module: dns_external
