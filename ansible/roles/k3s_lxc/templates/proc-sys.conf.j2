@@ -1,2 +1,4 @@
 [Service]
 ExecStartPre=/bin/mount -o remount,rw /proc/sys
+# Inherited from the Proxmox host; with it on, Cilium's DNS proxy traffic is dropped as martian.
+ExecStartPre=/sbin/sysctl -w net.ipv4.conf.all.src_valid_mark=0
