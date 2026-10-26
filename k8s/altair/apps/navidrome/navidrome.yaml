@@ -28,6 +28,7 @@ spec:
       ND_MUSICFOLDER: /music
       ND_DATAFOLDER: /data
       TZ: Africa/Johannesburg
+      ND_ENABLEINSIGHTSCOLLECTOR: "false"
       # default priority plus nd-lyrics as last fallback
       ND_LYRICSPRIORITY: ".ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,embedded,nd-lyrics"
     persistence:

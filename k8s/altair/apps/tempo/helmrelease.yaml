@@ -27,6 +27,8 @@ spec:
         namespace: flux-system
       interval: 1h
   values:
+    tempo:
+      reportingEnabled: false
     resources:
       requests:
         cpu: 50m
