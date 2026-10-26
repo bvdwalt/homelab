@@ -130,6 +130,33 @@ spec:
                 labels:
                   severity: warning
 
+      dns-canary-rules:
+        groups:
+          - name: dns-canary
+            rules:
+              - alert: ClusterDNSProbeFailing
+                annotations:
+                  summary: "DNS probe {{ $labels.target }} from the monitoring namespace has been failing for 2m"
+                  description: |
+                    Pods in namespaces covered by default-deny-app-namespaces cannot resolve names via CoreDNS.
+                    Check whether a kube-system pod still resolves; if it does, suspect the Cilium DNS proxy
+                    (see the 2026-10-25 outage: the policy's L7 dns rule was removed to restore DNS).
+                expr: |
+                  probe_success{target=~"coredns-.*"} == 0
+                for: 2m
+                labels:
+                  severity: critical
+              - alert: ClusterDNSProbeMissing
+                annotations:
+                  summary: "No DNS canary results for 10m, so DNS failures would go unnoticed"
+                  description: |
+                    Check the blackbox-exporter pod in monitoring and its ServiceMonitors (release=prometheus label).
+                expr: |
+                  absent(probe_success{target="coredns-cluster"})
+                for: 10m
+                labels:
+                  severity: warning
+
     kubeApiServer:
       serviceMonitor:
         metricRelabelings:
