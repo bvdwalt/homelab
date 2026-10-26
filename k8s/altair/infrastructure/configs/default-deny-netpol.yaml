@@ -20,7 +20,7 @@ spec:
     - fromEntities:
         - health
   egress:
-    # DNS
+    # DNS (no L7 dns rule: the Cilium DNS proxy stopped forwarding after the 2026-10-25 LXC reboot)
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
@@ -31,9 +31,6 @@ spec:
               protocol: UDP
             - port: "53"
               protocol: TCP
-          rules:
-            dns:
-              - matchPattern: "*"
     # Kubernetes API server + Cilium health checks
     - toEntities:
         - kube-apiserver
