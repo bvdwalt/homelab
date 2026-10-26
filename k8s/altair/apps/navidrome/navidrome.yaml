@@ -42,7 +42,7 @@ spec:
       readOnlyRootFilesystem: true
     initContainers:
       - name: fix-data-perms
-        image: python:3.15-alpine@sha256:ff95aad772d41f11f6aa513d1955843e7dac0749b34b07d467822b75303b2b03
+        image: python:3.15-alpine@sha256:c480059ce7dd8fc98f30e2a56cc3b54e559c3b3b66cc498a92f641237a47f288
         command: [chown, -R, "1000:1000", /data]
         securityContext:
           runAsUser: 0
@@ -58,7 +58,7 @@ spec:
             mountPath: /data
       # nd-lyrics plugin; file name (minus .ndp) is the ND_LYRICSPRIORITY key
       - name: fetch-lyrics-plugin
-        image: python:3.15-alpine@sha256:ff95aad772d41f11f6aa513d1955843e7dac0749b34b07d467822b75303b2b03
+        image: python:3.15-alpine@sha256:c480059ce7dd8fc98f30e2a56cc3b54e559c3b3b66cc498a92f641237a47f288
         env:
           # renovate: datasource=github-release-attachments depName=J0R6IT0/navidrome-lyrics-plugin
           - name: PLUGIN_VERSION
