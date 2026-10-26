@@ -209,6 +209,10 @@ spec:
       grafana.ini:
         server:
           root_url: https://grafana.greedo.net
+        analytics:
+          reporting_enabled: false
+          check_for_updates: false
+          check_for_plugin_updates: false
         auth.generic_oauth:
           enabled: true
           name: Pocket-ID

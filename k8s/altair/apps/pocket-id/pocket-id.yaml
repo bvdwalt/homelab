@@ -28,6 +28,7 @@ spec:
       APP_URL: "https://pocketid.greedo.net"
       TRUST_PROXY: "true"
       TZ: "Africa/Johannesburg"
+      ANALYTICS_DISABLED: "true"
     middlewares: []
     existingSecret: pocket-id-secrets
     persistence:

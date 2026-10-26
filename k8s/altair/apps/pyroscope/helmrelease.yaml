@@ -26,6 +26,8 @@ spec:
   values:
     pyroscope:
       replicaCount: 1
+      extraArgs:
+        usage-stats.enabled: "false"
       resources:
         requests:
           cpu: 50m
@@ -35,6 +37,9 @@ spec:
       persistence:
         enabled: true
         size: 10Gi
+    alloy:
+      alloy:
+        enableReporting: false
     minio:
       enabled: false
     architecture:
