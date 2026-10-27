@@ -1,0 +1,3 @@
+---
+# Cap below the LXC's 13 GiB so ARC and k3s cannot oversubscribe the 15.7 GiB host.
+zfs_arc_max_bytes: 2147483648

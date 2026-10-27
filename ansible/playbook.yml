@@ -1,4 +1,10 @@
 ---
+- name: Configure the Altair Proxmox host
+  hosts: proxmox_host
+  become: false # already connecting as root
+  roles:
+    - proxmox_host
+
 - name: Configure Altair k3s node (LXC)
   hosts: k3s_altair
   become: false # already connecting as root
