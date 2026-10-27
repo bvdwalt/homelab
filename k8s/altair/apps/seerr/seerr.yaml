@@ -69,6 +69,8 @@ spec:
         - toFQDNs:
             - matchName: api.themoviedb.org
             - matchName: image.tmdb.org
+            # Anime-List mapping, Jellyfin sync aborts without it
+            - matchName: raw.githubusercontent.com
           toPorts:
             - ports:
                 - port: "443"
