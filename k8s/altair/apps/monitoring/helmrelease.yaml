@@ -206,6 +206,19 @@ spec:
         size: 1Gi
       defaultDashboardsTimezone: Africa/Johannesburg
       envFromSecret: grafana-oidc
+      resources:
+        requests:
+          cpu: 25m
+          memory: 300Mi
+        limits:
+          memory: 640Mi
+      sidecar:
+        resources:
+          requests:
+            cpu: 5m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
       grafana.ini:
         server:
           root_url: https://grafana.greedo.net
@@ -234,6 +247,13 @@ spec:
 
     prometheus:
       prometheusSpec:
+        # limit sits above the 1.1Gi WAL-replay peak so a restart cannot OOM-loop
+        resources:
+          requests:
+            cpu: 50m
+            memory: 700Mi
+          limits:
+            memory: 1280Mi
         retention: 30d
         retentionSize: 12GB
         storageSpec:
