@@ -1,0 +1,19 @@
+---
+- name: Cap the ZFS ARC at boot
+  template:
+    src: zfs.conf.j2
+    dest: /etc/modprobe.d/zfs.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: update initramfs
+
+- name: Read the running ZFS ARC cap
+  command: cat /sys/module/zfs/parameters/zfs_arc_max
+  register: zfs_arc_running
+  changed_when: false
+  check_mode: false
+
+- name: Cap the ZFS ARC on the running system
+  shell: echo {{ zfs_arc_max_bytes }} > /sys/module/zfs/parameters/zfs_arc_max
+  when: zfs_arc_running.stdout | trim != zfs_arc_max_bytes | string

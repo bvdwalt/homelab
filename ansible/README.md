@@ -8,11 +8,14 @@ stay manual/one-off — see the README there for why.
 
 ## Source of truth
 
-Don't hand-edit `/etc/rancher/k3s/config.yaml`, `resolv.conf`, the taint, or
+Don't hand-edit `/etc/modprobe.d/zfs.conf` on the Proxmox host, `/etc/rancher/k3s/config.yaml`, `resolv.conf`, the taint, or
 the `sops-age` secret on Altair — change the role and re-run the playbook.
 
 ## Roles
 
+- `proxmox_host` — runs on the Proxmox host over plain SSH: caps the ZFS ARC
+  (`zfs_arc_max`, 2 GiB) in `/etc/modprobe.d/zfs.conf` and on the running
+  system so it can't oversubscribe memory with the LXC.
 - `k3s_lxc` — installs k3s, writes `config.yaml`/`resolv.conf`, the
   `/proc/sys` remount (plus `src_valid_mark=0`) and `GOMEMLIMIT` systemd overrides, masks `rpcbind` (NFSv4.2 only), and
   waits for the node to go Ready.
