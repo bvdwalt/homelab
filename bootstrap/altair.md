@@ -59,6 +59,8 @@ cat > /etc/rancher/k3s/config.yaml << EOF
 protect-kernel-defaults: false
 kubelet-arg:
   - "protect-kernel-defaults=false"
+  - "image-gc-high-threshold=70"
+  - "image-gc-low-threshold=60"
 disable-cloud-controller: true
 secrets-encryption: true
 resolv-conf: /etc/rancher/k3s/resolv.conf
