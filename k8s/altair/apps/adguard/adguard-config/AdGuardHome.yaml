@@ -116,10 +116,6 @@ filters:
     name: AdGuard DNS filter
     id: 1
   - enabled: true
-    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt
-    name: AdAway Default Blocklist
-    id: 2
-  - enabled: true
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_27.txt
     name: OISD Blocklist Big
     id: 1751453925
@@ -139,10 +135,6 @@ filters:
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt
     name: Malicious URL Blocklist (URLHaus)
     id: 1751453937
-  - enabled: true
-    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt
-    name: HaGeZi's Threat Intelligence Feeds
-    id: 1753954578
   - enabled: true
     url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_31.txt
     name: Stalkerware Indicators List
