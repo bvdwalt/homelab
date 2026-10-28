@@ -113,6 +113,20 @@ spec:
                 labels:
                   severity: warning
 
+      container-rules:
+        groups:
+          - name: containers
+            rules:
+              - alert: ContainerOOMKilled
+                annotations:
+                  summary: "{{ $labels.namespace }}/{{ $labels.pod }} container {{ $labels.container }} was OOMKilled"
+                expr: |
+                  (kube_pod_container_status_last_terminated_reason{reason="OOMKilled"} == 1)
+                  and on (namespace, pod, container)
+                  (increase(kube_pod_container_status_restarts_total[30m]) > 0)
+                labels:
+                  severity: warning
+
       cilium-rules:
         groups:
           - name: cilium

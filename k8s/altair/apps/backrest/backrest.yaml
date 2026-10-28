@@ -161,6 +161,7 @@ spec:
                   protocol: TCP
         - toFQDNs:
             - matchName: ntfy.sh
+            - matchName: hc-ping.com
             - matchPattern: "*.pcloud.com"
           toPorts:
             - ports:
