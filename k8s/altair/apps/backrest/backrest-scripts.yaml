@@ -71,6 +71,13 @@ data:
     # Tdarr per-job health/transcode reports — unbounded growth, flows can be rerun on the libraries
     **/Tdarr/DB2/JobReports/**
 
+    # Tempo traces and Pyroscope profiles: ephemeral observability data, like prometheus-db
+    **/pvc-*_monitoring_storage-tempo-0/**
+    **/pvc-*_monitoring_data-pyroscope-0/**
+
+    # Claude Code git worktrees: scratch checkouts, pushed work lives on GitHub
+    **/pvc-*_claude-code_claude-code-data/homelab/.claude/worktrees/**
+
   pg-dump.sh: |
     #!/bin/sh
     set -e
