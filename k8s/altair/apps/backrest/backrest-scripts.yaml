@@ -108,6 +108,9 @@ data:
 
   post-backup.sh: |
     #!/bin/sh
+    # dead-man ping; healthchecks.io alerts if a night is missed
+    [ -n "$HC_BACKUP_URL" ] && curl -fsS -m 10 --retry 3 "$HC_BACKUP_URL" > /dev/null
+    exit 0
 
   notify-failure.sh: |
     #!/bin/sh
@@ -219,7 +222,18 @@ data:
                 "keepLastN": 2
               }
             }
-          }
+          },
+          "hooks": [
+            {
+              "conditions": [
+                "CONDITION_ANY_ERROR"
+              ],
+              "onError": "ON_ERROR_IGNORE",
+              "actionCommand": {
+                "command": "sh /scripts/notify-failure.sh {{ .ShellEscape .Repo.Id }} {{ .ShellEscape .Task }} {{ .ShellEscape .Error }}"
+              }
+            }
+          ]
         }
       ],
       "plans": [

@@ -5,6 +5,7 @@ metadata:
     namespace: backrest
 stringData:
     NTFY_URL: ENC[AES256_GCM,data:grmJ1rxIl7L/B/X5Duv39YEqBLlBqcmlHC+LIN68FIO7e/Qcy8kIuifkDndvxUbQ1tK2qeCVMXlDHT4RMpdu/AmSTPJhET/z,iv:riTq649bsQiJmJY/ENzxQkMK8vuvLLJ1JIOqOEAo4ps=,tag:GRAgefcBC4ZK6cpNZ5Fwdw==,type:str]
+    HC_BACKUP_URL: ENC[AES256_GCM,data:XWc1EkFDfjU2bSaIZLFSjW4eGEDX2JmXSd5zzuDIt7b35ayC/PBYZjPD1kcpYBS3WrB8PoT3nHI=,iv:T8MA/tR4yAg2JhRIaQLrIHDb32kNv0q4JTffyVU7YG4=,tag:pLWPIx0IvT2lsp+A8T604g==,type:str]
 sops:
     age:
         - enc: |
@@ -17,6 +18,6 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
     encrypted_regex: ^(data|stringData)$
-    lastmodified: "2026-07-09T09:05:31Z"
-    mac: ENC[AES256_GCM,data:C8AGVSP+FppQYfRKrvwe1wxtGgzwbCDcxIotYryocbrEXXh6MLnyu5FWGIX8frnp1m9lE4dDxJ3fYx8bsDF9DXlrRAj0zUcb/TVnA8181kzjpMtCpHo9feiZeDDX+/yfS4t9F6iRKIRcaIzF9iZ7d8Ws79d80KBgZfBaM/6H4lE=,iv:UBdFhkPO+4C9H2GLKsT+wFI+TpM2qDg2RQKL8fio6Ck=,tag:SRxMt6bsa2e78/7JdClUhA==,type:str]
-    version: 3.13.2
+    lastmodified: "2026-10-28T09:14:51Z"
+    mac: ENC[AES256_GCM,data:LXR5o9Kv/AtVQ7+rEQXdmVLVACL3Vff5kkiLZLNNd3t8YB0J9HQHgnX2kvlRQaxcoHtWpby9FILq5a3RVSwo7rqz/CV2YAxYSxim/irVswqwX38GzidXuv5DBsjvmWHmPUu9l+/bZG47Fo98eeqSRVD6UrzS2OwZYKJsqHbe3es=,iv:yVnP/Lem8Ce2nHo5zcwvFo6rMyHSotwrlNB+x1tPR8I=,tag:bqUaZyejP0zErarwVbdY4g==,type:str]
+    version: 3.13.3
