@@ -69,3 +69,12 @@ spec:
             - ports:
                 - port: "443"
                   protocol: TCP
+        # PromQL queries for alert triage
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: monitoring
+                app.kubernetes.io/name: prometheus
+          toPorts:
+            - ports:
+                - port: "9090"
+                  protocol: TCP
