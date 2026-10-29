@@ -111,6 +111,11 @@ tofu plan
 tofu apply
 ```
 
+To apply, use `./apply.sh` from a feature branch or worktree instead of
+`tofu apply`. It runs the same steps and stages `terraform.tfstate`, so the
+state is committed in the same PR as the change. It refuses to run on `main`
+or when the state has uncommitted changes.
+
 Requires:
 - SSH root access to the Proxmox host from wherever you run `tofu apply`
   (same access as manual maintenance, see repo memory).
