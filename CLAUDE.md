@@ -9,3 +9,7 @@ git push -u origin <branch>
 gh pr create --draft
 gh pr merge --squash --delete-branch
 ```
+
+# Kubernetes
+
+The Bash tool does not load fish config, so KUBECONFIG is unset. Prefix kubectl and flux calls with `KUBECONFIG=~/.kube/altair.yaml` and always pass `--context altair`.
