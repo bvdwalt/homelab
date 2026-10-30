@@ -7,7 +7,7 @@ spec:
   releaseName: atuin
   targetNamespace: atuin
   values:
-    image: ghcr.io/atuinsh/atuin:18.23.0@sha256:f232feeead54a0a13132b9cd477e312c3380e9dc90f1db24c4f79ce6c8e034ea
+    image: ghcr.io/atuinsh/atuin:18.24.4@sha256:1cb33a7126b748e0ad6d18d0f52e9bb805a98a196feccd597bf66544f58cf68e
     port: 8888
     hostname: atuin.greedo.net
     args:
