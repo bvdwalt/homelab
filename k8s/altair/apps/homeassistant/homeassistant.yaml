@@ -11,8 +11,6 @@ spec:
     strategy: Recreate
     port: 8123
     hostname: homeassistant.greedo.net
-    # No OIDC: the mobile apps call /auth/token, /api/websocket and
-    # /api/webhook/* without a PocketID session. HA's own auth applies.
     middlewares: []
     resources:
       requests:
