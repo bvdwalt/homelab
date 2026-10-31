@@ -31,6 +31,7 @@ resources:
   - tdarr.yaml
   - lubelogger.yaml
   - homeassistant.yaml
+  - mosquitto.yaml
   - kafka.yaml
   - order-pipeline.yaml
   - claude-code.yaml
