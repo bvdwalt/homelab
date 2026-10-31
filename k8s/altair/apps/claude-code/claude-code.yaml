@@ -63,6 +63,7 @@ spec:
         - toFQDNs:
             - matchName: api.anthropic.com
             - matchName: github.com
+            - matchName: api.github.com # gh CLI
             - matchName: platform.claude.com
             - matchName: mcp-proxy.anthropic.com
           toPorts:
