@@ -11,9 +11,14 @@ git config --global user.email "$GIT_USER_EMAIL"
 git config --global init.defaultBranch main
 git config --global --add safe.directory "$REPO_DIR"
 
-if [ -n "${GITHUB_TOKEN:-}" ]; then
-    git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
-fi
+# Drop any token-embedding URL rewrites left on the persistent home volume.
+{ git config --global --get-regexp '^url\..*x-access-token.*\.insteadof$' 2>/dev/null || true; } \
+    | cut -d' ' -f1 | sed -E 's/\.insteadof$//I' | sort -u \
+    | while read -r section; do git config --global --remove-section "$section"; done
+
+# Read the token from the env at use time; it never lands in git config.
+git config --global credential.https://github.com.helper \
+    '!f() { echo username=x-access-token; echo "password=${GITHUB_TOKEN}"; }; f'
 
 if [ ! -d "$REPO_DIR/.git" ]; then
     git clone "$REPO_URL" "$REPO_DIR"
