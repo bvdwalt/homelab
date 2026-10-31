@@ -85,3 +85,10 @@ spec:
             - ports:
                 - port: "443"
                   protocol: TCP
+        - toFQDNs:
+            - matchName: vector.openstreetmap.org
+            - matchName: tile.openstreetmap.org
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
