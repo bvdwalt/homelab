@@ -59,7 +59,7 @@ spec:
         automation: !include automations.yaml
         script: !include scripts.yaml
         scene: !include scenes.yaml
-    # glance calls in directly; egress only for the met.no weather entity.
+    # glance calls in directly; egress to mosquitto and the met.no weather entity.
     networkPolicy:
       enabled: true
       ingress:
@@ -71,6 +71,13 @@ spec:
                 - port: "8123"
                   protocol: TCP
       egress:
+        - toEndpoints:
+            - matchLabels:
+                app.kubernetes.io/name: mosquitto
+          toPorts:
+            - ports:
+                - port: "1883"
+                  protocol: TCP
         - toFQDNs:
             - matchName: api.met.no
             - matchPattern: "*.api.met.no"

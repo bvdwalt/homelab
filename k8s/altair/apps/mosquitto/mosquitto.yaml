@@ -1,0 +1,61 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mosquitto
+  namespace: flux-system
+spec:
+  releaseName: mosquitto
+  targetNamespace: homeassistant
+  values:
+    image: eclipse-mosquitto:2.1.2-alpine@sha256:38c0da4f2ef84284d47b3b3eeea1cb3bdeabe81ee10caf0cd5c5ff61ee3ea408
+    strategy: Recreate
+    port: 1883
+    servicePort: 1883
+    resources:
+      requests:
+        memory: 8Mi
+      limits:
+        memory: 64Mi
+    readinessProbe:
+      tcpSocket:
+        port: 1883
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      failureThreshold: 6
+    livenessProbe:
+      tcpSocket:
+        port: 1883
+      initialDelaySeconds: 15
+      periodSeconds: 30
+      failureThreshold: 3
+    persistence:
+      enabled: true
+      mountPath: /mosquitto/data
+      size: 100Mi
+      storageClass: nfs-shared
+      accessMode: ReadWriteOnce
+    securityContext:
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1883
+      runAsGroup: 1883
+      readOnlyRootFilesystem: true
+    configMountPath: /mosquitto/config
+    configFiles:
+      mosquitto.conf: |
+        listener 1883
+        # No broker auth, access is limited by the CiliumNetworkPolicy below.
+        allow_anonymous true
+        persistence true
+        persistence_location /mosquitto/data/
+    # No hostname, so internal only; baseline DNS egress is enough.
+    networkPolicy:
+      enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                app.kubernetes.io/name: homeassistant
+          toPorts:
+            - ports:
+                - port: "1883"
+                  protocol: TCP
