@@ -59,12 +59,6 @@ spec:
         automation: !include automations.yaml
         script: !include scripts.yaml
         scene: !include scenes.yaml
-
-        # Traefik runs in the pod network; HA rejects proxied requests otherwise.
-        http:
-          use_x_forwarded_for: true
-          trusted_proxies:
-            - 10.42.0.0/16 # pod CIDR (ipv4NativeRoutingCIDR in cilium.yaml)
     # glance calls in directly; egress only for the met.no weather entity.
     networkPolicy:
       enabled: true
