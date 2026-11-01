@@ -6,6 +6,7 @@ set -euo pipefail
 
 CTX="--context=altair"
 K="kubectl $CTX -n kafka"
+HRS="dlq-processor inventory-service notification-service order-service shipping-service"
 
 case "${1:-}" in
   off)
@@ -14,6 +15,8 @@ case "${1:-}" in
     # a recreated Kafka CR gets a new ID that no longer matches the PVC
     $K create configmap kafka-cluster-id --from-literal=id="$ID" --dry-run=client -o yaml | $K apply -f -
     flux $CTX suspend kustomization order-pipeline kafka
+    # shared-chart bumps still upgrade unsuspended HelmReleases and restore their replicas
+    flux $CTX -n flux-system suspend helmrelease $HRS
     kubectl $CTX -n order-pipeline scale deployment --all --replicas=0
     $K delete kafka order-pipeline
     $K delete kafkanodepool dual-role
@@ -36,6 +39,7 @@ case "${1:-}" in
     $K delete pod order-pipeline-dual-role-0 --ignore-not-found
     $K wait --for=condition=Ready pod/order-pipeline-dual-role-0 --timeout=300s
     flux $CTX resume kustomization order-pipeline
+    flux $CTX -n flux-system resume helmrelease $HRS
     # scaling to 0 leaves replicas owned by kubectl, so Flux does not restore it
     kubectl $CTX -n order-pipeline scale deployment --all --replicas=1
     kubectl $CTX -n order-pipeline scale deployment inventory-service --replicas=2
