@@ -86,7 +86,7 @@ flux reconcile kustomization flux-system --with-source
 Secrets are SOPS-encrypted with an age key. Edit a secret with:
 
 ```bash
-sops k8s/altair/infrastructure/secrets/<name>.sops.yaml
+sops k8s/altair/apps/<app>/<name>.sops.yaml
 ```
 
-The `.sops.yaml` creation rule applies automatically to files under `k8s/altair/infrastructure/secrets/`.
+App secrets live next to their app. Secrets shared by infrastructure (OIDC tiers, Cloudflare, Crowdsec, Proxmox CA, Flux GitHub) live in `k8s/altair/infrastructure/secrets/`. The `.sops.yaml` creation rule applies to both.

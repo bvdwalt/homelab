@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - glance.yaml
   - ingressroute-homepage-alias.yaml
+  - glance.sops.yaml
 configMapGenerator:
   - name: glance-config
     namespace: glance

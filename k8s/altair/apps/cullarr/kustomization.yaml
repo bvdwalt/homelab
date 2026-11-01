@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - cullarr.yaml
   - networkpolicy.yaml
+  - cullarr.sops.yaml

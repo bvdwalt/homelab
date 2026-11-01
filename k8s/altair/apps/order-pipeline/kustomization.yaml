@@ -8,5 +8,10 @@ resources:
   - dlq-processor.yaml
   - podmonitor.yaml
   - grafana-dashboard.yaml
+  - order-pipeline-ghcr-pull.sops.yaml
+  - order-pipeline-inventory-postgres.sops.yaml
+  - order-pipeline-shipping-postgres.sops.yaml
+  - order-pipeline-notification-postgres.sops.yaml
+  - order-pipeline-dlq-processor-postgres.sops.yaml
 components:
   - ../../../common/components/helmrelease-defaults

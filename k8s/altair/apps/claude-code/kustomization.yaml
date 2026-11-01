@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - claude-code.yaml
   - rbac.yaml
+  - claude-code.sops.yaml
 components:
   - ../../../common/components/helmrelease-defaults

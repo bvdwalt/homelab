@@ -7,5 +7,7 @@ resources:
   - ntfy-alertmanager.yaml
   - ntfy-alertmanager.sops.yaml
   - healthchecks.sops.yaml
+  - grafana.sops.yaml
+  - grafana-oidc.sops.yaml
   - networkpolicy.yaml
   - hubble-dashboard.yaml
