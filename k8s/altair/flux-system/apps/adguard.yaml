@@ -4,20 +4,4 @@ metadata:
   name: adguard
   namespace: flux-system
 spec:
-  interval: 10m
-  timeout: 5m
-  retryInterval: 2m
   path: ./k8s/altair/apps/adguard
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  dependsOn:
-    - name: infrastructure-secrets
-    - name: infrastructure-configs
-    - name: namespaces

@@ -39,3 +39,74 @@ resources:
   - netboot-xyz.yaml
   - degoog.yaml
   - spotter.yaml
+patches:
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: placeholder
+        namespace: flux-system
+      spec:
+        interval: 10m
+        timeout: 5m
+        retryInterval: 2m
+        prune: true
+        wait: true
+        sourceRef:
+          kind: GitRepository
+          name: flux-system
+        decryption:
+          provider: sops
+          secretRef:
+            name: sops-age
+        dependsOn:
+          - name: infrastructure-secrets
+          - name: infrastructure-configs
+          - name: namespaces
+  # Overrides to the default dependsOn above.
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: ^(pyroscope|tempo)$
+    patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: placeholder
+        namespace: flux-system
+      spec:
+        dependsOn:
+          - name: infrastructure-secrets
+          - name: infrastructure-configs
+          - name: monitoring
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: ^order-pipeline$
+    patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: placeholder
+        namespace: flux-system
+      spec:
+        dependsOn:
+          - name: infrastructure-secrets
+          - name: infrastructure-configs
+          - name: namespaces
+          - name: kafka
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: ^namespaces$
+    patch: |-
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: placeholder
+        namespace: flux-system
+      spec:
+        dependsOn: null
