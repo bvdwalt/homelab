@@ -24,3 +24,10 @@ patches:
         upgrade:
           remediation:
             retries: 3
+        # warn only logs drift; switch to enabled once the logs are quiet
+        driftDetection:
+          mode: warn
+          ignore:
+            - paths: ["/spec/replicas"]
+              target:
+                kind: Deployment
