@@ -34,12 +34,14 @@ AdGuard (running on Altair) resolves `*.greedo.net → 10.0.0.167`.
 ```
 k8s/
   charts/
-    homelab-app/       — shared Helm chart used by all services
+    homelab-app/       shared Helm chart used by all services
+  common/              shared Helm sources and the helmrelease-defaults component
   altair/
-    apps/              — HelmRelease resources for each service
-    infrastructure/    — configs, secrets, sources
+    flux-system/       Flux install, plus one Kustomization per app (apps/)
+    apps/              per-app directories: HelmRelease, secrets, policies
+    infrastructure/    configs, releases, sources, shared secrets
 scripts/
-  init-postgres-users.sh  — restore CNPG app users after cluster recreate
+  init-postgres-users.sh  restore CNPG app users after cluster recreate
 ```
 
 ## Prerequisites
@@ -90,3 +92,15 @@ sops k8s/altair/apps/<app>/<name>.sops.yaml
 ```
 
 App secrets live next to their app. Secrets shared by infrastructure (OIDC tiers, Cloudflare, Crowdsec, Proxmox CA, Flux GitHub) live in `k8s/altair/infrastructure/secrets/`. The `.sops.yaml` creation rule applies to both.
+
+## Adding an app
+
+1. Add a Namespace with a pod-security label to `k8s/altair/apps/namespaces/namespaces.yaml`.
+2. Create `k8s/altair/apps/<app>/` with a HelmRelease (`<app>.yaml`) and a `kustomization.yaml` that lists it and uses the `helmrelease-defaults` component. Copy `whoami` as a starting point.
+3. Secrets: `sops k8s/altair/apps/<app>/<name>.sops.yaml`, list it in the app's `kustomization.yaml`, and reference it with `existingSecret`. Only secrets read by infrastructure belong in `infrastructure/secrets`.
+4. Add `k8s/altair/flux-system/apps/<app>.yaml` with just the name and path, and list it in `k8s/altair/flux-system/apps/kustomization.yaml`. Interval, sops decryption and dependencies come from the shared patch there. Add an override in that patch if the app depends on something other than `namespaces`.
+5. If you change the shared chart's templates or values, bump `version` in `Chart.yaml`. CI fails otherwise. Images must use a pinned tag or a digest.
+
+## Removing an app
+
+Namespaces and raw PVCs are labelled `kustomize.toolkit.fluxcd.io/prune: disabled`, so deleting their manifests leaves them in the cluster. Remove the app's files, then delete the namespace and PVCs with kubectl once the data is no longer needed.
