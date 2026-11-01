@@ -27,6 +27,33 @@ jobs:
           path: k8s/${{ matrix.cluster }}/flux-system
           enable-helm: true
 
+  chart-version:
+    name: chart version bump
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+      - name: Require a Chart.yaml version bump when the shared chart changes
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          CHART: k8s/charts/homelab-app
+        run: |
+          changed=$(git diff --name-only "$BASE...HEAD" -- "$CHART" | grep -v "^$CHART/Chart.yaml$" || true)
+          if [ -z "$changed" ]; then
+            echo "no chart changes"
+            exit 0
+          fi
+          base_version=$(git show "$BASE:$CHART/Chart.yaml" | grep '^version:')
+          head_version=$(grep '^version:' "$CHART/Chart.yaml")
+          echo "changed: $changed"
+          echo "base: $base_version, head: $head_version"
+          if [ "$base_version" = "$head_version" ]; then
+            echo "::error file=$CHART/Chart.yaml::Flux only repackages the chart when its version changes; bump version in Chart.yaml"
+            exit 1
+          fi
+
   diff:
     name: flux-local diff (${{ matrix.resource }})
     if: github.event_name == 'pull_request'
