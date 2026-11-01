@@ -2,3 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespaces.yaml
+# Removing a namespace from the list needs an explicit kubectl delete, since deleting it cascades to its PVCs.
+labels:
+  - pairs:
+      kustomize.toolkit.fluxcd.io/prune: disabled
+    includeSelectors: false
