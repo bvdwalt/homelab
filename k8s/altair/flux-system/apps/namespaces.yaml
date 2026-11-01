@@ -4,12 +4,4 @@ metadata:
   name: namespaces
   namespace: flux-system
 spec:
-  interval: 10m
-  timeout: 5m
-  retryInterval: 2m
   path: ./k8s/altair/apps/namespaces
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system

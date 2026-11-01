@@ -4,16 +4,4 @@ metadata:
   name: navidrome
   namespace: flux-system
 spec:
-  interval: 10m
-  timeout: 5m
-  retryInterval: 2m
   path: ./k8s/altair/apps/navidrome
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  dependsOn:
-    - name: infrastructure-secrets
-    - name: infrastructure-configs
-    - name: namespaces
