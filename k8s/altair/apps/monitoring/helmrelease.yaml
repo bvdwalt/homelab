@@ -139,8 +139,10 @@ spec:
                     Check `hubble observe --verdict DROPPED --from-workload {{ $labels.source }}` and the Network Policy Audit dashboard.
                 expr: |
                   sum by (source, destination, protocol) (
-                    increase(hubble_drop_total{reason="POLICY_DENIED", source!="reserved:world", destination!~"reserved:world|.*\\..*"}[15m])
+                    increase(hubble_drop_total{reason="POLICY_DENIED", source!="reserved:world", destination!~"reserved:world|.*\\..*"}[5m])
                   ) > 0
+                # short window + for: skips brief bursts during pod restarts (e.g. AdGuard rollouts)
+                for: 10m
                 labels:
                   severity: warning
 
