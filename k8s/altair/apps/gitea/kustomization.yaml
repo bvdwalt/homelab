@@ -6,3 +6,14 @@ resources:
   - services.yaml
   - ingressroute.yaml
   - networkpolicy.yaml
+# PVC data survives a removed manifest; delete it explicitly.
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: placeholder
+        labels:
+          kustomize.toolkit.fluxcd.io/prune: disabled
