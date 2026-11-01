@@ -31,7 +31,7 @@ into `~/.claude` on every pod start — edit them there, not on the pod.
    Contents: read/write. Then, with `sops`/`age` set up locally:
 
    ```bash
-   cat <<'EOF' > k8s/altair/infrastructure/secrets/claude-code.sops.yaml
+   cat <<'EOF' > k8s/altair/apps/claude-code/claude-code.sops.yaml
    apiVersion: v1
    kind: Secret
    metadata:
@@ -40,10 +40,10 @@ into `~/.claude` on every pod start — edit them there, not on the pod.
    stringData:
      GITHUB_TOKEN: <paste PAT here>
    EOF
-   sops -e -i k8s/altair/infrastructure/secrets/claude-code.sops.yaml
+   sops -e -i k8s/altair/apps/claude-code/claude-code.sops.yaml
    ```
 
-   Add it to `k8s/altair/infrastructure/secrets/kustomization.yaml`, commit, push.
+   It is already listed in this app's `kustomization.yaml`; commit, push.
 
 3. **First image build** — `images/claude-code/` builds on push to `main`
    or via `workflow_dispatch`. Until it's built once, `claude-code.yaml`'s
