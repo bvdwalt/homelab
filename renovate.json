@@ -97,6 +97,28 @@
       "groupName": "github-actions"
     },
     {
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Cluster-critical operators and infra stay manual",
+      "matchFileNames": ["k8s/altair/infrastructure/releases/**", "k8s/altair/flux-system/**"],
+      "automerge": false
+    },
+    {
+      "matchManagers": ["terraform", "npm"],
+      "automerge": false
+    },
+    {
       "matchPackageNames": ["fluxcd/flux2"],
       "matchUpdateTypes": ["pin", "pinDigest"],
       "enabled": false
