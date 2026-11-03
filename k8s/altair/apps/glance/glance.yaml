@@ -85,6 +85,8 @@ spec:
             - ports:
                 - port: "8123"
                   protocol: TCP
+                - port: "8080"
+                  protocol: TCP
         - toEndpoints:
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: degoog

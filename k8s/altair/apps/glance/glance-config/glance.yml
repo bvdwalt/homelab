@@ -190,6 +190,10 @@ pages:
                 url: https://homeassistant.greedo.net
                 check-url: http://homeassistant.homeassistant.svc.cluster.local/
                 icon: si:homeassistant
+              - title: Zigbee2MQTT
+                url: https://zigbee2mqtt.greedo.net
+                check-url: http://zigbee2mqtt.homeassistant.svc.cluster.local/
+                icon: di:zigbee2mqtt
               - title: Profilarr
                 url: https://profilarr.greedo.net
                 check-url: http://profilarr.downloads.svc.cluster.local/
