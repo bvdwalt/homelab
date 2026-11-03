@@ -32,6 +32,7 @@ resources:
   - lubelogger.yaml
   - homeassistant.yaml
   - mosquitto.yaml
+  - zigbee2mqtt.yaml
   - kafka.yaml
   - order-pipeline.yaml
   - claude-code.yaml

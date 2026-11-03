@@ -59,3 +59,10 @@ spec:
             - ports:
                 - port: "1883"
                   protocol: TCP
+        - fromEndpoints:
+            - matchLabels:
+                app.kubernetes.io/name: zigbee2mqtt
+          toPorts:
+            - ports:
+                - port: "1883"
+                  protocol: TCP

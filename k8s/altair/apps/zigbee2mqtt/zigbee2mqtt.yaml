@@ -1,0 +1,107 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zigbee2mqtt
+  namespace: flux-system
+spec:
+  releaseName: zigbee2mqtt
+  targetNamespace: homeassistant
+  values:
+    image: ghcr.io/koenkk/zigbee2mqtt:2.14.3@sha256:fb4a6b0f6868ad1cd6a9996479802b2420e599c3463b62bbff8c8cd9a908f43a
+    strategy: Recreate
+    port: 8080
+    hostname: zigbee2mqtt.greedo.net
+    middlewares:
+      - name: personal-oidc-auth
+        namespace: kube-system
+    env:
+      TZ: Africa/Johannesburg
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      failureThreshold: 12
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      failureThreshold: 3
+    persistence:
+      enabled: true
+      mountPath: /app/data
+      size: 500Mi
+      storageClass: nfs-shared
+      accessMode: ReadWriteOnce
+    # Needed to open the serial device bound into the LXC (see tofu/altair/main.tf).
+    securityContext:
+      enabled: true
+      privileged: true
+      runAsNonRoot: false
+    hostPaths:
+      - name: zigbee-dongle
+        hostPath: /dev/zigbee
+        mountPath: /dev/zigbee
+        type: CharDevice
+    # Zigbee2MQTT rewrites configuration.yaml, so seed it once instead of mounting it read-only.
+    configMountPath: /config-seed
+    configFiles:
+      configuration.yaml: |
+        homeassistant:
+          enabled: true
+        mqtt:
+          base_topic: zigbee2mqtt
+          server: mqtt://mosquitto:1883
+        serial:
+          port: /dev/zigbee
+          adapter: ember
+          baudrate: 115200
+        frontend:
+          enabled: true
+          port: 8080
+        advanced:
+          network_key: GENERATE
+          pan_id: GENERATE
+          ext_pan_id: GENERATE
+    initContainers:
+      - name: config-seed
+        image: busybox:1.38@sha256:a46257e06c82ad85242d0d38077d0a52d9896389ca60a1a59d3463db586e5fa4
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          runAsNonRoot: false
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: [ALL]
+        command:
+          - sh
+          - -c
+          - |
+            if [ ! -f /app/data/configuration.yaml ]; then
+              cp /config-seed/configuration.yaml /app/data/configuration.yaml
+              echo "Config seeded from ConfigMap"
+            else
+              echo "Config already exists, skipping seed"
+            fi
+        volumeMounts:
+          - name: data
+            mountPath: /app/data
+          - name: config
+            mountPath: /config-seed
+    networkPolicy:
+      enabled: true
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                app.kubernetes.io/name: mosquitto
+          toPorts:
+            - ports:
+                - port: "1883"
+                  protocol: TCP
