@@ -136,6 +136,8 @@ locals {
       "lxc.cgroup2.devices.allow: c 1:11 rwm",
       "lxc.cgroup2.devices.allow: c 10:200 rwm",
       "lxc.mount.entry: /dev/net/tun dev/net/tun none bind,optional,create=file",
+      "lxc.cgroup2.devices.allow: c 188:* rwm",
+      "lxc.mount.entry: /dev/serial/by-id/usb-Itead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_V2_ca35621af333f111ae91ed30984367d3-if00-port0 dev/zigbee none bind,optional,create=file",
     ],
     [for m in local.cheetah_bind_mounts : "lxc.mount.entry: ${m.source} ${m.dest} none bind,create=dir 0 0"],
     [
