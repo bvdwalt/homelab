@@ -95,9 +95,17 @@ spec:
             mountPath: /app/data
           - name: config
             mountPath: /config-seed
-    # mosquitto, plus the OTA index and firmware images (all served from raw.githubusercontent.com).
+    # glance calls in directly; egress to mosquitto and the OTA index and firmware images (all on raw.githubusercontent.com).
     networkPolicy:
       enabled: true
+      ingress:
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "8080"
+                  protocol: TCP
       egress:
         - toEndpoints:
             - matchLabels:
