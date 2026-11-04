@@ -11,7 +11,10 @@ GitHub PAT in the `claude-code` Secret. Read-only in-cluster `kubectl` via
 `rbac.yaml` (`view` ClusterRole), plus `pods/exec` and `pods/portforward` in
 the `downloads` namespace only. Personal `CLAUDE.md`, `settings.json`, and
 skills are pulled from `github.com/bvdwalt/dotfiles` (`home/dot_claude/`)
-into `~/.claude` on every pod start — edit them there, not on the pod.
+into `~/.claude` on every pod start — edit them there, not on the pod. The
+image also carries a Go toolchain and `keepassxc-cli` for developing and
+testing small Go tools on the pod; module egress to `proxy.golang.org` and
+`sum.golang.org` is allowed for that.
 
 ## One-time setup
 

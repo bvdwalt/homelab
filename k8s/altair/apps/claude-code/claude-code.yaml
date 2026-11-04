@@ -64,6 +64,8 @@ spec:
             - matchName: api.anthropic.com
             - matchName: github.com
             - matchName: api.github.com # gh CLI
+            - matchName: proxy.golang.org # go mod download
+            - matchName: sum.golang.org # go checksum db
             - matchName: platform.claude.com
             - matchName: mcp-proxy.anthropic.com
           toPorts:
