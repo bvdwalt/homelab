@@ -287,3 +287,48 @@ misconfigurations:
     paths:
       - "altair/.rendered/backrest.yaml"
     statement: "fix-data-perms initContainer requires root to chown /data to UID 1000 before restore-config, sync-excludes, and the scripts sidecar (all UID 1000) can read/write it; runs and drops root before the main container starts"
+
+  - id: AVD-KSV-0009
+    paths:
+      - "altair/.rendered/netboot-xyz.yaml"
+    statement: "PXE/TFTP/DHCP proxy needs hostNetwork to serve boot clients on the LAN"
+
+  - id: AVD-KSV-0014
+    paths:
+      - "altair/.rendered/netboot-xyz.yaml"
+      - "altair/.rendered/zigbee2mqtt.yaml"
+      - "altair/.rendered/degoog.yaml"
+      - "altair/.rendered/homeassistant.yaml"
+      - "altair/apps/cullarr/cullarr.yaml"
+      - "altair/apps/tdarr/deployment.yaml"
+    statement: "Image writes to its root filesystem at runtime; read-only root not yet validated for these apps"
+
+  - id: AVD-KSV-0118
+    paths:
+      - "altair/.rendered/netboot-xyz.yaml"
+    statement: "netboot.xyz image init runs as root with default capabilities; cannot be hardened at the image level"
+
+  - id: AVD-KSV-0017
+    paths:
+      - "altair/.rendered/zigbee2mqtt.yaml"
+    statement: "Privileged required for USB Zigbee radio device access"
+
+  - id: AVD-KSV-0014
+    paths:
+      - "altair/flux-system/kustomize-controller-tuning.yaml"
+    statement: "Partial Deployment patch fragment, not a full manifest; Trivy false positive"
+
+  - id: AVD-KSV-0118
+    paths:
+      - "altair/flux-system/kustomize-controller-tuning.yaml"
+    statement: "Partial Deployment patch fragment, not a full manifest; Trivy false positive"
+
+  - id: AVD-KSV-0046
+    paths:
+      - "altair/apps/claude-code/rbac.yaml"
+    statement: "claude-code-view-extra uses resources wildcard with read-only verbs over an explicit group list; Secrets are excluded"
+
+  - id: AVD-KSV-0053
+    paths:
+      - "altair/apps/claude-code/rbac.yaml"
+    statement: "pods/exec is intentional and scoped to the downloads namespace; documented in the claude-code README"

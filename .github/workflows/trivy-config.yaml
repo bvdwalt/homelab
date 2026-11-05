@@ -36,7 +36,7 @@ jobs:
           scan-type: config
           scan-ref: k8s/
           severity: HIGH,CRITICAL
-          exit-code: 0
+          exit-code: 1
           format: sarif
           output: trivy-results.sarif
           trivyignores: .trivyignore.yaml
