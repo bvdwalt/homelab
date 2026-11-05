@@ -15,7 +15,7 @@ Existing tiers:
 |------|------------|------|
 | `downloads` | all household users | radarr, sonarr, lidarr, bazarr, prowlarr, qbittorrent, flaresolverr, profilarr, dredge, slskd |
 | `household` | all household users | actual-budget, glance, jellystat, metering-dashboard, overdrive, seerr |
-| `infra-admin` | admin only | adguard, backrest, it-tools, whoami, vaultwarden, traefik dashboard, hubble-ui |
+| `infra-admin` | admin only | adguard, backrest, it-tools, whoami, traefik dashboard, hubble-ui |
 
 `household` and `downloads` currently have identical membership but are
 kept as separate Pocket ID groups/clients rather than merged, so that

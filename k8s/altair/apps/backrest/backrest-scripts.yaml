@@ -45,9 +45,6 @@ data:
     # Arr suite cover art — fully regeneratable from metadata agents
     **/MediaCover
 
-    # Vaultwarden favicon cache — re-fetched per login on demand
-    **/icon_cache
-
     # Gitea ephemeral state — rebuilt on startup
     **/gitea/indexers
     **/gitea/queues
