@@ -164,13 +164,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: vaultwarden
-  labels:
-    pod-security.kubernetes.io/enforce: restricted
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: palimpsest
   labels:
     pod-security.kubernetes.io/enforce: baseline

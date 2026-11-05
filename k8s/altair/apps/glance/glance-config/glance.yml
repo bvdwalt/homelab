@@ -143,9 +143,6 @@ pages:
               - title: Pocket-ID - SSO
                 url: https://pocketid.greedo.net
                 icon: di:pocket-id
-              - title: Vaultwarden - Passwords
-                url: https://vw.greedo.net
-                icon: si:vaultwarden
               - title: Grafana - Metrics
                 url: https://grafana.greedo.net
                 check-url: http://prometheus-grafana.monitoring.svc.cluster.local/api/health
@@ -219,7 +216,6 @@ pages:
               - morpheus65535/bazarr
               - Prowlarr/Prowlarr
               - navidrome/navidrome
-              - dani-garcia/vaultwarden
               - go-gitea/gitea
               - AdguardTeam/AdGuardHome
               - henrygd/beszel
