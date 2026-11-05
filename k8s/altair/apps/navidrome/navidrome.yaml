@@ -134,3 +134,10 @@ spec:
             - ports:
                 - port: "443"
                   protocol: TCP
+        # scrobbling
+        - toFQDNs:
+            - matchName: api.listenbrainz.org
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
