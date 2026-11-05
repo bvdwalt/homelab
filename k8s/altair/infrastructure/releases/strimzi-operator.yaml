@@ -6,9 +6,11 @@ metadata:
 spec:
   interval: 30m
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     remediation:
       retries: 3
   chart:

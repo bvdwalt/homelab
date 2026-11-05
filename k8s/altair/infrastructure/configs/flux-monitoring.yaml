@@ -13,6 +13,8 @@ spec:
         values:
           - kustomize-controller
           - helm-controller
+          - source-controller
+          - notification-controller
   podMetricsEndpoints:
     - port: http-prom
       honorLabels: true

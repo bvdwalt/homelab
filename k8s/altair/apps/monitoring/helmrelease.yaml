@@ -9,9 +9,11 @@ spec:
   targetNamespace: monitoring
   install:
     createNamespace: false
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     remediation:
       retries: 3
   chart:
