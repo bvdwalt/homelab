@@ -48,6 +48,13 @@ spec:
       ports:
         - port: 7878  # radarr
         - port: 8989  # sonarr
+    # explo → slskd
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: explo
+      ports:
+        - port: 5030  # slskd
   egress:
     # DNS
     - to:

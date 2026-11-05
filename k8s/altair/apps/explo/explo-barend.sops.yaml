@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: explo-barend
+    namespace: explo
+stringData:
+    LISTENBRAINZ_USER: ENC[AES256_GCM,data:lXLvzX7CeX0WUH2F,iv:gb3jRurwDiz28piBzy98pcMXqeMtsOAfWEUsZivvQYA=,tag:4AvQ2XJho5GXZxGwgoW4Yw==,type:str]
+    LISTENBRAINZ_USER_TOKEN: ENC[AES256_GCM,data:o7SD2PCGSV9gJwbSCFYWy8DKKAU8joHqyLeI8HZ0uP0H5bdr,iv:Ogxt7A3Gw4R2eGu4WbvK2dqbwS38tx8I+NjQAIfOBgk=,tag:Dhap1LX261IvcxgKZ1RiXg==,type:str]
+    #ENC[AES256_GCM,data:Kjmw/Fs8OuyG5iE8diAIfduEujVDg5tkWqNnNoUj6RMvIzvMxv0cHHyn,iv:eWveoqJg1/HQWHYfZD9yC5aSJ3eDXa4JgaSl73KYAHo=,tag:hNV8u6pXgjweCYAVlxcn8A==,type:comment]
+    SYSTEM_USERNAME: ENC[AES256_GCM,data:nx1onkxK2Q==,iv:dDi56l9/yeZVryK7bxyBg/UU6+cvTi30f3pVdwAruLs=,tag:jUXptaPUnYQ1rJFJ9Erllg==,type:str]
+    SYSTEM_PASSWORD: ENC[AES256_GCM,data:U0cHNoLgZnK9CjVOa6R7vsXVZw==,iv:TgXU4mPtLeKGy8spcSefUUDTJRuE1FV2jQQYSfkcSCc=,tag:Azw4CKsqyfeKZqZ4tcW97g==,type:str]
+    SLSKD_API_KEY: ENC[AES256_GCM,data:/xlAWJClXeWksqwpeJq9WDNC45NSYRl5kkX2RWYN4QOEeE2Y2VqHrb2gS7c//uVc,iv:3PaGitjrZ6Jw9lmVq7wyhwHRlCl5xHc/zL8YTu23Oas=,tag:U5lqGaBDH2jzZ6wWtMdGWw==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBneWlkcUFHbDRVQUNQQmdL
+            YkFpZkFSTFFWRGdYcWd2VlRiVFRjVWZsdnpZCkxQZzNGQTFPL2QybU5OeWdadWlM
+            TFZpYVkzOThnRkF0ZEdCY21qM1BJa3cKLS0tIE91aWNKYU51d0UwcDdOc0t4T3pV
+            L05kSllxRGlUL0xVR1lpQWJSZXhYbVkKhbyBO/XJV9HRRtbOctV/4RTBh1JNdLry
+            arB/raJ1x0LFluMmFEdbxFZO4OB5Ohs3YgMj5iSXoWUiHWZ3Ql3Cew==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-11-05T08:49:03Z"
+    mac: ENC[AES256_GCM,data:/Kx0Ni+TbwG4k+ARY6qDG25gSmAoY054MmNc6Kz6BbPrG5VodJ6PZir2g7+ufpFcSuFK7jElmcvJI0K/L3wPIju/1ZAoSfNZj6aMhaRc9MMrApoCl/mHBoCR2Ij/MXOGtw1ydjfWIantizaU77GtXQj1rKv4hDTMjKoCSqNNgNQ=,iv:HXzParEB2fJ/DBCLfRNxCV+AoFvV8lI53oJlDuSGdFI=,tag:kc478/od/5dj1DHtn9IJCQ==,type:str]
+    version: 3.13.3

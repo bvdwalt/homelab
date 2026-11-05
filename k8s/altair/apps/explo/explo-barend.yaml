@@ -1,0 +1,103 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: explo-barend
+  namespace: flux-system
+spec:
+  releaseName: explo-barend
+  targetNamespace: explo
+  values:
+    image: ghcr.io/lumepart/explo:v1.2.0
+    port: 7288
+    hostname: explo-barend.greedo.net
+    strategy: Recreate
+    existingSecret: explo-barend
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 7288
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      failureThreshold: 3
+    env:
+      TZ: Africa/Johannesburg
+      PUID: "1000"
+      PGID: "1000"
+      # UI auth left unset: household OIDC sits in front
+      WEB_UI: "true"
+      WEB_DATA_PATH: /opt/explo/config/
+      WEB_ENV_PATH: /opt/explo/config/.env
+      EXPLO_SYSTEM: subsonic
+      SYSTEM_URL: http://navidrome.navidrome.svc.cluster.local
+      DOWNLOAD_SERVICES: slskd
+      SLSKD_URL: http://slskd.downloads.svc.cluster.local
+      SLSKD_MIGRATE_DOWNLOADS: "true"
+      WEEKLY_EXPLORATION_SCHEDULE: "15 00 * * 2"
+    # start.sh runs as root (crond, usermod) then drops to PUID via su-exec
+    securityContext:
+      enabled: true
+      capabilities:
+        add: [CHOWN, SETUID, SETGID]
+    persistence:
+      enabled: true
+      size: 1Gi
+      mountPath: /opt/explo/config
+    initContainers:
+      - name: fix-music-perms
+        image: python:3.15-alpine@sha256:cfb80265c43979455f899ae3fce69b83d51758684b6bc24798ec9b60c67d81d2
+        command: [chown, "1000:1000", /data]
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          runAsNonRoot: false
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: [ALL]
+            add: [CHOWN]
+        volumeMounts:
+          - name: music
+            mountPath: /data
+    hostPaths:
+      # Navidrome sees this as /music/explo/barend
+      - name: music
+        hostPath: /mnt/media/music/explo/barend
+        mountPath: /data
+        type: DirectoryOrCreate
+      # slskd's download dir; Explo moves finished tracks into /data
+      - name: slskd-downloads
+        hostPath: /mnt/downloads/slskd
+        mountPath: /slskd
+    networkPolicy:
+      enabled: true
+      egress:
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: navidrome
+          toPorts:
+            - ports:
+                - port: "4533"
+                  protocol: TCP
+        - toEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: downloads
+          toPorts:
+            - ports:
+                - port: "5030"
+                  protocol: TCP
+        # recommendations, track metadata and cover art
+        - toFQDNs:
+            - matchName: api.listenbrainz.org
+            - matchName: listenbrainz.org
+            - matchName: musicbrainz.org
+            - matchName: coverartarchive.org
+            - matchPattern: "*.archive.org"
+          toPorts:
+            - ports:
+                - port: "443"
+                  protocol: TCP
