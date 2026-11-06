@@ -28,6 +28,7 @@ spec:
       TZ: Africa/Johannesburg
       PUID: "1000"
       PGID: "1000"
+      PIP_NO_INDEX: "true"
       # UI auth left unset: household OIDC sits in front
       WEB_UI: "true"
       WEB_DATA_PATH: /opt/explo/config/
