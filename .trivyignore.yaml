@@ -299,6 +299,7 @@ misconfigurations:
       - "altair/.rendered/zigbee2mqtt.yaml"
       - "altair/.rendered/degoog.yaml"
       - "altair/.rendered/homeassistant.yaml"
+      - "altair/.rendered/explo-barend.yaml"
       - "altair/apps/cullarr/cullarr.yaml"
       - "altair/apps/tdarr/deployment.yaml"
     statement: "Image writes to its root filesystem at runtime; read-only root not yet validated for these apps"
