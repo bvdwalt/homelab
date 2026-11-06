@@ -10,12 +10,8 @@ spec:
   install:
     createNamespace: false
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
     crds: CreateReplace
-    remediation:
-      retries: 3
   chart:
     spec:
       chart: kube-prometheus-stack
@@ -102,6 +98,15 @@ spec:
         groups:
           - name: flux
             rules:
+              - alert: FluxObjectSuspended
+                annotations:
+                  summary: "Flux {{ $labels.kind }}/{{ $labels.name }} in {{ $labels.namespace }} has been suspended for over 12h"
+                  description: "Resume with `flux resume` once the manual change is done, or remove the suspend."
+                expr: |
+                  max by (kind, namespace, name) (gotk_suspend_status) == 1
+                for: 12h
+                labels:
+                  severity: warning
               - alert: FluxReconciliationStuck
                 annotations:
                   summary: "Flux {{ $labels.kind }}/{{ $labels.name }} in {{ $labels.namespace }} has been Ready=False for over 20m"

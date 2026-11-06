@@ -11,3 +11,5 @@ resources:
   - grafana-oidc.sops.yaml
   - networkpolicy.yaml
   - hubble-dashboard.yaml
+components:
+  - ../../../common/components/helmrelease-upstream-defaults
