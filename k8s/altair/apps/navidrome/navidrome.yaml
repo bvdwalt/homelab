@@ -103,7 +103,7 @@ spec:
     emptyDirs:
       - name: tmp
         mountPath: /tmp
-    # glance calls in directly. insights.navidrome.org telemetry is
+    # glance and explo call in directly. insights.navidrome.org telemetry is
     # intentionally not allowed (no egress block = blocked once enforced).
     networkPolicy:
       enabled: true
@@ -111,6 +111,13 @@ spec:
         - fromEndpoints:
             - matchLabels:
                 k8s:io.kubernetes.pod.namespace: glance
+          toPorts:
+            - ports:
+                - port: "4533"
+                  protocol: TCP
+        - fromEndpoints:
+            - matchLabels:
+                k8s:io.kubernetes.pod.namespace: explo
           toPorts:
             - ports:
                 - port: "4533"

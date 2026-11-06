@@ -39,6 +39,7 @@ resources:
   - netboot-xyz.yaml
   - degoog.yaml
   - spotter.yaml
+  - explo.yaml
 patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
