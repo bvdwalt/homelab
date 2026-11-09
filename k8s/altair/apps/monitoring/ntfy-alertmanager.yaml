@@ -22,7 +22,7 @@ spec:
         runAsGroup: 1000
       containers:
         - name: ntfy-alertmanager
-          image: xenrox/ntfy-alertmanager:1.0.1@sha256:8b47358894501641bcf51aa0cc45dc2affb3071f5b60bdaf00af51a579d32583
+          image: xenrox/ntfy-alertmanager:1.0.2@sha256:997067723995b95cc63027cacb7e93c69c780092c0531479f7b5ce6d606ca8b7
           ports:
             - containerPort: 8080
           readinessProbe:
