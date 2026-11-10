@@ -14,11 +14,5 @@ spec:
         name: jetstack
         namespace: flux-system
       interval: 1h
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
   values:
     installCRDs: true
