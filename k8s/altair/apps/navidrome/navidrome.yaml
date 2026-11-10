@@ -64,9 +64,9 @@ spec:
         env:
           # renovate: datasource=github-release-attachments depName=J0R6IT0/navidrome-lyrics-plugin
           - name: PLUGIN_VERSION
-            value: v8.1.0
+            value: v9.0.0
           - name: PLUGIN_SHA256
-            value: 29dd571ba0d4bb756e62c0d5c594a2d7e7c9ccec2950f3b027bd64c73c605715
+            value: 61a30e448d56d9f4072f8909d4a5c1f1c22eb8a63459dd323f2728bb2cab2bc0
         command:
           - python
           - -c
