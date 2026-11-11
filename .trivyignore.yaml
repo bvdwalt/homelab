@@ -140,39 +140,39 @@ misconfigurations:
 
   - id: AVD-KSV-0012
     paths:
-      - "altair/infrastructure/configs/intel-gpu-plugin.yaml"
+      - "altair/infrastructure/extras/intel-gpu-plugin.yaml"
     statement: "Intel GPU device-plugin DaemonSet; matches upstream intel-gpu-plugin manifests, needs root to access /dev/dri device nodes"
 
   - id: AVD-KSV-0020
     paths:
-      - "altair/infrastructure/configs/intel-gpu-plugin.yaml"
+      - "altair/infrastructure/extras/intel-gpu-plugin.yaml"
     statement: "Intel GPU device-plugin DaemonSet; UID constraint not applicable, matches upstream manifests"
 
   - id: AVD-KSV-0021
     paths:
-      - "altair/infrastructure/configs/intel-gpu-plugin.yaml"
+      - "altair/infrastructure/extras/intel-gpu-plugin.yaml"
     statement: "Intel GPU device-plugin DaemonSet; GID constraint not applicable, matches upstream manifests"
 
   - id: AVD-KSV-0023
     paths:
-      - "altair/infrastructure/configs/intel-gpu-plugin.yaml"
+      - "altair/infrastructure/extras/intel-gpu-plugin.yaml"
     statement: "Intel GPU device-plugin DaemonSet requires hostPath access to /dev/dri, /sys/class/drm, and the kubelet device-plugin socket to register GPU resources"
 
   - id: AVD-KSV-0118
     paths:
-      - "altair/infrastructure/configs/intel-gpu-plugin.yaml"
+      - "altair/infrastructure/extras/intel-gpu-plugin.yaml"
     statement: "Intel GPU device-plugin DaemonSet needs root to access host GPU device nodes; matches upstream intel-gpu-plugin manifests"
 
   - id: AVD-KSV-0037
     paths:
-      - "altair/infrastructure/configs/hubble-ui.yaml"
+      - "altair/infrastructure/extras/hubble-ui.yaml"
       - "altair/infrastructure/configs/personal-oidc-auth.yaml"
       - "altair/infrastructure/configs/household-oidc-auth.yaml"
       - "altair/infrastructure/configs/infra-admin-oidc-auth.yaml"
       - "altair/infrastructure/configs/downloads-oidc-auth.yaml"
-      - "altair/infrastructure/configs/proxmox.yaml"
+      - "altair/infrastructure/extras/proxmox.yaml"
       - "altair/infrastructure/configs/tlsstore.yaml"
-      - "altair/infrastructure/configs/traefik-dashboard.yaml"
+      - "altair/infrastructure/extras/traefik-dashboard.yaml"
       - "altair/infrastructure/configs/traefik.yaml"
       - "altair/infrastructure/configs/wildcard-cert.yaml"
       - "altair/infrastructure/releases/cilium.yaml"
