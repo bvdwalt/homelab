@@ -206,7 +206,7 @@ spec:
               memory: 320Mi
 
         - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:5.2.4@sha256:b522f9f4b769f8f36d49d22d5eb6a92e9aa18904c6a1830b1439df511ec21983
+          image: lscr.io/linuxserver/qbittorrent:5.2.4@sha256:1ea873647c43d566f251a7122aee330b184509c57ee3257ed19f62dac0f8f24b
           env:
             - name: TZ
               value: Africa/Johannesburg
