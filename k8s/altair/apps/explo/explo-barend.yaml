@@ -51,7 +51,7 @@ spec:
     initContainers:
       - name: fix-music-perms
         image: python:3.15-alpine@sha256:a943ed02f4e22d024d2b4fc5083619497dfb9bc1c64c193861f3bc6d3074f5b1
-        command: [chown, "1000:1000", /data]
+        command: [chown, "1000:1000", /data, /slskd]
         securityContext:
           runAsUser: 0
           runAsGroup: 0
@@ -64,6 +64,8 @@ spec:
         volumeMounts:
           - name: music
             mountPath: /data
+          - name: slskd-downloads
+            mountPath: /slskd
     hostPaths:
       # Navidrome sees this as /music/explo/barend
       - name: music
