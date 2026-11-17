@@ -7,7 +7,7 @@ spec:
   releaseName: degoog
   targetNamespace: degoog
   values:
-    image: ghcr.io/degoog-org/degoog:1.1.0@sha256:4b5d1eda19da3591782142bd30c367a3973aaf2511a7d050b852a53f1045a5d1
+    image: ghcr.io/degoog-org/degoog:1.2.0@sha256:c3a975a2c512300aae942b2d8713be643e457dabf2475adf187536a4a6c6b3dd
     port: 4444
     hostname: goog.greedo.net
     strategy: Recreate
