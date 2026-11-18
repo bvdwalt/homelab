@@ -39,6 +39,7 @@ spec:
       SLSKD_URL: http://slskd.downloads.svc.cluster.local
       SLSKD_MIGRATE_DOWNLOADS: "true"
       WEEKLY_EXPLORATION_SCHEDULE: "15 00 * * 2"
+      WEEKLY_EXPLORATION_FLAGS: "--playlist weekly-exploration"
     # start.sh runs as root (crond, usermod) then drops to PUID via su-exec
     securityContext:
       enabled: true
