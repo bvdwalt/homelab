@@ -324,11 +324,23 @@ spec:
               value: /data/dredge.db
             - name: PYROSCOPE_SERVER_ADDRESS
               value: http://pyroscope.monitoring.svc.cluster.local:4040
+            # wanted tracks the catalogue lacks are looked for on Soulseek through slskd in this pod
+            - name: DREDGE_SLSKD_URL
+              value: http://127.0.0.1:5030
+            - name: DREDGE_SLSKD_DIR
+              value: /downloads/slskd
+            - name: DREDGE_SLSKD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dredge-slskd
+                  key: DREDGE_SLSKD_API_KEY
           volumeMounts:
             - name: dredge-data
               mountPath: /data
             - name: music
               mountPath: /music
+            - name: downloads
+              mountPath: /downloads
           readinessProbe:
             httpGet:
               path: /health
@@ -373,6 +385,12 @@ spec:
               value: "true"
             - name: SLSKD_UMASK
               value: "000"
+            # dredge's key, accepted only from inside the pod
+            - name: SLSKD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dredge-slskd
+                  key: SLSKD_API_KEY
             - name: TZ
               value: Africa/Johannesburg
           volumeMounts:
