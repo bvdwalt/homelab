@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rescue-favourites
+  namespace: explo
+spec:
+  # 2h before Explo's Tuesday 00:15 run
+  schedule: "0 22 * * 1"
+  timeZone: Africa/Johannesburg
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          labels:
+            app: rescue-favourites
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: rescue-favourites
+              image: ghcr.io/bvdwalt/homelab-rescue-favourites:sha-bf29446b239d84276631ac0becc828a816da10d6@sha256:15f451a81a509ef94cf15fe68c516fe20759e4d6232cbdfdd14ef7fb23d724ee
+              env:
+                - name: NAVIDROME_URL
+                  value: http://navidrome.navidrome.svc.cluster.local
+                - name: MUSIC_ROOT
+                  value: /music
+                - name: EXPLO_SUBDIR
+                  value: explo/barend
+                # flip to "false" once the logged plan looks right
+                - name: DRY_RUN
+                  value: "true"
+              envFrom:
+                - secretRef:
+                    name: explo-barend
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+              volumeMounts:
+                - name: music
+                  mountPath: /music
+          volumes:
+            - name: music
+              hostPath:
+                path: /mnt/media/music
+                type: Directory

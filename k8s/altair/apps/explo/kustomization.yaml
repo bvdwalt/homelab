@@ -3,5 +3,7 @@ kind: Kustomization
 resources:
   - explo-barend.yaml
   - explo-barend.sops.yaml
+  - rescue-favourites.yaml
+  - networkpolicy.yaml
 components:
   - ../../../common/components/helmrelease-defaults
