@@ -27,6 +27,13 @@ jobs:
           path: k8s/${{ matrix.cluster }}/flux-system
           enable-helm: true
 
+  rescue-favourites-tests:
+    name: rescue-favourites unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - run: python3 -B -m unittest discover -s images/rescue-favourites
+
   chart-version:
     name: chart version bump
     if: github.event_name == 'pull_request'
