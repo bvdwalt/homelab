@@ -3,25 +3,25 @@ kind: Secret
 metadata:
     name: explo-barend
     namespace: explo
+# SYSTEM_USERNAME and SYSTEM_PASSWORD: the Navidrome account that owns the playlists
 stringData:
-    LISTENBRAINZ_USER: ENC[AES256_GCM,data:lXLvzX7CeX0WUH2F,iv:gb3jRurwDiz28piBzy98pcMXqeMtsOAfWEUsZivvQYA=,tag:4AvQ2XJho5GXZxGwgoW4Yw==,type:str]
-    LISTENBRAINZ_USER_TOKEN: ENC[AES256_GCM,data:o7SD2PCGSV9gJwbSCFYWy8DKKAU8joHqyLeI8HZ0uP0H5bdr,iv:Ogxt7A3Gw4R2eGu4WbvK2dqbwS38tx8I+NjQAIfOBgk=,tag:Dhap1LX261IvcxgKZ1RiXg==,type:str]
-    #ENC[AES256_GCM,data:Kjmw/Fs8OuyG5iE8diAIfduEujVDg5tkWqNnNoUj6RMvIzvMxv0cHHyn,iv:eWveoqJg1/HQWHYfZD9yC5aSJ3eDXa4JgaSl73KYAHo=,tag:hNV8u6pXgjweCYAVlxcn8A==,type:comment]
-    SYSTEM_USERNAME: ENC[AES256_GCM,data:nx1onkxK2Q==,iv:dDi56l9/yeZVryK7bxyBg/UU6+cvTi30f3pVdwAruLs=,tag:jUXptaPUnYQ1rJFJ9Erllg==,type:str]
-    SYSTEM_PASSWORD: ENC[AES256_GCM,data:U0cHNoLgZnK9CjVOa6R7vsXVZw==,iv:TgXU4mPtLeKGy8spcSefUUDTJRuE1FV2jQQYSfkcSCc=,tag:Azw4CKsqyfeKZqZ4tcW97g==,type:str]
-    SLSKD_API_KEY: ENC[AES256_GCM,data:/xlAWJClXeWksqwpeJq9WDNC45NSYRl5kkX2RWYN4QOEeE2Y2VqHrb2gS7c//uVc,iv:3PaGitjrZ6Jw9lmVq7wyhwHRlCl5xHc/zL8YTu23Oas=,tag:U5lqGaBDH2jzZ6wWtMdGWw==,type:str]
+    LISTENBRAINZ_USER: ENC[AES256_GCM,data:dbiKie7KzIasLE9F,iv:ep2JpVju+hsBs8EaBgrsPLQtjGLTYKjfUowxDKibDH0=,tag:E2DCX7Zgy7R2yGI5bCEEDQ==,type:str]
+    LISTENBRAINZ_USER_TOKEN: ENC[AES256_GCM,data:rxe/O3RF71grx3Za67ueySup8rGZz4RF2VUuA3gbcXyp7Djo,iv:T09d0o5HIzeINGxMtAxRzoFEhvybYvsWNy2TNFWR/Sk=,tag:inMKBKUqdIM0AtRynjod5A==,type:str]
+    SYSTEM_USERNAME: ENC[AES256_GCM,data:FnZpIu4ayw==,iv:yVOvSYwznlYgn8EvWmCqAtKtC3i/viVQwvM/LdgVumA=,tag:Hp8yGpHJPtoSiISEXhE7Ow==,type:str]
+    SYSTEM_PASSWORD: ENC[AES256_GCM,data:Gwg84QFJiQY9fqp6tBaZ2STD2Q==,iv:JxxDp6K0LJzwjbUjNSZQosS2O+X31X9Jr1y0q32vdYM=,tag:hSHH+5usZxIuA2/w8y6f2w==,type:str]
+    SLSKD_API_KEY: ENC[AES256_GCM,data:TBDhDfOjrsvUADcAWbpWTHLsglTAKvQIhqX65fuVt5cSmuWwy5qc81C634+/XYJB,iv:mPwh0JF94FvVCOwGI5YtFHsLB6fZrF9HxMXYMR91NW8=,tag:3RqnM0lopXF4qk6Z52QlVg==,type:str]
 sops:
     age:
         - enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBneWlkcUFHbDRVQUNQQmdL
-            YkFpZkFSTFFWRGdYcWd2VlRiVFRjVWZsdnpZCkxQZzNGQTFPL2QybU5OeWdadWlM
-            TFZpYVkzOThnRkF0ZEdCY21qM1BJa3cKLS0tIE91aWNKYU51d0UwcDdOc0t4T3pV
-            L05kSllxRGlUL0xVR1lpQWJSZXhYbVkKhbyBO/XJV9HRRtbOctV/4RTBh1JNdLry
-            arB/raJ1x0LFluMmFEdbxFZO4OB5Ohs3YgMj5iSXoWUiHWZ3Ql3Cew==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB5ai9MVHhqTE5BRVhhY2pu
+            Qno3Y1IxUk9mdVNkS3lIRTlzOGg5UzRRdEZVCmRmSUtDNm1KeFlCd2VTOGZtWWJo
+            Wk1zOEo2d1YwL0FFU2w5NUZRYVdCTlkKLS0tIFExdElzczVHMTBBZ21qa2ZCV296
+            aCsyZW9DeWt0VGVzcUlyWExvWTVBQ3MKlyucSgY8EdiccXim2DamLvcvDTbkM3rx
+            oOBQ2O+3i9iaLTpkRY+Kun4mhKDnkySr56rGVg9OyBIaIDrgwBEi1Q==
             -----END AGE ENCRYPTED FILE-----
           recipient: age1tqgftl7xwtdmpwmsazp5xerqrq4wp3aljpp0a6qe5ewg0cvs5yxs6gdlkl
     encrypted_regex: ^(data|stringData)$
-    lastmodified: "2026-11-05T08:49:03Z"
-    mac: ENC[AES256_GCM,data:/Kx0Ni+TbwG4k+ARY6qDG25gSmAoY054MmNc6Kz6BbPrG5VodJ6PZir2g7+ufpFcSuFK7jElmcvJI0K/L3wPIju/1ZAoSfNZj6aMhaRc9MMrApoCl/mHBoCR2Ij/MXOGtw1ydjfWIantizaU77GtXQj1rKv4hDTMjKoCSqNNgNQ=,iv:HXzParEB2fJ/DBCLfRNxCV+AoFvV8lI53oJlDuSGdFI=,tag:kc478/od/5dj1DHtn9IJCQ==,type:str]
+    lastmodified: "2026-11-19T08:34:28Z"
+    mac: ENC[AES256_GCM,data:oCFSLC776gEYmDOwG4Q4GiJYla/WwOrcCoJ4QGVvT7s+QIwNMUleTS4H6fD/Urf+7UO1NaDVTD/ck0KjPKiZwse6a4jcpmAjKohKdbSxxZZoSESZMtXWvH0ZSWUoC0Dpd4CFIoDhSMsajHdqjceRixEYpmjBWhvC7/adlIWMBm0=,iv:kJbf+JIc+lhUZtkel9TGpUB4cSNgydZMRXqH8p5oNcs=,tag:OMoWIalHz+7ds43SIuaWyg==,type:str]
     version: 3.13.3

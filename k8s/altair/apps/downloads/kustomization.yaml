@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - secret.sops.yaml
   - slskd-secret.sops.yaml
+  - dredge-slskd-secret.sops.yaml
   - pvcs.yaml
   - deployment.yaml
   - services.yaml
