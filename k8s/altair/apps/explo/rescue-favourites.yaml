@@ -35,9 +35,9 @@ spec:
                   value: /music
                 - name: EXPLO_SUBDIR
                   value: explo/barend
-                # flip to "false" once the logged plan looks right
+                # "true" only logs the planned moves
                 - name: DRY_RUN
-                  value: "true"
+                  value: "false"
               envFrom:
                 - secretRef:
                     name: explo-barend
