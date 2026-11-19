@@ -27,7 +27,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: rescue-favourites
-              image: ghcr.io/bvdwalt/homelab-rescue-favourites:sha-bf29446b239d84276631ac0becc828a816da10d6@sha256:15f451a81a509ef94cf15fe68c516fe20759e4d6232cbdfdd14ef7fb23d724ee
+              image: ghcr.io/bvdwalt/homelab-rescue-favourites:sha-34a8b02a5e4ccfae94f2f97f002fb97a8d63a8bf@sha256:d65b6c22487f655306d0439325494d5b6b02be02593306784be10658be1ac2ba
               env:
                 - name: NAVIDROME_URL
                   value: http://navidrome.navidrome.svc.cluster.local
