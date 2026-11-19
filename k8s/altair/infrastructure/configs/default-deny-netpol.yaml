@@ -33,6 +33,15 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
+    # ICMP unreachable replies to late DNS answers
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      icmps:
+        - fields:
+            - type: 3
+              family: IPv4
     # Kubernetes API server + Cilium health checks
     - toEntities:
         - kube-apiserver
