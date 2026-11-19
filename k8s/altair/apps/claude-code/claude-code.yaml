@@ -14,7 +14,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    image: ghcr.io/bvdwalt/homelab-claude-code:latest@sha256:802a1f7fdaf789ce41da4d27daabfe255395617b8bcf45a2a520eb01c5864a78
+    image: ghcr.io/bvdwalt/homelab-claude-code:latest@sha256:51310fc031353b96ecead3173cef20214dee355b60ac5ba5f491b2a9b2a3e512
     port: 7681
     hostname: claude.greedo.net
     strategy: Recreate
