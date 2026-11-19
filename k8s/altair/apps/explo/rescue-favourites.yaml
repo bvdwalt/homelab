@@ -4,8 +4,8 @@ metadata:
   name: rescue-favourites
   namespace: explo
 spec:
-  # 2h before Explo's Tuesday 00:15 run
-  schedule: "0 22 * * 1"
+  # daily; the Monday run lands 45min before Explo's Tuesday 00:15 cleanup
+  schedule: "30 23 * * *"
   timeZone: Africa/Johannesburg
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
