@@ -73,7 +73,7 @@ def plan_move(song, music_root, explo_subdir):
     if not os.path.isfile(src):
         return None, "source file missing"
 
-    artist = song.get("displayAlbumArtist") or song.get("albumArtist") or song.get("artist")
+    artist = song.get("albumArtist") or song.get("artist")
     album = song.get("album")
     title = song.get("title")
     if not (artist and album and title):
@@ -85,7 +85,7 @@ def plan_move(song, music_root, explo_subdir):
     album_dir = find_existing_dir(os.path.join(music_root, artist_dir), album) or sanitize(album)
 
     ext = os.path.splitext(src)[1]
-    name = dest_filename(artist, album, song.get("track"), title, ext)
+    name = dest_filename(artist, album, song.get("trackNumber"), title, ext)
     dest = os.path.join(music_root, artist_dir, album_dir, name)
     return {"src": src, "dest": dest, "title": title}, None
 
@@ -105,6 +105,46 @@ def move(plan):
             os.rename(s, d)
 
 
+class Native:
+    """Navidrome's REST API. Unlike Subsonic it reports real on-disk paths."""
+
+    PAGE = 200
+
+    def __init__(self, base, user, password):
+        self.base = base.rstrip("/")
+        req = urllib.request.Request(
+            f"{self.base}/auth/login",
+            data=json.dumps({"username": user, "password": password}).encode(),
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            self.token = json.load(resp)["token"]
+
+    def songs(self, **filters):
+        out, start = [], 0
+        while True:
+            query = urllib.parse.urlencode({**filters, "_start": start, "_end": start + self.PAGE})
+            req = urllib.request.Request(
+                f"{self.base}/api/song?{query}", headers={"x-nd-authorization": f"Bearer {self.token}"}
+            )
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                page = json.load(resp)
+            out += page
+            if len(page) < self.PAGE:
+                return out
+            start += self.PAGE
+
+    def starred_songs(self):
+        return self.songs(starred="true")
+
+    def find_song_by_path(self, title, rel_path):
+        want = unicodedata.normalize("NFC", rel_path)
+        for s in self.songs(title=title):
+            if unicodedata.normalize("NFC", s.get("path", "")) == want:
+                return s
+        return None
+
+
 class Subsonic:
     def __init__(self, base, user, password):
         self.base, self.user, self.password = base.rstrip("/"), user, password
@@ -121,9 +161,6 @@ class Subsonic:
             raise RuntimeError(f"{endpoint} failed: {body.get('error')}")
         return body
 
-    def starred_songs(self):
-        return self.call("getStarred2").get("starred2", {}).get("song", [])
-
     def scan_and_wait(self):
         self.call("startScan")
         deadline = time.time() + SCAN_TIMEOUT_S
@@ -133,15 +170,6 @@ class Subsonic:
                 return
         raise RuntimeError("library scan did not finish in time")
 
-    def find_song_by_path(self, title, rel_path):
-        want = unicodedata.normalize("NFC", rel_path)
-        for s in self.call("search3", query=title, songCount=50, artistCount=0, albumCount=0).get(
-            "searchResult3", {}
-        ).get("song", []):
-            if unicodedata.normalize("NFC", s.get("path", "")).endswith(want):
-                return s
-        return None
-
     def star(self, song_id):
         self.call("star", id=song_id)
 
@@ -150,10 +178,11 @@ def main():
     dry_run = os.environ.get("DRY_RUN", "true").lower() != "false"
     music_root = os.environ.get("MUSIC_ROOT", "/music")
     explo_subdir = os.environ.get("EXPLO_SUBDIR", "explo/barend")
-    api = Subsonic(os.environ["NAVIDROME_URL"], os.environ["SYSTEM_USERNAME"], os.environ["SYSTEM_PASSWORD"])
+    url, user, password = os.environ["NAVIDROME_URL"], os.environ["SYSTEM_USERNAME"], os.environ["SYSTEM_PASSWORD"]
+    native, api = Native(url, user, password), Subsonic(url, user, password)
 
     log(f"rescue-favourites start dry_run={dry_run}")
-    songs = api.starred_songs()
+    songs = native.starred_songs()
     log(f"starred songs: {len(songs)}")
 
     plans, errors = [], 0
@@ -186,7 +215,7 @@ def main():
     if to_restar and not dry_run:
         api.scan_and_wait()
         for title, rel_dest in to_restar:
-            song = api.find_song_by_path(title, rel_dest)
+            song = native.find_song_by_path(title, rel_dest)
             if song is None:
                 errors += 1
                 log(f"ERROR could not find {rel_dest} in Navidrome after scan")
