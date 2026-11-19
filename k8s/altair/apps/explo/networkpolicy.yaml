@@ -1,0 +1,17 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: rescue-favourites
+  namespace: explo
+spec:
+  endpointSelector:
+    matchLabels:
+      app: rescue-favourites
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: navidrome
+      toPorts:
+        - ports:
+            - port: "4533"
+              protocol: TCP

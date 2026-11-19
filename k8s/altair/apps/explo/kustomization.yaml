@@ -3,5 +3,11 @@ kind: Kustomization
 resources:
   - explo-barend.yaml
   - explo-barend.sops.yaml
+  - rescue-favourites.yaml
+  - networkpolicy.yaml
+configMapGenerator:
+  - name: rescue-favourites-script
+    files:
+      - rescue-favourites/rescue_favourites.py
 components:
   - ../../../common/components/helmrelease-defaults
