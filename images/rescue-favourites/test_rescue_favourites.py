@@ -63,7 +63,7 @@ class PlanMoveTest(unittest.TestCase):
         touch(os.path.join(self.root, self.src_rel))
 
     def song(self, **kw):
-        base = {"path": self.src_rel, "artist": "alt-J", "album": "The Dream", "title": "Delta", "track": 10}
+        base = {"path": self.src_rel, "artist": "alt-J", "album": "The Dream", "title": "Delta", "trackNumber": 10}
         return {**base, **kw}
 
     def test_reuses_existing_dirs_despite_dash_lookalike(self):
@@ -76,7 +76,7 @@ class PlanMoveTest(unittest.TestCase):
         self.assertEqual(plan["dest"], os.path.join(self.root, "alt-J", "The Dream", "alt-J_The Dream_10_Delta.flac"))
 
     def test_prefers_album_artist(self):
-        plan, _ = rf.plan_move(self.song(displayAlbumArtist="Various"), self.root, "explo/barend")
+        plan, _ = rf.plan_move(self.song(albumArtist="Various"), self.root, "explo/barend")
         self.assertIn(os.path.join(self.root, "Various"), plan["dest"])
 
     def test_artist_named_like_reserved_dir_is_skipped(self):
