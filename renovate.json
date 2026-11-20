@@ -13,6 +13,8 @@
   },
   "prHourlyLimit": 6,
   "schedule": ["* * * * *"],
+  "timezone": "Africa/Johannesburg",
+  "automergeSchedule": ["after 8am and before 10pm"],
   "assignees": ["bvdwalt"],
   "flux": {
     "managerFilePatterns": [
@@ -102,14 +104,14 @@
       "matchUpdateTypes": ["pin", "pinDigest", "digest", "patch"],
       "automerge": true,
       "automergeType": "pr",
-      "platformAutomerge": true
+      "platformAutomerge": false
     },
     {
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
       "automerge": true,
       "automergeType": "pr",
-      "platformAutomerge": true
+      "platformAutomerge": false
     },
     {
       "description": "Cluster-critical operators and infra stay manual",
