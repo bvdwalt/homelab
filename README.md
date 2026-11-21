@@ -83,6 +83,24 @@ Force an immediate sync with:
 flux reconcile kustomization flux-system --with-source
 ```
 
+### Rotate the Flux GitHub token
+
+The `flux-system/flux-system` secret is created by bootstrap and is not in git, so rotate it by hand.
+
+1. Create a fine-grained PAT for `bvdwalt/homelab` with Contents read-only and a set expiry (GitHub's "never expire" option fails silently).
+2. Apply it:
+
+```fish
+read -s GH_PAT
+flux create secret git flux-system -n flux-system \
+  --url=https://github.com/bvdwalt/homelab \
+  --username=bvdwalt --password="$GH_PAT" --context=altair
+flux reconcile source git flux-system --context=altair
+set -e GH_PAT
+```
+
+The commit-status token is separate: `sops k8s/altair/infrastructure/secrets/flux-github.sops.yaml`.
+
 ## Secrets
 
 Secrets are SOPS-encrypted with an age key. Edit a secret with:
