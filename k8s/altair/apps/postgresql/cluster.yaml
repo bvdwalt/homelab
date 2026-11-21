@@ -5,6 +5,7 @@ metadata:
   namespace: postgresql
 spec:
   instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.7-system-trixie
   enableSuperuserAccess: true
   resources:
     requests:
