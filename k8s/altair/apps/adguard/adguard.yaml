@@ -138,13 +138,6 @@ spec:
                   protocol: UDP
                 - port: "53"
                   protocol: TCP
-        # upstream over DoH
-        - toCIDR:
-            - 94.140.14.15/32
-          toPorts:
-            - ports:
-                - port: "443"
-                  protocol: TCP
         # filter list updates; AdGuard resolves upstream itself so FQDN rules can't match.
         - toCIDRSet:
             - cidr: 0.0.0.0/0
