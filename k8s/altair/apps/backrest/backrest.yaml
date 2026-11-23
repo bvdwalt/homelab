@@ -54,7 +54,7 @@ spec:
     configMountPath: /scripts
     extraContainers:
       - name: scripts
-        image: ghcr.io/bvdwalt/homelab-backrest-scripts:sha-34faaaa280b9879428164e6f3d316aca079c7bc4@sha256:eb0ab85defd1c01c3f1b85c5bd16bc435da3bdb0a0fec64605d51da58bc5eb95
+        image: ghcr.io/bvdwalt/homelab-backrest-scripts:sha-b6a296ca77de38ef2f670fa0aa8b6deac768450a@sha256:87ae3af9ccf8ae1499f670cb23e7eb11bc4fcf51eb54579ac51165ccce903232
         command: [sleep, infinity]
         securityContext:
           runAsUser: 1000
