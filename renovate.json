@@ -72,11 +72,6 @@
       "sourceUrl": "https://github.com/bvdwalt/order-pipeline"
     },
     {
-      "description": "Stay on PG 18 until CNPG supports 19; major bumps are manual",
-      "matchPackageNames": ["ghcr.io/cloudnative-pg/postgresql"],
-      "allowedVersions": "/^18\\./"
-    },
-    {
       "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
       "allowedVersions": "/^5\\./"
     },
