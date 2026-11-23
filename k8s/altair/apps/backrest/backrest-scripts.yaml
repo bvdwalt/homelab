@@ -81,7 +81,8 @@ data:
 
     PGHOST="postgresql-rw.postgresql.svc.cluster.local"
     BACKUP_DIR="/data/pgdumps"
-    DATABASES="linkwarden data atuin"
+    DATABASES=$(PGPASSWORD="$password" psql -h "$PGHOST" -U "$username" -d postgres -Atc \
+      "SELECT datname FROM pg_database WHERE datallowconn AND NOT datistemplate AND datname <> 'postgres' ORDER BY datname")
 
     mkdir -p "$BACKUP_DIR"
 
