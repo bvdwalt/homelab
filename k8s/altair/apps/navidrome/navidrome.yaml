@@ -58,33 +58,38 @@ spec:
         volumeMounts:
           - name: data
             mountPath: /data
-      # nd-lyrics plugin; file name (minus .ndp) is the ND_LYRICSPRIORITY key
+      # nd-lyrics plugin; file name (minus .ndp) is the ND_LYRICSPRIORITY key.
+      # Navidrome disables a plugin when its file changes, so re-enable every start.
       - name: fetch-lyrics-plugin
-        image: python:3.15-alpine@sha256:a943ed02f4e22d024d2b4fc5083619497dfb9bc1c64c193861f3bc6d3074f5b1
+        image: deluan/navidrome:0.64.2@sha256:59ce76e6e06193fbfbb1736a93b8468227e1ea663fc7b25b1da13fbb97f5197b
         env:
+          - name: ND_DATAFOLDER
+            value: /data
           # renovate: datasource=github-release-attachments depName=J0R6IT0/navidrome-lyrics-plugin
           - name: PLUGIN_VERSION
             value: v9.2.0
           - name: PLUGIN_SHA256
             value: 5262bfede37001fa05a63c8bbd8f39e986cbac8dcd8b2575476e8f751b4ad5c6
         command:
-          - python
-          - -c
+          - sh
+          - -ec
           - |
-            import hashlib, os, sys, urllib.request
-            dest = "/data/plugins/nd-lyrics.ndp"
-            want = os.environ["PLUGIN_SHA256"]
-            sha = lambda b: hashlib.sha256(b).hexdigest()
-            if os.path.exists(dest) and sha(open(dest, "rb").read()) == want:
-                sys.exit(0)
-            url = ("https://github.com/J0R6IT0/navidrome-lyrics-plugin/releases/download/"
-                   + os.environ["PLUGIN_VERSION"] + "/nd-lyrics.ndp")
-            data = urllib.request.urlopen(url, timeout=60).read()
-            if sha(data) != want:
-                sys.exit(f"sha256 mismatch for {url}: got {sha(data)}")
-            os.makedirs("/data/plugins", mode=0o700, exist_ok=True)
-            open(dest + ".tmp", "wb").write(data)
-            os.replace(dest + ".tmp", dest)
+            dest=/data/plugins/nd-lyrics.ndp
+            sha() { sha256sum "$1" | cut -d' ' -f1; }
+            if [ ! -f "$dest" ] || [ "$(sha "$dest")" != "$PLUGIN_SHA256" ]; then
+              url="https://github.com/J0R6IT0/navidrome-lyrics-plugin/releases/download/$PLUGIN_VERSION/nd-lyrics.ndp"
+              mkdir -p -m 700 /data/plugins
+              wget -qO "$dest.tmp" "$url"
+              if [ "$(sha "$dest.tmp")" != "$PLUGIN_SHA256" ]; then
+                rm -f "$dest.tmp"
+                echo "sha256 mismatch for $url" >&2
+                exit 1
+              fi
+              mv "$dest.tmp" "$dest"
+            fi
+            /app/navidrome plugin rescan
+            /app/navidrome plugin edit nd-lyrics --all-users
+            /app/navidrome plugin enable nd-lyrics
         securityContext:
           runAsUser: 1000
           runAsGroup: 1000
@@ -96,6 +101,8 @@ spec:
         volumeMounts:
           - name: data
             mountPath: /data
+          - name: tmp
+            mountPath: /tmp
     hostPaths:
       - name: music
         hostPath: /mnt/media/music
