@@ -40,7 +40,7 @@ spec:
       SLSKD_MIGRATE_DOWNLOADS: "true"
       WEEKLY_EXPLORATION_SCHEDULE: "15 00 * * 2"
       # rescue-favourites moves starred tracks out before this wipes the rest
-      WEEKLY_EXPLORATION_FLAGS: "--playlist weekly-exploration --clean-downloads"
+      WEEKLY_EXPLORATION_FLAGS: "--playlist weekly-exploration --clean-downloads --download-mode force"
     # start.sh runs as root (crond, usermod) then drops to PUID via su-exec
     securityContext:
       enabled: true
