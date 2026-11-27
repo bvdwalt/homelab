@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@23dcfe98fe672acdf44ecd9c60cbac41b57f5de8 # v2.10.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install uv
         uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
       - name: Render HelmReleases for scanning
