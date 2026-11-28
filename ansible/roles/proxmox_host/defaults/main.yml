@@ -1,3 +1,8 @@
 ---
 # Cap below the LXC's 13 GiB so ARC and k3s cannot oversubscribe the 15.7 GiB host.
 zfs_arc_max_bytes: 2147483648
+
+# LAN only; Prometheus in the k3s LXC scrapes it.
+node_exporter_listen_address: 10.0.0.166:9100
+# Where the Debian collectors package's smartmon timer writes.
+node_exporter_textfile_dir: /var/lib/prometheus/node-exporter

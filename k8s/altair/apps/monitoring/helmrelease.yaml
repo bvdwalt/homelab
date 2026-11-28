@@ -192,6 +192,81 @@ spec:
                 labels:
                   severity: warning
 
+      # LXC 100 being down is covered by the Watchdog heartbeat, since Prometheus runs inside it.
+      pve-host-rules:
+        groups:
+          - name: pve-host
+            rules:
+              # both node-exporters see the host's ZFS kstats, hence the max
+              - alert: ZFSPoolUnhealthy
+                annotations:
+                  summary: "ZFS pool {{ $labels.zpool }} on pve is {{ $labels.state }}"
+                  description: |
+                    Run `zpool status -x` on pve. A suspended pool usually means its disk dropped off the bus;
+                    reconnect it and run `zpool clear {{ $labels.zpool }}`.
+                expr: |
+                  max by (zpool, state) (node_zfs_zpool_state{job="node-exporter", state!="online"}) == 1
+                for: 5m
+                labels:
+                  severity: critical
+              - alert: HostSMARTFailing
+                annotations:
+                  summary: "SMART reports disk {{ $labels.disk }} on pve as failing"
+                  description: "Run `smartctl -a {{ $labels.disk }}` on pve and plan a replacement."
+                expr: |
+                  smartmon_device_smart_healthy{instance="pve"} == 0
+                labels:
+                  severity: critical
+              - alert: HostSMARTDataStale
+                annotations:
+                  summary: "No fresh SMART data from pve for over 1h"
+                  description: "Check `systemctl status prometheus-node-exporter-smartmon.timer` on pve."
+                expr: |
+                  time() - node_textfile_mtime_seconds{instance="pve", file=~".*smartmon.*"} > 3600
+                  or
+                  (absent(node_textfile_mtime_seconds{instance="pve", file=~".*smartmon.*"}) unless on () up{instance="pve"} == 0)
+                for: 30m
+                labels:
+                  severity: warning
+              - alert: HostMemoryPressure
+                annotations:
+                  summary: "Tasks on pve stalled on memory {{ $value | humanizePercentage }} of the time for 15m"
+                  description: |
+                    The k3s LXC (13 GiB) and ZFS ARC (2 GiB cap) nearly fill the 15.7 GiB host.
+                    Check `free -h` and `arc_summary` on pve.
+                expr: |
+                  rate(node_pressure_memory_waiting_seconds_total{instance="pve"}[5m]) > 0.1
+                for: 15m
+                labels:
+                  severity: warning
+              - alert: HostSwapHigh
+                annotations:
+                  summary: "pve swap is {{ $value | humanizePercentage }} used"
+                expr: |
+                  1 - node_memory_SwapFree_bytes{instance="pve"} / node_memory_SwapTotal_bytes{instance="pve"} > 0.5
+                for: 30m
+                labels:
+                  severity: warning
+              # backtest: sustained episodes on 11-04, 11-09 and 11-10 in the 30d before this rule
+              - alert: HostSwapping
+                annotations:
+                  summary: 'pve has been swapping in {{ printf "%.0f" $value }} pages/s for 30m'
+                  description: "Memory is overcommitted; check the LXC's usage and `arc_summary` on pve."
+                expr: |
+                  rate(node_vmstat_pswpin{instance="pve"}[5m]) > 100
+                for: 30m
+                labels:
+                  severity: warning
+              - alert: HostExporterDown
+                annotations:
+                  summary: "Prometheus cannot scrape node-exporter on pve, so host alerts are blind"
+                  description: "Check `systemctl status prometheus-node-exporter` on pve."
+                expr: |
+                  up{job="node-exporter", instance="pve"} == 0
+                for: 10m
+                labels:
+                  severity: warning
+
     kubeApiServer:
       serviceMonitor:
         metricRelabelings:
@@ -298,6 +373,16 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
+        # Proxmox host; job label matches the in-cluster node-exporter so default node rules and dashboards cover it
+        additionalScrapeConfigs:
+          - job_name: pve-node-exporter
+            static_configs:
+              - targets: [10.0.0.166:9100]
+                labels:
+                  instance: pve
+            relabel_configs:
+              - target_label: job
+                replacement: node-exporter
 
     nodeExporter:
       enabled: true
