@@ -98,11 +98,38 @@ spec:
                 annotations:
                   summary: "CPU on {{ $labels.instance }} has been above 80% for 30m"
                   description: |
-                    Currently at {{ $value | humanizePercentage }}. If `kubectl top pods -A` doesn't account for it,
-                    check the k3s process itself (GC pressure from GOMEMLIMIT) and LXC/host processes.
+                    Currently at {{ $value | humanizePercentage }}.
+                    k3s process: {{ with query `sum(rate(process_cpu_seconds_total{job="apiserver"}[5m]))` }}{{ . | first | value | printf "%.1f" }}{{ end }} cores.
+                    Top namespaces: {{ range query `topk(3, sum by (namespace) (rate(container_cpu_usage_seconds_total{container!=""}[5m])))` }}{{ .Labels.namespace }} {{ .Value | printf "%.1f" }}, {{ end }}
+                    If neither accounts for it, check LXC/host processes.
                 expr: |
                   1 - avg by (instance) (rate(node_cpu_seconds_total{job="node-exporter", mode="idle"}[5m])) > 0.8
                 for: 30m
+                labels:
+                  severity: warning
+
+              - alert: K3sHighCPU
+                annotations:
+                  summary: "k3s on {{ $labels.instance }} has used over 2 cores for 30m"
+                  description: |
+                    Currently at {{ printf "%.1f" $value }} cores (normal is ~0.3). If K3sGCMemoryLimitPressure is also firing,
+                    raise k3s_gomemlimit in ansible/roles/k3s_lxc.
+                expr: |
+                  rate(process_cpu_seconds_total{job="apiserver"}[5m]) > 2
+                for: 30m
+                labels:
+                  severity: warning
+
+              - alert: K3sGCMemoryLimitPressure
+                annotations:
+                  summary: "k3s heap on {{ $labels.instance }} is close to GOMEMLIMIT"
+                  description: |
+                    GC heap goal is only {{ printf "%.2f" $value }}x the live heap (about 2.0 is healthy, 1.0 means GC runs back to back).
+                    Raise k3s_gomemlimit in ansible/roles/k3s_lxc before CPU climbs.
+                expr: |
+                  avg_over_time(go_gc_heap_goal_bytes{job="apiserver"}[1h])
+                  / avg_over_time(go_gc_heap_live_bytes{job="apiserver"}[1h]) < 1.1
+                for: 1h
                 labels:
                   severity: warning
 
