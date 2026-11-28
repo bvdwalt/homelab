@@ -16,8 +16,9 @@ the `sops-age` secret on Altair — change the role and re-run the playbook.
 - `proxmox_host` — runs on the Proxmox host over plain SSH: caps the ZFS ARC
   (`zfs_arc_max`, 2 GiB) in `/etc/modprobe.d/zfs.conf` and on the running
   system so it can't oversubscribe memory with the LXC. Also installs
-  node-exporter on `10.0.0.166:9100` with the smartmon textfile collector,
-  which Prometheus scrapes as `instance="pve"`.
+  node-exporter on `10.0.0.166:9100` with the nvme and smartmon textfile
+  collectors, which Prometheus scrapes as `instance="pve"`. smartmon covers
+  SATA disks only and its timer starts only if `/dev/sd*` exists.
 - `k3s_lxc` — installs k3s, writes `config.yaml`/`resolv.conf`, the
   `/proc/sys` remount (plus `src_valid_mark=0`) and `GOMEMLIMIT` systemd overrides, masks `rpcbind` (NFSv4.2 only), and
   waits for the node to go Ready.

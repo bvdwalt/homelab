@@ -18,11 +18,12 @@
   shell: echo {{ zfs_arc_max_bytes }} > /sys/module/zfs/parameters/zfs_arc_max
   when: zfs_arc_running.stdout | trim != zfs_arc_max_bytes | string
 
-- name: Install node-exporter and the SMART textfile collector
+- name: Install node-exporter and the disk health textfile collectors
   apt:
     name:
       - prometheus-node-exporter
       - prometheus-node-exporter-collectors
+      - nvme-cli
       - smartmontools
     state: present
     update_cache: true
@@ -42,8 +43,8 @@
     state: started
     enabled: true
 
-- name: Ensure the SMART collector timer is running
+- name: Ensure the NVMe health collector timer is running
   systemd:
-    name: prometheus-node-exporter-smartmon.timer
+    name: prometheus-node-exporter-nvme.timer
     state: started
     enabled: true

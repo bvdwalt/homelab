@@ -4,5 +4,5 @@ zfs_arc_max_bytes: 2147483648
 
 # LAN only; Prometheus in the k3s LXC scrapes it.
 node_exporter_listen_address: 10.0.0.166:9100
-# Where the Debian collectors package's smartmon timer writes.
+# Where the Debian collectors package's nvme and smartmon timers write.
 node_exporter_textfile_dir: /var/lib/prometheus/node-exporter

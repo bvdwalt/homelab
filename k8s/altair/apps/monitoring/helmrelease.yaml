@@ -209,6 +209,7 @@ spec:
                 for: 5m
                 labels:
                   severity: critical
+              # SATA only: the Debian smartmon timer skips NVMe and starts only if /dev/sd* exists at boot
               - alert: HostSMARTFailing
                 annotations:
                   summary: "SMART reports disk {{ $labels.disk }} on pve as failing"
@@ -217,14 +218,31 @@ spec:
                   smartmon_device_smart_healthy{instance="pve"} == 0
                 labels:
                   severity: critical
-              - alert: HostSMARTDataStale
+              - alert: HostNVMeUnhealthy
                 annotations:
-                  summary: "No fresh SMART data from pve for over 1h"
-                  description: "Check `systemctl status prometheus-node-exporter-smartmon.timer` on pve."
+                  summary: "NVMe {{ $labels.device }} on pve reports a critical warning or low spare"
+                  description: "Run `nvme smart-log /dev/{{ $labels.device }}` on pve and plan a replacement."
                 expr: |
-                  time() - node_textfile_mtime_seconds{instance="pve", file=~".*smartmon.*"} > 3600
+                  nvme_critical_warning{instance="pve"} > 0
                   or
-                  (absent(node_textfile_mtime_seconds{instance="pve", file=~".*smartmon.*"}) unless on () up{instance="pve"} == 0)
+                  nvme_available_spare_ratio{instance="pve"} < nvme_available_spare_threshold_ratio{instance="pve"}
+                labels:
+                  severity: critical
+              - alert: HostNVMeWearHigh
+                annotations:
+                  summary: "NVMe {{ $labels.device }} on pve has used {{ $value | humanizePercentage }} of its rated endurance"
+                expr: |
+                  nvme_percentage_used_ratio{instance="pve"} > 0.8
+                labels:
+                  severity: warning
+              - alert: HostDiskHealthDataStale
+                annotations:
+                  summary: "No fresh NVMe health data from pve for over 1h"
+                  description: "Check `systemctl status prometheus-node-exporter-nvme.timer` on pve."
+                expr: |
+                  time() - node_textfile_mtime_seconds{instance="pve", file=~".*/nvme.prom"} > 3600
+                  or
+                  (absent(node_textfile_mtime_seconds{instance="pve", file=~".*/nvme.prom"}) unless on () up{instance="pve"} == 0)
                 for: 30m
                 labels:
                   severity: warning
