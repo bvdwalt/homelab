@@ -70,6 +70,13 @@ spec:
               protocol: TCP
             - port: "9965"
               protocol: TCP
+    # node-exporter on the Proxmox host (outside the cluster, so not the host entity)
+    - toCIDR:
+        - 10.0.0.166/32
+      toPorts:
+        - ports:
+            - port: "9100"
+              protocol: TCP
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy

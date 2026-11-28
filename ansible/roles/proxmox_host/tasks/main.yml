@@ -17,3 +17,34 @@
 - name: Cap the ZFS ARC on the running system
   shell: echo {{ zfs_arc_max_bytes }} > /sys/module/zfs/parameters/zfs_arc_max
   when: zfs_arc_running.stdout | trim != zfs_arc_max_bytes | string
+
+- name: Install node-exporter and the disk health textfile collectors
+  apt:
+    name:
+      - prometheus-node-exporter
+      - prometheus-node-exporter-collectors
+      - nvme-cli
+      - smartmontools
+    state: present
+    update_cache: true
+
+- name: Configure node-exporter flags
+  template:
+    src: prometheus-node-exporter.j2
+    dest: /etc/default/prometheus-node-exporter
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart node-exporter
+
+- name: Ensure node-exporter is running
+  service:
+    name: prometheus-node-exporter
+    state: started
+    enabled: true
+
+- name: Ensure the NVMe health collector timer is running
+  systemd:
+    name: prometheus-node-exporter-nvme.timer
+    state: started
+    enabled: true
